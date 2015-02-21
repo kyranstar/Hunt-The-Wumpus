@@ -1,0 +1,6 @@
+c:\users\kyran adams\documents\visual studio 2013\Projects\HuntTheWumpus\HuntTheWumpus\bin\Debug\HuntTheWumpus.exe.config
+c:\users\kyran adams\documents\visual studio 2013\Projects\HuntTheWumpus\HuntTheWumpus\bin\Debug\HuntTheWumpus.exe
+c:\users\kyran adams\documents\visual studio 2013\Projects\HuntTheWumpus\HuntTheWumpus\bin\Debug\HuntTheWumpus.pdb
+c:\users\kyran adams\documents\visual studio 2013\Projects\HuntTheWumpus\HuntTheWumpus\obj\Debug\HuntTheWumpus.csprojResolveAssemblyReference.cache
+c:\users\kyran adams\documents\visual studio 2013\Projects\HuntTheWumpus\HuntTheWumpus\obj\Debug\HuntTheWumpus.exe
+c:\users\kyran adams\documents\visual studio 2013\Projects\HuntTheWumpus\HuntTheWumpus\obj\Debug\HuntTheWumpus.pdb
