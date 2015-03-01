@@ -2,21 +2,22 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace HuntTheWumpus
+namespace HuntTheWumpus.GameCore
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class GameCore : Game
+    public class GameHost : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public GameCore()
+        public GameHost()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Title = "Hunt the Wumpus";
         }
 
         /// <summary>

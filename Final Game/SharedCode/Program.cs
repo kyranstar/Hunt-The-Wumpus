@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using HuntTheWumpus.GameCore;
 #endregion
 
-namespace HuntTheWumpus
+namespace HuntTheWumpus.Platform.Desktop
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -18,7 +20,7 @@ namespace HuntTheWumpus
         [STAThread]
         static void Main()
         {
-            using (var game = new GameCore())
+            using (var game = new GameHost())
                 game.Run();
         }
     }
