@@ -126,6 +126,24 @@ namespace HuntTheWumpus.GameCore
                 Exit();
 #endif
 
+            // Compute camera matrices.
+            Matrix View = Matrix.CreateLookAt(eye, at, up);
+
+            Matrix Projection = Matrix.CreatePerspectiveFieldOfView(fov, GraphicsDevice.Viewport.AspectRatio, zNear, zFar);
+            cubeRotation += (0.0025f) * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            Matrix World = Matrix.CreateRotationY(cubeRotation);
+
+            vertexBuffer.SetData(cube, 0, 8, SetDataOptions.Discard);
+            indexBuffer.SetData(cubeIndices, 0, 36, SetDataOptions.Discard);
+
+            GraphicsDevice device = basicEffect.GraphicsDevice;
+            device.SetVertexBuffer(vertexBuffer);
+            device.Indices = indexBuffer;
+
+            basicEffect.View = View;
+            basicEffect.Projection = Projection;
+            basicEffect.World = World;
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -141,24 +159,7 @@ namespace HuntTheWumpus.GameCore
 
             // TODO: Add your drawing code here
 
-            // Compute camera matrices.
-            Matrix View = Matrix.CreateLookAt(eye, at, up);
-
-            Matrix Projection = Matrix.CreatePerspectiveFieldOfView(fov, GraphicsDevice.Viewport.AspectRatio, zNear, zFar);
-            cubeRotation += (0.0025f) * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            Matrix World = Matrix.CreateRotationY(cubeRotation);
-            // TODO: Add your drawing code here
-
-            vertexBuffer.SetData(cube, 0, 8, SetDataOptions.Discard);
-            indexBuffer.SetData(cubeIndices, 0, 36, SetDataOptions.Discard);
-
             GraphicsDevice device = basicEffect.GraphicsDevice;
-            device.SetVertexBuffer(vertexBuffer);
-            device.Indices = indexBuffer;
-
-            basicEffect.View = View;
-            basicEffect.Projection = Projection;
-            basicEffect.World = World;
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
