@@ -8,7 +8,7 @@
     <ProjectGuid>{625A1CE9-4D92-42C8-86D3-3C98D1BE9E44}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HuntTheWumpus</RootNamespace>
+    <RootNamespace>HuntTheWumpus.Platform.Desktop</RootNamespace>
     <AssemblyName>HuntTheWumpus</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
