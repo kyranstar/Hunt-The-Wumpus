@@ -9,14 +9,14 @@ namespace HuntTheWumpus.GameCore
     /// </summary>
     public class GameHost : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager GraphicsManager;
+        SpriteBatch SpriteBatch;
 
-        Vector3 eye;
-        Vector3 up;
-        Vector3 at;
+        Vector3 Eye;
+        Vector3 Up;
+        Vector3 At;
 
-        float fov;
+        float FOV;
         //camera properties
         float zNear;
         float zFar;
@@ -50,7 +50,7 @@ namespace HuntTheWumpus.GameCore
         public GameHost()
             : base()
         {
-            graphics = new GraphicsDeviceManager(this);
+            GraphicsManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
         }
@@ -67,10 +67,10 @@ namespace HuntTheWumpus.GameCore
 
             zNear = 0.001f;
             zFar = 1000.0f;
-            fov = MathHelper.Pi * 70.0f / 180.0f;
-            eye = new Vector3(0.0f, 0.7f, 1.5f);
-            at = new Vector3(0.0f, 0.0f, 0.0f);
-            up = new Vector3(0.0f, 1.0f, 0.0f);
+            FOV = MathHelper.Pi * 70.0f / 180.0f;
+            Eye = new Vector3(0.0f, 0.7f, 1.5f);
+            At = new Vector3(0.0f, 0.0f, 0.0f);
+            Up = new Vector3(0.0f, 1.0f, 0.0f);
 
             cube = new VertexPositionColor[8];
             cube[0] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, -0.5f), new Color(0.0f, 0.0f, 0.0f));
@@ -82,10 +82,10 @@ namespace HuntTheWumpus.GameCore
             cube[6] = new VertexPositionColor(new Vector3(0.5f, 0.5f, -0.5f), new Color(1.0f, 1.0f, 0.0f));
             cube[7] = new VertexPositionColor(new Vector3(0.5f, 0.5f, 0.5f), new Color(1.0f, 1.0f, 1.0f));
 
-            vertexBuffer = new DynamicVertexBuffer(graphics.GraphicsDevice, typeof(VertexPositionColor), 8, BufferUsage.WriteOnly);
-            indexBuffer = new DynamicIndexBuffer(graphics.GraphicsDevice, typeof(ushort), 36, BufferUsage.WriteOnly);
+            vertexBuffer = new DynamicVertexBuffer(GraphicsManager.GraphicsDevice, typeof(VertexPositionColor), 8, BufferUsage.WriteOnly);
+            indexBuffer = new DynamicIndexBuffer(GraphicsManager.GraphicsDevice, typeof(ushort), 36, BufferUsage.WriteOnly);
 
-            basicEffect = new BasicEffect(graphics.GraphicsDevice); //(device, null);
+            basicEffect = new BasicEffect(GraphicsManager.GraphicsDevice); //(device, null);
             basicEffect.LightingEnabled = false;
             basicEffect.VertexColorEnabled = true;
             basicEffect.TextureEnabled = false;
@@ -100,7 +100,7 @@ namespace HuntTheWumpus.GameCore
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -127,9 +127,9 @@ namespace HuntTheWumpus.GameCore
 #endif
 
             // Compute camera matrices.
-            Matrix View = Matrix.CreateLookAt(eye, at, up);
+            Matrix View = Matrix.CreateLookAt(Eye, At, Up);
 
-            Matrix Projection = Matrix.CreatePerspectiveFieldOfView(fov, GraphicsDevice.Viewport.AspectRatio, zNear, zFar);
+            Matrix Projection = Matrix.CreatePerspectiveFieldOfView(FOV, GraphicsDevice.Viewport.AspectRatio, zNear, zFar);
             cubeRotation += (0.0025f) * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             Matrix World = Matrix.CreateRotationY(cubeRotation);
 
