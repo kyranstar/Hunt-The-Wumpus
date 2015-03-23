@@ -139,6 +139,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\Shared Code\Game Control\IScene.cs">
+      <Link>Game Control\IScene.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Shared Code\Game.cs">
       <Link>Game.cs</Link>
     </Compile>

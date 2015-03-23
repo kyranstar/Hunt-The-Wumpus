@@ -38,6 +38,9 @@
     <ApplicationIcon>..\..\Platform\Platform Assets\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Shared Code\Game Control\IScene.cs">
+      <Link>Game Control\IScene.cs</Link>
+    </Compile>
     <Compile Include="..\..\Shared Code\Game.cs">
       <Link>Game.cs</Link>
     </Compile>
@@ -63,6 +66,7 @@
       <Link>Icon.ico</Link>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
