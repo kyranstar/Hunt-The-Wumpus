@@ -8,7 +8,11 @@ namespace HuntTheWumpus.Platform.Desktop.Map
 {
     class Wumpus
     {
-        private int x, y;
+        private Point location;
+        public Point Location
+        {
+            get { return location; }
+        }
         private Cave cave;
 
         public Wumpus(Cave cave)
@@ -21,14 +25,6 @@ namespace HuntTheWumpus.Platform.Desktop.Map
         public void Move()
         {
 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>The position of the wumpus</returns>
-        public Point GetPosition()
-        {
-            return new Point(x, y);
         }
     }
 }
