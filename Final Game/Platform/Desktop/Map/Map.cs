@@ -29,6 +29,7 @@ namespace HuntTheWumpus.Platform.Desktop.Map
     /// </summary>
     class Map
     {
+        private int playerX, playerY;
         private Cave cave;
         private Wumpus wumpus;
 
@@ -44,6 +45,14 @@ namespace HuntTheWumpus.Platform.Desktop.Map
         public void MoveWumpus()
         {
             wumpus.Move();
+        }
+        /// <summary>
+        /// Moves the player, if possible, to the new point. The point is calculated by the current player position + p. 
+        /// </summary>
+        /// <param name="p">P is relative to the current player's position</param>
+        public void MovePlayer(Point p)
+        {
+
         }
 
         /// <summary>
