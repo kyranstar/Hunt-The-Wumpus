@@ -107,7 +107,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\..\..\Platform Assets\**\*.*">
-      <Link>Assets\%(RecursiveDir)%(FileName)</Link>
+      <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
