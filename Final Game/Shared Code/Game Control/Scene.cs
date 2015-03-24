@@ -10,36 +10,36 @@ namespace HuntTheWumpus.SharedCode.GameControl
     /// <summary>
     /// Interface for a scene
     /// </summary>
-    interface IScene
+    abstract class Scene
     {
         /// <summary>
         /// Called every time that the scene is loaded. This will be called before Update() or Draw.
         /// If the scene stores state, this is probably the place to reset it.
         /// </summary>
-        void Initialize();
+        public abstract void Initialize();
 
         /// <summary>
         /// Will be called once per game execution, when the program is started. This is where you load
         /// media assets.
         /// </summary>
-        void LoadContent();
+        public abstract void LoadContent();
 
         /// <summary>
         /// Will be called once per game execution, while the program is closing. This is where you should unload assets,
         /// save special content, etc.
         /// </summary>
-        void UnloadContent();
+        public abstract void UnloadContent();
 
         /// <summary>
         /// Will be called repeatedly as long as this scene is loaded. This is where you should update game state and
         /// handle user input to prepare for rendering.
         /// </summary>
-        void Update(GameTime GameTime);
+        public abstract void Update(GameTime GameTime);
 
         /// <summary>
         /// This will be called every time a frame is drawn. You should draw everything here using the given
         /// <code>SpriteBatch</code>.
         /// </summary>
-        void Draw(GameTime GameTime, SpriteBatch TargetBatch);
+        public abstract void Draw(GameTime GameTime, SpriteBatch TargetBatch);        
     }
 }
