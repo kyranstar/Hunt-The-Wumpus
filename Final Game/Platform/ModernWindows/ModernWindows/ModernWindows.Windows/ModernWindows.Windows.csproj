@@ -106,45 +106,16 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="..\..\..\Platform Assets\Logo.scale-100.png">
-      <Link>Assets\Logo.scale-100.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\Logo.scale-240.png">
-      <Link>Assets\Logo.scale-240.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\SmallLogo.scale-100.png">
-      <Link>Assets\SmallLogo.scale-100.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\SmallLogo.scale-240.png">
-      <Link>Assets\SmallLogo.scale-240.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\SplashScreen.scale-100.png">
-      <Link>Assets\SplashScreen.scale-100.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\SplashScreen.scale-240.png">
-      <Link>Assets\SplashScreen.scale-240.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\Square71x71Logo.scale-240.png">
-      <Link>Assets\Square71x71Logo.scale-240.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\StoreLogo.scale-100.png">
-      <Link>Assets\StoreLogo.scale-100.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\StoreLogo.scale-240.png">
-      <Link>Assets\StoreLogo.scale-240.png</Link>
-    </Content>
-    <Content Include="..\..\..\Platform Assets\WideLogo.scale-240.png">
-      <Link>Assets\WideLogo.scale-240.png</Link>
+    <Content Include="..\..\..\Platform Assets\**\*.*">
+      <Link>Assets\%(RecursiveDir)%(FileName)</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Shared Code\Game Control\IScene.cs">
-      <Link>Game Control\IScene.cs</Link>
+    <Compile Include="..\..\..\..\Shared Code\**\*.*">
+      <Link>%(RecursiveDir)%(FileName)</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Shared Code\Game.cs">
-      <Link>Game.cs</Link>
-    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

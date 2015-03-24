@@ -39,17 +39,11 @@
     <ApplicationIcon>..\..\Platform\Platform Assets\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Shared Code\Game Control\IScene.cs">
-      <Link>Game Control\IScene.cs</Link>
+    <Compile Include="..\..\Shared Code\**\*.*">
+      <Link>%(RecursiveDir)%(FileName)</Link>
     </Compile>
-    <Compile Include="..\..\Shared Code\Game.cs">
-      <Link>Game.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Shared Code\Program.cs">
-      <Link>Program.cs</Link>
-    </Compile>
-    <Compile Include="Map\Map.cs" />
-    <Compile Include="Map\Wumpus.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
