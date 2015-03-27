@@ -13,9 +13,9 @@ namespace HuntTheWumpus.SharedCode.Map
         {
             get { return location; }
         }
-        private Cave cave;
+        private Cave.Cave cave;
 
-        public Wumpus(Cave cave)
+        public Wumpus(Cave.Cave cave)
         {
             this.cave = cave;
         }

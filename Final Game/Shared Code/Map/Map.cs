@@ -29,13 +29,14 @@ namespace HuntTheWumpus.SharedCode.Map
     /// </summary>
     class Map
     {
+        // Holds the id of the room that the player is currently in.
         private int playerRoom;
-        private Cave cave;
+        private Cave.Cave cave;
         private Wumpus wumpus;
 
         public Map()
         {
-            cave = new Cave();
+            cave = new Cave.Cave();
             wumpus = new Wumpus(cave);
         }
 
