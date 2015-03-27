@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntTheWumpus.Platform.Desktop.Map
+namespace HuntTheWumpus.SharedCode.Map
 {
     class Wumpus
     {
