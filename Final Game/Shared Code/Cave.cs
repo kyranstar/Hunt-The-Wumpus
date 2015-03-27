@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntTheWumpus
+namespace HuntTheWumpus.SharedCode.Cave
 {
     /// <summary>
     /// The cave object generates a cave system and places objects inside it (player, arrows, gold, etc)
@@ -33,7 +35,7 @@ namespace HuntTheWumpus
         /// </summary>
         /// <param name="x"></param>
         /// <returns>whether room x in cave contains gold</returns>
-        public bool isThereGold(int x)
+        public bool IsThereGold(int x)
         {         
             //foreach (int y in gold)
             //{
@@ -49,7 +51,7 @@ namespace HuntTheWumpus
         /// </summary>
         /// <param name="x">room</param>
         /// <returns>whether room x in cave contains arrows</returns>
-        public bool areThereArrows(int x)
+        public bool AreThereArrows(int x)
         {
             //foreach (int y in arrows)
             //{
