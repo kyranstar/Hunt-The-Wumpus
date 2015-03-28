@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using HuntTheWumpus.SharedCode.GameCore;
+using HuntTheWumpus.SharedCode.GameControl;
 #endregion
 
 namespace HuntTheWumpus.Platform.Desktop
@@ -20,8 +21,16 @@ namespace HuntTheWumpus.Platform.Desktop
         [STAThread]
         static void Main()
         {
+            Log.Info("Running game...");
             using (var game = new GameHost())
-                game.Run();
+                try
+                {
+                    game.Run();
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Game threw exception: " + e);
+                }
         }
     }
 #endif
