@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntTheWumpus.SharedCode.Cave
+namespace HuntTheWumpus.SharedCode
 {
     /// <summary>
     /// The cave object generates a cave system and places objects inside it (player, arrows, gold, etc)

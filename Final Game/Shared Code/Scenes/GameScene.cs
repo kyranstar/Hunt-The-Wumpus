@@ -6,15 +6,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.Map;
+using HuntTheWumpus.SharedCode;
 
 namespace HuntTheWumpus.SharedCode.Scenes
 {
     class GameScene : Scene
     {
         // This can be fixed along with the map's namespace
-        Map.Map Map;
+        Map Map;
         public override void LoadContent(ContentManager Content)
         {
 
@@ -23,7 +22,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
         public override void Initialize()
         {
             // Ideally, the Map would have a reset method, but this should work for now.
-            Map = new Map.Map();
+            Map = new Map();
         }
 
         public override void Update(GameTime GameTime)
