@@ -81,9 +81,15 @@ namespace HuntTheWumpus.SharedCode.Map
         /// </list> 
         /// </summary>
         /// <returns>a list of warnings</returns>
-        public List<String> PlayerWarnings()
+        public List<PlayerWarnings> PlayerWarnings()
         {
-            return new List<String>();
+            return new List<PlayerWarnings>();
+        }
+        enum PlayerWarnings
+        {
+            Pit,
+            Bat,
+            Wumpus
         }
     }
 }
