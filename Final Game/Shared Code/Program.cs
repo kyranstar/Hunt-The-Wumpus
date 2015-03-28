@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using HuntTheWumpus.GameCore;
+using HuntTheWumpus.SharedCode.GameCore;
 #endregion
 
 namespace HuntTheWumpus.Platform.Desktop

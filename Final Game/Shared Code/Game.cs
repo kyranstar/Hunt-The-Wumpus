@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace HuntTheWumpus.GameCore
+using HuntTheWumpus.SharedCode.GameControl;
+
+namespace HuntTheWumpus.SharedCode.GameCore
 {
     /// <summary>
     /// This is the main type for your game
@@ -11,41 +13,6 @@ namespace HuntTheWumpus.GameCore
     {
         GraphicsDeviceManager GraphicsManager;
         SpriteBatch SpriteBatch;
-
-        Vector3 Eye;
-        Vector3 Up;
-        Vector3 At;
-
-        float FOV;
-        //camera properties
-        float zNear;
-        float zFar;
-
-        BasicEffect basicEffect;
-        DynamicVertexBuffer vertexBuffer;
-        DynamicIndexBuffer indexBuffer;
-        VertexPositionColor[] cube;
-        float cubeRotation = 0.0f;
-        static ushort[] cubeIndices =
-    		{
-    			0,2,1, // -x
-    			1,2,3,
-
-    			4,5,6, // +x
-    			5,7,6,
-
-    			0,1,5, // -y
-    			0,5,4,
-
-    			2,6,7, // +y
-    			2,7,3,
-
-    			0,4,6, // -z
-    			0,6,2,
-
-    			1,3,7, // +z
-    			1,7,5,
-    		};
 
         public GameHost()
             : base()
@@ -64,32 +31,9 @@ namespace HuntTheWumpus.GameCore
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            zNear = 0.001f;
-            zFar = 1000.0f;
-            FOV = MathHelper.Pi * 70.0f / 180.0f;
-            Eye = new Vector3(0.0f, 0.7f, 1.5f);
-            At = new Vector3(0.0f, 0.0f, 0.0f);
-            Up = new Vector3(0.0f, 1.0f, 0.0f);
-
-            cube = new VertexPositionColor[8];
-            cube[0] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, -0.5f), new Color(0.0f, 0.0f, 0.0f));
-            cube[1] = new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.5f), new Color(0.0f, 0.0f, 1.0f));
-            cube[2] = new VertexPositionColor(new Vector3(-0.5f, 0.5f, -0.5f), new Color(0.0f, 1.0f, 0.0f));
-            cube[3] = new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0.5f), new Color(0.0f, 1.0f, 1.0f));
-            cube[4] = new VertexPositionColor(new Vector3(0.5f, -0.5f, -0.5f), new Color(1.0f, 0.0f, 0.0f));
-            cube[5] = new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.5f), new Color(1.0f, 0.0f, 1.0f));
-            cube[6] = new VertexPositionColor(new Vector3(0.5f, 0.5f, -0.5f), new Color(1.0f, 1.0f, 0.0f));
-            cube[7] = new VertexPositionColor(new Vector3(0.5f, 0.5f, 0.5f), new Color(1.0f, 1.0f, 1.0f));
-
-            vertexBuffer = new DynamicVertexBuffer(GraphicsManager.GraphicsDevice, typeof(VertexPositionColor), 8, BufferUsage.WriteOnly);
-            indexBuffer = new DynamicIndexBuffer(GraphicsManager.GraphicsDevice, typeof(ushort), 36, BufferUsage.WriteOnly);
-
-            basicEffect = new BasicEffect(GraphicsManager.GraphicsDevice); //(device, null);
-            basicEffect.LightingEnabled = false;
-            basicEffect.VertexColorEnabled = true;
-            basicEffect.TextureEnabled = false;
-
+            Log.Info("Initializing game...");
+            SceneManager.Initialize();
+            SceneManager.LoadScene(SceneManager.GameScene);
             base.Initialize();
         }
 
@@ -99,10 +43,12 @@ namespace HuntTheWumpus.GameCore
         /// </summary>
         protected override void LoadContent()
         {
+            Log.Info("Loading game content...");
             // Create a new SpriteBatch, which can be used to draw textures.
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            SceneManager.LoadAllSceneContent(this.Content);
         }
 
         /// <summary>
@@ -111,7 +57,9 @@ namespace HuntTheWumpus.GameCore
         /// </summary>
         protected override void UnloadContent()
         {
+            Log.Info("Unloading game content...");
             // TODO: Unload any non ContentManager content here
+            SceneManager.UnloadAllSceneContent();
         }
 
         /// <summary>
@@ -125,24 +73,6 @@ namespace HuntTheWumpus.GameCore
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 #endif
-
-            // Compute camera matrices.
-            Matrix View = Matrix.CreateLookAt(Eye, At, Up);
-
-            Matrix Projection = Matrix.CreatePerspectiveFieldOfView(FOV, GraphicsDevice.Viewport.AspectRatio, zNear, zFar);
-            cubeRotation += (0.0025f) * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            Matrix World = Matrix.CreateRotationY(cubeRotation);
-
-            vertexBuffer.SetData(cube, 0, 8, SetDataOptions.Discard);
-            indexBuffer.SetData(cubeIndices, 0, 36, SetDataOptions.Discard);
-
-            GraphicsDevice device = basicEffect.GraphicsDevice;
-            device.SetVertexBuffer(vertexBuffer);
-            device.Indices = indexBuffer;
-
-            basicEffect.View = View;
-            basicEffect.Projection = Projection;
-            basicEffect.World = World;
 
             // TODO: Add your update logic here
 
@@ -158,13 +88,6 @@ namespace HuntTheWumpus.GameCore
             GraphicsDevice.Clear(Color.Goldenrod);
 
             // TODO: Add your drawing code here
-
-            GraphicsDevice device = basicEffect.GraphicsDevice;
-            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 8, 0, 36);
-            }
 
             base.Draw(gameTime);
         }
