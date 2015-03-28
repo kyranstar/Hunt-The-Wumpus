@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntTheWumpus.SharedCode.Map
+namespace HuntTheWumpus.SharedCode
 {
     class Wumpus
     {
@@ -13,9 +13,9 @@ namespace HuntTheWumpus.SharedCode.Map
         {
             get { return location; }
         }
-        private Cave.Cave cave;
+        private Cave cave;
 
-        public Wumpus(Cave.Cave cave)
+        public Wumpus(Cave cave)
         {
             this.cave = cave;
         }

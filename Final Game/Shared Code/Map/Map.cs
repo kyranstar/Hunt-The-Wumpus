@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntTheWumpus.SharedCode.Map
+namespace HuntTheWumpus.SharedCode
 {
     /// <summary>
     /// The map object tracks the locations of all of the objects in the current game. The tasks it performs are as follows:
@@ -31,12 +31,12 @@ namespace HuntTheWumpus.SharedCode.Map
     {
         // Holds the id of the room that the player is currently in.
         private int playerRoom;
-        private Cave.Cave cave;
+        private Cave cave;
         private Wumpus wumpus;
 
         public Map()
         {
-            cave = new Cave.Cave();
+            cave = new Cave();
             wumpus = new Wumpus(cave);
         }
 

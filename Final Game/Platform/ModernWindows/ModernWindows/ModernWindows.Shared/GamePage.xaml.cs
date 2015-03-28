@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MonoGame.Framework;
-using HuntTheWumpus.GameCore;
+using HuntTheWumpus.SharedCode.GameCore;
 
 namespace HuntTheWumpus.Platform.ModernWindows
 {
