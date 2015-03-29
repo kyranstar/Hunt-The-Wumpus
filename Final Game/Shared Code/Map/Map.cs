@@ -51,7 +51,7 @@ namespace HuntTheWumpus.SharedCode
         /// Moves the player, if possible, to the new point. The point is calculated by the current player position + p. 
         /// </summary>
         /// <param name="p">P is relative to the current player's position</param>
-        public void MovePlayer(Point p)
+        public void MovePlayer(int roomId)
         {
 
         }
@@ -61,7 +61,7 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         /// <param name="p"></param>
         /// <returns>Whether the player can shoot to point p</returns>
-        public bool CanShoot(Point p)
+        public bool CanShoot(int roomId)
         {
             return false;
         }
@@ -81,11 +81,11 @@ namespace HuntTheWumpus.SharedCode
         /// </list> 
         /// </summary>
         /// <returns>a list of warnings</returns>
-        public List<PlayerWarnings> PlayerWarnings()
+        public List<PlayerWarnings> GetPlayerWarnings()
         {
             return new List<PlayerWarnings>();
         }
-        enum PlayerWarnings
+        public enum PlayerWarnings
         {
             Pit,
             Bat,
