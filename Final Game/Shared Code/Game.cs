@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using HuntTheWumpus.SharedCode.GameControl;
+using EmptyKeys.UserInterface;
+using EmptyKeys.UserInterface.Media;
 
 namespace HuntTheWumpus.SharedCode.GameCore
 {
@@ -20,6 +22,14 @@ namespace HuntTheWumpus.SharedCode.GameCore
             GraphicsManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
+
+            GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
+            this.IsMouseVisible = true;
+        }
+
+        void GraphicsManager_DeviceCreated(object sender, System.EventArgs e)
+        {
+            Engine Engine = new MonoGameEngine(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         /// <summary>
@@ -32,8 +42,9 @@ namespace HuntTheWumpus.SharedCode.GameCore
         {
             // TODO: Add your initialization logic here
             Log.Info("Initializing game...");
-            SceneManager.Initialize();
-            SceneManager.LoadScene(SceneManager.GameScene);
+            SceneManager.InitializeSceneManager(this.Content, this.GraphicsDevice);
+            SceneManager.LoadScene(SceneManager.MenuScene);
+
             base.Initialize();
         }
 
@@ -47,8 +58,15 @@ namespace HuntTheWumpus.SharedCode.GameCore
             // Create a new SpriteBatch, which can be used to draw textures.
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
+            SoundManager.Instance.LoadSounds(Content);
+            SpriteFont Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
+            FontManager.DefaultFont = Engine.Instance.Renderer.CreateFont(Font); 
+
+
             // TODO: use this.Content to load your game content here
-            SceneManager.LoadAllSceneContent(this.Content);
+            SceneManager.LoadAllSceneContent();
+
+            FontManager.Instance.LoadFonts(Content);
         }
 
         /// <summary>
@@ -66,8 +84,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
+        /// <param name="GameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime GameTime)
         {
 #if !NETFX_CORE
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -75,8 +93,9 @@ namespace HuntTheWumpus.SharedCode.GameCore
 #endif
 
             // TODO: Add your update logic here
+            SceneManager.Update(GameTime);
 
-            base.Update(gameTime);
+            base.Update(GameTime);
         }
 
         /// <summary>
@@ -88,6 +107,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
             GraphicsDevice.Clear(Color.Goldenrod);
 
             // TODO: Add your drawing code here
+
+            SceneManager.Draw(gameTime, SpriteBatch);
 
             base.Draw(gameTime);
         }

@@ -21,16 +21,31 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         private static Scene CurrentScene;
 
-        public static void LoadAllSceneContent(ContentManager Content)
+        private static ContentManager Content;
+        private static GraphicsDevice Graphics;
+
+        public static void InitializeSceneManager(ContentManager Content, GraphicsDevice Graphics)
         {
-            //MenuScene.LoadContent(Content);
+            SceneManager.MenuScene = new MainMenuScene();
+            SceneManager.GameScene = new GameScene();
+
+            SceneManager.Content = Content;
+            SceneManager.Graphics = Graphics;
+        }
+
+        public static void LoadAllSceneContent()
+        {
+            MenuScene.LoadContent(Content);
             GameScene.LoadContent(Content);
             //HighScoreScene.LoadContent(Content);
         }
 
         public static void LoadScene(Scene NewScene)
         {
-            NewScene.Initialize();
+            if(CurrentScene != null)
+                CurrentScene.Uninitialize();
+
+            NewScene.Initialize(Graphics);
             CurrentScene = NewScene;
         }
 
@@ -47,15 +62,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public static void UnloadAllSceneContent()
         {
             CurrentScene = null;
-            //MenuScene.UnloadContent();
+            MenuScene.UnloadContent();
             GameScene.UnloadContent();
             //HighScoreScene.UnloadContent();
-        }
-
-
-        public static void Initialize()
-        {
-            GameScene = new GameScene();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
         /// Called every time that the scene is loaded. This will be called before Update() or Draw().
         /// If the scene stores state, this is probably the place to reset it.
         /// </summary>
-        public abstract void Initialize();
+        public abstract void Initialize(GraphicsDevice GraphicsDevice);
 
         /// <summary>
         /// Will be called repeatedly as long as this scene is loaded. This is where you should update game state and
@@ -36,6 +36,12 @@ namespace HuntTheWumpus.SharedCode.Scenes
         /// <code>SpriteBatch</code>.
         /// </summary>
         public abstract void Draw(GameTime GameTime, SpriteBatch TargetBatch);
+
+        /// <summary>
+        /// Called every time that the scene is unloaded. This will be called after Update() and Draw().
+        /// This is where you should deactivate any code that runs independently of your Scene.
+        /// </summary>
+        public abstract void Uninitialize();
 
         /// <summary>
         /// Will be called once per game execution, while the program is closing. This is where you should unload assets,

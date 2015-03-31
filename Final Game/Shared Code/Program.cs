@@ -23,6 +23,10 @@ namespace HuntTheWumpus.Platform.Desktop
         {
             Log.Info("Running game...");
             using (var game = new GameHost())
+            {
+#if DEBUG
+                game.Run();
+#else
                 try
                 {
                     game.Run();
@@ -30,7 +34,10 @@ namespace HuntTheWumpus.Platform.Desktop
                 catch (Exception e)
                 {
                     Log.Error("Game threw exception: " + e);
+                    Console.Read();
                 }
+#endif
+            }
         }
     }
 #endif
