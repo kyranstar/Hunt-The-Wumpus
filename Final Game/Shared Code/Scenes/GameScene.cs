@@ -15,6 +15,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 {
     class GameScene : Scene
     {
+        Map Map;
         public override void LoadContent(ContentManager Content)
         {
 
@@ -22,7 +23,8 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Initialize(GraphicsDevice GraphicsDevice)
         {
-
+            // Ideally, the Map would have a reset method, but this should work for now.
+            Map = new Map();
         }
 
         public override void Update(GameTime GameTime)
