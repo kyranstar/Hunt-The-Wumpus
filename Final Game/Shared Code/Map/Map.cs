@@ -31,13 +31,20 @@ namespace HuntTheWumpus.SharedCode
     {
         // Holds the id of the room that the player is currently in.
         private int playerRoom;
-        private Cave cave;
+        public int PlayerRoom
+        {
+            get { return playerRoom; }
+            protected set { playerRoom = value; }
+        }
+
+        public readonly Cave Cave;
         private Wumpus wumpus;
 
         public Map()
         {
-            cave = new Cave();
-            wumpus = new Wumpus(cave);
+            GameControl.Log.Info("Creating map...");
+            Cave = new Cave();
+            wumpus = new Wumpus(Cave);
         }
 
         /// <summary>
@@ -48,19 +55,19 @@ namespace HuntTheWumpus.SharedCode
             wumpus.Move();
         }
         /// <summary>
-        /// Moves the player, if possible, to the new point. The point is calculated by the current player position + p. 
+        /// Moves the player to the new room if the room is adjacent to this room.
         /// </summary>
-        /// <param name="p">P is relative to the current player's position</param>
+        /// <param name="roomId"></param>
         public void MovePlayer(int roomId)
         {
 
         }
 
-        /// <summary>
-        ///  Takes a point and determines whether the player can shoot to that point.
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns>Whether the player can shoot to point p</returns>
+      /// <summary>
+       /// Takes a room ID and determines whether the player can shoot to that room.
+      /// </summary>
+      /// <param name="roomId"></param>
+      /// <returns></returns>
         public bool CanShoot(int roomId)
         {
             return false;
@@ -83,7 +90,9 @@ namespace HuntTheWumpus.SharedCode
         /// <returns>a list of warnings</returns>
         public List<PlayerWarnings> GetPlayerWarnings()
         {
-            return new List<PlayerWarnings>();
+            List<PlayerWarnings> list = new List<PlayerWarnings>();
+            
+            return list;
         }
         public enum PlayerWarnings
         {
