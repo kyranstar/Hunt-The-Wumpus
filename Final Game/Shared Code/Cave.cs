@@ -10,21 +10,21 @@ namespace HuntTheWumpus.SharedCode
     /// <summary>
     /// The cave object generates a cave system and places objects inside it (player, arrows, gold, etc)
     /// Includes methods to get locations of game objects in cave
-    /// </summary>
+    /// <summary>
     class Cave
     {
         /// <summary>
         /// contains generated cave (list of rooms)
         /// </summary>
-        public Room[] cave;
+        public List<Room> cave;
         /// <summary>
         /// contains list of rooms which contain arrows
         /// </summary>
-        public int[] arrows;
+        public List<int> arrows;
         /// <summary>
         /// contains list of rooms which contain gold
         /// </summary>
-        public int[] gold;
+        public List<int> gold;
         /// <summary>
         /// contains starting room of player
         /// </summary>
@@ -35,31 +35,48 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         /// <param name="x"></param>
         /// <returns>whether room x in cave contains gold</returns>
-        public bool IsThereGold(int x)
-        {         
-            //foreach (int y in gold)
-            //{
-            //    if (gold[x] == y)
-            //        return true;
-            //    else
-            //        return false;
-            //}
-            return false;
+        public bool isThereGoldInThisRoom(int x)
+        {
+            foreach (int y in gold)
+            {
+                if (gold[x] == y)
+                    return true;
+                else
+                    return false;
+            }
         }
         /// <summary>
         ///tells if room x contains arrows
         /// </summary>
         /// <param name="x">room</param>
         /// <returns>whether room x in cave contains arrows</returns>
-        public bool AreThereArrows(int x)
+        public bool areThereArrowsInThisRoom(int x)
         {
-            //foreach (int y in arrows)
-            //{
-            //    if (arrows[x] == y)
-            //        return true;
-            //    else
-            //        return false;
-            //}
+            foreach (int y in arrows)
+            {
+                if (arrows[x] == y)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// tells whether specified room x contains bats
+        /// </summary>
+        /// <param name="x">room ID</param>
+        /// <returns>whether room contains bats</returns>
+        public bool doesThisRoomContainBats(int x)
+        {
+            return false;
+        }
+        /// <summary>
+        /// tells whether specified room x contains a pit
+        /// </summary>
+        /// <param name="x">room ID</param>
+        /// <returns>whether room contains a pit</returns>
+        public bool doesThisRoomContainAPit(int x)
+        {
             return false;
         }
 
@@ -87,14 +104,14 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// room's location in cave
         /// </summary>
-        public int number;
+        private int roomId;
         /// <summary>
         /// how many doors the room has (1-3)
         /// </summary>
-        public int doors;
+        private int doors;
         /// <summary>
         /// what other rooms this room is connected to
         /// </summary>
-        public int[] connections;
+        private List<int> GetAdjacentRooms();
     }
 }
