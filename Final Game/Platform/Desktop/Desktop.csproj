@@ -55,6 +55,7 @@
     </Content-->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Map\MapGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
