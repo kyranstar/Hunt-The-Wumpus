@@ -45,6 +45,8 @@ namespace HuntTheWumpus.SharedCode
             GameControl.Log.Info("Creating map...");
             Cave = new Cave();
             wumpus = new Wumpus(Cave);
+
+            new MapGenerator().generateMap(this);
         }
 
         /// <summary>
