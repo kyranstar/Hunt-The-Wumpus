@@ -107,8 +107,9 @@ namespace HuntTheWumpus.SharedCode.GameCore
             GraphicsDevice.Clear(Color.Goldenrod);
 
             // TODO: Add your drawing code here
-
+            SpriteBatch.Begin();
             SceneManager.Draw(gameTime, SpriteBatch);
+            SpriteBatch.End();
 
             base.Draw(gameTime);
         }
