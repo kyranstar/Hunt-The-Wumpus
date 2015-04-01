@@ -20,6 +20,8 @@ namespace HuntTheWumpus.SharedCode.Scenes
     {
         Map Map;
         MapRenderer MapRenderer;
+        GraphicsDevice Graphics;
+        Viewport GameView;
         public override void LoadContent(ContentManager Content)
         {
             Map = new Map();
@@ -29,6 +31,13 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Initialize(GraphicsDevice GraphicsDevice)
         {
+            this.Graphics = GraphicsDevice;
+            GameView = new Viewport()
+            {
+                Width = this.Graphics.Viewport.Width,
+                Height = this.Graphics.Viewport.Height
+            };
+
             MapRenderer.RegenerateLayout();
             // Ideally, the Map should have a reset method
             // TODO: Reset map here
@@ -36,7 +45,10 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Update(GameTime GameTime)
         {
+            GameView.X = (int)(Math.Sin(GameTime.TotalGameTime.TotalSeconds) * 100 + 100);
+            GameView.Y = (int)(Math.Cos(GameTime.TotalGameTime.TotalSeconds) * 100 + 100);
 
+            Graphics.Viewport = GameView;
         }
 
         public override void Draw(GameTime GameTime, SpriteBatch TargetBatch)
