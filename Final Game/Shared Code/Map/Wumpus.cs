@@ -8,8 +8,8 @@ namespace HuntTheWumpus.SharedCode
 {
     class Wumpus
     {
-        private Point location;
-        public Point Location
+        private int location;
+        public int Location
         {
             get { return location; }
         }
