@@ -36,43 +36,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         public void RegenerateLayout()
         {
-            // TODO: Use Cave.GetCave() instead once it has been implemented and exposed
-            Room[] Rooms = new Room[]
-            {
-                new Room()
-                {
-                    number = 0,
-                    // Using a "square" pattern for now to simplify initial test code
-                    connections = new int[] {-1, 1, -1, -1}
-                },
-                new Room()
-                {
-                    number = 1,
-                    connections = new int[] {2, 3, -1, 0}
-                },
-                new Room()
-                {
-                    number = 2,
-                    connections = new int[] {-1, -1, 1, -1}
-                },
-                new Room()
-                {
-                    number = 3,
-                    connections = new int[] {-1, 4, -1, 1}
-                },
-                new Room()
-                {
-                    number = 4,
-                    connections = new int[] {-1, 5, -1, 3}
-                },
-                new Room()
-                {
-                    number = 5,
-                    connections = new int[] {-1, -1, -1, 4}
-                },
-            };
-
-            RoomLayout = GetRoomLayout(Rooms);
+            RoomLayout = GetRoomLayout(Map.Cave.getCave().ToArray());
         }
 
         public void LoadContent(ContentManager Content)
@@ -102,7 +66,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <returns>A mapping of room IDs to their room's positions</returns>
         private Dictionary<int, Vector2> GetRoomLayout(Room[] Rooms)
         {
-            Dictionary<int, Room> UnmappedRooms = Rooms.ToDictionary(Room => Room.number);
+            Dictionary<int, Room> UnmappedRooms = Rooms.ToDictionary(Room => Room.roomId);
             Dictionary<int, Vector2> NewLayout = GetRoomLayout(Rooms[0], new Vector2(), UnmappedRooms);
 
             // If not all rooms were found, we know that not all of them have a valid connection
@@ -121,16 +85,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <returns>A mapping of room IDs to their room's positions</returns>
         private Dictionary<int, Vector2> GetRoomLayout(Room CurrentRoom, Vector2 CurrentPoint, Dictionary<int, Room> UnmappedRooms)
         {
-            Log.Info("GetRoomLayout called for room " + CurrentRoom.number + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
+            Log.Info("GetRoomLayout called for room " + CurrentRoom.roomId + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
 
             // Start with an empty result
             Dictionary<int, Vector2> NewMappedRooms = new Dictionary<int, Vector2>();
 
             // Iterate over the connections (the index in the array indicates the side)
-            for (int ConnectionDirection = 0; ConnectionDirection < CurrentRoom.connections.Length; ConnectionDirection++)
+            for (int ConnectionDirection = 0; ConnectionDirection < CurrentRoom.adjacentRooms.Length; ConnectionDirection++)
             {
                 // Get the ID of the current room
-                int ConnectedRoomID = CurrentRoom.connections[ConnectionDirection];
+                int ConnectedRoomID = CurrentRoom.adjacentRooms[ConnectionDirection];
 
                 Room NextRoom;
                 // Only process the room if it hasn't been processed already
@@ -138,8 +102,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 {
                     // If we have gotten to this next room by reference but the next room
                     //   does not have a connection back to the first one, warn of issues!
-                    if(!NextRoom.connections.Contains(CurrentRoom.number))
-                        Log.Warn("Room " + CurrentRoom.number + " claims it is connected to room " + NextRoom.number + ", but the inverse connection was not found!");
+                    if (!NextRoom.adjacentRooms.Contains(CurrentRoom.roomId))
+                        Log.Warn("Room " + CurrentRoom.roomId + " claims it is connected to room " + NextRoom.roomId + ", but the inverse connection was not found!");
 
                     // Get the point for the next room
                     Vector2 NextPoint = CurrentPoint + GetOffsetForSide(ConnectionDirection, 20f);
@@ -151,7 +115,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                     Dictionary<int, Vector2> MappedRooms = GetRoomLayout(NextRoom, NextPoint, UnmappedRooms);
 
                     // Add the current room to the deeper map
-                    MappedRooms.Add(NextRoom.number, NextPoint);
+                    MappedRooms.Add(NextRoom.roomId, NextPoint);
                     // Merge the result with the results from the other connections
                     NewMappedRooms = NewMappedRooms.MergeLeft(MappedRooms);
 
