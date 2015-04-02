@@ -18,17 +18,17 @@ namespace HuntTheWumpus.SharedCode
                 {
                     roomId = 0,
                     // Using a "square" pattern for now to simplify initial test code
-                    doors = new int[] {-1, 1, -1, -1}
+                    adjacentRooms = new int[] {-1, 1, -1, -1}
                 },
                 new Room()
                 {
                     roomId = 1,
-                    doors = new int[] {2, -1, -1, 0}
+                    adjacentRooms = new int[] {2, -1, -1, 0}
                 },
                 new Room()
                 {
                     roomId = 2,
-                    doors = new int[] {-1, -1, 1, -1}
+                    adjacentRooms = new int[] {-1, -1, 1, -1}
                 }
             };
         }
