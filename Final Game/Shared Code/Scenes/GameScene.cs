@@ -21,11 +21,13 @@ namespace HuntTheWumpus.SharedCode.Scenes
     {
         Map Map;
         MapRenderer MapRenderer;
+        MapInputHandler InputHandler;
         GraphicsDevice Graphics;
         Viewport GameView;
         public override void LoadContent(ContentManager Content)
         {
             Map = new Map();
+            InputHandler = new MapInputHandler(Map);
             MapRenderer = new MapRenderer(Map);
             MapRenderer.LoadContent(Content);
         }
@@ -50,6 +52,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
             GameView.Y = (int)(Math.Cos(GameTime.TotalGameTime.TotalSeconds) * 100 + 100);
 
             Graphics.Viewport = GameView;
+            InputHandler.Update(GameTime);
         }
 
         public override void Draw(GameTime GameTime, SpriteBatch TargetBatch)
