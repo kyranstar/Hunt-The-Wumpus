@@ -41,19 +41,19 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 new Room()
                 {
-                    roomId = 0,
+                    number = 0,
                     // Using a "square" pattern for now to simplify initial test code
-                    adjacentRooms = new int[] {-1, 1, -1, -1}
+                    connections = new int[] {-1, 1, -1, -1}
                 },
                 new Room()
                 {
-                    roomId = 1,
-                    adjacentRooms = new int[] {2, -1, -1, 0}
+                    number = 1,
+                    connections = new int[] {2, -1, -1, 0}
                 },
                 new Room()
                 {
-                    roomId = 2,
-                    adjacentRooms = new int[] {-1, -1, 1, -1}
+                    number = 2,
+                    connections = new int[] {-1, -1, 1, -1}
                 }
             };
 
@@ -87,7 +87,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <returns>A mapping of room IDs to their room's positions</returns>
         private Dictionary<int, Vector2> GetRoomLayout(Room[] Rooms)
         {
-            return GetRoomLayout(Rooms[0], new Vector2(), Rooms.ToDictionary(Room => Room.roomId));
+            return GetRoomLayout(Rooms[0], new Vector2(), Rooms.ToDictionary(Room => Room.number));
         }
 
         /// <summary>
@@ -99,16 +99,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <returns>A mapping of room IDs to their room's positions</returns>
         private Dictionary<int, Vector2> GetRoomLayout(Room CurrentRoom, Vector2 CurrentPoint, Dictionary<int, Room> UnmappedRooms)
         {
-            Log.Info("GetRoomLayout called for room " + CurrentRoom.roomId + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
+            Log.Info("GetRoomLayout called for room " + CurrentRoom.number + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
 
             // Start with an empty result
             Dictionary<int, Vector2> NewMappedRooms = new Dictionary<int, Vector2>();
 
             // Iterate over the connections (the index in the array indicates the side)
-            for (int ConnectionDirection = 0; ConnectionDirection < CurrentRoom.adjacentRooms.Length; ConnectionDirection++)
+            for (int ConnectionDirection = 0; ConnectionDirection < CurrentRoom.connections.Length; ConnectionDirection++)
             {
                 // Get the ID of the current room
-                int ConnectedRoomID = CurrentRoom.adjacentRooms[ConnectionDirection];
+                int ConnectedRoomID = CurrentRoom.connections[ConnectionDirection];
 
                 Room NextRoom;
                 // Only process the room if it hasn't been processed already
@@ -124,7 +124,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                     Dictionary<int, Vector2> MappedRooms = GetRoomLayout(NextRoom, NextPoint, UnmappedRooms);
 
                     // Add the current room to the deeper map
-                    MappedRooms.Add(NextRoom.roomId, NextPoint);
+                    MappedRooms.Add(NextRoom.number, NextPoint);
                     // Merge the result with the results from the other connections
                     NewMappedRooms = NewMappedRooms.MergeLeft(MappedRooms);
 
