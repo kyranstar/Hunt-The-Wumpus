@@ -1,15 +1,20 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using HuntTheWumpus.SharedCode.GameMap;
+
 namespace HuntTheWumpusTests
 {
     [TestClass]
-    public class Map
+    public class MapTest
     {
         [TestMethod]
         public void MapCreationTest()
         {
-            Assert.Fail();
+            Map map = new Map();
+            Assert.IsNotNull(map.Cave);
+            Assert.IsNotNull(map.Player);
+            Assert.IsNotNull(map.Wumpus);
         }
     }
 }

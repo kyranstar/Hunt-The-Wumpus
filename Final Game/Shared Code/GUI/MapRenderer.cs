@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Helpers;
+using HuntTheWumpus.SharedCode.GameMap;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {

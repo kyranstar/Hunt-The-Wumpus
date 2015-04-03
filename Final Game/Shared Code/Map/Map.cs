@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntTheWumpus.SharedCode
+namespace HuntTheWumpus.SharedCode.GameMap
 {
     /// <summary>
     /// The map object tracks the locations of all of the objects in the current game. The tasks it performs are as follows:
@@ -27,10 +27,12 @@ namespace HuntTheWumpus.SharedCode
     /// </item> 
     /// </list> 
     /// </summary>
-    class Map
+    public class Map
     {
-        // Holds the id of the room that the player is currently in.
         private int playerRoom;
+        /// <summary>
+        /// Holds the id of the room that the player is currently in.
+        /// </summary>
         public int PlayerRoom
         {
             get { return playerRoom; }
@@ -38,13 +40,18 @@ namespace HuntTheWumpus.SharedCode
         }
 
         public readonly Cave Cave;
-        private Wumpus wumpus;
+        public readonly Wumpus Wumpus;
+        public readonly Player Player;
 
+        /// <summary>
+        /// Constructs the map and generates the cave with a MapGenerator.
+        /// </summary>
         public Map()
         {
             GameControl.Log.Info("Creating map...");
             Cave = new Cave();
-            wumpus = new Wumpus(Cave);
+            Wumpus = new Wumpus(Cave);
+            Player = new Player();
 
             new MapGenerator().generateMap(this);
         }
@@ -54,7 +61,7 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         public void MoveWumpus()
         {
-            wumpus.Move();
+            Wumpus.Move();
         }
         /// <summary>
         /// Moves the player to the new room if the room is adjacent to this room.
@@ -96,6 +103,9 @@ namespace HuntTheWumpus.SharedCode
             
             return list;
         }
+        /// <summary>
+        /// Represents warnings to be given to the player if they are too close to something.
+        /// </summary>
         public enum PlayerWarnings
         {
             Pit,

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuntTheWumpus.SharedCode
+namespace HuntTheWumpus.SharedCode.GameMap
 {
     class MapGenerator
     {

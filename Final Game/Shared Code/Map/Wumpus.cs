@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntTheWumpus.SharedCode
+namespace HuntTheWumpus.SharedCode.GameMap
 {
-    class Wumpus
+    /// <summary>
+    /// This class represents the wumpus in a game.
+    /// </summary>
+    public class Wumpus
     {
         private int location;
+        /// <summary>
+        /// The current location of the wumpus
+        /// </summary>
         public int Location
         {
             get { return location; }
