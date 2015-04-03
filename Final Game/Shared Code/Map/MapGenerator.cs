@@ -53,7 +53,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public List<Room> generateRandomCave()
         {
             List<Room> newCave = new List<Room>(29);
-            List<int> allAdjacentRooms = new List<int();
+            List<int> allAdjacentRooms = new List<int>();
             foreach (Room x in newCave)
             {
                 foreach (int y in x.adjacentRooms)
