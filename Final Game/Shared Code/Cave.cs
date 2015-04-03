@@ -10,8 +10,8 @@ namespace HuntTheWumpus.SharedCode
     /// <summary>
     /// The cave object generates a cave system and places objects inside it (player, arrows, gold, etc)
     /// Includes methods to get locations of game objects in cave
-    /// <summary>
-    class Cave
+    /// </summary>
+    public class Cave
     {
         /// <summary>
         /// contains generated cave (list of rooms)
@@ -41,7 +41,7 @@ namespace HuntTheWumpus.SharedCode
     /// <summary>
     /// class which represents one room which is part of the cave system
     /// </summary>
-    class Room
+    public class Room
     {
         /// <summary>
         /// room's location in cave

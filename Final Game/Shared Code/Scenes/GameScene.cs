@@ -13,6 +13,7 @@ using HuntTheWumpus.SharedCode;
 using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GUI;
+using HuntTheWumpus.SharedCode.GameMap;
 
 namespace HuntTheWumpus.SharedCode.Scenes
 {

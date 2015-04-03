@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuntTheWumpus.SharedCode
+namespace HuntTheWumpus.SharedCode.GameMap
 {
-    class Player
+    /// <summary>
+    /// Represents the player. Holds his current stats like gold, arrows, etc.
+    /// </summary>
+    public class Player
     {
 		/*
 		Since it has been a while since I used C#, any help with formatting would be nice!
@@ -105,7 +108,7 @@ namespace HuntTheWumpus.SharedCode
 		}
 		
         /// <summary>
-        /// Temporary place for this method
+        /// This method checks for hazards in the cave; Obtains this from the map/cave classes
         /// </summary>
 		public void CheckHazards()
 		{
