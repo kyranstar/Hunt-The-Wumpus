@@ -39,7 +39,7 @@ namespace HuntTheWumpus.SharedCode
         }
     }
     /// <summary>
-    /// class which represents one room which is part of the cave system
+    // class which represents one room which is part of the cave system
     /// </summary>
     public class Room
     {

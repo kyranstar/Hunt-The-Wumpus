@@ -46,5 +46,26 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
             };
         }
+        /// <summary>
+        /// For working on random caves when needed (not used at this time)
+        /// </summary>
+        /// <returns>randomly generated cave</returns>
+        public List<Room> generateRandomCave()
+        {
+            List<Room> newCave = new List<Room>(29);
+            List<int> allAdjacentRooms = new List<int();
+            foreach (Room x in newCave)
+            {
+                foreach (int y in x.adjacentRooms)
+                {
+                    allAdjacentRooms.Add(y);
+                }
+            }
+            foreach (Room x in newCave)
+            {
+                allAdjacentRooms.Sort();
+            }
+            return newCave;
+        }
     }
 }
