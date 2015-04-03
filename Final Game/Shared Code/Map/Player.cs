@@ -108,7 +108,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 		}
 		
         /// <summary>
-        /// Temporary place for this method
+        /// This method checks for hazards in the cave; Obtains this from the map/cave classes
         /// </summary>
 		public void CheckHazards()
 		{
