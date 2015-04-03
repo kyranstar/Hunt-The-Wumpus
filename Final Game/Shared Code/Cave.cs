@@ -18,18 +18,6 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         public List<Room> cave;
         /// <summary>
-        /// contains list of rooms which contain arrows
-        /// </summary>
-        public List<int> arrows;
-        /// <summary>
-        /// contains list of rooms which contain gold
-        /// </summary>
-        public List<int> gold;
-        /// <summary>
-        /// contains starting room of player
-        /// </summary>
-        public int playerStart;
-        /// <summary>
         /// returns current cave on request
         /// </summary>
         /// <returns>current cave</returns>
