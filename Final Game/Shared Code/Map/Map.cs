@@ -39,8 +39,17 @@ namespace HuntTheWumpus.SharedCode.GameMap
             protected set { playerRoom = value; }
         }
 
+        /// <summary>
+        /// Stores the cave, which stores all the room data
+        /// </summary>
         public readonly Cave Cave;
+        /// <summary>
+        /// Holds a reference to the wumpus
+        /// </summary>
         public readonly Wumpus Wumpus;
+        /// <summary>
+        /// Holds a reference to the current player
+        /// </summary>
         public readonly Player Player;
 
         /// <summary>
@@ -108,8 +117,17 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         public enum PlayerWarnings
         {
+            /// <summary>
+            /// Represents when the player is within one tile of a pit
+            /// </summary>
             Pit,
+            /// <summary>
+            /// Represents when the player is within one tile of a bat
+            /// </summary>
             Bat,
+            /// <summary>
+            /// Represents when the player is within one (maybe more for the wumpus? we should discuss this) tile of the wumpus
+            /// </summary>
             Wumpus
         }
     }

@@ -11,16 +11,19 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class Wumpus
     {
-        private int location;
         /// <summary>
         /// The current location of the wumpus
         /// </summary>
         public int Location
         {
-            get { return location; }
+            set; get;
         }
         private Cave cave;
 
+        /// <summary>
+        /// Initializes a new instance of the Wumpus class.
+        /// </summary>
+        /// <param name="cave"></param>
         public Wumpus(Cave cave)
         {
             this.cave = cave;
