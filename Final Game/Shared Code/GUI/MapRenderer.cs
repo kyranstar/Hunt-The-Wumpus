@@ -13,23 +13,38 @@ using HuntTheWumpus.SharedCode.GameMap;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
-    class MapRenderer
+    public class MapRenderer
     {
         private Map Map;
-        private Dictionary<int, Vector2> RoomLayout;
 
         private Texture2D RoomBaseTexture;
 
         // Length of the apothem of each room
-        private const int RoomBaseApothem = 20;
+        private readonly int RoomBaseApothem = 20;
         // Currently using square for simplicity
-        private const int RoomNumSides = 4;
+        private readonly int RoomNumSides = 4;
         //TODO: Fix and commit polygon width calculation
         private readonly int RoomBaseSize = 40;///(int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
+
+        public MapRenderer(Map Map, int RoomBaseApothem, int RoomBaseSize, int RoomNumSides)
+        {
+            this.Map = Map;
+
+            this.RoomBaseApothem = RoomBaseApothem;
+            this.RoomNumSides = RoomNumSides;
+            this.RoomBaseSize = RoomBaseSize;
+        }
 
         public MapRenderer(Map Map)
         {
             this.Map = Map;
+        }
+
+
+        public Dictionary<int, Vector2> RoomLayout
+        {
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -107,7 +122,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                         Log.Warn("Room " + CurrentRoom.roomId + " claims it is connected to room " + NextRoom.roomId + ", but the inverse connection was not found!");
 
                     // Get the point for the next room
-                    Vector2 NextPoint = CurrentPoint + GetOffsetForSide(ConnectionDirection, 20f);
+                    Vector2 NextPoint = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem);
                     // Remove the room now that we have calculated its position
                     //   we don't want the next call to index it again
                     UnmappedRooms.Remove(ConnectedRoomID);
