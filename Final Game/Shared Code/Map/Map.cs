@@ -87,16 +87,15 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="dir"></param>
         public bool MovePlayer(Direction dir)
         {
-            int oldPlayerRoom = PlayerRoom;
             Room currentRoom = Cave.getRoom(PlayerRoom);
             //if the room in the direction exists
             if (currentRoom.adjacentRooms[(int)dir] != -1)
             {
                 //set our current room to that room
                 PlayerRoom = Cave.getRoom(currentRoom.adjacentRooms[(int)dir]).roomId;
+                return true;
             }
-            // returns whether our room changed
-            return PlayerRoom != oldPlayerRoom;
+            return false;
         }
 
       /// <summary>
