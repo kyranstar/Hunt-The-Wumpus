@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HuntTheWumpus.SharedCode.GameControl;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -76,8 +77,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// Moves the player relatively to a new room if this room connects to that room.
         /// </summary>
         /// <param name="dir"></param>
-        public void MovePlayer(Direction dir)
+        public bool MovePlayer(Direction dir)
         {
+            int oldPlayerRoom = PlayerRoom;
             Room currentRoom = Cave.getRoom(PlayerRoom);
             //if the room in the direction exists
             if (currentRoom.adjacentRooms[(int)dir] != -1)
@@ -85,6 +87,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 //set our current room to that room
                 PlayerRoom = Cave.getRoom(currentRoom.adjacentRooms[(int)dir]).roomId;
             }
+            // returns whether our room changed
+            return PlayerRoom != oldPlayerRoom;
         }
 
       /// <summary>

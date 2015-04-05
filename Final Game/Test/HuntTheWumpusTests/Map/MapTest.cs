@@ -19,7 +19,7 @@ namespace HuntTheWumpusTests
         readonly Cave TestCave = new Cave();
 
         [TestInitialize()]
-        private void InitializeTest()
+        public void InitializeTest()
         {
             // Using a "square" pattern for now to simplify initial test code
             TestCave.addRoom(0, new int[] { -1, 1, -1, -1 });
@@ -43,12 +43,35 @@ namespace HuntTheWumpusTests
         #endregion
 
         [TestMethod]
-        public void MapCreationTest()
+        public void TestMapCreation()
         {
             Map map = new Map();
             Assert.IsNotNull(map.Cave);
             Assert.IsNotNull(map.Player);
             Assert.IsNotNull(map.Wumpus);
+        }
+        [TestMethod]
+        public void TestMovePlayer()
+        {
+            Map map = new Map();
+            map.Cave = TestCave;
+
+            Assert.AreEqual(0, map.PlayerRoom);
+            Assert.IsFalse(map.MovePlayer(Map.Direction.North));
+            Assert.IsFalse(map.MovePlayer(Map.Direction.West));
+            Assert.IsFalse(map.MovePlayer(Map.Direction.South));
+
+            Assert.IsTrue(map.MovePlayer(Map.Direction.East));
+            Assert.AreEqual(1, map.PlayerRoom);
+
+            Assert.IsFalse(map.MovePlayer(Map.Direction.North));
+
+            Assert.IsTrue(map.MovePlayer(Map.Direction.South));
+            Assert.AreEqual(2, map.PlayerRoom);
+
+            Assert.IsFalse(map.MovePlayer(Map.Direction.East));
+            Assert.IsFalse(map.MovePlayer(Map.Direction.West));
+            Assert.IsFalse(map.MovePlayer(Map.Direction.South));
         }
 
         [TestMethod]
@@ -70,7 +93,7 @@ namespace HuntTheWumpusTests
                 AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key]);
         }
 
-        private void AssertVector(Vector2 Expected, Vector2 Actual, float Threshold = 0.01f)
+        private void AssertVector(Vector2 Expected, Vector2 Actual, float Threshold = 0.0001f)
         {
             Assert.AreEqual(Expected.X, Actual.X, Threshold);
             Assert.AreEqual(Expected.Y, Actual.Y, Threshold);
