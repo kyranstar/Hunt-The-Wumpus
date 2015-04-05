@@ -14,7 +14,6 @@ namespace HuntTheWumpus.SharedCode.GameCore
     public class GameHost : Game
     {
         GraphicsDeviceManager GraphicsManager;
-        SpriteBatch SpriteBatch;
 
         public GameHost()
             : base()
@@ -55,8 +54,6 @@ namespace HuntTheWumpus.SharedCode.GameCore
         protected override void LoadContent()
         {
             Log.Info("Loading game content...");
-            // Create a new SpriteBatch, which can be used to draw textures.
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             SoundManager.Instance.LoadSounds(Content);
             SpriteFont Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
@@ -106,10 +103,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
         {
             GraphicsDevice.Clear(Color.Goldenrod);
 
-            // TODO: Add your drawing code here
-            SpriteBatch.Begin();
-            SceneManager.Draw(gameTime, SpriteBatch);
-            SpriteBatch.End();
+            SceneManager.Draw(gameTime);
 
             base.Draw(gameTime);
         }

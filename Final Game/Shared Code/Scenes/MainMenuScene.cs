@@ -37,7 +37,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
             MenuGUI.UpdateLayout(GameTime.ElapsedGameTime.TotalMilliseconds);
         }
 
-        public override void Draw(GameTime GameTime, SpriteBatch TargetBatch)
+        public override void Draw(GameTime GameTime)
         {
             MenuGUI.Draw(GameTime.ElapsedGameTime.TotalSeconds);
         }

@@ -32,10 +32,9 @@ namespace HuntTheWumpus.SharedCode.Scenes
         public abstract void Update(GameTime GameTime);
 
         /// <summary>
-        /// This will be called every time a frame is drawn. You should draw everything here using the given
-        /// <code>SpriteBatch</code>.
+        /// This will be called every time a frame is drawn. You should draw everything here.
         /// </summary>
-        public abstract void Draw(GameTime GameTime, SpriteBatch TargetBatch);
+        public abstract void Draw(GameTime GameTime);
 
         /// <summary>
         /// Called every time that the scene is unloaded. This will be called after Update() and Draw().

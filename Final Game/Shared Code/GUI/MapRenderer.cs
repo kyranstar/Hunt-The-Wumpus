@@ -15,7 +15,12 @@ namespace HuntTheWumpus.SharedCode.GUI
 {
     public class MapRenderer
     {
+        private GraphicsDevice Graphics;
+        private SpriteBatch MapRenderTarget;
+
         private Map Map;
+
+        private Viewport MapViewport;
 
         private Texture2D RoomBaseTexture;
         private Texture2D PlayerTexture;
@@ -56,16 +61,32 @@ namespace HuntTheWumpus.SharedCode.GUI
             RoomLayout = GetRoomLayout(Map.Cave.getCave().ToArray());
         }
 
+        public void Initialize(GraphicsDevice Graphics)
+        {
+            MapRenderTarget = new SpriteBatch(Graphics);
+            this.Graphics = Graphics;
+
+            MapViewport = new Viewport()
+            {
+                Width = this.Graphics.Viewport.Width,
+                Height = this.Graphics.Viewport.Height
+            };
+        }
+
         public void LoadContent(ContentManager Content)
         {
             RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
         }
 
-        public void Draw(SpriteBatch Target)
+        public void Draw(GameTime GameTime)
         {
-            DrawCaveBase(Target);
-            DrawPlayer(Target);
+            Graphics.Viewport = MapViewport;
+
+            MapRenderTarget.Begin();
+            DrawCaveBase(MapRenderTarget);
+            DrawPlayer(MapRenderTarget);
+            MapRenderTarget.End();
         }
 
         private void DrawCaveBase(SpriteBatch Target)

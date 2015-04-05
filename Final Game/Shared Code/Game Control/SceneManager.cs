@@ -54,9 +54,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
             CurrentScene.Update(GameTime);
         }
 
-        public static void Draw(GameTime GameTime, SpriteBatch TargetBatch)
+        public static void Draw(GameTime GameTime)
         {
-            CurrentScene.Draw(GameTime, TargetBatch);
+            CurrentScene.Draw(GameTime);
         }
 
         public static void UnloadAllSceneContent()
