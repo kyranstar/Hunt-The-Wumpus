@@ -57,7 +57,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Draw(GameTime GameTime, SpriteBatch TargetBatch)
         {
-            MapRenderer.DrawCaveBase(TargetBatch);
+            MapRenderer.Draw(TargetBatch);
         }
 
         public override void UnloadContent()

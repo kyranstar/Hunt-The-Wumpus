@@ -18,6 +18,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Map Map;
 
         private Texture2D RoomBaseTexture;
+        private Texture2D PlayerTexture;
 
         // Length of the apothem of each room
         private readonly int RoomBaseApothem = 20;
@@ -58,14 +59,21 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void LoadContent(ContentManager Content)
         {
             RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
+            PlayerTexture = Content.Load<Texture2D>("Images/Character");
         }
 
-        public void DrawCaveBase(SpriteBatch Target)
+        public void Draw(SpriteBatch Target)
         {
-            if(RoomBaseTexture == null || RoomLayout == null)
+            DrawCaveBase(Target);
+            DrawPlayer(Target);
+        }
+
+        private void DrawCaveBase(SpriteBatch Target)
+        {
+            if (RoomBaseTexture == null || RoomLayout == null)
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
-            foreach(KeyValuePair<int, Vector2> LayoutMapping in RoomLayout)
+            foreach (KeyValuePair<int, Vector2> LayoutMapping in RoomLayout)
             {
                 int XPos = (int)Math.Round(LayoutMapping.Value.X);
                 int YPos = (int)Math.Round(LayoutMapping.Value.Y);
@@ -73,6 +81,15 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Rectangle TargetArea = new Rectangle(XPos, YPos, RoomBaseSize, RoomBaseSize);
                 Target.Draw(RoomBaseTexture, TargetArea, Color.White);
             }
+        }
+        // Feel free to scrap this code, it's just placeholder for now. 
+        private void DrawPlayer(SpriteBatch Target)
+        {
+            int roomNumber = Map.PlayerRoom;
+            Vector2 roomPos = RoomLayout[roomNumber];
+
+            Rectangle TargetArea = new Rectangle((int)Math.Round(roomPos.X), (int)Math.Round(roomPos.Y) , RoomBaseSize, RoomBaseSize);
+            Target.Draw(PlayerTexture, TargetArea, Color.White);
         }
 
         /// <summary>
