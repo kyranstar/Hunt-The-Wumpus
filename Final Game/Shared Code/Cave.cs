@@ -22,9 +22,13 @@ namespace HuntTheWumpus.SharedCode
         /// returns current cave on request
         /// </summary>
         /// <returns>current cave</returns>
-        public List<Room> getCave()
+        public List<Room> getRoomList()
         {
             return cave.Values.ToList<Room>();
+        }
+        public Dictionary<int, Room> getRoomDict()
+        {
+            return cave;
         }
 
         public Room getRoom(int id)
@@ -38,6 +42,7 @@ namespace HuntTheWumpus.SharedCode
                 adjacentRooms = connections,
             };
         }
+
     }
     /// <summary>
     /// Class which represents one room which is part of the cave system

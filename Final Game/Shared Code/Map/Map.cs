@@ -40,10 +40,17 @@ namespace HuntTheWumpus.SharedCode.GameMap
             protected set { playerRoom = value; }
         }
 
+        private Cave _cave;
         /// <summary>
         /// Stores the cave, which stores all the room data
         /// </summary>
-        public Cave Cave;
+        public Cave Cave {
+            get {return _cave;} 
+            set {
+                AssertCorrectLayout(value);
+                _cave = value;
+            }
+        }
         /// <summary>
         /// Holds a reference to the wumpus
         /// </summary>
@@ -64,6 +71,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Player = new Player();
 
             new MapGenerator().generateMap(this);
+            AssertCorrectLayout(Cave);
         }
 
         /// <summary>
@@ -122,6 +130,27 @@ namespace HuntTheWumpus.SharedCode.GameMap
             
             return list;
         }
+        /// <summary>
+        /// This method asserts that this cave is valid. Don't call this in production code probably
+        /// </summary>
+        /// <param name="theCave"></param>
+        public void AssertCorrectLayout(Cave theCave)
+        {
+            Dictionary<int, Room> cave = theCave.getRoomDict();
+            //Checks that all rooms only connect to rooms that exist or to -1
+            bool allConnectionsValid = cave.Values.All<Room>(
+                //For each room make sure
+                   (e) => e.adjacentRooms.All(
+                       // For each connection make sure it exists or its a null connection
+                       (r) =>  cave.Keys.Contains(r) || r == -1
+                       
+                   ));
+            if (!allConnectionsValid)
+            {
+               Log.Error("A room refers to a room that does not exist!");
+            }
+        }
+
         /// <summary>
         /// Represents warnings to be given to the player if they are too close to something.
         /// </summary>

@@ -53,7 +53,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         public void RegenerateLayout()
         {
-            RoomLayout = GetRoomLayout(Map.Cave.getCave().ToArray());
+            RoomLayout = GetRoomLayout(Map.Cave.getRoomList().ToArray());
         }
 
         public void LoadContent(ContentManager Content)
