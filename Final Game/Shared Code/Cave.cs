@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -24,6 +25,12 @@ namespace HuntTheWumpus.SharedCode
         public List<Room> getCave()
         {
             return cave;
+        }
+
+        public Room getRoom(int id)
+        {
+            // Maybe we should store rooms in a dictionary instead to get O(1) performance for this method?
+           return getCave().Find((e) => e.roomId == id);
         }
     }
     /// <summary>

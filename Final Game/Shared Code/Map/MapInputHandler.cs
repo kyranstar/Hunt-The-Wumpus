@@ -34,10 +34,30 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 {
                     //new key is pressed
                     Log.Info("Key pressed: " + key);
+                    HandleNewKeyPress(key);
                 }
             }
             
             keys = Keyboard.GetState().GetPressedKeys();
+        }
+
+        private void HandleNewKeyPress(Keys key)
+        {
+            switch (key)
+            {
+                case Keys.W:
+                    map.MovePlayer(Map.Direction.North);
+                    break;
+                case Keys.D:
+                    map.MovePlayer(Map.Direction.East);
+                    break;
+                case Keys.A:
+                    map.MovePlayer(Map.Direction.West);
+                    break;
+                case Keys.S:
+                    map.MovePlayer(Map.Direction.South);
+                    break;
+            }
         }
     }
 }

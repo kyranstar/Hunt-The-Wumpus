@@ -73,12 +73,18 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Wumpus.Move();
         }
         /// <summary>
-        /// Moves the player to the new room if the room is adjacent to this room.
+        /// Moves the player relatively to a new room if this room connects to that room.
         /// </summary>
         /// <param name="roomId"></param>
-        public void MovePlayer(int roomId)
+        public void MovePlayer(Direction dir)
         {
-
+            Room currentRoom = Cave.getRoom(PlayerRoom);
+            //if the room in the direction exists
+            if (currentRoom.adjacentRooms[(int)dir] != -1)
+            {
+                //set our current room to that room
+                PlayerRoom = Cave.getRoom(currentRoom.adjacentRooms[(int)dir]).roomId;
+            }
         }
 
       /// <summary>
@@ -129,6 +135,26 @@ namespace HuntTheWumpus.SharedCode.GameMap
             /// Represents when the player is within one (maybe more for the wumpus? we should discuss this) tile of the wumpus
             /// </summary>
             Wumpus
+        }
+        /// <summary>
+        /// An enumeration of directions
+        /// </summary>
+        public enum Direction
+        {
+            //Hex directions
+            /*Up,
+            UpRight,
+            DownRight,
+            Down,
+            DownLeft,
+            UpLeft
+             * */
+            //Right now we're using square directions
+            //For some reason we need to swap around South and North for it to work properly?
+            South,
+            East,
+            North,
+            West
         }
     }
 }
