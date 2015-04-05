@@ -16,40 +16,20 @@ namespace HuntTheWumpusTests
     public class MapTest
     {
         #region Constant test data
-        readonly List<Room> TestCave = new List<Room> 
-            {
-                new Room()
-                {
-                    roomId = 0,
-                    // Using a "square" pattern for now to simplify initial test code
-                    adjacentRooms = new int[] {-1, 1, -1, -1}
-                },
-                new Room()
-                {
-                    roomId = 1,
-                    adjacentRooms = new int[] {2, 3, -1, 0}
-                },
-                new Room()
-                {
-                    roomId = 2,
-                    adjacentRooms = new int[] {-1, -1, 1, -1}
-                },
-                new Room()
-                {
-                    roomId = 3,
-                    adjacentRooms = new int[] {-1, 4, -1, 1}
-                },
-                new Room()
-                {
-                    roomId = 4,
-                    adjacentRooms = new int[] {-1, 5, -1, 3}
-                },
-                new Room()
-                {
-                    roomId = 5,
-                    adjacentRooms = new int[] {-1, -1, -1, 4}
-                }
-            };
+        readonly Cave TestCave = new Cave();
+
+        [TestInitialize()]
+        private void InitializeTest()
+        {
+            // Using a "square" pattern for now to simplify initial test code
+            TestCave.addRoom(0, new int[] { -1, 1, -1, -1 });
+            TestCave.addRoom(1, new int[] { 2, 3, -1, 0 });
+            TestCave.addRoom(2, new int[] { -1, -1, 1, -1 });
+            TestCave.addRoom(3, new int[] { -1, 4, -1, 1 });
+            TestCave.addRoom(4, new int[] { -1, 5, -1, 3 });
+            TestCave.addRoom(5, new int[] { -1, -1, -1, 4 });
+        }
+
 
         readonly Dictionary<int, Vector2> ExpectedRoomPoints = new Dictionary<int, Vector2>
         {
@@ -78,7 +58,7 @@ namespace HuntTheWumpusTests
             // Test calculations using a square room
             MapRenderer MapRenderer = new MapRenderer(Map, 1, 4, 2);
 
-            Map.Cave.cave = TestCave;
+            Map.Cave = TestCave;
             MapRenderer.RegenerateLayout();
 
             // Make sure that there are the expected number of generated values 

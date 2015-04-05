@@ -17,20 +17,26 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// contains generated cave (list of rooms)
         /// </summary>
-        public List<Room> cave;
+        private Dictionary<int, Room> cave = new Dictionary<int, Room>();
         /// <summary>
         /// returns current cave on request
         /// </summary>
         /// <returns>current cave</returns>
         public List<Room> getCave()
         {
-            return cave;
+            return cave.Values.ToList<Room>();
         }
 
         public Room getRoom(int id)
         {
-            // Maybe we should store rooms in a dictionary instead to get O(1) performance for this method?
-           return getCave().Find((e) => e.roomId == id);
+           return cave[id];
+        }
+        public void addRoom(int id, int[] connections)
+        {
+            this.cave[id] = new Room(){
+                roomId = id,
+                adjacentRooms = connections,
+            };
         }
     }
     /// <summary>

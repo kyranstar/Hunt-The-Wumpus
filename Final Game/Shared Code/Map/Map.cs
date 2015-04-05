@@ -42,7 +42,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <summary>
         /// Stores the cave, which stores all the room data
         /// </summary>
-        public readonly Cave Cave;
+        public Cave Cave;
         /// <summary>
         /// Holds a reference to the wumpus
         /// </summary>
@@ -75,7 +75,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <summary>
         /// Moves the player relatively to a new room if this room connects to that room.
         /// </summary>
-        /// <param name="roomId"></param>
+        /// <param name="dir"></param>
         public void MovePlayer(Direction dir)
         {
             Room currentRoom = Cave.getRoom(PlayerRoom);
