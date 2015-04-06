@@ -22,12 +22,12 @@ namespace HuntTheWumpusTests
         public void InitializeTest()
         {
             // Using a "square" pattern for now to simplify initial test code
-            TestCave.addRoom(0, new int[] { -1, 1, -1, -1 });
-            TestCave.addRoom(1, new int[] { 2, 3, -1, 0 });
-            TestCave.addRoom(2, new int[] { -1, -1, 1, -1 });
-            TestCave.addRoom(3, new int[] { -1, 4, -1, 1 });
-            TestCave.addRoom(4, new int[] { -1, 5, -1, 3 });
-            TestCave.addRoom(5, new int[] { -1, -1, -1, 4 });
+            TestCave.AddRoom(0, new int[] { -1, 1, -1, -1 });
+            TestCave.AddRoom(1, new int[] { 2, 3, -1, 0 });
+            TestCave.AddRoom(2, new int[] { -1, -1, 1, -1 });
+            TestCave.AddRoom(3, new int[] { -1, 4, -1, 1 });
+            TestCave.AddRoom(4, new int[] { -1, 5, -1, 3 });
+            TestCave.AddRoom(5, new int[] { -1, -1, -1, 4 });
         }
 
 

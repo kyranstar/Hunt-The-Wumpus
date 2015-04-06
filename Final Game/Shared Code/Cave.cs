@@ -39,7 +39,7 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Room getRoom(int id)
+        public Room GetRoom(int id)
         {
            return cave[id];
         }
@@ -48,11 +48,15 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         /// <param name="id"></param>
         /// <param name="connections"></param>
-        public void addRoom(int id, int[] connections)
+        public void AddRoom(int id, int[] connections, int gold = 0, int arrows = 0, bool bats = false, bool pit = false)
         {
             this.cave[id] = new Room(){
                 roomId = id,
                 adjacentRooms = connections,
+                gold = gold,
+                arrows = arrows,
+                bats = bats,
+                pit = pit
             };
         }
 
@@ -66,10 +70,6 @@ namespace HuntTheWumpus.SharedCode
         /// room's location in cave
         /// </summary>
         public int roomId;
-        /// <summary>
-        /// how many doors the room has (1-3)
-        /// </summary>
-        public int doors;
         /// <summary>
         /// how much gold the room contains (gold >= 0)
         /// </summary>

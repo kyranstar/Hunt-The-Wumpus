@@ -13,12 +13,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
             //for now just makes a preset map
             map.Cave = new Cave(); 
            // Using a "square" pattern for now to simplify initial test code
-            map.Cave.addRoom(0, new int[] { -1, 1, -1, -1 });
-            map.Cave.addRoom(1, new int[] { 2, 3, -1, 0 });
-            map.Cave.addRoom(2, new int[] { -1, -1, 1, -1 });
-            map.Cave.addRoom(3, new int[] { -1, 4, -1, 1 });
-            map.Cave.addRoom(4, new int[] { -1, 5, -1, 3 });
-            map.Cave.addRoom(5, new int[] { -1, -1, -1, 4 });
+            map.Cave.AddRoom(0, new int[] { -1, 1, -1, -1 });
+            map.Cave.AddRoom(1, new int[] { 2, 3, -1, 0 });
+            map.Cave.AddRoom(2, new int[] { -1, -1, 1, -1 });
+            map.Cave.AddRoom(3, new int[] { -1, 4, -1, 1 });
+            map.Cave.AddRoom(4, new int[] { -1, 5, -1, 3 });
+            map.Cave.AddRoom(5, new int[] { -1, -1, -1, 4 });
             
         }
         /// <summary>
