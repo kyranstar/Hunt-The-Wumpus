@@ -41,21 +41,27 @@ namespace HuntTheWumpus.SharedCode.GameMap
             keys = Keyboard.GetState().GetPressedKeys();
         }
 
-        private void HandleNewKeyPress(Keys key)
+        private void HandleNewKeyPress(Keys Key)
         {
-            switch (key)
+            switch (Key)
             {
                 case Keys.W:
                     map.MovePlayer(Map.Direction.North);
                     break;
-                case Keys.D:
-                    map.MovePlayer(Map.Direction.East);
+                case Keys.E:
+                    map.MovePlayer(Map.Direction.Northeast);
                     break;
-                case Keys.A:
-                    map.MovePlayer(Map.Direction.West);
+                case Keys.D:
+                    map.MovePlayer(Map.Direction.Southeast);
                     break;
                 case Keys.S:
                     map.MovePlayer(Map.Direction.South);
+                    break;
+                case Keys.A:
+                    map.MovePlayer(Map.Direction.Southwest);
+                    break;
+                case Keys.Q:
+                    map.MovePlayer(Map.Direction.Northwest);
                     break;
             }
         }

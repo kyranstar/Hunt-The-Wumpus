@@ -188,19 +188,13 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public enum Direction
         {
             //Hex directions
-            /*Up,
-            UpRight,
-            DownRight,
-            Down,
-            DownLeft,
-            UpLeft
-             * */
-            //Right now we're using square directions
-            //For some reason we need to swap around South and North for it to work properly?
-            South,
-            East,
             North,
-            West
+            Northeast,
+            Southeast,
+            South,
+            Southwest,
+            Northwest
+
         }
     }
 }

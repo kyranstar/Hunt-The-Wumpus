@@ -18,35 +18,34 @@ namespace HuntTheWumpus.SharedCode.GUI
         private GraphicsDevice Graphics;
         private SpriteBatch MapRenderTarget;
 
-        private Map Map;
+        private Camera2D MapCam = new Camera2D();
 
-        private Viewport MapViewport;
+        private Map Map;
 
         private Texture2D RoomBaseTexture;
         private Texture2D PlayerTexture;
 
         // Length of the apothem of each room
-        private readonly int RoomBaseApothem = 20;
-        // Currently using square for simplicity
-        private readonly int RoomNumSides = 4;
-        //TODO: Fix and commit polygon width calculation
-        private readonly int RoomBaseSize = 40;///(int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
+        private readonly double RoomBaseApothem;
 
-        public MapRenderer(Map Map, int RoomBaseApothem, int RoomBaseSize, int RoomNumSides)
+        private readonly int RoomNumSides;
+
+        private readonly int RoomWidth, RoomHeight;
+
+        public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 20)
         {
             this.Map = Map;
 
             this.RoomBaseApothem = RoomBaseApothem;
             this.RoomNumSides = RoomNumSides;
-            this.RoomBaseSize = RoomBaseSize;
+
+            this.RoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
+            this.RoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
         }
 
-        public MapRenderer(Map Map)
-        {
-            this.Map = Map;
-        }
-
-
+        /// <summary>
+        /// Gets the calculated positions for the available room IDs
+        /// </summary>
         public Dictionary<int, Vector2> RoomLayout
         {
             get;
@@ -65,12 +64,6 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             MapRenderTarget = new SpriteBatch(Graphics);
             this.Graphics = Graphics;
-
-            MapViewport = new Viewport()
-            {
-                Width = this.Graphics.Viewport.Width,
-                Height = this.Graphics.Viewport.Height
-            };
         }
 
         public void LoadContent(ContentManager Content)
@@ -79,11 +72,19 @@ namespace HuntTheWumpus.SharedCode.GUI
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
         }
 
+        public void Update()
+        {
+            Vector2 CameraPosition = new Vector2()
+            {
+                X = -(RoomLayout[Map.PlayerRoom].X + (RoomWidth / 2) - Graphics.Viewport.Width / 2),
+                Y = -(RoomLayout[Map.PlayerRoom].Y + (RoomHeight / 2) - Graphics.Viewport.Height / 2 )
+            };
+            MapCam.Position = CameraPosition;
+        }
+
         public void Draw(GameTime GameTime)
         {
-            Graphics.Viewport = MapViewport;
-
-            MapRenderTarget.Begin();
+            MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform());
             DrawCaveBase(MapRenderTarget);
             DrawPlayer(MapRenderTarget);
             MapRenderTarget.End();
@@ -99,7 +100,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 int XPos = (int)Math.Round(LayoutMapping.Value.X);
                 int YPos = (int)Math.Round(LayoutMapping.Value.Y);
 
-                Rectangle TargetArea = new Rectangle(XPos, YPos, RoomBaseSize, RoomBaseSize);
+                Rectangle TargetArea = new Rectangle(XPos, YPos, RoomWidth, RoomHeight);
                 Target.Draw(RoomBaseTexture, TargetArea, Color.White);
             }
         }
@@ -109,7 +110,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             int roomNumber = Map.PlayerRoom;
             Vector2 roomPos = RoomLayout[roomNumber];
 
-            Rectangle TargetArea = new Rectangle((int)Math.Round(roomPos.X), (int)Math.Round(roomPos.Y) , RoomBaseSize, RoomBaseSize);
+            Rectangle TargetArea = new Rectangle((int)Math.Round(roomPos.X), (int)Math.Round(roomPos.Y) , RoomWidth, RoomHeight);
             Target.Draw(PlayerTexture, TargetArea, Color.White);
         }
 
@@ -179,14 +180,14 @@ namespace HuntTheWumpus.SharedCode.GUI
             return NewMappedRooms;
         }
 
-        private Vector2 GetOffsetForSide(int Side, float Apothem)
+        private Vector2 GetOffsetForSide(int Side, double Apothem)
         {
             // TODO: Look into managing floating-point inaccuracies
             // Assuming 'North' is side 0
-            double Angle = -(Math.PI / 2) * Side + (Math.PI / 2);
+            double Angle = (Math.PI / 2) - (Math.PI * 2d / RoomNumSides) * Side;
             return new Vector2(
-                (float)Math.Cos(Angle) * Apothem * 2f,
-                (float)Math.Sin(Angle) * Apothem * 2f);
+                (float)Math.Cos(Angle) * (float)Apothem * 2f,
+                (float)Math.Sin(Angle) * (float)Apothem * -2f);
         }
     }
 }

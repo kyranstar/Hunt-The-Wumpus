@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using HuntTheWumpus.SharedCode.GameControl;
 using EmptyKeys.UserInterface;
 using EmptyKeys.UserInterface.Media;
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GameCore
 {
@@ -14,6 +15,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
     public class GameHost : Game
     {
         GraphicsDeviceManager GraphicsManager;
+        Latch SlowLatch = new Latch();
 
         public GameHost()
             : base()
@@ -88,6 +90,11 @@ namespace HuntTheWumpus.SharedCode.GameCore
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 #endif
+            EdgeType SlowLatchEvent = SlowLatch.ProcessValue(GameTime.IsRunningSlowly);
+            if (SlowLatchEvent == EdgeType.RisingEdge)
+                Log.Warn("Game running slowly! Time since last update: " + GameTime.ElapsedGameTime);
+            else if (SlowLatchEvent == EdgeType.FallingEdge)
+                Log.Info("Game no longer running slowly.");
 
             // TODO: Add your update logic here
             SceneManager.Update(GameTime);

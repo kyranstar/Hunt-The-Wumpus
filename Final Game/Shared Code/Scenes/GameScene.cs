@@ -45,6 +45,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
         public override void Update(GameTime GameTime)
         {
             InputHandler.Update(GameTime);
+            MapRenderer.Update();
         }
 
         public override void Draw(GameTime GameTime)
