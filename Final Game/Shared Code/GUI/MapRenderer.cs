@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.GUI;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -18,7 +19,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private GraphicsDevice Graphics;
         private SpriteBatch MapRenderTarget;
 
-        private Camera2D MapCam = new Camera2D();
+        private Camera2D MapCam;
 
         private Map Map;
 
@@ -34,6 +35,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 20)
         {
+            this.MapCam  = new Camera2D();
             this.Map = Map;
 
             this.RoomBaseApothem = RoomBaseApothem;

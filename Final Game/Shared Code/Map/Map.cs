@@ -1,10 +1,12 @@
-﻿using HuntTheWumpus.SharedCode.GameControl;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.GameControl;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -81,15 +83,16 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             Wumpus.Move();
         }
+
         /// <summary>
         /// Moves the player relatively to a new room if this room connects to that room.
         /// </summary>
         /// <param name="dir"></param>
-        public bool MovePlayer(Direction dir)
+        public bool MovePlayer(int dir)
         {
             Room currentRoom = Cave.GetRoom(PlayerRoom);
             //if the room in the direction exists
-            if (currentRoom.adjacentRooms[(int)dir] != -1)
+            if (currentRoom.adjacentRooms[dir] != -1)
             {
                 //set our current room to that room
                 PlayerRoom = Cave.GetRoom(currentRoom.adjacentRooms[(int)dir]).roomId;
@@ -98,11 +101,29 @@ namespace HuntTheWumpus.SharedCode.GameMap
             return false;
         }
 
-      /// <summary>
-       /// Takes a room ID and determines whether the player can shoot to that room.
-      /// </summary>
-      /// <param name="roomId"></param>
-      /// <returns></returns>
+        /// <summary>
+        /// Moves the player relatively to a new room if this room connects to that room.
+        /// </summary>
+        /// <param name="dir"></param>
+        public bool MovePlayer(Direction dir)
+        {
+            return MovePlayer((int)dir);
+        }
+
+        /// <summary>
+        /// Moves the player relatively to a new room if this room connects to that room.
+        /// </summary>
+        /// <param name="dir"></param>
+        public bool MovePlayer(SquareDirection dir)
+        {
+            return MovePlayer((int)dir);
+        }
+
+        /// <summary>
+        /// Takes a room ID and determines whether the player can shoot to that room.
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
         public bool CanShoot(int roomId)
         {
             return false;
@@ -182,8 +203,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
             /// </summary>
             Wumpus
         }
+        
         /// <summary>
-        /// An enumeration of directions
+        /// An enumeration of hexagonal directions
         /// </summary>
         public enum Direction
         {
@@ -194,6 +216,19 @@ namespace HuntTheWumpus.SharedCode.GameMap
             South,
             Southwest,
             Northwest
+
+        }
+
+        /// <summary>
+        /// An enumeration of square directions
+        /// </summary>
+        public enum SquareDirection
+        {
+            //Hex directions
+            North,
+            East,
+            South,
+            West
 
         }
     }

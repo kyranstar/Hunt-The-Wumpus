@@ -30,15 +30,20 @@ namespace HuntTheWumpusTests
             TestCave.AddRoom(5, new int[] { -1, -1, -1, 4 });
         }
 
-
+        /*      ___
+         *     | 2 |
+         *  ___|___|___ ___ ___
+         * | 0 | 1 | 3 | 4 | 5 |
+         * |___|___|___|___|___|
+         */
         readonly Dictionary<int, Vector2> ExpectedRoomPoints = new Dictionary<int, Vector2>
         {
-            {2, new Vector2(2, 2)},
-            {5, new Vector2(8, 0)},
-            {4, new Vector2(6, 0)},
-            {3, new Vector2(4, 0)},
             {0, new Vector2(0, 0)},
             {1, new Vector2(2, 0)},
+            {2, new Vector2(2, -2)},
+            {3, new Vector2(4, 0)},
+            {4, new Vector2(6, 0)},
+            {5, new Vector2(8, 0)},
         };
         #endregion
 
@@ -56,22 +61,27 @@ namespace HuntTheWumpusTests
             Map map = new Map();
             map.Cave = TestCave;
 
+            // Make sure that we are in room #0
             Assert.AreEqual(0, map.PlayerRoom);
-            Assert.IsFalse(map.MovePlayer(Map.Direction.North));
-            Assert.IsFalse(map.MovePlayer(Map.Direction.West));
-            Assert.IsFalse(map.MovePlayer(Map.Direction.South));
+            // There should be only one direction that we can go
+            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.North));
+            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.West));
+            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.South));
 
-            Assert.IsTrue(map.MovePlayer(Map.Direction.East));
+            // Move to the next room and make sure that we moved
+            Assert.IsTrue(map.MovePlayer(Map.SquareDirection.East));
             Assert.AreEqual(1, map.PlayerRoom);
 
-            Assert.IsFalse(map.MovePlayer(Map.Direction.North));
-
-            Assert.IsTrue(map.MovePlayer(Map.Direction.South));
+            // Move up and make sure that we were successful
+            Assert.IsTrue(map.MovePlayer(Map.SquareDirection.North));
             Assert.AreEqual(2, map.PlayerRoom);
 
-            Assert.IsFalse(map.MovePlayer(Map.Direction.East));
-            Assert.IsFalse(map.MovePlayer(Map.Direction.West));
-            Assert.IsFalse(map.MovePlayer(Map.Direction.South));
+            // Move back down
+            Assert.IsTrue(map.MovePlayer(Map.SquareDirection.South));
+            Assert.AreEqual(1, map.PlayerRoom);
+
+            // We shouldn't be able to move down again
+            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.South));
         }
 
         [TestMethod]
@@ -79,7 +89,7 @@ namespace HuntTheWumpusTests
         {
             Map Map = new Map();
             // Test calculations using a square room
-            MapRenderer MapRenderer = new MapRenderer(Map, 1, 4, 2);
+            MapRenderer MapRenderer = new MapRenderer(Map, 4, 1);
 
             Map.Cave = TestCave;
             MapRenderer.RegenerateLayout();
@@ -87,7 +97,7 @@ namespace HuntTheWumpusTests
             // Make sure that there are the expected number of generated values 
             Assert.AreEqual(ExpectedRoomPoints.Count, MapRenderer.RoomLayout.Count);
             // Quick check to make sure that all the same room IDs were returned
-            Assert.IsTrue(ExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys));
+            Assert.IsTrue(ExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in ExpectedRoomPoints)
                 AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key]);
