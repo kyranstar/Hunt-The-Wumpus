@@ -15,7 +15,7 @@ namespace HuntTheWumpus.SharedCode
     public class Cave
     {
         /// <summary>
-        /// contains generated cave (list of rooms)
+        /// contains generated cave (dictionary of rooms)
         /// </summary>
         private Dictionary<int, Room> cave = new Dictionary<int, Room>();
         /// <summary>
@@ -26,15 +26,28 @@ namespace HuntTheWumpus.SharedCode
         {
             return cave.Values.ToList<Room>();
         }
+        /// <summary>
+        /// Returns the current cave in dictionary form (roomId -> room)
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<int, Room> getRoomDict()
         {
             return cave;
         }
-
+        /// <summary>
+        /// Gets the room with the id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Room getRoom(int id)
         {
            return cave[id];
         }
+        /// <summary>
+        /// Adds a room 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="connections"></param>
         public void addRoom(int id, int[] connections)
         {
             this.cave[id] = new Room(){

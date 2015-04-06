@@ -144,10 +144,24 @@ namespace HuntTheWumpus.SharedCode.GameMap
                        (r) =>  cave.Keys.Contains(r) || r == -1
                        
                    ));
+            bool allRoomsCanReachEachOther = true;
+            //cave.Values.All(
+            //    (i) => cave.Values.All(
+            //        (j) => i.roomId == j.roomId || i.CanAccess(j) 
+            //        )
+            //    );
+
             if (!allConnectionsValid)
             {
                Log.Error("A room refers to a room that does not exist!");
             }
+            if (!allRoomsCanReachEachOther)
+            {
+                Log.Error("At least one room can not reach another!");
+            }
+            
+            Log.Info("Cave layout is valid!");
+            
         }
 
         /// <summary>
