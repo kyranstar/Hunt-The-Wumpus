@@ -25,7 +25,10 @@ namespace HuntTheWumpus.SharedCode.GameCore
             Window.Title = "Hunt the Wumpus";
 
             GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
+
+#if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
+#endif
         }
 
         void GraphicsManager_DeviceCreated(object sender, System.EventArgs e)
