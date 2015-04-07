@@ -35,7 +35,11 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 20)
         {
-            this.MapCam  = new Camera2D();
+            this.MapCam = new Camera2D
+                {
+                    Zoom = 6f
+                };
+
             this.Map = Map;
 
             this.RoomBaseApothem = RoomBaseApothem;
@@ -78,8 +82,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             Vector2 CameraPosition = new Vector2()
             {
-                X = -(RoomLayout[Map.PlayerRoom].X + (RoomWidth / 2) - Graphics.Viewport.Width / 2),
-                Y = -(RoomLayout[Map.PlayerRoom].Y + (RoomHeight / 2) - Graphics.Viewport.Height / 2 )
+                X = -(RoomLayout[Map.PlayerRoom].X + (RoomWidth / 2) - Graphics.Viewport.Width / 2 / MapCam.Zoom ),
+                Y = -(RoomLayout[Map.PlayerRoom].Y + (RoomHeight / 2) - Graphics.Viewport.Height / 2 / MapCam.Zoom )
             };
             MapCam.Position = CameraPosition;
         }
