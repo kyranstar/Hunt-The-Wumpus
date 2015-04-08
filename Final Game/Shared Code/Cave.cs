@@ -92,5 +92,16 @@ namespace HuntTheWumpus.SharedCode
         /// what other rooms this room is connected to
         /// </summary>
         public int[] adjacentRooms;
+
+        public override string ToString()
+        {
+            return string.Format(
+                    "Room {{id: {0}, has pit: {1}, gold: {2}, arrows: {3}}}",
+                    roomId,
+                    pit ? "yes" : "no",
+                    gold,
+                    arrows
+                );
+        }
     }
 }

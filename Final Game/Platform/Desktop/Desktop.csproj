@@ -71,12 +71,19 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MSBuildProgramFiles32)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Rug.Cmd">
+      <HintPath>..\..\packages\Rug.Cmd.1.2.2\lib\net35\Rug.Cmd.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Tharga.Toolkit.Console, Version=1.4.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Tharga.Toolkit.Console.1.4.7.0\lib\net45\Tharga.Toolkit.Console.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="..\..\Content\Content.mgcb">
