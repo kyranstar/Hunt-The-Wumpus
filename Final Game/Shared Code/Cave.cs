@@ -41,6 +41,8 @@ namespace HuntTheWumpus.SharedCode
         /// <returns></returns>
         public Room GetRoom(int id)
         {
+            if (!cave.ContainsKey(id))
+                return null;
            return cave[id];
         }
         /// <summary>

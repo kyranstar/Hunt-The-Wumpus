@@ -5,11 +5,12 @@ using System.Linq;
 
 using HuntTheWumpus.SharedCode.GameCore;
 using HuntTheWumpus.SharedCode.GameControl;
+using Tharga.Toolkit.Console.Command.Base;
 #endregion
 
 namespace HuntTheWumpus.Platform.Desktop
 {
-#if WINDOWS || LINUX
+#if DESKTOP
     /// <summary>
     /// The main class.
     /// </summary>
@@ -21,6 +22,9 @@ namespace HuntTheWumpus.Platform.Desktop
         [STAThread]
         static void Main()
         {
+            IConsole Console = new ClientConsole();
+            Log.Console = Console;
+
             Log.Info("Running game...");
             using (var game = new GameHost())
             {

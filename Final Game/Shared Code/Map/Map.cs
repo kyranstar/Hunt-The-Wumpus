@@ -120,6 +120,19 @@ namespace HuntTheWumpus.SharedCode.GameMap
         }
 
         /// <summary>
+        /// Moves the player to the specified room.
+        /// </summary>
+        /// <param name="dir"></param>
+        public bool MovePlayerTo(int RoomID)
+        {
+            if (Cave.GetRoom(RoomID) == null)
+                return false;
+
+            PlayerRoom = RoomID;
+            return true;
+        }
+
+        /// <summary>
         /// Takes a room ID and determines whether the player can shoot to that room.
         /// </summary>
         /// <param name="roomId"></param>

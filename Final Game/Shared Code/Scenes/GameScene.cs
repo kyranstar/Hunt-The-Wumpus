@@ -14,6 +14,7 @@ using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GUI;
 using HuntTheWumpus.SharedCode.GameMap;
+using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.Scenes
 {
@@ -23,6 +24,10 @@ namespace HuntTheWumpus.SharedCode.Scenes
         MapRenderer MapRenderer;
         MapInputHandler InputHandler;
         GraphicsDevice Graphics;
+
+#if DESKTOP
+        GodManager God;
+#endif
 
         public override void LoadContent(ContentManager Content)
         {
@@ -35,11 +40,20 @@ namespace HuntTheWumpus.SharedCode.Scenes
         public override void Initialize(GraphicsDevice GraphicsDevice)
         {
             this.Graphics = GraphicsDevice;
-            MapRenderer.Initialize(GraphicsDevice);
 
-            MapRenderer.RegenerateLayout();
+#if DESKTOP
+            God = new GodManager();
+            God.Map = Map;
+
+            new Task(God.Initialize).Start();
+#endif
+
+            MapRenderer.Initialize(GraphicsDevice);
+            
             // Ideally, the Map should have a reset method
             // TODO: Reset map here
+
+            MapRenderer.RegenerateLayout();
         }
 
         public override void Update(GameTime GameTime)
@@ -60,7 +74,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Uninitialize()
         {
-
+            God.Map = null;
         }
     }
 }
