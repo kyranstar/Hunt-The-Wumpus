@@ -16,18 +16,24 @@ namespace HuntTheWumpusTests
     public class MapTest
     {
         #region Constant test data
-        readonly Cave TestCave = new Cave();
+        readonly Cave SquareTestCave = new Cave();
+        readonly Cave HexTestCave = new Cave();
 
         [TestInitialize()]
         public void InitializeTest()
         {
             // Using a "square" pattern for now to simplify initial test code
-            TestCave.AddRoom(0, new int[] { -1, 1, -1, -1 });
-            TestCave.AddRoom(1, new int[] { 2, 3, -1, 0 });
-            TestCave.AddRoom(2, new int[] { -1, -1, 1, -1 });
-            TestCave.AddRoom(3, new int[] { -1, 4, -1, 1 });
-            TestCave.AddRoom(4, new int[] { -1, 5, -1, 3 });
-            TestCave.AddRoom(5, new int[] { -1, -1, -1, 4 });
+            SquareTestCave.AddRoom(0, new int[] { -1, 1, -1, -1 });
+            SquareTestCave.AddRoom(1, new int[] { 2, 3, -1, 0 });
+            SquareTestCave.AddRoom(2, new int[] { -1, -1, 1, -1 });
+            SquareTestCave.AddRoom(3, new int[] { -1, 4, -1, 1 });
+            SquareTestCave.AddRoom(4, new int[] { -1, 5, -1, 3 });
+            SquareTestCave.AddRoom(5, new int[] { -1, -1, -1, 4 });
+
+            HexTestCave.AddRoom(0, new int[] { -1, 1, -1, -1, -1, -1 });
+            HexTestCave.AddRoom(1, new int[] { -1, 2, -1, -1, 0, -1 });
+            HexTestCave.AddRoom(2, new int[] { -1, -1, 3, -1, 1, -1 });
+            HexTestCave.AddRoom(3, new int[] { -1, -1, -1, -1, -1, 2 });
         }
 
         /*      ___
@@ -36,7 +42,7 @@ namespace HuntTheWumpusTests
          * | 0 | 1 | 3 | 4 | 5 |
          * |___|___|___|___|___|
          */
-        readonly Dictionary<int, Vector2> ExpectedRoomPoints = new Dictionary<int, Vector2>
+        readonly Dictionary<int, Vector2> SquareExpectedRoomPoints = new Dictionary<int, Vector2>
         {
             {0, new Vector2(0, 0)},
             {1, new Vector2(2, 0)},
@@ -44,6 +50,14 @@ namespace HuntTheWumpusTests
             {3, new Vector2(4, 0)},
             {4, new Vector2(6, 0)},
             {5, new Vector2(8, 0)},
+        };
+        readonly Dictionary<int, Vector2> HexExpectedRoomPoints = new Dictionary<int, Vector2>
+        {
+            // This is what it returned, I'm not sure if these are actually correct
+            {0, new Vector2(0, 0)},
+            {1, new Vector2(1.732051f, -1)},
+            {2, new Vector2(3.464102f, -2)},
+            {3, new Vector2(5.196152f, -1)},
         };
         #endregion
 
@@ -56,54 +70,125 @@ namespace HuntTheWumpusTests
             Assert.IsNotNull(map.Wumpus);
         }
         [TestMethod]
-        public void TestMovePlayer()
+        public void TestSquareMovePlayer()
         {
             Map map = new Map();
-            map.Cave = TestCave;
+            map.Cave = SquareTestCave;
 
             // Make sure that we are in room #0
             Assert.AreEqual(0, map.PlayerRoom);
             // There should be only one direction that we can go
-            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.North));
-            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.West));
-            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.South));
+            AssertCannotMove(Map.SquareDirection.North, map);
+            AssertCannotMove(Map.SquareDirection.West, map);
+            AssertCannotMove(Map.SquareDirection.South, map);
 
             // Move to the next room and make sure that we moved
-            Assert.IsTrue(map.MovePlayer(Map.SquareDirection.East));
+            AssertCanMove(Map.SquareDirection.East, map);
             Assert.AreEqual(1, map.PlayerRoom);
 
             // Move up and make sure that we were successful
-            Assert.IsTrue(map.MovePlayer(Map.SquareDirection.North));
+            AssertCanMove(Map.SquareDirection.North, map);
             Assert.AreEqual(2, map.PlayerRoom);
 
             // Move back down
-            Assert.IsTrue(map.MovePlayer(Map.SquareDirection.South));
+            AssertCanMove(Map.SquareDirection.South, map);
             Assert.AreEqual(1, map.PlayerRoom);
 
             // We shouldn't be able to move down again
-            Assert.IsFalse(map.MovePlayer(Map.SquareDirection.South));
+            AssertCannotMove(Map.SquareDirection.South, map);
+        }
+        [TestMethod]
+        public void TestHexMovePlayer()
+        {
+            Map map = new Map();
+            map.Cave = HexTestCave;
+
+            // Make sure that we are in room #0
+            Assert.AreEqual(0, map.PlayerRoom);
+            // There should be only one direction that we can go
+            AssertCannotMove(Map.Direction.North, map);
+            AssertCannotMove(Map.Direction.Southeast, map);
+            AssertCannotMove(Map.Direction.South, map);
+            AssertCannotMove(Map.Direction.Southwest, map);
+            AssertCannotMove(Map.Direction.Northwest, map);
+
+            // Move to the next room and make sure that we moved
+            AssertCanMove(Map.Direction.Northeast, map);
+            Assert.AreEqual(1, map.PlayerRoom);
+
+            // Move up and make sure that we were successful
+            AssertCanMove(Map.Direction.Northeast, map);
+            Assert.AreEqual(2, map.PlayerRoom);
+
+            // Move to the next room and make sure that we moved
+            AssertCanMove(Map.Direction.Southeast, map);
+            Assert.AreEqual(3, map.PlayerRoom);
         }
 
         [TestMethod]
-        public void TestMapLayout()
+        public void TestSquareMapLayout()
         {
             Map Map = new Map();
             // Test calculations using a square room
             MapRenderer MapRenderer = new MapRenderer(Map, 4, 1);
 
-            Map.Cave = TestCave;
+            Map.Cave = SquareTestCave;
             MapRenderer.RegenerateLayout();
 
             // Make sure that there are the expected number of generated values 
-            Assert.AreEqual(ExpectedRoomPoints.Count, MapRenderer.RoomLayout.Count);
+            Assert.AreEqual(SquareExpectedRoomPoints.Count, MapRenderer.RoomLayout.Count);
             // Quick check to make sure that all the same room IDs were returned
-            Assert.IsTrue(ExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
+            Assert.IsTrue(SquareExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
-            foreach (var Val in ExpectedRoomPoints)
+            foreach (var Val in SquareExpectedRoomPoints)
+                AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key]);
+        }
+        [TestMethod]
+        public void TestHexMapLayout()
+        {
+            Map Map = new Map();
+            // Test calculations using a square room
+            MapRenderer MapRenderer = new MapRenderer(Map, 6, 1);
+
+            Map.Cave = HexTestCave;
+            MapRenderer.RegenerateLayout();
+
+            // Make sure that there are the expected number of generated values 
+            Assert.AreEqual(HexExpectedRoomPoints.Count, MapRenderer.RoomLayout.Count);
+            // Quick check to make sure that all the same room IDs were returned
+            Assert.IsTrue(HexExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
+            // Validate each individual vector
+            foreach (var Val in HexExpectedRoomPoints)
                 AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key]);
         }
 
-        private void AssertVector(Vector2 Expected, Vector2 Actual, float Threshold = 0.0001f)
+        private static void AssertMovement(bool shouldMove, int dir, Map map)
+        {
+            int originalPos = map.PlayerRoom;
+
+            Assert.IsTrue(map.MovePlayer(dir) == shouldMove);
+            Assert.IsTrue(originalPos == map.PlayerRoom != shouldMove);
+        }
+
+        private static void AssertCannotMove(Map.Direction dir, Map map)
+        {
+            AssertMovement(false,(int) dir, map);
+        }
+        private static void AssertCannotMove(Map.SquareDirection dir, Map map)
+        {
+            AssertMovement(false, (int)dir, map);
+        }
+        private static void AssertCanMove(Map.Direction dir, Map map)
+        {
+            AssertMovement(true, (int)dir, map);
+        }
+        private static void AssertCanMove(Map.SquareDirection dir, Map map)
+        {
+            AssertMovement(true, (int)dir, map);
+        }
+
+
+        private static void AssertVector(Vector2 Expected, Vector2 Actual, float Threshold = 0.0001f)
         {
             Assert.AreEqual(Expected.X, Actual.X, Threshold);
             Assert.AreEqual(Expected.Y, Actual.Y, Threshold);
