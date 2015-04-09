@@ -74,7 +74,9 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Uninitialize()
         {
+#if DESKTOP
             God.Map = null;
+#endif
         }
     }
 }
