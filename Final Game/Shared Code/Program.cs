@@ -5,7 +5,10 @@ using System.Linq;
 
 using HuntTheWumpus.SharedCode.GameCore;
 using HuntTheWumpus.SharedCode.GameControl;
+
+#if DESKTOP
 using Tharga.Toolkit.Console.Command.Base;
+#endif
 #endregion
 
 namespace HuntTheWumpus.Platform.Desktop

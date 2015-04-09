@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -41,7 +42,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         public static object GetProperty<T>(T Object, string PropName)
         {
             Type TargetObjType = typeof(T);
-            PropertyInfo PropInfo = TargetObjType.GetProperty(PropName);
+            PropertyInfo PropInfo = TargetObjType.GetRuntimeProperty(PropName);
             if (PropInfo == null)
                 throw new Exception("The target property does not exist.");
 
@@ -51,7 +52,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         public static void SetProperty<T>(T Object, string PropName, object Value)
         {
             Type TargetObjType = typeof(T);
-            PropertyInfo PropInfo = TargetObjType.GetProperty(PropName);
+            PropertyInfo PropInfo = TargetObjType.GetRuntimeProperty(PropName);
             if (PropInfo == null)
                 throw new Exception("The target property does not exist.");
 
@@ -61,7 +62,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         public static object GetField<T>(T Object, string FieldName)
         {
             Type TargetObjType = typeof(T);
-            FieldInfo FieldInfo = TargetObjType.GetField(FieldName);
+            FieldInfo FieldInfo = TargetObjType.GetRuntimeField(FieldName);
             if (FieldInfo == null)
                 throw new Exception("The target field does not exist.");
 
@@ -71,7 +72,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         public static void SetField<T>(T Object, string FieldName, object Value)
         {
             Type TargetObjType = typeof(T);
-            FieldInfo FieldInfo = TargetObjType.GetField(FieldName);
+            FieldInfo FieldInfo = TargetObjType.GetRuntimeField(FieldName);
             if (FieldInfo == null)
                 throw new Exception("The target field does not exist.");
 
@@ -81,8 +82,8 @@ namespace HuntTheWumpus.SharedCode.Helpers
         public static object GetPropertyOrField<T>(T Object, string Name)
         {
             Type TargetObjType = typeof(T);
-            FieldInfo FieldInfo = TargetObjType.GetField(Name);
-            PropertyInfo PropInfo = TargetObjType.GetProperty(Name);
+            FieldInfo FieldInfo = TargetObjType.GetRuntimeField(Name);
+            PropertyInfo PropInfo = TargetObjType.GetRuntimeProperty(Name);
 
             if(FieldInfo != null)
                 return FieldInfo.GetValue(Object);
@@ -95,13 +96,13 @@ namespace HuntTheWumpus.SharedCode.Helpers
         public static void SetPropertyOrField<T>(T Object, string Name, object Value)
         {
             Type TargetObjType = typeof(T);
-            FieldInfo FieldInfo = TargetObjType.GetField(Name);
-            PropertyInfo PropInfo = TargetObjType.GetProperty(Name);
+            FieldInfo FieldInfo = TargetObjType.GetRuntimeField(Name);
+            PropertyInfo PropInfo = TargetObjType.GetRuntimeProperty(Name);
 
             if (FieldInfo != null)
-                FieldInfo.SetValue(Object, Value);
+                FieldInfo.SetValue(Object, Convert.ChangeType(Value, FieldInfo.FieldType));
             else if (PropInfo != null)
-                PropInfo.SetValue(Object, Value);
+                PropInfo.SetValue(Object, Convert.ChangeType(Value, PropInfo.PropertyType));
             else
                 throw new Exception("The target does not exist.");
         }
