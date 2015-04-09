@@ -16,7 +16,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
     class MapInputHandler
     {
         private Map map;
-        private Keys[] keys = {};
+        private Keys[] lastPressedKeys = {};
 
         public MapInputHandler(Map map)
         {
@@ -30,7 +30,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             foreach(Keys key in Keyboard.GetState().GetPressedKeys())
             {
-                if (!keys.Contains(key))
+                if (!lastPressedKeys.Contains(key))
                 {
                     //new key is pressed
                     Log.Info("Key pressed: " + key);
@@ -38,7 +38,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
             }
             
-            keys = Keyboard.GetState().GetPressedKeys();
+            lastPressedKeys = Keyboard.GetState().GetPressedKeys();
         }
 
         private void HandleNewKeyPress(Keys Key)

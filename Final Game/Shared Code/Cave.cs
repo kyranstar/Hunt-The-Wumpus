@@ -46,10 +46,14 @@ namespace HuntTheWumpus.SharedCode
            return cave[id];
         }
         /// <summary>
-        /// Adds a room 
+        /// Adds a room
         /// </summary>
         /// <param name="id"></param>
         /// <param name="connections"></param>
+        /// <param name="gold"></param>
+        /// <param name="arrows"></param>
+        /// <param name="bats"></param>
+        /// <param name="pit"></param>
         public void AddRoom(int id, int[] connections, int gold = 0, int arrows = 0, bool bats = false, bool pit = false)
         {
             this.cave[id] = new Room(){

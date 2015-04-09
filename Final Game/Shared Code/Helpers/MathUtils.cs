@@ -30,7 +30,11 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             return d % 2 == 0;
         }
-
+        /// <summary>
+        /// Returns the secant.
+        /// </summary>
+        /// <param name="Angle">Measured in radians.</param>
+        /// <returns></returns>
         public static double Sec(double Angle)
         {
             return 1d / Math.Cos(Angle);

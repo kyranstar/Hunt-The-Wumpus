@@ -110,7 +110,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Target.Draw(RoomBaseTexture, TargetArea, Color.White);
             }
         }
-        // Feel free to scrap this code, it's just placeholder for now. 
+
         private void DrawPlayer(SpriteBatch Target)
         {
             int roomNumber = Map.PlayerRoom;

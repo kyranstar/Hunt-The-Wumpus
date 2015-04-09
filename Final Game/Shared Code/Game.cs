@@ -14,8 +14,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
     /// </summary>
     public class GameHost : Game
     {
-        GraphicsDeviceManager GraphicsManager;
-        Latch SlowLatch = new Latch();
+        private GraphicsDeviceManager GraphicsManager;
+        private Latch SlowLatch = new Latch();
 
         public GameHost()
             : base()

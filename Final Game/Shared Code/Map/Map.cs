@@ -67,7 +67,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         public Map()
         {
-            GameControl.Log.Info("Creating map...");
+            Log.Info("Creating map...");
             Cave = new Cave();
             Wumpus = new Wumpus(Cave);
             Player = new Player();
@@ -120,9 +120,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         }
 
         /// <summary>
-        /// Moves the player to the specified room.
+        /// Moves a player to the specified room
         /// </summary>
-        /// <param name="dir"></param>
+        /// <param name="RoomID"></param>
+        /// <returns></returns>
         public bool MovePlayerTo(int RoomID)
         {
             if (Cave.GetRoom(RoomID) == null)
@@ -194,7 +195,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 Log.Error("At least one room can not reach another!");
             }
             
-            Log.Info("Cave layout is valid!");
+            Log.Info("Cave layout check finished");
             
         }
 
@@ -222,7 +223,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         public enum Direction
         {
-            //Hex directions
             North,
             Northeast,
             Southeast,
@@ -237,7 +237,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         public enum SquareDirection
         {
-            //Hex directions
             North,
             East,
             South,
