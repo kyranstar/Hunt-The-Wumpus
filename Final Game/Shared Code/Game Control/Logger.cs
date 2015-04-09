@@ -12,7 +12,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
     static class Log
     {
 #if DESKTOP
-        public static IConsole Console;
+        public static IConsole Console = new ClientConsole();
 #endif
 
         public static void Info(string Message)

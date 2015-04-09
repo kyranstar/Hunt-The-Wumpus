@@ -25,8 +25,6 @@ namespace HuntTheWumpus.Platform.Desktop
         [STAThread]
         static void Main()
         {
-            IConsole Console = new ClientConsole();
-            Log.Console = Console;
 
             Log.Info("Running game...");
             using (var game = new GameHost())

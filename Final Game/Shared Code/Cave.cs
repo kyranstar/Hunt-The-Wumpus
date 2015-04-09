@@ -100,8 +100,9 @@ namespace HuntTheWumpus.SharedCode
         public override string ToString()
         {
             return string.Format(
-                    "Room {{id: {0}, has pit: {1}, gold: {2}, arrows: {3}}}",
+                    "Room {{id: {0}, has bats: {1}, has pit: {2}, gold: {3}, arrows: {4}}}",
                     roomId,
+                    bats ? "yes" : "no",
                     pit ? "yes" : "no",
                     gold,
                     arrows
