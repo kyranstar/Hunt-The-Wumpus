@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 
 #if DESKTOP
-using Tharga.Toolkit.Console; 
-using Tharga.Toolkit.Console.Command; 
+using Tharga.Toolkit.Console;
+using Tharga.Toolkit.Console.Command;
 using Tharga.Toolkit.Console.Command.Base;
 using HuntTheWumpus.SharedCode.GameMap;
-using Rug.Cmd; 
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {
@@ -43,7 +43,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
         {
- 	        int ID = int.Parse(GetParam(paramList, 0));
+            int ID = int.Parse(GetParam(paramList, 0));
             return Map.MovePlayerTo(ID);
         }
     }
@@ -52,29 +52,50 @@ namespace HuntTheWumpus.SharedCode.GameControl
     {
         private const string Help = "Gets or sets information about the specified room, or the current one if no room is specified.";
 
-        private StringArgument PropertyName;
-        private StringArgument PropertyValue;
-
         Map Map;
         public RoomCommand(Map Map)
             : base("room", Help)
         {
             this.Map = Map;
-            PropertyName = new StringArgument("property", "The name of the target property", "The name of the target property");
 
         }
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
         {
+            string PropertyName = null, NewValue = null;
+
             int ID;
-            if(!int.TryParse(GetParam(paramList, 0), out ID))
+            if (!int.TryParse(GetParam(paramList, 0), out ID))
                 ID = Map.PlayerRoom;
 
-            ArgumentParser Parser = new ArgumentParser("Hunt the Wumpus", "\"God Mode\"");
-            // TODO: Be cognicent of quotes
-            Parser.Parse(paramList.Split(' '));
-            // TODO: Do something with the parsed info...
-            OutputInformation("Room info: {0}", Map.Cave.GetRoom(Map.PlayerRoom));
+            if (paramList != null)
+            {
+                var Arguments = ArgumentParser.Parse(paramList);
+
+                PropertyName = ArgumentParser.GetParam(Arguments, "property", "prop");
+                NewValue = ArgumentParser.GetParam(Arguments, "value", "val"); ;
+
+            }
+
+            if(PropertyName != null && NewValue == null)
+            {
+                // Get a value
+                OutputInformation(
+                    "Room {0} property {1}: {2}",
+                    ID,
+                    PropertyName,
+                    ReflectionUtils.GetPropertyOrField<Room>(Map.Cave.GetRoom(ID), PropertyName));
+            }
+            else if (PropertyName != null && NewValue != null)
+            {
+                // Set a value
+                ReflectionUtils.SetPropertyOrField<Room>(Map.Cave.GetRoom(ID), PropertyName, NewValue);
+            }
+            else
+            {
+                // Give some basic info
+                OutputInformation("Room info: {0}", Map.Cave.GetRoom(Map.PlayerRoom));
+            }
 
             return true;
         }

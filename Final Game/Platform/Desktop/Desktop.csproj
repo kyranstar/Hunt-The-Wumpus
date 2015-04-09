@@ -71,9 +71,6 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MSBuildProgramFiles32)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="Rug.Cmd">
-      <HintPath>..\..\packages\Rug.Cmd.1.2.2\lib\net35\Rug.Cmd.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
