@@ -26,18 +26,18 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Texture2D RoomBaseTexture;
         private Texture2D PlayerTexture;
 
-        // Length of the apothem of each room
+        private Sprite2D Player;
+
+        // Length of the apothem of each room as it should be drawn
         private readonly double RoomBaseApothem;
-
         private readonly int RoomNumSides;
+        private readonly int TargetRoomWidth, TargetRoomHeight;
 
-        private readonly int RoomWidth, RoomHeight;
-
-        public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 20)
+        public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 100)
         {
             this.MapCam = new Camera2D
                 {
-                    Zoom = 6f
+                    Zoom = 2f
                 };
 
             this.Map = Map;
@@ -45,8 +45,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.RoomBaseApothem = RoomBaseApothem;
             this.RoomNumSides = RoomNumSides;
 
-            this.RoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
-            this.RoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
+            this.TargetRoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
+            this.TargetRoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
         }
 
         /// <summary>
@@ -70,6 +70,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             MapRenderTarget = new SpriteBatch(Graphics);
             this.Graphics = Graphics;
+
+            Player = new Sprite2D(PlayerTexture)
+            {
+                RenderWidth = 150,
+                RenderHeight = 150
+            };
         }
 
         public void LoadContent(ContentManager Content)
@@ -80,24 +86,39 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public void Update()
         {
+            // TODO: Clean up this math
+            Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].X + (TargetRoomWidth / 2f) - Player.HalfWidth);
+            Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].Y + (TargetRoomHeight / 2f) - Player.HalfHeight);
+
+            UpdateCamera();
+        }
+
+        private void UpdateCamera()
+        {
             Vector2 CameraPosition = new Vector2()
             {
-                X = -(RoomLayout[Map.PlayerRoom].X + (RoomWidth / 2) - Graphics.Viewport.Width / 2 / MapCam.Zoom ),
-                Y = -(RoomLayout[Map.PlayerRoom].Y + (RoomHeight / 2) - Graphics.Viewport.Height / 2 / MapCam.Zoom )
+                // TODO: Clean up this math
+                X = -(Player.RenderX + Player.HalfWidth - Graphics.Viewport.Width / 2 / MapCam.Zoom),
+                Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
             };
+
             MapCam.Position = CameraPosition;
         }
 
         public void Draw(GameTime GameTime)
         {
             MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform());
+
             DrawCaveBase(MapRenderTarget);
             DrawPlayer(MapRenderTarget);
+
             MapRenderTarget.End();
         }
 
         private void DrawCaveBase(SpriteBatch Target)
         {
+            // TODO: Figure out if we can move some of this math into "Sprite"s
+
             if (RoomBaseTexture == null || RoomLayout == null)
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
@@ -106,18 +127,14 @@ namespace HuntTheWumpus.SharedCode.GUI
                 int XPos = (int)Math.Round(LayoutMapping.Value.X);
                 int YPos = (int)Math.Round(LayoutMapping.Value.Y);
 
-                Rectangle TargetArea = new Rectangle(XPos, YPos, RoomWidth, RoomHeight);
+                Rectangle TargetArea = new Rectangle(XPos, YPos, TargetRoomWidth, TargetRoomHeight);
                 Target.Draw(RoomBaseTexture, TargetArea, Color.White);
             }
         }
 
         private void DrawPlayer(SpriteBatch Target)
         {
-            int roomNumber = Map.PlayerRoom;
-            Vector2 roomPos = RoomLayout[roomNumber];
-
-            Rectangle TargetArea = new Rectangle((int)Math.Round(roomPos.X), (int)Math.Round(roomPos.Y) , RoomWidth, RoomHeight);
-            Target.Draw(PlayerTexture, TargetArea, Color.White);
+            Player.Draw(Target);
         }
 
         /// <summary>
