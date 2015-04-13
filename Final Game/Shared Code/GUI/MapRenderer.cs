@@ -33,11 +33,13 @@ namespace HuntTheWumpus.SharedCode.GUI
         private readonly int RoomNumSides;
         private readonly int TargetRoomWidth, TargetRoomHeight;
 
-        public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 100)
+        private const int PlayerSize = 500;
+
+        public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 300)
         {
             this.MapCam = new Camera2D
                 {
-                    Zoom = 2f
+                    Zoom = 0.5f
                 };
 
             this.Map = Map;
@@ -73,8 +75,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Player = new Sprite2D(PlayerTexture)
             {
-                RenderWidth = 150,
-                RenderHeight = 150
+                RenderWidth = PlayerSize,
+                RenderHeight = PlayerSize
             };
         }
 
