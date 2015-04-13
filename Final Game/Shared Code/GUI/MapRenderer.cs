@@ -39,7 +39,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             this.MapCam = new Camera2D
                 {
-                    Zoom = 0.5f
+                    Zoom = 0.16f
                 };
 
             this.Map = Map;
@@ -100,8 +100,10 @@ namespace HuntTheWumpus.SharedCode.GUI
             Vector2 CameraPosition = new Vector2()
             {
                 // TODO: Clean up this math
-                X = -(Player.RenderX + Player.HalfWidth - Graphics.Viewport.Width / 2 / MapCam.Zoom),
-                Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
+                X = 1200,
+                Y = 1000
+                //X = -(Player.RenderX + Player.HalfWidth - Graphics.Viewport.Width / 2 / MapCam.Zoom),
+                //Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
             };
 
             MapCam.Position = CameraPosition;
