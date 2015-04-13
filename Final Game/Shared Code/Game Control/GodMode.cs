@@ -22,7 +22,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
             RootCommand Root = new RootCommand(Log.Console);
 
             Root.RegisterCommand(new GoToRoomCommand(Map));
-            Root.RegisterCommand(new RoomCommand(Map));
+            Root.RegisterCommand(new RoomInfoCommand(Map));
+            Root.RegisterCommand(new ListRoomsCommand(Map));
 
             CommandEngine Engine = new CommandEngine(Root);
             Engine.Run(new string[0]);
@@ -36,7 +37,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         Map Map;
         public GoToRoomCommand(Map Map)
-            : base("moveto", Help)
+            : base("mv", Help)
         {
             this.Map = Map;
         }
@@ -48,13 +49,32 @@ namespace HuntTheWumpus.SharedCode.GameControl
         }
     }
 
-    class RoomCommand : ActionCommandBase
+    class ListRoomsCommand : ActionCommandBase
+    {
+        private const string Help = "Lists all rooms.";
+
+        Map Map;
+        public ListRoomsCommand(Map Map)
+            : base("li", Help)
+        {
+            this.Map = Map;
+        }
+
+        public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
+        {
+            foreach (Room Room in Map.Cave.getRoomList())
+                OutputInformation(Room.ToString().Replace("{", "{{").Replace("}", "}}"));
+            return true;
+        }
+    }
+
+    class RoomInfoCommand : ActionCommandBase
     {
         private const string Help = "Gets or sets information about the specified room, or the current one if no room is specified.";
 
         Map Map;
-        public RoomCommand(Map Map)
-            : base("room", Help)
+        public RoomInfoCommand(Map Map)
+            : base("rinfo", Help)
         {
             this.Map = Map;
 
