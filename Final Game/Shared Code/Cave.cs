@@ -54,7 +54,7 @@ namespace HuntTheWumpus.SharedCode
         /// <param name="arrows"></param>
         /// <param name="bats"></param>
         /// <param name="pit"></param>
-        public void AddRoom(int id, int[] connections, int gold = 0, int arrows = 0, bool bats = false, bool pit = false)
+        public void AddRoom(int id, int[] connections, int gold, int arrows, bool bats = false, bool pit = false)
         {
             this.cave[id] = new Room(){
                 roomId = id,
@@ -64,6 +64,21 @@ namespace HuntTheWumpus.SharedCode
                 bats = bats,
                 pit = pit
             };
+
+            if (bats == true && pit == true)
+            {
+                //Need to throw exception here, can't have bats AND pit in one room
+            }
+
+            if (connections.Length == 0)
+            {
+                //Need to throw exception here, each room needs to be accessible
+            }
+
+            if (id < 0)
+            {
+                //Need to throw exception here, room can't have negative ID
+            }
         }
         /// <summary>
         /// Method to randomly generate cave (work in progress, feel free to pitch in)
