@@ -65,6 +65,19 @@ namespace HuntTheWumpus.SharedCode
                 pit = pit
             };
         }
+        /// <summary>
+        /// Method to randomly generate cave (work in progress, feel free to pitch in)
+        /// </summary>
+        /// <param name="rooms"># of rooms needed in cave</param>
+        /// <returns>randomly generated cave</returns>
+        // Requirements for cave:
+        // In list of all room connections, each room must appear 1/2 # of rooms times
+        // Each room must have at least 1, no more than 3 doors
+        public Cave randomCaveGen(int rooms)
+        {
+            Cave randomCave = new Cave();
+            return randomCave;
+        }
 
     }
     /// <summary>
