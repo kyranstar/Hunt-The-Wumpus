@@ -94,8 +94,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Update()
         {
             // TODO: Clean up this math
-            Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].X + (TargetRoomWidth / 2f) - Player.HalfWidth);
-            Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].Y + (TargetRoomHeight / 2f) - Player.HalfHeight);
+            Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].X + (TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
+            Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].Y + (TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
 
             UpdateCamera();
         }

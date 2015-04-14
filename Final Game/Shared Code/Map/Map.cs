@@ -32,15 +32,18 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class Map
     {
-        private int playerRoom;
         /// <summary>
         /// Holds the id of the room that the player is currently in.
         /// </summary>
         public int PlayerRoom
         {
-            get { return playerRoom; }
-            protected set { playerRoom = value; }
+            get;
+            protected set;
         }
+        /// <summary>
+        /// Holds the location of the player within the current room. The origin is the center of this room.
+        /// </summary>
+        public Point PlayerLocation;
 
         private Cave _cave;
         /// <summary>
@@ -71,6 +74,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Cave = new Cave();
             Wumpus = new Wumpus(Cave);
             Player = new Player();
+            PlayerLocation = new Point(0, 0);
 
             new MapGenerator().generateMap(this);
             AssertCorrectLayout(Cave);
