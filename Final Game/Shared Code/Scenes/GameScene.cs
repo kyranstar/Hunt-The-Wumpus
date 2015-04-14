@@ -42,8 +42,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
             this.Graphics = GraphicsDevice;
 
 #if DESKTOP
-            God = new GodManager();
-            God.Map = Map;
+            God = new GodManager(Map, MapRenderer);
 
             new Task(God.Initialize).Start();
 #endif
@@ -74,9 +73,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Uninitialize()
         {
-#if DESKTOP
-            God.Map = null;
-#endif
+
         }
     }
 }

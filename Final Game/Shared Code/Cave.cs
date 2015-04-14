@@ -84,6 +84,34 @@ namespace HuntTheWumpus.SharedCode
                 bats = bats,
                 pit = pit
             };
+
+            if (bats == true && pit == true)
+            {
+                //Need to throw exception here, can't have bats AND pit in one room
+            }
+
+            if (connections.Length == 0)
+            {
+                //Need to throw exception here, each room needs to be accessible
+            }
+
+            if (id < 0)
+            {
+                //Need to throw exception here, room can't have negative ID
+            }
+        }
+        /// <summary>
+        /// Method to randomly generate cave (work in progress, feel free to pitch in)
+        /// </summary>
+        /// <param name="rooms"># of rooms needed in cave</param>
+        /// <returns>randomly generated cave</returns>
+        // Requirements for cave:
+        // In list of all room connections, each room must appear 1/2 # of rooms times
+        // Each room must have at least 1, no more than 3 doors
+        public Cave randomCaveGen(int rooms)
+        {
+            Cave randomCave = new Cave();
+            return randomCave;
         }
 
     }

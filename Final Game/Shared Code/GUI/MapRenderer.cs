@@ -40,7 +40,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             this.MapCam = new Camera2D
                 {
-                    Zoom = 0.5f
+                    Zoom = 0.16f
                 };
 
             this.Map = Map;
@@ -50,6 +50,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             this.TargetRoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
             this.TargetRoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
+
+            // TODO: Remove this when we are done debugging (set the overridden position to null)
+            OverriddenCameraPosition = new Vector2(1200, 1000);
         }
 
         /// <summary>
@@ -60,6 +63,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             get;
             protected set;
         }
+
+        public Vector2? OverriddenCameraPosition { get; set; }
 
         /// <summary>
         /// Updates the internal layout calculations (adapts to new cave connections)
@@ -91,8 +96,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Update()
         {
             // TODO: Clean up this math
-            Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].X + (TargetRoomWidth / 2f) - Player.HalfWidth);
-            Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].Y + (TargetRoomHeight / 2f) - Player.HalfHeight);
+            Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].X + (TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
+            Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].Y + (TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
 
             UpdateCamera();
         }
@@ -105,6 +110,12 @@ namespace HuntTheWumpus.SharedCode.GUI
                 X = -(Player.RenderX + Player.HalfWidth - Graphics.Viewport.Width / 2 / MapCam.Zoom),
                 Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
             };
+
+            if(OverriddenCameraPosition.HasValue)
+            {
+                CameraPosition.X = OverriddenCameraPosition.Value.X;
+                CameraPosition.Y = OverriddenCameraPosition.Value.Y;
+            }
 
             MapCam.Position = CameraPosition;
         }

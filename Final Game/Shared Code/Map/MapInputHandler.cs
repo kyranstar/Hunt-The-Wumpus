@@ -36,11 +36,18 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     Log.Info("Key pressed: " + key);
                     HandleNewKeyPress(key);
                 }
+                else
+                {
+                    HandleContinuedKeyPress(key);
+                }
             }
             
             lastPressedKeys = Keyboard.GetState().GetPressedKeys();
         }
-
+        /// <summary>
+        /// Only called once per keypress
+        /// </summary>
+        /// <param name="Key"></param>
         private void HandleNewKeyPress(Keys Key)
         {
             switch (Key)
@@ -62,6 +69,30 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     break;
                 case Keys.Q:
                     map.MovePlayer(Map.Direction.Northwest);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Called continuously as the key is held down.
+        /// </summary>
+        /// <param name="key"></param>
+        private void HandleContinuedKeyPress(Keys key)
+        {
+            const int SPEED = 5;
+            switch (key)
+            {
+                case Keys.Up:
+                    map.PlayerLocation.Y -= SPEED;
+                    break;
+                case Keys.Down:
+                    map.PlayerLocation.Y += SPEED;
+                    break;
+                case Keys.Right:
+                    map.PlayerLocation.X += SPEED;
+                    break;
+                case Keys.Left:
+                    map.PlayerLocation.X -= SPEED;
                     break;
             }
         }
