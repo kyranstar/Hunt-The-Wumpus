@@ -24,6 +24,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Map Map;
 
         private Texture2D RoomBaseTexture;
+        private Texture2D RoomClosedDoorTexture;
         private Texture2D PlayerTexture;
 
         private Sprite2D Player;
@@ -83,6 +84,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void LoadContent(ContentManager Content)
         {
             RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
+            RoomClosedDoorTexture = Content.Load<Texture2D>("Images/ClosedDoor");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
         }
 
@@ -129,8 +131,37 @@ namespace HuntTheWumpus.SharedCode.GUI
                 int XPos = (int)Math.Round(LayoutMapping.Value.X);
                 int YPos = (int)Math.Round(LayoutMapping.Value.Y);
 
-                Rectangle TargetArea = new Rectangle(XPos, YPos, TargetRoomWidth, TargetRoomHeight);
-                Target.Draw(RoomBaseTexture, TargetArea, Color.White);
+                Rectangle RoomTargetArea = new Rectangle(XPos, YPos, TargetRoomWidth, TargetRoomHeight);
+                Target.Draw(RoomBaseTexture, RoomTargetArea, Color.White);
+
+                foreach(int Direction in
+                    Map.Cave[LayoutMapping.Key].adjacentRooms
+                    .Select((RoomID, Index) => new KeyValuePair<int, int>(Index, RoomID)) // Map it to <Direction, RoomID>
+                    .Where(AdjacentRoomMapping => AdjacentRoomMapping.Value == -1) // Only select the non-connections
+                    .Select(Pair => Pair.Key)) // Convert it back to an array of directions
+                {
+                    Vector2 Offset = GetOffsetForSectionRadius(Direction, RoomBaseApothem);
+                    Vector2 CenterRoom = new Vector2()
+                    {
+                        X = LayoutMapping.Value.X + TargetRoomWidth / 2,
+                        Y = LayoutMapping.Value.Y + TargetRoomHeight / 2
+                    };
+
+                    Rectangle TargetSectionArea = new Rectangle()
+                    {
+                        X = (int)Math.Round(CenterRoom.X + Offset.X),
+                        Y = (int)Math.Round(CenterRoom.Y + Offset.Y),
+                        Width = TargetRoomWidth / 2, // TODO: Figure out integer inaccuracies
+                        Height = TargetRoomHeight / 2
+
+                    };
+
+                    Target.Draw(
+                        RoomClosedDoorTexture,
+                        destinationRectangle: TargetSectionArea,
+                        color: Color.White,
+                        rotation: -GetAngleForSide(Direction) + ((float)Math.PI * 0.5f));
+                }
             }
         }
 
@@ -209,10 +240,30 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             // TODO: Look into managing floating-point inaccuracies
             // Assuming 'North' is side 0
-            double Angle = (Math.PI / 2) - (Math.PI * 2d / RoomNumSides) * Side;
-            return new Vector2(
-                (float)Math.Cos(Angle) * (float)Apothem * 2f,
-                (float)Math.Sin(Angle) * (float)Apothem * -2f);
+            float Angle = GetAngleForSide(Side);
+            return MathUtils.PolarToCart(Angle, Apothem* 2d);
+        }
+
+        private float GetAngleForSide(int Side)
+        {
+            return (float)((Math.PI / 2f) - (Math.PI * 2f / RoomNumSides) * Side);
+        }
+
+        private Vector2 GetOffsetForSectionRadius(int Side, double Apothem)
+        {
+            // TODO: Find a better name
+            // TODO: Look into managing floating-point inaccuracies
+            // Assuming 'North' is side 0
+            // Assuming side 0 is the NW radius line
+            float Angle = GetAngleForSectionRadius(Side);
+            double Radius = MathUtils.PolygonRadius(RoomNumSides, Apothem);
+            return MathUtils.PolarToCart(Angle, Radius);
+        }
+
+        private float GetAngleForSectionRadius(int Side)
+        {
+            double SingleSectionAngle = Math.PI * 2f / RoomNumSides;
+            return (float)((Math.PI / 2f + SingleSectionAngle / 2f) - SingleSectionAngle * Side);
         }
     }
 }

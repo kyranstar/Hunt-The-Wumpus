@@ -18,6 +18,26 @@ namespace HuntTheWumpus.SharedCode
         /// contains generated cave (dictionary of rooms)
         /// </summary>
         private Dictionary<int, Room> cave = new Dictionary<int, Room>();
+
+        /// <summary>
+        /// Gets the array of rooms in the cave
+        /// </summary>
+        public Room[] Rooms
+        {
+            get
+            {
+                return cave.Values.ToArray();
+            }
+        }
+
+        public Room this[int RoomID]
+        {
+            get
+            {
+                return cave[RoomID];
+            }
+        }
+
         /// <summary>
         /// returns current cave on request
         /// </summary>
