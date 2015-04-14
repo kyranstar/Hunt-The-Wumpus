@@ -49,6 +49,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             this.TargetRoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
             this.TargetRoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
+
+            // TODO: Remove this when we are done debugging (set the overridden position to null)
+            OverriddenCameraPosition = new Vector2(1200, 1000);
         }
 
         /// <summary>
@@ -59,6 +62,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             get;
             protected set;
         }
+
+        public Vector2? OverriddenCameraPosition { get; set; }
 
         /// <summary>
         /// Updates the internal layout calculations (adapts to new cave connections)
@@ -100,11 +105,15 @@ namespace HuntTheWumpus.SharedCode.GUI
             Vector2 CameraPosition = new Vector2()
             {
                 // TODO: Clean up this math
-                X = 1200,
-                Y = 1000
-                //X = -(Player.RenderX + Player.HalfWidth - Graphics.Viewport.Width / 2 / MapCam.Zoom),
-                //Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
+                X = -(Player.RenderX + Player.HalfWidth - Graphics.Viewport.Width / 2 / MapCam.Zoom),
+                Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
             };
+
+            if(OverriddenCameraPosition.HasValue)
+            {
+                CameraPosition.X = OverriddenCameraPosition.Value.X;
+                CameraPosition.Y = OverriddenCameraPosition.Value.Y;
+            }
 
             MapCam.Position = CameraPosition;
         }

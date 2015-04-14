@@ -10,12 +10,21 @@ using Tharga.Toolkit.Console.Command;
 using Tharga.Toolkit.Console.Command.Base;
 using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.Helpers;
+using HuntTheWumpus.SharedCode.GUI;
+using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {
     public class GodManager
     {
         public Map Map;
+        public MapRenderer MapRenderer;
+
+        public GodManager(Map Map, MapRenderer MapRenderer)
+        {
+            this.Map = Map;
+            this.MapRenderer = MapRenderer;
+        }
 
         public void Initialize()
         {
@@ -24,6 +33,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Root.RegisterCommand(new GoToRoomCommand(Map));
             Root.RegisterCommand(new RoomInfoCommand(Map));
             Root.RegisterCommand(new ListRoomsCommand(Map));
+            Root.RegisterCommand(new SetViewCommand(MapRenderer));
 
             CommandEngine Engine = new CommandEngine(Root);
             Engine.Run(new string[0]);
@@ -64,6 +74,31 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             foreach (Room Room in Map.Cave.getRoomList())
                 OutputInformation(Room.ToString().Replace("{", "{{").Replace("}", "}}"));
+            return true;
+        }
+    }
+
+    class SetViewCommand : ActionCommandBase
+    {
+        private const string Help = "Sets the coordinates of the map camera to the specified position, or resets the camera to auto-follow if no arguments are given.";
+
+        MapRenderer MapRenderer;
+        public SetViewCommand(MapRenderer MapRenderer)
+            : base("cam", Help)
+        {
+            this.MapRenderer = MapRenderer;
+        }
+
+        public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
+        {
+            if(paramList == null || (!paramList.Contains(",") && !paramList.Contains(" ")))
+            {
+                MapRenderer.OverriddenCameraPosition = null;
+                return true;
+            }
+
+            int[] Coords = paramList.Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s.Trim())).ToArray();
+            MapRenderer.OverriddenCameraPosition = new Vector2(Coords[0], Coords[1]);
             return true;
         }
     }
