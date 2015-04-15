@@ -15,6 +15,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     class MapInputHandler
     {
+
+        public const int PlayerVelocity = 600;
+
         private Map map;
         private Keys[] lastPressedKeys = {};
 
@@ -34,11 +37,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 {
                     //new key is pressed
                     Log.Info("Key pressed: " + key);
-                    HandleNewKeyPress(key);
+                    HandleNewKeyPress(key, time);
                 }
                 else
                 {
-                    HandleContinuedKeyPress(key);
+                    HandleContinuedKeyPress(key, time);
                 }
             }
             
@@ -48,7 +51,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// Only called once per keypress
         /// </summary>
         /// <param name="Key"></param>
-        private void HandleNewKeyPress(Keys Key)
+        private void HandleNewKeyPress(Keys Key, GameTime GameTime)
         {
             switch (Key)
             {
@@ -77,22 +80,22 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// Called continuously as the key is held down.
         /// </summary>
         /// <param name="key"></param>
-        private void HandleContinuedKeyPress(Keys key)
+        private void HandleContinuedKeyPress(Keys key, GameTime GameTime)
         {
-            const int SPEED = 5;
+            int SpeedIncrement = (int)Math.Round(PlayerVelocity * GameTime.ElapsedGameTime.TotalSeconds);
             switch (key)
             {
                 case Keys.Up:
-                    map.PlayerLocation.Y -= SPEED;
+                    map.PlayerLocation.Y -= SpeedIncrement;
                     break;
                 case Keys.Down:
-                    map.PlayerLocation.Y += SPEED;
+                    map.PlayerLocation.Y += SpeedIncrement;
                     break;
                 case Keys.Right:
-                    map.PlayerLocation.X += SPEED;
+                    map.PlayerLocation.X += SpeedIncrement;
                     break;
                 case Keys.Left:
-                    map.PlayerLocation.X -= SPEED;
+                    map.PlayerLocation.X -= SpeedIncrement;
                     break;
             }
         }
