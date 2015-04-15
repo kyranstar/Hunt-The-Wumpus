@@ -58,7 +58,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <summary>
         /// Gets the calculated positions for the available room IDs
         /// </summary>
-        public Dictionary<int, Vector2> RoomLayout
+        public Dictionary<int, RoomLayoutMapping> RoomLayout
         {
             get;
             protected set;
@@ -96,8 +96,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Update()
         {
             // TODO: Clean up this math
-            Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].X + (TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
-            Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].Y + (TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
+            Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.X + (TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
+            Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.Y + (TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
 
             UpdateCamera();
         }
@@ -137,31 +137,20 @@ namespace HuntTheWumpus.SharedCode.GUI
             if (RoomBaseTexture == null || RoomLayout == null)
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
-            foreach (KeyValuePair<int, Vector2> LayoutMapping in RoomLayout)
+            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in RoomLayout)
             {
-                int XPos = (int)Math.Round(LayoutMapping.Value.X);
-                int YPos = (int)Math.Round(LayoutMapping.Value.Y);
+                int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
+                int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
 
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, TargetRoomWidth, TargetRoomHeight);
                 Target.Draw(RoomBaseTexture, RoomTargetArea, Color.White);
 
-                foreach(int Direction in
-                    Map.Cave[LayoutMapping.Key].adjacentRooms
-                    .Select((RoomID, Index) => new KeyValuePair<int, int>(Index, RoomID)) // Map it to <Direction, RoomID>
-                    .Where(AdjacentRoomMapping => AdjacentRoomMapping.Value == -1) // Only select the non-connections
-                    .Select(Pair => Pair.Key)) // Convert it back to an array of directions
+                foreach (Tuple<Vector2, float> DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
                 {
-                    Vector2 Offset = GetOffsetForSectionRadius(Direction, RoomBaseApothem);
-                    Vector2 CenterRoom = new Vector2()
-                    {
-                        X = LayoutMapping.Value.X + TargetRoomWidth / 2,
-                        Y = LayoutMapping.Value.Y + TargetRoomHeight / 2
-                    };
-
                     Rectangle TargetSectionArea = new Rectangle()
                     {
-                        X = (int)Math.Round(CenterRoom.X + Offset.X),
-                        Y = (int)Math.Round(CenterRoom.Y + Offset.Y),
+                        X = (int)Math.Round(DoorMapping.Item1.X),
+                        Y = (int)Math.Round(DoorMapping.Item1.Y),
                         Width = TargetRoomWidth / 2, // TODO: Figure out integer inaccuracies
                         Height = TargetRoomHeight / 2
 
@@ -170,8 +159,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                     Target.Draw(
                         RoomClosedDoorTexture,
                         destinationRectangle: TargetSectionArea,
-                        color: Color.White,
-                        rotation: -GetAngleForSide(Direction) + ((float)Math.PI * 0.5f));
+                        rotation: DoorMapping.Item2,
+                        color: Color.White);
                 }
             }
         }
@@ -186,10 +175,10 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         /// <param name="Rooms">The rooms in the map</param>
         /// <returns>A mapping of room IDs to their room's positions</returns>
-        private Dictionary<int, Vector2> GetRoomLayout(Room[] Rooms)
+        private Dictionary<int, RoomLayoutMapping> GetRoomLayout(Room[] Rooms)
         {
             Dictionary<int, Room> UnmappedRooms = Rooms.ToDictionary(Room => Room.roomId);
-            Dictionary<int, Vector2> NewLayout = GetRoomLayout(Rooms[0], new Vector2(), UnmappedRooms);
+            Dictionary<int, RoomLayoutMapping> NewLayout = GetRoomLayout(Rooms[0], new Vector2(), UnmappedRooms);
 
             // If not all rooms were found, we know that not all of them have a valid connection
             if(UnmappedRooms.Count > 0)
@@ -205,12 +194,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <param name="CurrentPoint">The position that the current room should be at</param>
         /// <param name="UnmappedRooms">The list of the unmapped rooms, indexed by ID</param>
         /// <returns>A mapping of room IDs to their room's positions</returns>
-        private Dictionary<int, Vector2> GetRoomLayout(Room CurrentRoom, Vector2 CurrentPoint, Dictionary<int, Room> UnmappedRooms)
+        private Dictionary<int, RoomLayoutMapping> GetRoomLayout(Room CurrentRoom, Vector2 CurrentPoint, Dictionary<int, Room> UnmappedRooms)
         {
             Log.Info("GetRoomLayout called for room " + CurrentRoom.roomId + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
 
             // Start with an empty result
-            Dictionary<int, Vector2> NewMappedRooms = new Dictionary<int, Vector2>();
+            Dictionary<int, RoomLayoutMapping> NewMappedRooms = new Dictionary<int, RoomLayoutMapping>();
 
             // Iterate over the connections (the index in the array indicates the side)
             for (int ConnectionDirection = 0; ConnectionDirection < CurrentRoom.adjacentRooms.Length; ConnectionDirection++)
@@ -227,17 +216,26 @@ namespace HuntTheWumpus.SharedCode.GUI
                     if (!NextRoom.adjacentRooms.Contains(CurrentRoom.roomId))
                         Log.Warn("Room " + CurrentRoom.roomId + " claims it is connected to room " + NextRoom.roomId + ", but the inverse connection was not found!");
 
+                    RoomLayoutMapping NextMapping = new RoomLayoutMapping()
+                    {
+                        Room = NextRoom
+                    };
+
                     // Get the point for the next room
-                    Vector2 NextPoint = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem);
+                    NextMapping.RoomPosition = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem);
+
+                    // Get the list of poses for the non-connection overlays (closed doors)
+                    NextMapping.ClosedDoorMappings = MapDoorsForRoom(NextRoom.adjacentRooms, NextMapping.RoomPosition);
+
                     // Remove the room now that we have calculated its position
                     //   we don't want the next call to index it again
                     UnmappedRooms.Remove(ConnectedRoomID);
 
                     // Recurse through the connections of the next room
-                    Dictionary<int, Vector2> MappedRooms = GetRoomLayout(NextRoom, NextPoint, UnmappedRooms);
+                    Dictionary<int, RoomLayoutMapping> MappedRooms = GetRoomLayout(NextRoom, NextMapping.RoomPosition, UnmappedRooms);
 
                     // Add the current room to the deeper map
-                    MappedRooms.Add(NextRoom.roomId, NextPoint);
+                    MappedRooms.Add(NextRoom.roomId, NextMapping);
                     // Merge the result with the results from the other connections
                     NewMappedRooms = NewMappedRooms.MergeLeft(MappedRooms);
 
@@ -245,6 +243,44 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
 
             return NewMappedRooms;
+        }
+        
+        /// <summary>
+        /// Gets the position and rotation (pose) of each closed door for the room info.
+        /// </summary>
+        /// <param name="Connections">The set of connections that the given room has</param>
+        /// <param name="RoomOrigin">The position of the given room</param>
+        /// <returns>A mapping of positions and rotations for each closed door</returns>
+        private Tuple<Vector2, float>[] MapDoorsForRoom(int[] Connections, Vector2 RoomOrigin)
+        {
+            List<Tuple<Vector2, float>> DoorMappings = new List<Tuple<Vector2, float>>();
+
+            foreach (int Direction in
+                Connections
+                .Select((RoomID, Index) => new KeyValuePair<int, int>(Index, RoomID)) // Map the connections to <Direction, RoomID>
+                .Where(AdjacentRoomMapping => AdjacentRoomMapping.Value == -1) // Only select the non-connections
+                .Select(Pair => Pair.Key)) // Convert it back to an array of directions
+            {
+                Vector2 Offset = GetOffsetForSectionRadius(Direction, RoomBaseApothem);
+                Vector2 CenterRoom = new Vector2()
+                {
+                    X = RoomOrigin.X + TargetRoomWidth / 2,
+                    Y = RoomOrigin.Y + TargetRoomHeight / 2
+                };
+
+                Vector2 DoorIconPosition = new Vector2()
+                {
+                    X = CenterRoom.X + Offset.X,
+                    Y = CenterRoom.Y + Offset.Y
+                };
+
+                float DoorIconRotation = -GetAngleForSide(Direction) + ((float)Math.PI * 0.5f);
+
+                DoorMappings.Add(new Tuple<Vector2, float>(DoorIconPosition, DoorIconRotation));
+            }
+
+            // Can't use yield return because we need an array 
+            return DoorMappings.ToArray();
         }
 
         private Vector2 GetOffsetForSide(int Side, double Apothem)
@@ -276,5 +312,15 @@ namespace HuntTheWumpus.SharedCode.GUI
             double SingleSectionAngle = Math.PI * 2f / RoomNumSides;
             return (float)((Math.PI / 2f + SingleSectionAngle / 2f) - SingleSectionAngle * Side);
         }
+    }
+
+    /// <summary>
+    /// Holds render information about a single room.
+    /// </summary>
+    public class RoomLayoutMapping
+    {
+        public Room Room;
+        public Vector2 RoomPosition;
+        public Tuple<Vector2, float>[] ClosedDoorMappings;
     }
 }
