@@ -80,7 +80,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
     class SetViewCommand : ActionCommandBase
     {
-        private const string Help = "Sets the coordinates of the map camera to the specified position, or resets the camera to auto-follow if no arguments are given.";
+        private const string Help = "Sets the coordinates or zoom of the map camera to the specified value(s), or resets the camera to auto-follow if no arguments are given.";
 
         MapRenderer MapRenderer;
         public SetViewCommand(MapRenderer MapRenderer)
@@ -91,14 +91,20 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
         {
-            if(paramList == null || (!paramList.Contains(",") && !paramList.Contains(" ")))
+            if(paramList == null || paramList.Length <= 0)
             {
                 MapRenderer.OverriddenCameraPosition = null;
                 return true;
             }
 
-            int[] Coords = paramList.Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s.Trim())).ToArray();
-            MapRenderer.OverriddenCameraPosition = new Vector2(Coords[0], Coords[1]);
+            if (paramList.Contains(",") || paramList.Contains(" "))
+            {
+                int[] Coords = paramList.Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s.Trim())).ToArray();
+                MapRenderer.OverriddenCameraPosition = new Vector2(Coords[0], Coords[1]);
+            }
+            else
+                MapRenderer.CameraZoom = float.Parse(paramList.Trim());
+
             return true;
         }
     }

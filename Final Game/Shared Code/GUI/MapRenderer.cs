@@ -66,6 +66,19 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Vector2? OverriddenCameraPosition { get; set; }
 
+        public float CameraZoom
+        {
+            get
+            {
+                return MapCam.Zoom;
+            }
+
+            set
+            {
+                MapCam.Zoom = value;
+            }
+        }
+
         /// <summary>
         /// Updates the internal layout calculations (adapts to new cave connections)
         /// </summary>
