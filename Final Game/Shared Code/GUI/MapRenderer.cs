@@ -64,8 +64,14 @@ namespace HuntTheWumpus.SharedCode.GUI
             protected set;
         }
 
+        /// <summary>
+        /// Gets or sets the manually-set camera position (for debugging)
+        /// </summary>
         public Vector2? OverriddenCameraPosition { get; set; }
 
+        /// <summary>
+        /// Gets or sets the manually-set camera zoom (for debugging)
+        /// </summary>
         public float CameraZoom
         {
             get
@@ -87,6 +93,10 @@ namespace HuntTheWumpus.SharedCode.GUI
             RoomLayout = GetRoomLayout(Map.Cave.getRoomList().ToArray());
         }
 
+        /// <summary>
+        /// Initializes the renerer for a new game.
+        /// </summary>
+        /// <param name="Graphics"></param>
         public void Initialize(GraphicsDevice Graphics)
         {
             MapRenderTarget = new SpriteBatch(Graphics);
@@ -99,6 +109,10 @@ namespace HuntTheWumpus.SharedCode.GUI
             };
         }
 
+        /// <summary>
+        /// Loads the media content for the map (should be called ONCE).
+        /// </summary>
+        /// <param name="Content"></param>
         public void LoadContent(ContentManager Content)
         {
             RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
@@ -106,6 +120,9 @@ namespace HuntTheWumpus.SharedCode.GUI
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
         }
 
+        /// <summary>
+        /// Updates the state of the map renerer to prepare for drawing.
+        /// </summary>
         public void Update()
         {
             // TODO: Clean up this math
@@ -133,6 +150,10 @@ namespace HuntTheWumpus.SharedCode.GUI
             MapCam.Position = CameraPosition;
         }
 
+        /// <summary>
+        /// Draws the map.
+        /// </summary>
+        /// <param name="GameTime"></param>
         public void Draw(GameTime GameTime)
         {
             MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform());
@@ -150,16 +171,21 @@ namespace HuntTheWumpus.SharedCode.GUI
             if (RoomBaseTexture == null || RoomLayout == null)
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
+            // Iterate over each layout mapping
             foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in RoomLayout)
             {
+                // Get the position from the mapping (and round it)
                 int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
                 int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
 
+                // Calculate the target room rectangle and draw the texture
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, TargetRoomWidth, TargetRoomHeight);
                 Target.Draw(RoomBaseTexture, RoomTargetArea, Color.White);
 
+                // Iterate over the (closed) door mappings for the current room
                 foreach (Tuple<Vector2, float> DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
                 {
+                    // Calculate the destination rectangle for the door mapping
                     Rectangle TargetSectionArea = new Rectangle()
                     {
                         X = (int)Math.Round(DoorMapping.Item1.X),
@@ -169,6 +195,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                     };
 
+                    // Draw the door texture
                     Target.Draw(
                         RoomClosedDoorTexture,
                         destinationRectangle: TargetSectionArea,
@@ -274,6 +301,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 .Where(AdjacentRoomMapping => AdjacentRoomMapping.Value == -1) // Only select the non-connections
                 .Select(Pair => Pair.Key)) // Convert it back to an array of directions
             {
+
+                // Get the offsets for the current direction
                 Vector2 Offset = GetOffsetForSectionRadius(Direction, RoomBaseApothem);
                 Vector2 CenterRoom = new Vector2()
                 {
@@ -287,6 +316,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                     Y = CenterRoom.Y + Offset.Y
                 };
 
+                // Get the rotation to make the wedge fit corectly
                 float DoorIconRotation = -GetAngleForSide(Direction) + ((float)Math.PI * 0.5f);
 
                 DoorMappings.Add(new Tuple<Vector2, float>(DoorIconPosition, DoorIconRotation));
@@ -296,6 +326,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             return DoorMappings.ToArray();
         }
 
+        /// <summary>
+        /// Calculates a vector that describes the given side's middle point, relative to the center.
+        /// </summary>
+        /// <param name="Side">The side index</param>
+        /// <param name="Apothem">The measure of the apothem of the polygon.</param>
+        /// <returns>A vector representing the given values.</returns>
         private Vector2 GetOffsetForSide(int Side, double Apothem)
         {
             // TODO: Look into managing floating-point inaccuracies
@@ -304,11 +340,22 @@ namespace HuntTheWumpus.SharedCode.GUI
             return MathUtils.PolarToCart(Angle, Apothem* 2d);
         }
 
+        /// <summary>
+        /// Calculates the angle that points to the center of the specified side.
+        /// </summary>
+        /// <param name="Side"></param>
+        /// <returns></returns>
         private float GetAngleForSide(int Side)
         {
             return (float)((Math.PI / 2f) - (Math.PI * 2f / RoomNumSides) * Side);
         }
 
+        /// <summary>
+        /// Calculates a vector that describes the given side's corner point, relative to the center.
+        /// </summary>
+        /// <param name="Side">The side index.</param>
+        /// <param name="Apothem">The measure of the apothem of the polygon.</param>
+        /// <returns></returns>
         private Vector2 GetOffsetForSectionRadius(int Side, double Apothem)
         {
             // TODO: Find a better name
@@ -320,6 +367,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             return MathUtils.PolarToCart(Angle, Radius);
         }
 
+        /// <summary>
+        /// Calculates the angle that points to the corner of the specified side.
+        /// </summary>
+        /// <param name="Side"></param>
+        /// <returns></returns>
         private float GetAngleForSectionRadius(int Side)
         {
             double SingleSectionAngle = Math.PI * 2f / RoomNumSides;

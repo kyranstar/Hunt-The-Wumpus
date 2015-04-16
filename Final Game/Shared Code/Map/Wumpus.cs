@@ -7,12 +7,12 @@ using System.Text;
 namespace HuntTheWumpus.SharedCode.GameMap
 {
     /// <summary>
-    /// This class represents the wumpus in a game.
+    /// This class represents the Wumpus in a game.
     /// </summary>
     public class Wumpus
     {
         /// <summary>
-        /// The current location of the wumpus
+        /// The current location of the Wumpus (Room ID)
         /// </summary>
         public int Location
         {
@@ -29,7 +29,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             this.cave = cave;
         }
         /// <summary>
-        /// Moves the wumpus to a nearby valid position
+        /// Moves the Wumpus to a nearby valid position
         /// </summary>
         public void Move()
         {
