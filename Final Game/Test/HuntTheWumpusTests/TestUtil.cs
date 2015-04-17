@@ -8,7 +8,7 @@ namespace HuntTheWumpusTests
 {
     public class TestUtil
     {
-         #region Constant test data
+        #region Constant test data
         public static const float FloatThreshold = 0.0001f;
 
         public readonly static Cave SquareTestCave = new Cave();
