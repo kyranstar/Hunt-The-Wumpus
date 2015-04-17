@@ -16,6 +16,8 @@ namespace HuntTheWumpusTests
     public class MapTest
     {
         #region Constant test data
+        const float FloatThreshold = 0.0001f;
+
         readonly Cave SquareTestCave = new Cave();
         readonly Cave HexTestCave = new Cave();
 
@@ -53,7 +55,8 @@ namespace HuntTheWumpusTests
         };
         readonly Dictionary<int, Vector2> HexExpectedRoomPoints = new Dictionary<int, Vector2>
         {
-            // This is what it returned, I'm not sure if these are actually correct
+            // Because we are using hexagons, Y values will be even numbers but X values won't
+            //  so we're using values that appear to be correct, but haven't been confirmed.
             {0, new Vector2(0, 0)},
             {1, new Vector2(1.732051f, -1)},
             {2, new Vector2(3.464102f, -2)},
@@ -141,8 +144,9 @@ namespace HuntTheWumpusTests
             Assert.IsTrue(SquareExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in SquareExpectedRoomPoints)
-                AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key]);
+                AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key].RoomPosition, 4);
         }
+
         [TestMethod]
         public void TestHexMapLayout()
         {
@@ -159,9 +163,31 @@ namespace HuntTheWumpusTests
             Assert.IsTrue(HexExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in HexExpectedRoomPoints)
-                AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key]);
+                AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key].RoomPosition);
         }
 
+        [TestMethod]
+        public void TestSideMath()
+        {
+            // Test side angles
+            Assert.AreEqual((float)Math.PI / 2f, MapRenderer.GetAngleForSide(0, 4), FloatThreshold);
+            Assert.AreEqual(0f, MapRenderer.GetAngleForSide(1, 4), FloatThreshold);
+
+            // Test side offsets
+            AssertVector(new Vector2(0, -1), MapRenderer.GetOffsetForSide(0, 1, 4));
+            AssertVector(new Vector2(1, 0), MapRenderer.GetOffsetForSide(1, 1, 4));
+
+            // Test corner angles
+            Assert.AreEqual((float)Math.PI * 0.75, MapRenderer.GetAngleForSectionRadius(0, 4), FloatThreshold);
+            Assert.AreEqual((float)Math.PI * 0.25, MapRenderer.GetAngleForSectionRadius(1, 4), FloatThreshold);
+
+            // Test corner offsets
+            AssertVector(new Vector2(-1, -1), MapRenderer.GetOffsetForSectionRadius(0, 1, 4));
+            AssertVector(new Vector2(1, -1), MapRenderer.GetOffsetForSectionRadius(1, 1, 4));
+
+        }
+
+        #region Utils
         private static void AssertMovement(bool shouldMove, int dir, Map map)
         {
             int originalPos = map.PlayerRoom;
@@ -188,10 +214,11 @@ namespace HuntTheWumpusTests
         }
 
 
-        private static void AssertVector(Vector2 Expected, Vector2 Actual, float Threshold = 0.0001f)
+        private static void AssertVector(Vector2 Expected, Vector2 Actual, float Threshold = FloatThreshold)
         {
             Assert.AreEqual(Expected.X, Actual.X, Threshold);
             Assert.AreEqual(Expected.Y, Actual.Y, Threshold);
         }
+        #endregion
     }
 }

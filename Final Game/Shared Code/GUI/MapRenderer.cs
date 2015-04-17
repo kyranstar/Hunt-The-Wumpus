@@ -262,7 +262,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                     };
 
                     // Get the point for the next room
-                    NextMapping.RoomPosition = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem);
+                    NextMapping.RoomPosition = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem * 2, RoomNumSides);
 
                     // Get the list of poses for the non-connection overlays (closed doors)
                     NextMapping.ClosedDoorMappings = MapDoorsForRoom(NextRoom.adjacentRooms, NextMapping.RoomPosition);
@@ -303,7 +303,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
 
                 // Get the offsets for the current direction
-                Vector2 Offset = GetOffsetForSectionRadius(Direction, RoomBaseApothem);
+                Vector2 Offset = GetOffsetForSectionRadius(Direction, RoomBaseApothem, RoomNumSides);
                 Vector2 CenterRoom = new Vector2()
                 {
                     X = RoomOrigin.X + TargetRoomWidth / 2,
@@ -317,7 +317,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 };
 
                 // Get the rotation to make the wedge fit corectly
-                float DoorIconRotation = -GetAngleForSide(Direction) + ((float)Math.PI * 0.5f);
+                float DoorIconRotation = -GetAngleForSide(Direction, RoomNumSides) + ((float)Math.PI * 0.5f);
 
                 DoorMappings.Add(new Tuple<Vector2, float>(DoorIconPosition, DoorIconRotation));
             }
@@ -331,13 +331,14 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         /// <param name="Side">The side index</param>
         /// <param name="Apothem">The measure of the apothem of the polygon.</param>
+        /// <param name="NumSides">The number of sides on the polygon.</param>
         /// <returns>A vector representing the given values.</returns>
-        private Vector2 GetOffsetForSide(int Side, double Apothem)
+        public static Vector2 GetOffsetForSide(int Side, double Apothem, int NumSides)
         {
             // TODO: Look into managing floating-point inaccuracies
             // Assuming 'North' is side 0
-            float Angle = GetAngleForSide(Side);
-            return MathUtils.PolarToCart(Angle, Apothem* 2d);
+            float Angle = GetAngleForSide(Side, NumSides);
+            return MathUtils.PolarToCart(Angle, Apothem);
         }
 
         /// <summary>
@@ -345,9 +346,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         /// <param name="Side"></param>
         /// <returns></returns>
-        private float GetAngleForSide(int Side)
+        public static float GetAngleForSide(int Side, int NumSides)
         {
-            return (float)((Math.PI / 2f) - (Math.PI * 2f / RoomNumSides) * Side);
+            return (float)((Math.PI / 2f) - (Math.PI * 2f / NumSides) * Side);
         }
 
         /// <summary>
@@ -356,14 +357,14 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <param name="Side">The side index.</param>
         /// <param name="Apothem">The measure of the apothem of the polygon.</param>
         /// <returns></returns>
-        private Vector2 GetOffsetForSectionRadius(int Side, double Apothem)
+        public static Vector2 GetOffsetForSectionRadius(int Side, double Apothem, int NumSides)
         {
             // TODO: Find a better name
             // TODO: Look into managing floating-point inaccuracies
             // Assuming 'North' is side 0
             // Assuming side 0 is the NW radius line
-            float Angle = GetAngleForSectionRadius(Side);
-            double Radius = MathUtils.PolygonRadius(RoomNumSides, Apothem);
+            float Angle = GetAngleForSectionRadius(Side, NumSides);
+            double Radius = MathUtils.PolygonRadius(NumSides, Apothem);
             return MathUtils.PolarToCart(Angle, Radius);
         }
 
@@ -372,9 +373,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         /// <param name="Side"></param>
         /// <returns></returns>
-        private float GetAngleForSectionRadius(int Side)
+        public static float GetAngleForSectionRadius(int Side, int NumTotalSides)
         {
-            double SingleSectionAngle = Math.PI * 2f / RoomNumSides;
+            double SingleSectionAngle = Math.PI * 2f / NumTotalSides;
             return (float)((Math.PI / 2f + SingleSectionAngle / 2f) - SingleSectionAngle * Side);
         }
     }
