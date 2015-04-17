@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
-    static class MathUtils
+    public static class MathUtils
     {
         /// <summary>
         /// Calculates the width of a regular polygon assuming that it has one side horizontal.
