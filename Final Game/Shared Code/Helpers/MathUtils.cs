@@ -77,5 +77,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             return 1d / Math.Cos(Angle);
         }
+        /// <summary>
+        /// C#'s % operator returns the remainder, not the modulus. This method always returns a positive value.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        public static double Mod(double x, double m)
+        {
+            double r = x % m;
+            return r < 0 ? r + m : r;
+        }
     }
 }

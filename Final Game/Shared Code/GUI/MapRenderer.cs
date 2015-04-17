@@ -348,7 +348,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <returns></returns>
         public static float GetAngleForSide(int Side, int NumSides)
         {
-            return (float)((Math.PI / 2f) - (Math.PI * 2f / NumSides) * Side);
+            double d = (Math.PI / 2f) - (Math.PI * 2f / NumSides) * Side;
+            return (float)MathUtils.Mod(d, (Math.PI * 2));
         }
 
         /// <summary>
@@ -376,7 +377,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         public static float GetAngleForSectionRadius(int Side, int NumTotalSides)
         {
             double SingleSectionAngle = Math.PI * 2f / NumTotalSides;
-            return (float)((Math.PI / 2f + SingleSectionAngle / 2f) - SingleSectionAngle * Side);
+            double Angle = (Math.PI / 2f + SingleSectionAngle / 2f) - SingleSectionAngle * Side;
+            return (float)(MathUtils.Mod(Angle, Math.PI * 2));
         }
     }
 

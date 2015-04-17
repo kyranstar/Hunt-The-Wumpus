@@ -167,23 +167,72 @@ namespace HuntTheWumpusTests
         }
 
         [TestMethod]
-        public void TestSideMath()
+        public void TestSideMathSquare()
         {
+            int SideNums = 4;
             // Test side angles
-            Assert.AreEqual((float)Math.PI / 2f, MapRenderer.GetAngleForSide(0, 4), FloatThreshold);
-            Assert.AreEqual(0f, MapRenderer.GetAngleForSide(1, 4), FloatThreshold);
+            Assert.AreEqual(Math.PI / 2f, MapRenderer.GetAngleForSide(0, SideNums), FloatThreshold);
+            Assert.AreEqual(0f, MapRenderer.GetAngleForSide(1, SideNums), FloatThreshold);
+            Assert.AreEqual(3f * Math.PI / 2f, MapRenderer.GetAngleForSide(2, SideNums), FloatThreshold);
+            Assert.AreEqual(Math.PI, MapRenderer.GetAngleForSide(3, SideNums), FloatThreshold);
 
             // Test side offsets
-            AssertVector(new Vector2(0, -1), MapRenderer.GetOffsetForSide(0, 1, 4));
-            AssertVector(new Vector2(1, 0), MapRenderer.GetOffsetForSide(1, 1, 4));
+            AssertVector(new Vector2(0, -1), MapRenderer.GetOffsetForSide(0, 1, SideNums));
+            AssertVector(new Vector2(1, 0), MapRenderer.GetOffsetForSide(1, 1, SideNums));
+            AssertVector(new Vector2(0, 1), MapRenderer.GetOffsetForSide(2, 1, SideNums));
+            AssertVector(new Vector2(-1, 0), MapRenderer.GetOffsetForSide(3, 1, SideNums));
 
             // Test corner angles
-            Assert.AreEqual((float)Math.PI * 0.75, MapRenderer.GetAngleForSectionRadius(0, 4), FloatThreshold);
-            Assert.AreEqual((float)Math.PI * 0.25, MapRenderer.GetAngleForSectionRadius(1, 4), FloatThreshold);
+            Assert.AreEqual(Math.PI * 0.75, MapRenderer.GetAngleForSectionRadius(0, SideNums), FloatThreshold);
+            Assert.AreEqual(Math.PI * 0.25, MapRenderer.GetAngleForSectionRadius(1, SideNums), FloatThreshold);
+            Assert.AreEqual(Math.PI * 1.75, MapRenderer.GetAngleForSectionRadius(2, SideNums), FloatThreshold);
+            Assert.AreEqual(Math.PI * 1.25, MapRenderer.GetAngleForSectionRadius(3, SideNums), FloatThreshold);
 
             // Test corner offsets
-            AssertVector(new Vector2(-1, -1), MapRenderer.GetOffsetForSectionRadius(0, 1, 4));
-            AssertVector(new Vector2(1, -1), MapRenderer.GetOffsetForSectionRadius(1, 1, 4));
+            AssertVector(new Vector2(-1, -1), MapRenderer.GetOffsetForSectionRadius(0, 1, SideNums));
+            AssertVector(new Vector2(1, -1), MapRenderer.GetOffsetForSectionRadius(1, 1, SideNums));
+            AssertVector(new Vector2(1, 1), MapRenderer.GetOffsetForSectionRadius(2, 1, SideNums));
+            AssertVector(new Vector2(-1, 1), MapRenderer.GetOffsetForSectionRadius(3, 1, SideNums));
+
+        }
+        [TestMethod]
+        public void TestSideMathHex()
+        {
+            int SideNums = 6;
+
+            //Everything commented out I'm not sure how to calculate
+
+            // Test side angles
+            Assert.AreEqual(Math.PI / 2f, MapRenderer.GetAngleForSide(0, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSide(1, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSide(2, SideNums), FloatThreshold);
+            Assert.AreEqual(3f * Math.PI / 2f, MapRenderer.GetAngleForSide(3, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSide(4, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSide(5, SideNums), FloatThreshold);
+
+            // Test side offsets
+            AssertVector(new Vector2(0, -1), MapRenderer.GetOffsetForSide(0, 1, SideNums));
+            //AssertVector(, MapRenderer.GetOffsetForSide(1, 1, SideNums));
+            //AssertVector(, MapRenderer.GetOffsetForSide(2, 1, SideNums));
+            AssertVector(new Vector2(0, 1), MapRenderer.GetOffsetForSide(3, 1, SideNums));
+            //AssertVector(, MapRenderer.GetOffsetForSide(4, 1, SideNums));
+            //AssertVector(, MapRenderer.GetOffsetForSide(5, 1, SideNums));
+
+            // Test corner angles
+            //Assert.AreEqual(, MapRenderer.GetAngleForSectionRadius(0, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSectionRadius(1, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSectionRadius(2, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSectionRadius(3, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSectionRadius(4, SideNums), FloatThreshold);
+            //Assert.AreEqual(, MapRenderer.GetAngleForSectionRadius(5, SideNums), FloatThreshold);
+
+            // Test corner offsets
+            //AssertVector(new Vector2(, -1), MapRenderer.GetOffsetForSectionRadius(0, 1, SideNums));
+            // AssertVector(, MapRenderer.GetOffsetForSectionRadius(1, 1, SideNums));
+            // AssertVector(, MapRenderer.GetOffsetForSectionRadius(2, 1, SideNums));
+            //AssertVector(new Vector2(, 1), MapRenderer.GetOffsetForSectionRadius(3, 1, SideNums));
+            // AssertVector(, MapRenderer.GetOffsetForSectionRadius(4, 1, SideNums));
+            // AssertVector(, MapRenderer.GetOffsetForSectionRadius(5, 1, SideNums));
 
         }
 
