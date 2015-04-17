@@ -59,6 +59,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
         }
 
         /// <summary>
+        /// Converts an angle measured in degrees into radians.
+        /// </summary>
+        /// <param name="angle">Angle in degrees</param>
+        /// <returns>Angle in radians</returns>
+        public static double ToRadians(double angle)
+        {
+            return (Math.PI / 180) * angle;
+        }
+
+        /// <summary>
         /// Checks if the given number is even.
         /// </summary>
         /// <param name="d">The number.</param>

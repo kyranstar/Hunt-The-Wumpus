@@ -171,29 +171,33 @@ namespace HuntTheWumpusTests
         public void TestSideMathSquare()
         {
             int NumSides = 4;
-            // Test side angles
-            Assert.AreEqual(Math.PI / 2f, MapRenderer.GetAngleForSide(0, NumSides), FloatThreshold);
-            Assert.AreEqual(0f, MapRenderer.GetAngleForSide(1, NumSides), FloatThreshold);
-            Assert.AreEqual(3f * Math.PI / 2f, MapRenderer.GetAngleForSide(2, NumSides), FloatThreshold);
-            Assert.AreEqual(Math.PI, MapRenderer.GetAngleForSide(3, NumSides), FloatThreshold);
 
-            // Test side offsets
-            AssertVector(new Vector2(0, -1), MapRenderer.GetOffsetForSide(0, 1, NumSides));
-            AssertVector(new Vector2(1, 0), MapRenderer.GetOffsetForSide(1, 1, NumSides));
-            AssertVector(new Vector2(0, 1), MapRenderer.GetOffsetForSide(2, 1, NumSides));
-            AssertVector(new Vector2(-1, 0), MapRenderer.GetOffsetForSide(3, 1, NumSides));
+            // Angles of midpoints in degrees.
+            double[] midpointAngles = {90,
+                                  0,
+                                  270,
+                                  180};
+            // Convert angles to radians
+            for (int i = 0; i < midpointAngles.Length; i++)
+            {
+                midpointAngles[i] = MathUtils.Mod(MathUtils.ToRadians(midpointAngles[i]), Math.PI * 2);
+            }
+            for (int i = 0; i < midpointAngles.Length; i++)
+            {
+                //Test side angles
+                Assert.AreEqual(midpointAngles[i], MapRenderer.GetAngleForSide(i, NumSides), FloatThreshold);
+                // Test side offsets. Negate Y because of XNA coords
+                AssertVector(new Vector2((float)Math.Cos(midpointAngles[i]), (float)(-1 * Math.Sin(midpointAngles[i]))), MapRenderer.GetOffsetForSide(i, 1, NumSides));
 
-            // Test corner angles
-            Assert.AreEqual(Math.PI * 0.75, MapRenderer.GetAngleForSectionRadius(0, NumSides), FloatThreshold);
-            Assert.AreEqual(Math.PI * 0.25, MapRenderer.GetAngleForSectionRadius(1, NumSides), FloatThreshold);
-            Assert.AreEqual(Math.PI * 1.75, MapRenderer.GetAngleForSectionRadius(2, NumSides), FloatThreshold);
-            Assert.AreEqual(Math.PI * 1.25, MapRenderer.GetAngleForSectionRadius(3, NumSides), FloatThreshold);
+                double cornerAngle = MathUtils.Mod(midpointAngles[i] + Math.PI / NumSides, 2 * Math.PI);
 
-            // Test corner offsets
-            AssertVector(new Vector2(-1, -1), MapRenderer.GetOffsetForSectionRadius(0, 1, NumSides));
-            AssertVector(new Vector2(1, -1), MapRenderer.GetOffsetForSectionRadius(1, 1, NumSides));
-            AssertVector(new Vector2(1, 1), MapRenderer.GetOffsetForSectionRadius(2, 1, NumSides));
-            AssertVector(new Vector2(-1, 1), MapRenderer.GetOffsetForSectionRadius(3, 1, NumSides));
+                // Test corner angles
+                Assert.AreEqual(cornerAngle, MapRenderer.GetAngleForSectionRadius(i, NumSides), FloatThreshold);
+
+                // Test corner offsets. Negate Y because of XNA coords
+                double rad = MathUtils.PolygonRadius(NumSides, 1);
+                AssertVector(new Vector2((float)(Math.Cos(cornerAngle) * rad), (float)(-1 * rad * Math.Sin(cornerAngle))), MapRenderer.GetOffsetForSectionRadius(i, 1, NumSides));
+            }
 
         }
         [TestMethod]
@@ -201,31 +205,32 @@ namespace HuntTheWumpusTests
         {
             int NumSides = 6;
 
-            double[] midAnglesRad = {30 - 60 * -1,
+            // Angles of midpoints in degrees.
+            double[] midpointAngles = {30 - 60 * -1,
                                   30 - 60 * 0,
                                   30 - 60 * 1,
                                   30 - 60 * 2,
                                   30 - 60 * 3,
                                   30 - 60 * 4};
-            
-            for(int i = 0; i < midAnglesRad.Length; i++)
+            // Convert angles to radians
+            for(int i = 0; i < midpointAngles.Length; i++)
             {
-                midAnglesRad[i] = MathUtils.Mod(ToRadians(midAnglesRad[i]), Math.PI * 2);
+                midpointAngles[i] = MathUtils.Mod(MathUtils.ToRadians(midpointAngles[i]), Math.PI * 2);
             }
-            for (int i = 0; i < midAnglesRad.Length; i++)
+            for (int i = 0; i < midpointAngles.Length; i++)
             {
                 //Test side angles
-                Assert.AreEqual(midAnglesRad[i], MapRenderer.GetAngleForSide(i, NumSides), FloatThreshold);
+                Assert.AreEqual(midpointAngles[i], MapRenderer.GetAngleForSide(i, NumSides), FloatThreshold);
                 // Test side offsets. Negate Y because of XNA coords
-                AssertVector(new Vector2((float)Math.Cos(midAnglesRad[i]), (float)(-1 * Math.Sin(midAnglesRad[i]))), MapRenderer.GetOffsetForSide(i, 1, NumSides));
+                AssertVector(new Vector2((float)Math.Cos(midpointAngles[i]), (float)(-1 * Math.Sin(midpointAngles[i]))), MapRenderer.GetOffsetForSide(i, 1, NumSides));
 
-                double cornerAngle = MathUtils.Mod(midAnglesRad[i] + Math.PI/6, 2 * Math.PI);
+                double cornerAngle = MathUtils.Mod(midpointAngles[i] + Math.PI/NumSides, 2 * Math.PI);
 
                 // Test corner angles
                 Assert.AreEqual(cornerAngle, MapRenderer.GetAngleForSectionRadius(i, NumSides), FloatThreshold);
 
                 // Test corner offsets. Negate Y because of XNA coords
-                double rad = MathUtils.PolygonRadius(6, 1);
+                double rad = MathUtils.PolygonRadius(NumSides, 1);
                 AssertVector(new Vector2((float)(Math.Cos(cornerAngle) * rad), (float)(-1 * rad * Math.Sin(cornerAngle))), MapRenderer.GetOffsetForSectionRadius(i, 1, NumSides));
             }
 
@@ -238,10 +243,6 @@ namespace HuntTheWumpusTests
 
             Assert.IsTrue(map.MovePlayer(dir) == shouldMove);
             Assert.IsTrue(originalPos == map.PlayerRoom != shouldMove);
-        }
-        private static double ToRadians(double angle)
-        {
-            return (Math.PI / 180) * angle;
         }
 
         private static void AssertCannotMove(Map.Direction dir, Map map)
