@@ -11,6 +11,8 @@ using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.GUI;
+using HuntTheWumpus.SharedCode.GUI.ParticleSystem;
+using Microsoft.Xna.Framework.Input;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -35,6 +37,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         private readonly int TargetRoomWidth, TargetRoomHeight;
 
         private const int PlayerSize = 500;
+
+        ParticleSystem.ParticleSystem particleSystem;
 
         public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 300)
         {
@@ -118,16 +122,22 @@ namespace HuntTheWumpus.SharedCode.GUI
             RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
             RoomClosedDoorTexture = Content.Load<Texture2D>("Images/ClosedDoor");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
+
+            List<Texture2D> textures = new List<Texture2D>();
+            textures.Add(Content.Load<Texture2D>("Images/cloud"));
+            particleSystem = new ParticleSystem.FogOfWar(textures,new Vector2(600,600), (p) => true);
         }
 
         /// <summary>
         /// Updates the state of the map renerer to prepare for drawing.
         /// </summary>
-        public void Update()
+        public void Update(GameTime time)
         {
             // TODO: Clean up this math
             Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.X + (TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
             Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.Y + (TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
+
+            particleSystem.Update(time);
 
             UpdateCamera();
         }
@@ -160,6 +170,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             DrawCaveBase(MapRenderTarget);
             DrawPlayer(MapRenderTarget);
+            particleSystem.Draw(MapRenderTarget);
 
             MapRenderTarget.End();
         }

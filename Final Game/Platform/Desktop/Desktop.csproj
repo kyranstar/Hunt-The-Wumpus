@@ -47,8 +47,80 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Shared Code\**\*.cs">
-      <Link>%(RecursiveDir)%(FileName)</Link>
+    <Compile Include="..\..\Shared Code\Cave.cs">
+      <Link>Cave</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Game Control\ArgumentParser.cs">
+      <Link>Game Control\ArgumentParser</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Game Control\GodMode.cs">
+      <Link>Game Control\GodMode</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Game Control\Logger.cs">
+      <Link>Game Control\Logger</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Game Control\Scene.cs">
+      <Link>Game Control\Scene</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Game Control\SceneManager.cs">
+      <Link>Game Control\SceneManager</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Game.cs">
+      <Link>Game</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\GUI\Camera2D.cs">
+      <Link>GUI\Camera2D</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\GUI\Generated GUI\MainMenuView.xaml.cs">
+      <Link>GUI\Generated GUI\MainMenuView.xaml</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\GUI\MainMenuContext.cs">
+      <Link>GUI\MainMenuContext</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\GUI\MapRenderer.cs">
+      <Link>GUI\MapRenderer</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\GUI\ParticleSystem\Particle.cs">
+      <Link>GUI\ParticleSystem\Particle</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\GUI\ParticleSystem\ParticleSystem.cs">
+      <Link>GUI\ParticleSystem\ParticleSystem</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\GUI\Sprite.cs">
+      <Link>GUI\Sprite</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Helpers\Latch.cs">
+      <Link>Helpers\Latch</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Helpers\MathUtils.cs">
+      <Link>Helpers\MathUtils</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Helpers\MiscExtensions.cs">
+      <Link>Helpers\MiscExtensions</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Map\Map.cs">
+      <Link>Map\Map</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Map\MapGenerator.cs">
+      <Link>Map\MapGenerator</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Map\MapInputHandler.cs">
+      <Link>Map\MapInputHandler</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Map\Player.cs">
+      <Link>Map\Player</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Map\Wumpus.cs">
+      <Link>Map\Wumpus</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Program.cs">
+      <Link>Program</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Scenes\GameScene.cs">
+      <Link>Scenes\GameScene</Link>
+    </Compile>
+    <Compile Include="..\..\Shared Code\Scenes\MainMenuScene.cs">
+      <Link>Scenes\MainMenuScene</Link>
     </Compile>
     <!--Content Include="..\..\Shared Code\**\*.*">
       <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
@@ -56,7 +128,7 @@
     </Content-->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUI\ParticleSystem\Particle.cs" />
+    <Compile Include="GUI\ParticleSystem\FogOfWar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
