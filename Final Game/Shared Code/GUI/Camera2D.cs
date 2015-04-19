@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -36,6 +31,10 @@ namespace HuntTheWumpus.SharedCode.GUI
             var originMatrix = Matrix.CreateTranslation(new Vector3(Origin.X, Origin.Y, 0));
 
             return translationMatrix * rotationMatrix * scaleMatrix * originMatrix;
+        }
+        public override string ToString()
+        {
+            return "Camera2D{" + "Position: " + Position + " Origin: " + Origin + " Zoom: " + Zoom + " Rotation: " + Rotation + "}";
         }
     }
 }
