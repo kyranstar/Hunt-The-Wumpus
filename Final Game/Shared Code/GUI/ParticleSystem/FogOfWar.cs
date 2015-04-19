@@ -48,15 +48,10 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
             do
             {
-                if (Camera.VirtualViewSize.HasValue)
-                {
-                    position = new Vector2(-Camera.Position.X + (float)(random.NextDouble() * Camera.VirtualViewSize.Value.X), -Camera.Position.Y + (float)(random.NextDouble() * Camera.VirtualViewSize.Value.Y));
-                }
-                else
-                {
-                    position = new Vector2(-Camera.Position.X + (float)(random.NextDouble() * screenWidth / Camera.Zoom), -Camera.Position.Y + (float)(random.NextDouble() * screenHeight / Camera.Zoom));
-                }
-            } while (!IsInsideCloud(new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height)));
+                position = new Vector2(
+                    -Camera.VirtualVisibleViewport.X + (float)(random.NextDouble() * Camera.VirtualVisibleViewport.Width),
+                    -Camera.VirtualVisibleViewport.Y + (float)(random.NextDouble() * Camera.VirtualVisibleViewport.Height));
+            } while (!IsInsideCloud(position));
 
             Vector2 velocity = new Vector2(
                                     CLOUD_SPEED * (float)(random.NextDouble() * 2 - 1),
