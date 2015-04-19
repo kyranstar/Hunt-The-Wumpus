@@ -7,6 +7,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
     class FogOfWar : ParticleSystem
     {
+        const int PARTICLE_CAP = 300;
+
         const int RATE = 100;
         const float CLOUD_SPEED = .05f;
         const int CLOUD_LIGHTNESS_MIN = 50;
@@ -20,7 +22,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         const float MIN_SIZE = 0.5f;
         const float MAX_SIZE = 1.5f;
 
-        private Func<Vector2, bool> IsInsideCloud;
+        private Func<Rectangle, bool> IsInsideCloud;
         private Camera2D Camera;
 
         /// <summary>
@@ -29,8 +31,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         /// <param name="cloudTextures">A list of textures to use for the cloud</param>
         /// <param name="IsInsideCloud">A function that takes a vector and determines whether the point is inside the cloud</param>
         /// <param name="bounds">The bounds to try to generate particles within</param>
-        public FogOfWar(List<Texture2D> cloudTextures, Camera2D cam, Func<Vector2, bool> IsInsideCloud)
-            : base(cloudTextures, new Vector2(0, 0), RATE)
+        public FogOfWar(List<Texture2D> cloudTextures, Camera2D cam, Func<Rectangle, bool> IsInsideCloud)
+            : base(cloudTextures, new Vector2(0, 0), RATE, PARTICLE_CAP)
         {
             this.IsInsideCloud = IsInsideCloud;
             this.Camera = cam;
@@ -54,7 +56,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                 {
                     position = new Vector2(-Camera.Position.X + (float)(random.NextDouble() * screenWidth / Camera.Zoom), -Camera.Position.Y + (float)(random.NextDouble() * screenHeight / Camera.Zoom));
                 }
-            } while (!IsInsideCloud(position));
+            } while (!IsInsideCloud(new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height)));
 
             Vector2 velocity = new Vector2(
                                     CLOUD_SPEED * (float)(random.NextDouble() * 2 - 1),
