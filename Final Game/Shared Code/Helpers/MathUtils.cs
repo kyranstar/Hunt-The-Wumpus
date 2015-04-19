@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
@@ -56,6 +52,24 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 (float)Math.Cos(Angle) * (float)Radius,
                 // Negate for XNA coords
                 (float)Math.Sin(Angle) * (float)Radius * -1f);
+        }
+
+        /// <summary>
+        /// Tests whether a point is inside a hexagon. I think.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="center"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public static bool isInsideHexagon(Vector2 pos, Vector2 center, int width, int height)
+        {
+            // Right now just checks a rectangle for testing purposes
+            return pos.X < center.X + width && pos.X > center.X - width && pos.Y < center.Y + height && pos.Y > center.Y - height;
+            //float q2x = Math.Abs(pos.X - center.X);         // transform the test point locally and to quadrant 2
+            //float q2y = Math.Abs(pos.Y - center.Y);         // transform the test point locally and to quadrant 2
+            //if (q2x > width*2 || q2y > height) return false;           // bounding test (since q2 is in quadrant 2 only 2 tests are needed)
+            //return height * 2 * width - height * q2x - 2* width * q2y >= 0;   // finally the dot product can be reduced to this due to the hexagon symmetry
         }
 
         /// <summary>

@@ -19,12 +19,14 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         public float AngularVelocity;
         public float Angle;
-        
+
+        public float Opacity;
+
         public float Scale;
 
         public int LifetimeMillis;
 
-        public Particle(Texture2D texture, Vector2 position, Vector2 velocity, float angle, float angularVelocity, Color color, float size, int lifetimeMillis)
+        public Particle(Texture2D texture, Vector2 position, Vector2 velocity, float angle, float angularVelocity, Color color, float size, int lifetimeMillis, float opacity)
         {
             this.Texture = texture;
             this.Position = position;
@@ -34,6 +36,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             this.Color = color;
             this.Scale = size;
             this.LifetimeMillis = lifetimeMillis;
+            this.Opacity = opacity;
         }
 
         public bool IsAlive
@@ -54,7 +57,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             Rectangle sourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
             Vector2 origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
 
-            target.Draw(Texture, Position, sourceRectangle, Color,
+            target.Draw(Texture, Position, sourceRectangle, Color * Opacity,
                 Angle, origin, Scale, SpriteEffects.None, 0f);
         }
     }

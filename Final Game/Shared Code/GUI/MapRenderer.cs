@@ -1,18 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.Helpers;
-using HuntTheWumpus.SharedCode.GameMap;
-using HuntTheWumpus.SharedCode.GUI;
-using HuntTheWumpus.SharedCode.GUI.ParticleSystem;
-using Microsoft.Xna.Framework.Input;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -30,6 +24,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Texture2D PlayerTexture;
 
         private Sprite2D Player;
+
+        private FrameCounter FramerateCounter = new FrameCounter();
 
         // Length of the apothem of each room as it should be drawn
         private readonly double RoomBaseApothem;
@@ -125,7 +121,10 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             List<Texture2D> textures = new List<Texture2D>();
             textures.Add(Content.Load<Texture2D>("Images/cloud"));
-            fogSystem = new ParticleSystem.FogOfWar(textures,new Vector2(600,600), (p) => true);
+            fogSystem = new ParticleSystem.FogOfWar(textures, MapCam, (p) =>
+            {
+                return true;
+            });
         }
 
         /// <summary>
@@ -151,7 +150,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
             };
 
-            if(OverriddenCameraPosition.HasValue)
+            if (OverriddenCameraPosition.HasValue)
             {
                 CameraPosition.X = OverriddenCameraPosition.Value.X;
                 CameraPosition.Y = OverriddenCameraPosition.Value.Y;
@@ -171,6 +170,18 @@ namespace HuntTheWumpus.SharedCode.GUI
             DrawCaveBase(MapRenderTarget);
             DrawPlayer(MapRenderTarget);
             fogSystem.Draw(MapRenderTarget);
+
+
+            FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
+            var fps = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
+
+            //TODO: draw this to the screen
+            if ((int)GameTime.TotalGameTime.TotalMilliseconds % 5000 == 0)
+            {
+                Log.Info(fps);
+            }
+
+            // MapRenderTarget.DrawString(???,fps, new Vector2(1, 1), Color.Black);
 
             MapRenderTarget.End();
         }
@@ -232,7 +243,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             Dictionary<int, RoomLayoutMapping> NewLayout = GetRoomLayout(Rooms[0], new Vector2(), UnmappedRooms);
 
             // If not all rooms were found, we know that not all of them have a valid connection
-            if(UnmappedRooms.Count > 0)
+            if (UnmappedRooms.Count > 0)
                 Log.Warn("Some rooms have no valid connections and have not been positioned! The following rooms haven't been connected: " + String.Join(", ", UnmappedRooms.Keys.ToArray()));
 
             return NewLayout;
@@ -295,7 +306,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             return NewMappedRooms;
         }
-        
+
         /// <summary>
         /// Gets the position and rotation (pose) of each closed door for the room info.
         /// </summary>
