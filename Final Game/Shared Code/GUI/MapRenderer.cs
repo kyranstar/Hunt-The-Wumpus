@@ -25,6 +25,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private Sprite2D Player;
 
+        private SpriteFont Font;
+
         private FrameCounter FramerateCounter = new FrameCounter();
 
         // Length of the apothem of each room as it should be drawn
@@ -119,6 +121,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             RoomClosedDoorTexture = Content.Load<Texture2D>("Images/ClosedDoor");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
 
+            Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
+
             List<Texture2D> textures = new List<Texture2D>();
             textures.Add(Content.Load<Texture2D>("Images/cloud"));
             fogSystem = new ParticleSystem.FogOfWar(textures, MapCam, (p) =>
@@ -171,17 +175,13 @@ namespace HuntTheWumpus.SharedCode.GUI
             DrawPlayer(MapRenderTarget);
             fogSystem.Draw(MapRenderTarget);
 
+            MapRenderTarget.End();
+
+            MapRenderTarget.Begin();
 
             FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
             var fps = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
-
-            //TODO: draw this to the screen
-            if ((int)GameTime.TotalGameTime.TotalMilliseconds % 5000 == 0)
-            {
-                Log.Info(fps);
-            }
-
-            // MapRenderTarget.DrawString(???,fps, new Vector2(1, 1), Color.Black);
+            MapRenderTarget.DrawString(Font, fps, new Vector2(5, 1), Color.Black);
 
             MapRenderTarget.End();
         }
