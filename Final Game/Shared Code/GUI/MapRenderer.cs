@@ -16,6 +16,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private SpriteBatch MapRenderTarget;
 
         private Camera2D MapCam;
+        private Vector2 VirtualViewSize;
 
         private Map Map;
 
@@ -32,17 +33,13 @@ namespace HuntTheWumpus.SharedCode.GUI
         private readonly int RoomNumSides;
         private readonly int TargetRoomWidth, TargetRoomHeight;
 
+        private const int VirtualViewHeight = 500;
         private const int PlayerSize = 500;
 
         ParticleSystem.ParticleSystem fogSystem;
 
         public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 300)
         {
-            this.MapCam = new Camera2D
-                {
-                    Zoom = 0.16f
-                };
-
             this.Map = Map;
 
             this.RoomBaseApothem = RoomBaseApothem;
@@ -94,13 +91,20 @@ namespace HuntTheWumpus.SharedCode.GUI
         }
 
         /// <summary>
-        /// Initializes the renerer for a new game.
+        /// Initializes the renderer for a new game.
         /// </summary>
         /// <param name="Graphics"></param>
         public void Initialize(GraphicsDevice Graphics)
         {
             MapRenderTarget = new SpriteBatch(Graphics);
             this.Graphics = Graphics;
+            
+            Viewport RenderViewport = Graphics.Viewport;
+            VirtualViewSize = new Vector2(RenderViewport.AspectRatio * VirtualViewHeight, VirtualViewHeight);
+            this.MapCam = new Camera2D(this.VirtualViewSize, RenderViewport)
+                {
+                    //Zoom = 0.16f
+                };
 
             Player = new Sprite2D(PlayerTexture)
             {
