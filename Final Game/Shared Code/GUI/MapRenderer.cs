@@ -38,7 +38,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private const int PlayerSize = 500;
 
-        ParticleSystem.ParticleSystem particleSystem;
+        ParticleSystem.ParticleSystem fogSystem;
 
         public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 300)
         {
@@ -125,7 +125,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             List<Texture2D> textures = new List<Texture2D>();
             textures.Add(Content.Load<Texture2D>("Images/cloud"));
-            particleSystem = new ParticleSystem.FogOfWar(textures,new Vector2(600,600), (p) => true);
+            fogSystem = new ParticleSystem.FogOfWar(textures,new Vector2(600,600), (p) => true);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             Player.RenderX = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.X + (TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
             Player.RenderY = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.Y + (TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
 
-            particleSystem.Update(time);
+            fogSystem.Update(time);
 
             UpdateCamera();
         }
@@ -170,7 +170,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             DrawCaveBase(MapRenderTarget);
             DrawPlayer(MapRenderTarget);
-            particleSystem.Draw(MapRenderTarget);
+            fogSystem.Draw(MapRenderTarget);
 
             MapRenderTarget.End();
         }

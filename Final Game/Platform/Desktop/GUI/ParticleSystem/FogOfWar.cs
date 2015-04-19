@@ -11,6 +11,16 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
     class FogOfWar : ParticleSystem
     {
         const int RATE = 30;
+        const float CLOUD_SPEED = .5f;
+        const int CLOUD_LIGHTNESS_MIN = 50;
+        const int CLOUD_LIGHTNESS_MAX = 150;
+        const float SPIN_SPEED = 0.01f;
+        const int MIN_LIFE = 100;
+        const int MAX_LIFE = 1000;
+
+        const float MIN_SIZE = 0.5f;
+        const float MAX_SIZE = 1.5f;
+
         private Func<Vector2, bool> IsInsideCloud;
         private Vector2 viewSize;
 
@@ -35,16 +45,21 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             {
                 position = new Vector2((float)(random.NextDouble() * viewSize.X * 2 - viewSize.X), (float)(random.NextDouble() * viewSize.Y * 2 - viewSize.Y));
             } while (!IsInsideCloud(position));
-            Vector2 velocity = new Vector2(
-                                    .5f * (float)(random.NextDouble() * 2 - 1),
-                                    .5f * (float)(random.NextDouble() * 2 - 1));
-            float angle = 0;
-            float angularVelocity = 0.01f * (float)(random.NextDouble() * 2 - 1);
-            Color color = new Color(100,100,100);
-            float size = (float)random.NextDouble() * 2f;
-            int ttl = 100 + random.Next(1000);
 
-            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
+            Vector2 velocity = new Vector2(
+                                    CLOUD_SPEED * (float)(random.NextDouble() * 2 - 1),
+                                    CLOUD_SPEED * (float)(random.NextDouble() * 2 - 1));
+            float angle = 0;
+            float angularVelocity = SPIN_SPEED * (float)(random.NextDouble() * 2 - 1);
+
+            Color color = new Color((int)(random.NextDouble() * (CLOUD_LIGHTNESS_MAX - CLOUD_LIGHTNESS_MIN) + CLOUD_LIGHTNESS_MIN), 
+                (int)(random.NextDouble() * (CLOUD_LIGHTNESS_MAX - CLOUD_LIGHTNESS_MIN) + CLOUD_LIGHTNESS_MIN), 
+                (int)(random.NextDouble() * (CLOUD_LIGHTNESS_MAX - CLOUD_LIGHTNESS_MIN) + CLOUD_LIGHTNESS_MIN));
+
+            float size = (float)(random.NextDouble() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE);
+            int livingTime = MIN_LIFE + (int)(random.NextDouble() * (MAX_LIFE - MIN_LIFE));
+
+            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, livingTime);
         }
     }
 }
