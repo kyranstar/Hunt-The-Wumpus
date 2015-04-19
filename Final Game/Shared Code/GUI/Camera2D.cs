@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -13,7 +14,27 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <summary>
         /// The camera's (virtual) viewport size
         /// </summary>
-        public Vector2? VirtualViewSize { get; set; }
+        public Vector2? VirtualRawViewSize { get; set; }
+
+        public Viewport VirtualVisibleViewport
+        {
+            get
+            {
+                Viewport Result = new Viewport()
+                {
+                    X = (int)Math.Round(Position.X),
+                    Y = (int)Math.Round(Position.Y)
+                };
+
+                if (VirtualRawViewSize.HasValue)
+                {
+                    Result.Width = (int)Math.Round(VirtualRawViewSize.Value.X / Zoom);
+                    Result.Height = (int)Math.Round(VirtualRawViewSize.Value.Y / Zoom);
+                }
+
+                return Result;
+            }
+        }
 
         /// <summary>
         /// The graphics device's viewport
@@ -29,7 +50,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             Origin = Vector2.Zero;
             Position = Vector2.Zero;
 
-            this.VirtualViewSize = VirtualViewSize;
+            this.VirtualRawViewSize = VirtualViewSize;
             this.RenderViewport = RenderViewport;
         }
 
@@ -47,12 +68,12 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Matrix VirtualTransform = TranslationMatrix * RotationMatrix * ZoomMatrix * OriginMatrix;
 
-            if(!RenderViewport.HasValue || !VirtualViewSize.HasValue)
+            if(!RenderViewport.HasValue || !VirtualRawViewSize.HasValue)
                 return VirtualTransform;
 
             Matrix RenderScaleMatrix = Matrix.CreateScale( new Vector3(
-                RenderViewport.Value.Width / VirtualViewSize.Value.X,
-                RenderViewport.Value.Height / VirtualViewSize.Value.Y,
+                RenderViewport.Value.Width / VirtualRawViewSize.Value.X,
+                RenderViewport.Value.Height / VirtualRawViewSize.Value.Y,
                 1f));
 
             return VirtualTransform * RenderScaleMatrix;
