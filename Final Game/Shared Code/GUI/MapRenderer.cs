@@ -101,7 +101,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             MapRenderTarget = new SpriteBatch(Graphics);
             this.Graphics = Graphics;
-            
+
             Viewport RenderViewport = Graphics.Viewport;
             VirtualViewSize = new Vector2(RenderViewport.AspectRatio * VirtualViewHeight, VirtualViewHeight);
             this.MapCam = new Camera2D(this.VirtualViewSize, RenderViewport)
@@ -187,7 +187,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
             var fps = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
+            var particles = string.Format("Particles: {0}", fogSystem.NumberParticles);
             MapRenderTarget.DrawString(Font, fps, new Vector2(5, 1), Color.Black);
+            MapRenderTarget.DrawString(Font, particles, new Vector2(5, 10), Color.Black);
 
             MapRenderTarget.End();
         }

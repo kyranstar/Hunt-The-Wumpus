@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
@@ -17,6 +14,11 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         protected int lastGeneratedTime;
         protected double timeBetweenCreation;
 
+        public int NumberParticles
+        {
+            get { return this.particles.Count; }
+        }
+
         public ParticleSystem(List<Texture2D> textures, Vector2 location, int rate)
         {
             EmitterLocation = location;
@@ -25,7 +27,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             this.timeBetweenCreation = (1D / rate) * 1000;
             random = new Random();
         }
- 
+
         public virtual void Update(GameTime time)
         {
             for (double i = lastGeneratedTime; i < time.TotalGameTime.Milliseconds; i += timeBetweenCreation)
@@ -43,7 +45,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                 }
             }
         }
- 
+
         protected virtual Particle GenerateNewParticle()
         {
             Texture2D texture = textures[random.Next(textures.Count)];
@@ -59,10 +61,10 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                         (float)random.NextDouble());
             float size = (float)random.NextDouble();
             int ttl = 100 + random.Next(1000);
- 
+
             return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl, 1);
         }
- 
+
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int index = 0; index < particles.Count; index++)
