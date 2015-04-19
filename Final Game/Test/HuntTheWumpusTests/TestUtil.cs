@@ -9,12 +9,12 @@ namespace HuntTheWumpusTests
     public class TestUtil
     {
         #region Constant test data
-        public static const float FloatThreshold = 0.0001f;
+        public const float FloatThreshold = 0.0001f;
 
         public readonly static Cave SquareTestCave = new Cave();
         public readonly static Cave HexTestCave = new Cave();
 
-        public static TestUtil()
+        static TestUtil()
         {
             // Using a "square" pattern for now to simplify initial test code
             SquareTestCave.AddRoom(0, new int[] { -1, 1, -1, -1 });
