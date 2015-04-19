@@ -16,19 +16,15 @@ namespace HuntTheWumpus.SharedCode.GUI
         public float HalfHeight { get { return RenderHeight / 2f; } }
 
         // Use integers for now (could use a Vector2 instead)
-        public int RenderX { get; set; }
-        public int RenderY { get; set; }
+        public int RenderX { get { return (int)Position.X; } set { Position.X = value; } }
+        public int RenderY { get { return (int)Position.Y; } set { Position.Y = value; } }
 
         public float Rotation { get; set; }
 
         public Texture2D Texture { get; set; }
 
 
-        public Vector2 Position
-        {
-            get { return new Vector2(RenderX, RenderY); }
-            set { RenderX = (int)(value.X); RenderY = (int)(value.Y); }
-        }
+        public Vector2 Position;
 
         public Rectangle TargetArea
         {
