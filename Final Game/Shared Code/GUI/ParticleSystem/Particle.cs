@@ -1,24 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
-    class Particle
+    class Particle : Sprite2D
     {
-        public Texture2D Texture;
+
         public Color Color;
 
-        public Vector2 Position;
         public Vector2 Velocity;
         public Vector2 Acceleration;
 
         public float AngularVelocity;
-        public float Angle;
 
         public float Opacity;
 
@@ -27,11 +20,9 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         public int LifetimeMillis;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity, float angle, float angularVelocity, Color color, float size, int lifetimeMillis, float opacity)
+            : base((int)position.X, (int)position.Y, (int)(texture.Width * size), (int)(texture.Height * size), 0, texture)
         {
-            this.Texture = texture;
-            this.Position = position;
             this.Velocity = velocity;
-            this.Angle = angle;
             this.AngularVelocity = angularVelocity;
             this.Color = color;
             this.Scale = size;
@@ -46,9 +37,10 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         public void Update(GameTime time)
         {
             Velocity += Acceleration * time.ElapsedGameTime.Milliseconds;
+
             Position += Velocity * time.ElapsedGameTime.Milliseconds;
 
-            Angle += AngularVelocity * time.ElapsedGameTime.Milliseconds;
+            Rotation += AngularVelocity * time.ElapsedGameTime.Milliseconds;
 
             LifetimeMillis -= time.ElapsedGameTime.Milliseconds;
         }
@@ -57,8 +49,9 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             Rectangle sourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
             Vector2 origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
 
-            target.Draw(Texture, Position, sourceRectangle, Color * Opacity,
-                Angle, origin, Scale, SpriteEffects.None, 0f);
+            target.Draw(Texture, new Vector2(RenderX, RenderY), sourceRectangle, Color * Opacity,
+                Rotation, origin, Scale, SpriteEffects.None, 0f);
         }
+
     }
 }

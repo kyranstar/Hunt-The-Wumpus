@@ -37,6 +37,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private const int PlayerSize = 500;
 
         ParticleSystem.ParticleSystem fogSystem;
+        private List<Texture2D> CloudTextures;
 
         public MapRenderer(Map Map, int RoomNumSides = 6, double RoomBaseApothem = 300)
         {
@@ -109,6 +110,11 @@ namespace HuntTheWumpus.SharedCode.GUI
                 RenderWidth = PlayerSize,
                 RenderHeight = PlayerSize
             };
+            fogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam, (p) =>
+            {
+                int radius = 500;
+                return (p.X - Player.RenderX) * (p.X - Player.RenderX) + (p.Y - Player.RenderY) * (p.Y - Player.RenderY) >= radius * radius;
+            });
         }
 
         /// <summary>
@@ -123,12 +129,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
 
-            List<Texture2D> textures = new List<Texture2D>();
-            textures.Add(Content.Load<Texture2D>("Images/cloud"));
-            fogSystem = new ParticleSystem.FogOfWar(textures, MapCam, (p) =>
-            {
-                return true;
-            });
+            CloudTextures = new List<Texture2D>();
+            CloudTextures.Add(Content.Load<Texture2D>("Images/cloud"));
         }
 
         /// <summary>

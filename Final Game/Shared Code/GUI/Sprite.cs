@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -27,6 +22,13 @@ namespace HuntTheWumpus.SharedCode.GUI
         public float Rotation { get; set; }
 
         public Texture2D Texture { get; set; }
+
+
+        public Vector2 Position
+        {
+            get { return new Vector2(RenderX, RenderY); }
+            set { RenderX = (int)(value.X); RenderY = (int)(value.Y); }
+        }
 
         public Rectangle TargetArea
         {
