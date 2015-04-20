@@ -46,6 +46,10 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                 p.Update(time);
                 return p.IsAlive;
             }).ToList<Particle>();
+
+            // Hack to make sure we don't bog down with particles
+            // TODO: Make it so that we don't need this
+            GC.Collect();
         }
 
         protected virtual Particle GenerateNewParticle()
