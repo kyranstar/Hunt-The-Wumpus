@@ -9,7 +9,6 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
     {
         const int PARTICLE_CAP = 200;
 
-        const int RATE = 10;
         const float CLOUD_SPEED = .05f;
         const int CLOUD_LIGHTNESS_MIN = 50;
         const int CLOUD_LIGHTNESS_MAX = 150;
@@ -20,7 +19,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         const float OPACITY = 0.5f;
 
         const float MIN_SIZE = 1.5f;
-        const float MAX_SIZE = 3.5f;
+        const float MAX_SIZE = 5.5f;
 
         private Func<Rectangle, bool> IsInsideCloud;
         private Camera2D Camera;
@@ -32,7 +31,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         /// <param name="IsInsideCloud">A function that takes a vector and determines whether the point is inside the cloud</param>
         /// <param name="bounds">The bounds to try to generate particles within</param>
         public FogOfWar(List<Texture2D> cloudTextures, Camera2D cam, Func<Rectangle, bool> IsInsideCloud)
-            : base(cloudTextures, new Vector2(0, 0), RATE, PARTICLE_CAP)
+            : base(cloudTextures, new Vector2(0, 0), PARTICLE_CAP)
         {
             this.IsInsideCloud = IsInsideCloud;
             this.Camera = cam;

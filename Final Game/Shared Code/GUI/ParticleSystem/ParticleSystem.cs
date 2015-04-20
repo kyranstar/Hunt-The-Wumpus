@@ -13,7 +13,6 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         protected List<Particle> particles;
         protected List<Texture2D> textures;
         protected int lastGeneratedTime;
-        protected double timeBetweenCreation;
         private int particleCap;
 
         public int NumberParticles
@@ -21,25 +20,23 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             get { return this.particles.Count; }
         }
 
-        public ParticleSystem(List<Texture2D> textures, Vector2 location, int rate, int particleCap)
+        public ParticleSystem(List<Texture2D> textures, Vector2 location, int particleCap)
         {
             EmitterLocation = location;
             this.textures = textures;
             this.particles = new List<Particle>();
-            this.timeBetweenCreation = 1000D / rate;
             this.particleCap = particleCap;
             random = new Random();
         }
 
         public virtual void Update(GameTime time)
         {
-            for (double i = lastGeneratedTime; i < time.TotalGameTime.Milliseconds; i += timeBetweenCreation)
+
+            while (NumberParticles < particleCap)
             {
-                if (NumberParticles < particleCap)
-                {
-                    particles.Add(GenerateNewParticle());
-                }
+                particles.Add(GenerateNewParticle());
             }
+
             this.lastGeneratedTime = time.TotalGameTime.Milliseconds;
             particles = particles.Where(p =>
             {
