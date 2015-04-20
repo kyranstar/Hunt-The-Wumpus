@@ -81,6 +81,11 @@ namespace HuntTheWumpusTests
             AssertMovement(true, (int)dir, map);
         }
 
+        // Doubles just to avoid casting
+        public static void AssertFloat(double a, double b, float Threshold = FloatThreshold)
+        {
+            Assert.AreEqual(a, b, Threshold);
+        }
 
         public static void AssertVector(Vector2 Expected, Vector2 Actual, float Threshold = FloatThreshold)
         {

@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GUI\MapRendererTest.cs" />
+    <Compile Include="Helpers\MathUtilsTest.cs" />
     <Compile Include="Map\MapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtil.cs" />
