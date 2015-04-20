@@ -106,7 +106,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             VirtualViewSize = new Vector2(RenderViewport.AspectRatio * VirtualViewHeight, VirtualViewHeight);
             this.MapCam = new Camera2D(this.VirtualViewSize, RenderViewport)
                 {
-                    //Zoom = 0.16f
+                    Zoom = 0.16f
                 };
 
             Player = new Sprite2D(PlayerTexture)
@@ -116,8 +116,17 @@ namespace HuntTheWumpus.SharedCode.GUI
             };
             fogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam, (p) =>
             {
-                int radius = 500;
-                return (p.X - Player.RenderX) * (p.X - Player.RenderX) + (p.Y - Player.RenderY) * (p.Y - Player.RenderY) >= radius * radius;
+                int centerX = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.X + (TargetRoomWidth / 2f));
+                int centerY = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.Y + (TargetRoomHeight / 2f));
+
+                return !new List<Vector2> 
+                { 
+                    p.Center.ToVector2(), 
+                    new Vector2(p.X, p.Y), 
+                    new Vector2(p.X + p.Width, p.Y),
+                    new Vector2(p.X + p.Width, p.Y + p.Height),
+                    new Vector2(p.X, p.Y + p.Height),
+                }.Any((v) => MathUtils.IsInsideHexagon(v, new Vector2(centerX, centerY), TargetRoomWidth / 2, TargetRoomHeight / 2));
             });
         }
 
