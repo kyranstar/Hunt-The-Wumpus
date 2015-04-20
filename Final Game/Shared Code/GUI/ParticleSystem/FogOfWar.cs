@@ -66,7 +66,16 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             float size = (float)(random.NextDouble() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE);
             int livingTime = MIN_LIFE + (int)(random.NextDouble() * (MAX_LIFE - MIN_LIFE));
 
-            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, livingTime, OPACITY);
+            return new Particle(
+                Texture: texture,
+                X: (int)Math.Round(position.X),
+                Y: (int)Math.Round(position.Y),
+                Rotation: angle,
+                AngularVelocity: angularVelocity,
+                DrawColor: color,
+                Scale: size,
+                LifetimeMillis: livingTime,
+                Opacity: OPACITY);
         }
     }
 }

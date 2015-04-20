@@ -68,7 +68,16 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             float size = (float)random.NextDouble();
             int ttl = 100 + random.Next(1000);
 
-            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl, 1);
+            return new Particle(
+                texture,
+                X: (int)Math.Round(EmitterLocation.X),
+                Y: (int)Math.Round(EmitterLocation.Y),
+                Velocity: velocity,
+                Rotation: angle,
+                AngularVelocity: angularVelocity,
+                DrawColor: color,
+                Scale: size,
+                LifetimeMillis: ttl);
         }
 
         public void Draw(SpriteBatch spriteBatch)

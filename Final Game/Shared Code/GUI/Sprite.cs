@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -20,13 +21,17 @@ namespace HuntTheWumpus.SharedCode.GUI
         public int RenderY { get { return (int)Position.Y; } set { Position.Y = value; } }
 
         public float Rotation { get; set; }
+        public float Scale { get; set; }
 
         public Texture2D Texture { get; set; }
+        public float Opacity { get; set; }
+        public Color DrawColor { get; set; }
 
+        protected Dictionary<AnimationType, SpriteAnimation> Animations;
 
         public Vector2 Position;
 
-        public Rectangle TargetArea
+        public Rectangle? TargetArea
         {
             get
             {
@@ -35,42 +40,85 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             set
             {
-                RenderWidth = value.Width;
-                RenderHeight = value.Height;
-                RenderX = value.X;
-                RenderY = value.Y;
+                if(value.HasValue)
+                {
+                    RenderWidth = value.Value.Width;
+                    RenderHeight = value.Value.Height;
+                    RenderX = value.Value.X;
+                    RenderY = value.Value.Y;
+                }
             }
         }
 
-        public Sprite2D(int X, int Y, int Width, int Height, float Rotation, Texture2D Texture)
+        public Sprite2D(
+            Texture2D Texture,
+            Rectangle? Target = null,
+            int X = 0, int Y = 0,
+            int? Width = null, int? Height = null, 
+            float Rotation = 0,
+            float Scale = 1,
+            float Opacity = 1,
+            Color? DrawColor = null,
+            Dictionary<AnimationType, SpriteAnimation> Animations = null)
         {
-            this.RenderX = X;
-            this.RenderY = Y;
+            if (Target.HasValue)
+                this.TargetArea = TargetArea;
+            else
+            {
+                this.RenderX = X;
+                this.RenderY = Y;
 
-            this.RenderWidth = Width;
-            this.RenderHeight = Height;
+                if (Width.HasValue)
+                    this.RenderWidth = Width.Value;
+                else
+                    this.RenderWidth = Texture.Width;
+
+                if (Height.HasValue)
+                    this.RenderHeight = Height.Value;
+                else
+                    this.RenderHeight = Texture.Height;
+            }
 
             this.Rotation = Rotation;
+            this.Scale = Scale;
 
+            this.Opacity = Opacity;
             this.Texture = Texture;
+            this.DrawColor = DrawColor ?? Color.White;
+
+            this.Animations = Animations ?? new Dictionary<AnimationType, SpriteAnimation>();
+
+            foreach (var Animation in this.Animations)
+                Animation.Value.Initialize(this);
         }
 
-        public Sprite2D(Rectangle Target, float Rotation, Texture2D Texture)
+        public void AddAnimation(AnimationType Type, SpriteAnimation Animation)
         {
-            this.TargetArea = Target;
-            this.Rotation = Rotation;
-            this.Texture = Texture;
-        }
-
-        public Sprite2D(Texture2D Texture)
-        {
-            this.Texture = Texture;
+            this.Animations.Add(Type, Animation);
+            Animation.Initialize(this);
         }
 
         public void Draw(SpriteBatch Target)
         {
             if (Texture != null)
-                Target.Draw(Texture, destinationRectangle: TargetArea, rotation: Rotation);
+                Target.Draw(Texture, destinationRectangle: TargetArea, rotation: Rotation, color: DrawColor * Opacity);
+        }
+
+        public void Update(GameTime Time)
+        {
+            foreach (var Animation in Animations)
+            {
+                if(Animation.Value.IsStarted)
+                {
+                    Animation.Value.Update(Time);
+
+                    if(Animation.Value.IsFinished)
+                    {
+                        Animation.Value.IsStarted = false;
+                        Animation.Value.Reset();
+                    }
+                }
+            }
         }
 
         public void Reset()
@@ -79,7 +127,26 @@ namespace HuntTheWumpus.SharedCode.GUI
             RenderX = RenderY = 0;
             Rotation = 0f;
 
-            Texture = null;
+            foreach (var Animation in Animations)
+            {
+                Animation.Value.Reset();
+                Animation.Value.IsStarted = false;
+            }
+        }
+
+        public void StartAnimation(AnimationType Type)
+        {
+            Animations[Type].IsStarted = true;
+        }
+
+        public void StopAnimation(AnimationType Type)
+        {
+            Animations[Type].IsStarted = true;
+        }
+
+        public bool GetAnimationState(AnimationType Type)
+        {
+            return Animations[Type].IsFinished;
         }
     }
 }
