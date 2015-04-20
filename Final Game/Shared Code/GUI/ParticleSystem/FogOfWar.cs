@@ -7,20 +7,20 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
     class FogOfWar : ParticleSystem
     {
-        const int PARTICLE_CAP = 300;
+        const int PARTICLE_CAP = 200;
 
-        const int RATE = 100;
+        const int RATE = 10;
         const float CLOUD_SPEED = .05f;
         const int CLOUD_LIGHTNESS_MIN = 50;
         const int CLOUD_LIGHTNESS_MAX = 150;
         const float SPIN_SPEED = 0.001f;
-        const int MIN_LIFE = 100;
-        const int MAX_LIFE = 5000;
+        const int MIN_LIFE = 5000;
+        const int MAX_LIFE = 20000;
 
         const float OPACITY = 0.5f;
 
-        const float MIN_SIZE = 0.5f;
-        const float MAX_SIZE = 1.5f;
+        const float MIN_SIZE = 1.5f;
+        const float MAX_SIZE = 3.5f;
 
         private Func<Rectangle, bool> IsInsideCloud;
         private Camera2D Camera;
