@@ -48,7 +48,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\Shared Code\**\*.cs">
-      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <Link>%(RecursiveDir)%(FileName)</Link>
     </Compile>
     <!--Content Include="..\..\Shared Code\**\*.*">
       <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
