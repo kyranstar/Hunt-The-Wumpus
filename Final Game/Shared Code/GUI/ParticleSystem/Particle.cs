@@ -27,7 +27,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             Vector2? Velocity = null,
             float AngularVelocity = 0,
             int LifetimeMillis = 0)
-            : base(Texture, Target, X, Y, Width, Height, Rotation, new Vector2(Scale, Scale), Opacity, DrawColor, Animations)
+            : base(Texture, Target, X, Y, Width, Height, Rotation, Scale, Opacity, DrawColor, Animations)
         {
             this.Acceleration = Acceleration ?? Vector2.Zero;
             this.Velocity = Velocity ?? Vector2.Zero;
