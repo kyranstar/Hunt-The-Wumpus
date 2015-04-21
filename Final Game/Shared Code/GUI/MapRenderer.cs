@@ -114,6 +114,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 RenderWidth = PlayerSize,
                 RenderHeight = PlayerSize
             };
+
             fogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam, (p) =>
             {
                 int centerX = (int)Math.Round(RoomLayout[Map.PlayerRoom].RoomPosition.X + (TargetRoomWidth / 2f));
@@ -128,6 +129,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                     new Vector2(p.X, p.Y + p.Height),
                 }.Any((v) => MathUtils.IsInsideHexagon(v, new Vector2(centerX, centerY), TargetRoomWidth / 2, TargetRoomHeight / 2));
             });
+
+            fogSystem.Initialize();
         }
 
         /// <summary>

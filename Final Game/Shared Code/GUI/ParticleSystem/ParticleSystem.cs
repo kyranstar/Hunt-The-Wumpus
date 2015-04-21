@@ -4,15 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using HuntTheWumpus.SharedCode.GUI;
+
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
     class ParticleSystem
     {
         protected static Random random = new Random();
+
         public Vector2 EmitterLocation { get; set; }
         protected List<Particle> particles;
         protected List<Texture2D> textures;
-        protected int lastGeneratedTime;
         private int particleCap;
 
         public int NumberParticles
@@ -24,9 +26,14 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         {
             EmitterLocation = location;
             this.textures = textures;
-            this.particles = new List<Particle>();
             this.particleCap = particleCap;
-            random = new Random();
+
+            this.particles = new List<Particle>();
+        }
+
+        public void Initialize()
+        {
+            this.particles.Clear();
         }
 
         public virtual void Update(GameTime time)
@@ -34,13 +41,23 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
             while (NumberParticles < particleCap)
             {
-                particles.Add(GenerateNewParticle());
+                Particle NewParticle = GenerateNewParticle();
+                NewParticle.Initialize();
+                particles.Add(NewParticle);
             }
 
-            this.lastGeneratedTime = time.TotalGameTime.Milliseconds;
             particles = particles.Where(p =>
             {
                 p.Update(time);
+                bool? FadeOutState = p.GetAnimationState(AnimationType.FadeOut);
+
+                if(!p.IsAlive && !p.IsTransparent && FadeOutState.HasValue)
+                {
+                    if (FadeOutState == false)
+                        p.StartAnimation(AnimationType.FadeOut);
+
+                    return true;
+                }
                 return p.IsAlive;
             }).ToList<Particle>();
 

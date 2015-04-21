@@ -7,7 +7,10 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
     class FogOfWar : ParticleSystem
     {
-        const int PARTICLE_CAP = 200;
+        readonly SpriteFadeAnimation SpriteFadeInAnimation = new SpriteFadeAnimation(0, OPACITY, 500),
+            SpriteFadeOutAnimation = new SpriteFadeAnimation(OPACITY, 0, 500);
+
+        const int PARTICLE_CAP = 600;
 
         const float CLOUD_SPEED = .05f;
         const int CLOUD_LIGHTNESS_MIN = 50;
@@ -68,7 +71,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             float size = (float)(random.NextDouble() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE);
             int livingTime = MIN_LIFE + (int)(random.NextDouble() * (MAX_LIFE - MIN_LIFE));
 
-            return new Particle(
+            Particle NewParticle = new Particle(
                 Texture: texture,
                 X: (int)Math.Round(position.X),
                 Y: (int)Math.Round(position.Y),
@@ -78,6 +81,11 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                 Scale: size,
                 LifetimeMillis: livingTime,
                 Opacity: OPACITY);
+
+            NewParticle.AddAnimation(AnimationType.FadeIn, SpriteFadeInAnimation.Clone());
+            NewParticle.AddAnimation(AnimationType.FadeOut, SpriteFadeOutAnimation.Clone());
+
+            return NewParticle;
         }
     }
 }

@@ -35,6 +35,11 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             this.LifetimeMillis = LifetimeMillis;
         }
 
+        public override void Initialize()
+        {
+            this.StartAnimation(AnimationType.FadeIn);
+        }
+
         public bool IsAlive
         {
             get { return LifetimeMillis > 0; }

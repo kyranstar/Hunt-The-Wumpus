@@ -10,6 +10,8 @@ namespace HuntTheWumpus.SharedCode.GUI
     /// </summary>
     public class Sprite2D
     {
+        public const float OpacityThreshold = 0.00001f;
+
         public int RenderWidth { get; set; }
         public int RenderHeight { get; set; }
 
@@ -48,6 +50,11 @@ namespace HuntTheWumpus.SharedCode.GUI
                     RenderY = value.Value.Y;
                 }
             }
+        }
+
+        public bool IsTransparent
+        {
+            get { return Opacity < OpacityThreshold;  }
         }
 
         public Sprite2D(
@@ -92,6 +99,11 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Animation.Value.Initialize(this);
         }
 
+        public virtual void Initialize()
+        {
+            // Don't do anything
+        }
+
         public void AddAnimation(AnimationType Type, SpriteAnimation Animation)
         {
             this.Animations.Add(Type, Animation);
@@ -134,19 +146,27 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        public void StartAnimation(AnimationType Type)
+        public bool StartAnimation(AnimationType Type)
         {
-            Animations[Type].IsStarted = true;
+            if(Animations.ContainsKey(Type))
+                Animations[Type].IsStarted = true;
+
+            return Animations.ContainsKey(Type);
         }
 
-        public void StopAnimation(AnimationType Type)
+        public bool StopAnimation(AnimationType Type)
         {
-            Animations[Type].IsStarted = true;
+            if (Animations.ContainsKey(Type))
+                Animations[Type].IsStarted = true;
+
+            return Animations.ContainsKey(Type);
         }
 
-        public bool GetAnimationState(AnimationType Type)
+        public bool? GetAnimationState(AnimationType Type)
         {
-            return Animations[Type].IsFinished;
+            if(Animations.ContainsKey(Type))
+                return Animations[Type].IsFinished;
+            else return null;
         }
     }
 }
