@@ -33,6 +33,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
 
         void GraphicsManager_DeviceCreated(object sender, System.EventArgs e)
         {
+            Log.Info("Graphics device created");
             Engine Engine = new MonoGameEngine(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
