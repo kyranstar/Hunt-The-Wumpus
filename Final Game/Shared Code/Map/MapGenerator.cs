@@ -18,7 +18,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
             map.Cave.AddRoom(2, new int[] { -1, -1, 3, -1, 1, -1 }, pit: true);
             map.Cave.AddRoom(3, new int[] { -1, -1, 4, -1, -1, 2 }, gold: 5);
             map.Cave.AddRoom(4, new int[] { -1, -1, -1, -1, -1, 3 }, arrows: 5);
-            
+
+            map.Wumpus.Location = 4;
         }
         /// <summary>
         /// For working on random caves when needed (not used at this time)
