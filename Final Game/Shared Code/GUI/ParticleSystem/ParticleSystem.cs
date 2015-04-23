@@ -38,7 +38,6 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         public virtual void Update(GameTime time)
         {
-
             while (NumberParticles < particleCap)
             {
                 Particle NewParticle = GenerateNewParticle();
@@ -60,10 +59,6 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                 }
                 return p.IsAlive;
             }).ToList<Particle>();
-
-            // Hack to make sure we don't bog down with particles
-            // TODO: Make it so that we don't need this
-            GC.Collect();
         }
 
         protected virtual Particle GenerateNewParticle()
