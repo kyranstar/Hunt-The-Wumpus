@@ -56,6 +56,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                     -Camera.VirtualVisibleViewport.X + (float)(random.NextDouble() * Camera.VirtualVisibleViewport.Width),
                     -Camera.VirtualVisibleViewport.Y + (float)(random.NextDouble() * Camera.VirtualVisibleViewport.Height));
                 tries++;
+                // If this doesn't find a valid position after 50 tries, it will just create an invalid particle.
+                // We need to figure out a way to fix this.
             } while (tries < MAX_TRIES && !IsInsideCloud(new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height)));
 
             Vector2 velocity = new Vector2(

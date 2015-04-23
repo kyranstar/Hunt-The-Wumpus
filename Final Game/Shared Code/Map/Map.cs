@@ -127,7 +127,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// Moves a player to the specified room
         /// </summary>
         /// <param name="RoomID"></param>
-        /// <returns></returns>
+        /// <returns>Whether the move was valid.</returns>
         public bool MovePlayerTo(int RoomID)
         {
             if (Cave.GetRoom(RoomID) == null)
@@ -141,10 +141,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// Takes a room ID and determines whether the player can shoot to that room.
         /// </summary>
         /// <param name="roomId"></param>
-        /// <returns></returns>
+        /// <returns>Whether the player can shoot into the given room (if the player is adjacent to the room).</returns>
         public bool CanShoot(int roomId)
         {
-            return false;
+            return Cave.GetRoom(PlayerRoom).adjacentRooms.Contains(roomId);
         }
 
         /// <summary>
@@ -165,7 +165,16 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public List<PlayerWarnings> GetPlayerWarnings()
         {
             List<PlayerWarnings> list = new List<PlayerWarnings>();
-            
+
+            int[] adjacentRooms = Cave.GetRoom(PlayerRoom).adjacentRooms;
+            foreach (int room in adjacentRooms)
+            {
+                Room r = Cave.GetRoom(room);
+                if (r.bats) list.Add(PlayerWarnings.Bat);
+                if (r.pit) list.Add(PlayerWarnings.Pit);
+            }
+            if (adjacentRooms.Contains(Wumpus.Location)) list.Add(PlayerWarnings.Wumpus);
+
             return list;
         }
         /// <summary>

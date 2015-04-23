@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HuntTheWumpus.SharedCode.Map;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -87,17 +88,17 @@ namespace HuntTheWumpus.SharedCode
 
             if (bats == true && pit == true)
             {
-                //Need to throw exception here, can't have bats AND pit in one room
+                throw new InvalidRoomException("Can't have bats AND pit in one room");
             }
 
             if (connections.Length == 0)
             {
-                //Need to throw exception here, each room needs to be accessible
+                throw new InvalidRoomException("Each room needs to be accessible");
             }
 
             if (id < 0)
             {
-                //Need to throw exception here, room can't have negative ID
+                throw new InvalidRoomException("Room can't have negative ID");
             }
         }
         /// <summary>
