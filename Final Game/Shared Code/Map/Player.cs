@@ -26,12 +26,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public int Gold 
         {
             get { return gold; }
+            set { arrows = value; }
         }
         
         private int arrows = 3;
         public int Arrows
         {
             get { return arrows; }
+            set { arrows = value; }
         }
         
         private int score;

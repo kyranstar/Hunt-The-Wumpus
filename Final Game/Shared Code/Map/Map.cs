@@ -49,9 +49,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <summary>
         /// Stores the cave, which stores all the room data
         /// </summary>
-        public Cave Cave {
-            get {return _cave;} 
-            set {
+        public Cave Cave
+        {
+            get { return _cave; }
+            set
+            {
                 AssertCorrectLayout(value);
                 _cave = value;
             }
@@ -100,9 +102,55 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 //set our current room to that room
                 PlayerRoom = Cave.GetRoom(currentRoom.adjacentRooms[(int)dir]).roomId;
+                RoomUpdate();
                 return true;
             }
             return false;
+        }
+        /// <summary>
+        /// Call this method whenever entering a new room.
+        /// </summary>
+        private void RoomUpdate()
+        {
+            if (Wumpus.Location == PlayerRoom)
+            {
+                // We're in the same room as the wumpus!
+
+                // We need to ask the player 5 trivia questions.
+                int triviaQuestionsRight = 5;
+                const int NUM_TO_BEAT_WUMPUS = 3;
+                if (triviaQuestionsRight < NUM_TO_BEAT_WUMPUS)
+                {
+                    // Game over.
+                }
+                else
+                {
+                    //// Move the wumpus 2-4 rooms away.
+                    //List<int> validRooms = new List<int>();
+                    //foreach (KeyValuePair<int, Room> pair in Cave.getRoomDict())
+                    //{
+                    //    int distance = pair.Value.Distance(PlayerRoom);
+                    //    if (distance >= 2 && distance <= 4)
+                    //    {
+                    //        validRooms.Add(pair.Key);
+                    //    }
+                    //}
+                    //Wumpus.Location = validRooms[new Random().Next(validRooms.Count)];
+                }
+
+            }
+            CollectItemsFromRoom();
+        }
+        /// <summary>
+        /// The player collects items from his current room. Call this when the player enters a new room.
+        /// </summary>
+        private void CollectItemsFromRoom()
+        {
+            Room currentRoom = Cave.GetRoom(PlayerRoom);
+            Player.Gold += currentRoom.gold;
+            Player.Arrows += currentRoom.arrows;
+
+            currentRoom.gold = currentRoom.arrows = 0;
         }
 
         /// <summary>
@@ -148,6 +196,29 @@ namespace HuntTheWumpus.SharedCode.GameMap
         }
 
         /// <summary>
+        /// Shoots an arrow into the room with the given id. If you hit the wumpus, you win. If you run out of arrows, you lose.
+        /// </summary>
+        /// <param name="roomId">The room to shoot into</param>
+        public void ShootArrow(int roomId)
+        {
+            if (!CanShoot(roomId))
+            {
+                throw new Exception("Always check if you can shoot arrows before you shoot!");
+            }
+            Player.Arrows--;
+
+            if (Wumpus.Location == roomId)
+            {
+                // You shot the wumpus. You win? 
+            }
+            else if (Player.Arrows <= 0)
+            {
+                // Game over! 
+            }
+
+        }
+
+        /// <summary>
         /// Gives all warnings that the player should know about. This includes if the player is one (accessable) tile away from:
         /// <list type="bullet">
         /// <item> 
@@ -189,8 +260,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 //For each room make sure
                    (e) => e.adjacentRooms.All(
                        // For each connection make sure it exists or its a null connection
-                       (r) =>  cave.Keys.Contains(r) || r == -1
-                       
+                       (r) => cave.Keys.Contains(r) || r == -1
+
                    ));
             bool allRoomsCanReachEachOther = true;
             //cave.Values.All(
@@ -201,15 +272,15 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             if (!allConnectionsValid)
             {
-               Log.Error("A room refers to a room that does not exist!");
+                Log.Error("A room refers to a room that does not exist!");
             }
             if (!allRoomsCanReachEachOther)
             {
                 Log.Error("At least one room can not reach another!");
             }
-            
+
             Log.Info("Cave layout check finished");
-            
+
         }
 
         /// <summary>
@@ -230,7 +301,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             /// </summary>
             Wumpus
         }
-        
+
         /// <summary>
         /// An enumeration of hexagonal directions
         /// </summary>
