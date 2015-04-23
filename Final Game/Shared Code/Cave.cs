@@ -1,4 +1,4 @@
-﻿using HuntTheWumpus.SharedCode.Map;
+﻿using HuntTheWumpus.SharedCode.GameMap;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
