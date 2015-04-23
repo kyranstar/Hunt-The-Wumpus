@@ -44,9 +44,6 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         {
             Texture2D texture = textures[random.Next(textures.Count)];
             Vector2 position;
-            // TODO: figure out better way to calculate positions
-            int screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            int screenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
             const int MAX_TRIES = 50;
             int tries = 0;
