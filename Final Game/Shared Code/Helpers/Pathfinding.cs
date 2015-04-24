@@ -48,7 +48,8 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
                     if (!openNodes.Contains<AStarNode<Room>>(neighbor))
                     {
-                        openNodes.Enqueue(neighbor, GetEstimatedScore(neighbor.node, end));
+                        int fCost =  GetEstimatedScore(neighbor.node, end) + neighbor.ParentCount;
+                        openNodes.Enqueue(neighbor, fCost);
                         if (neighbor.node.Equals(end))
                         {
                             // found the path
@@ -59,7 +60,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                                 path.Insert(0, currentNode.node);
                                 currentNode = currentNode.parent;
                             }
-                            return path;
+                            return path
                         }
                     }
                 }
@@ -90,6 +91,15 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
         public T node;
         public AStarNode<T> parent;
+
+        public int ParentCount
+        {
+            get 
+            {
+                if (parent == null) return 0;
+                return 1 + parent.ParentCount;
+            }
+        }
 
         //Should this method compare both the nodes and the parents or just the nodes?
         public override bool Equals(object obj)
