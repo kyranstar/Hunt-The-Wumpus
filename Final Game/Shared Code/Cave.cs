@@ -1,4 +1,5 @@
 ﻿using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
@@ -15,10 +16,35 @@ namespace HuntTheWumpus.SharedCode
     /// </summary>
     public class Cave
     {
+        // Length of the apothem of each room as it should be drawn (virtual coords)
+        private readonly int RoomNumSides;
+        private readonly double RoomBaseApothem;
+        public int TargetRoomWidth { get; protected set; }
+        public int TargetRoomHeight { get; protected set; }
+        
+
+        public Cave(int RoomNumSides = 6, double RoomBaseApothem = 300)
+        {
+            this.RoomBaseApothem = RoomBaseApothem;
+            this.RoomNumSides = RoomNumSides;
+
+            this.TargetRoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
+            this.TargetRoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
+        }
+
         /// <summary>
         /// contains generated cave (dictionary of rooms)
         /// </summary>
         private Dictionary<int, Room> cave = new Dictionary<int, Room>();
+
+        /// <summary>
+        /// Gets the calculated positions for the available room IDs
+        /// </summary>
+        public Dictionary<int, RoomLayoutMapping> RoomLayout
+        {
+            get;
+            protected set;
+        }
 
         /// <summary>
         /// Gets the array of rooms in the cave
@@ -115,6 +141,13 @@ namespace HuntTheWumpus.SharedCode
             return randomCave;
         }
 
+        /// <summary>
+        /// Updates the internal layout calculations (adapts to new cave connections)
+        /// </summary>
+        public void RegenerateLayout()
+        {
+            RoomLayout = MapUtils.GetRoomLayout(cave.Values.ToArray(), RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
+        }
     }
     /// <summary>
     /// Class which represents one room which is part of the cave system

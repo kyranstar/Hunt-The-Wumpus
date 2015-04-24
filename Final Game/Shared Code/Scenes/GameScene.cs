@@ -52,7 +52,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
             // Ideally, the Map should have a reset method
             // TODO: Reset map here
 
-            MapRenderer.RegenerateLayout();
+            Map.Cave.RegenerateLayout();
         }
 
         public override void Update(GameTime GameTime)
