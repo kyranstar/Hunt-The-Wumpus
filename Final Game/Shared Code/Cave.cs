@@ -157,5 +157,28 @@ namespace HuntTheWumpus.SharedCode
                     arrows
                 );
         }
+        public override bool Equals(Object obj)
+        {
+            // If parameter is null return false.
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // If parameter cannot be cast to Room return false.
+            Room p = obj as Room;
+            if ((Object)p == null)
+            {
+                return false;
+            }
+
+            // Shoullddddd be good enough...
+            return roomId == p.roomId;
+        }
+        public override int GetHashCode()
+        {
+            return roomId;
+        }
+
     }
 }
