@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,7 +49,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
                     if (!openNodes.Contains<AStarNode<Room>>(neighbor))
                     {
-                        int fCost =  GetEstimatedScore(neighbor.node, end) + neighbor.ParentCount;
+                        int fCost =  GetEstimatedScore(neighbor.node, end, cave) + neighbor.ParentCount;
                         openNodes.Enqueue(neighbor, fCost);
                         if (neighbor.node.Equals(end))
                         {
@@ -69,10 +70,12 @@ namespace HuntTheWumpus.SharedCode.Helpers
             // path not found
             return null;
         }
-        private static int GetEstimatedScore(Room start, Room end)
+        private static int GetEstimatedScore(Room start, Room end, Cave cave)
         {
-            // Rooms must hold their own position so I can calculate this
-            return 0;
+            Vector2 startPos =  cave.RoomLayout[start.roomId].RoomPosition;
+            Vector2 endPos = cave.RoomLayout[end.roomId].RoomPosition;
+            // Manhattan distance
+            return (int) Math.Round(Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y));
         }
     }
     class AStarNode<T> : PriorityQueueNode
