@@ -299,7 +299,18 @@ namespace HuntTheWumpus.SharedCode.GameMap
             /// <summary>
             /// Represents when the player is within one (maybe more for the wumpus? we should discuss this) tile of the wumpus
             /// </summary>
-            Wumpus
+            Wumpus,
+        }
+        public static string GetDescription(PlayerWarnings warning)
+        {
+            switch (warning)
+            {
+                case PlayerWarnings.Pit: return "I feel a draft.";
+                case PlayerWarnings.Bat: return "Bats nearby.";
+                case PlayerWarnings.Wumpus: return "I smell a Wumpus!";
+
+                default: throw new Exception();
+            }
         }
 
         /// <summary>
