@@ -60,7 +60,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                                 path.Insert(0, currentNode.node);
                                 currentNode = currentNode.parent;
                             }
-                            return path
+                            return path;
                         }
                     }
                 }
