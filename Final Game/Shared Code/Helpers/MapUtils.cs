@@ -21,7 +21,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>A mapping of room IDs to their room's positions</returns>
         public static Dictionary<int, RoomLayoutMapping> GetRoomLayout(Room[] Rooms, double RoomBaseApothem, int RoomNumSides, float TargetRoomWidth, float TargetRoomHeight)
         {
-            Dictionary<int, Room> UnmappedRooms = Rooms.ToDictionary(Room => Room.RoomId);
+            Dictionary<int, Room> UnmappedRooms = Rooms.ToDictionary(Room => Room.RoomID);
             Dictionary<int, RoomLayoutMapping> NewLayout = GetRoomLayout(Rooms[0], new Vector2(), UnmappedRooms, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
 
             // If not all rooms were found, we know that not all of them have a valid connection
@@ -40,7 +40,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>A mapping of room IDs to their room's positions</returns>
         public static Dictionary<int, RoomLayoutMapping> GetRoomLayout(Room CurrentRoom, Vector2 CurrentPoint, Dictionary<int, Room> UnmappedRooms, double RoomBaseApothem, int RoomNumSides, float TargetRoomWidth, float TargetRoomHeight)
         {
-            Log.Info("GetRoomLayout called for room " + CurrentRoom.RoomId + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
+            Log.Info("GetRoomLayout called for room " + CurrentRoom.RoomID + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
 
             // Start with an empty result
             Dictionary<int, RoomLayoutMapping> NewMappedRooms = new Dictionary<int, RoomLayoutMapping>();
@@ -57,8 +57,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 {
                     // If we have gotten to this next room by reference but the next room
                     //   does not have a connection back to the first one, warn of issues!
-                    if (!NextRoom.AdjacentRooms.Contains(CurrentRoom.RoomId))
-                        Log.Warn("Room " + CurrentRoom.RoomId + " claims it is connected to room " + NextRoom.RoomId + ", but the inverse connection was not found!");
+                    if (!NextRoom.AdjacentRooms.Contains(CurrentRoom.RoomID))
+                        Log.Warn("Room " + CurrentRoom.RoomID + " claims it is connected to room " + NextRoom.RoomID + ", but the inverse connection was not found!");
 
                     RoomLayoutMapping NextMapping = new RoomLayoutMapping()
                     {
@@ -79,7 +79,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     Dictionary<int, RoomLayoutMapping> MappedRooms = GetRoomLayout(NextRoom, NextMapping.RoomPosition, UnmappedRooms, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
 
                     // Add the current room to the deeper map
-                    MappedRooms.Add(NextRoom.RoomId, NextMapping);
+                    MappedRooms.Add(NextRoom.RoomID, NextMapping);
                     // Merge the result with the results from the other connections
                     NewMappedRooms = NewMappedRooms.MergeLeft(MappedRooms);
 

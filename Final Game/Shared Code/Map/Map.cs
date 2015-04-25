@@ -98,7 +98,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             if (currentRoom.AdjacentRooms[dir] != -1)
             {
                 //set our current room to that room
-                PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[(int)dir]).RoomId;
+                PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[(int)dir]).RoomID;
                 RoomUpdate();
                 return true;
             }

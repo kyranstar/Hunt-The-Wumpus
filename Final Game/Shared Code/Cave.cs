@@ -128,25 +128,28 @@ namespace HuntTheWumpus.SharedCode
     /// </summary>
     public class Room
     {
+        private int roomID;
+        private int gold;
+        private int arrows;
+        private bool hasBats;
+        private bool hasPit;
+        private int[] adjacentRooms;
+
         /// <summary>
         /// room's location in cave
         /// </summary>
-        private int roomId;
-
-        public int RoomId
+        public int RoomID
         {
-            get { return roomId; }
+            get { return roomID; }
             set
             {
-                if (roomId < 0)
+                if (roomID < 0)
                 {
                     throw new InvalidRoomException("Room can't have negative ID");
                 }
-                roomId = value;
+                roomID = value;
             }
         }
-
-        private int gold;
         /// <summary>
         /// how much gold the room contains (gold >= 0)
         /// </summary>
@@ -162,8 +165,6 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// how many arrows the room contains (arrows >= 0)
         /// </summary>
-        private int arrows;
-
         public int Arrows
         {
             get { return arrows; }
@@ -173,7 +174,6 @@ namespace HuntTheWumpus.SharedCode
                 arrows = value;
             }
         }
-        private bool hasBats;
         /// <summary>
         /// true if room contains bats, false if not
         /// </summary>
@@ -190,7 +190,6 @@ namespace HuntTheWumpus.SharedCode
                 hasBats = value;
             }
         }
-        private bool hasPit;
         /// <summary>
         /// true if room contains a pit, false if not
         /// </summary>
@@ -207,7 +206,6 @@ namespace HuntTheWumpus.SharedCode
                 hasPit = value;
             }
         }
-        public int[] adjacentRooms;
         /// <summary>
         /// what other rooms this room is connected to
         /// </summary>
@@ -226,7 +224,7 @@ namespace HuntTheWumpus.SharedCode
 
         public Room(int roomId, int gold, int arrows, bool bats, bool pit, int[] adjacentRooms)
         {
-            this.roomId = roomId;
+            this.roomID = roomId;
             this.gold = gold;
             this.arrows = arrows;
             this.HasBats = bats;
@@ -238,7 +236,7 @@ namespace HuntTheWumpus.SharedCode
         {
             return string.Format(
                     "Room {{id: {0}, has bats: {1}, has pit: {2}, gold: {3}, arrows: {4}}}",
-                    roomId,
+                    roomID,
                     HasBats ? "yes" : "no",
                     HasPit ? "yes" : "no",
                     gold,
@@ -249,11 +247,11 @@ namespace HuntTheWumpus.SharedCode
         public override bool Equals(Object other)
         {
             Room otherRoom = other as Room;
-            return otherRoom != null && roomId == otherRoom.roomId;
+            return otherRoom != null && roomID == otherRoom.roomID;
         }
         public override int GetHashCode()
         {
-            return roomId;
+            return roomID;
         }
 
     }
