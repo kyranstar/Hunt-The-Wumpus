@@ -62,7 +62,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
                     RoomLayoutMapping NextMapping = new RoomLayoutMapping()
                     {
-                        Room = NextRoom
+                        Room = NextRoom,
+                        Image = Random.Next(MapRenderer.NumRoomTextures)
                     };
 
                     // Get the point for the next room
@@ -217,6 +218,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public Room Room;
         public Vector2 RoomPosition;
         public DoorLayoutMapping[] ClosedDoorMappings;
+        public int Image;
     }
 
     /// <summary>

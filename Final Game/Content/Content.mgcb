@@ -25,7 +25,7 @@
 /processorParam:TextureFormat=Compressed
 /build:Segoe_UI_15_Bold.spritefont
 
-#begin Images/RoomBase.png
+#begin Images/RoomBase0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -34,7 +34,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
-/build:Images/RoomBase.png
+/build:Images/RoomBase0.png
 
 #begin Images/Character.png
 /importer:TextureImporter
@@ -58,7 +58,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/ClosedDoor0.png
 
-#begin Images/Clout0.png
+#begin Images/Cloud0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255

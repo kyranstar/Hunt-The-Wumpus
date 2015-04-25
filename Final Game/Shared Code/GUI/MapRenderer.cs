@@ -20,7 +20,6 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private Map Map;
 
-        private Texture2D RoomBaseTexture;
         private Texture2D PlayerTexture;
 
         private Sprite2D Player;
@@ -30,10 +29,10 @@ namespace HuntTheWumpus.SharedCode.GUI
         private const int VirtualViewHeight = 500;
         private const int PlayerSize = 500;
 
-        public const int NumCloudTextures = 1, NumDoorTextures = 1;
+        public const int NumCloudTextures = 1, NumDoorTextures = 1, NumRoomTextures = 1;
 
         ParticleSystem.ParticleSystem fogSystem;
-        private Texture2D[] CloudTextures, ClosedDoorTextures;
+        private Texture2D[] CloudTextures, ClosedDoorTextures, RoomBaseTextures;
 
         public MapRenderer(Map Map)
         {
@@ -112,11 +111,11 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <param name="Content"></param>
         public void LoadContent(ContentManager Content)
         {
-            RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
 
             MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
+            MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content);
         }
 
         /// <summary>
@@ -170,7 +169,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             // TODO: Figure out if we can move some of this math into "Sprite"s
 
-            if (RoomBaseTexture == null || Map.Cave.RoomLayout == null)
+            if (RoomBaseTextures.Length <= 0 || Map.Cave.RoomLayout == null)
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
             // Iterate over each layout mapping
@@ -182,7 +181,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 // Calculate the target room rectangle and draw the texture
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-                Target.Draw(RoomBaseTexture, RoomTargetArea, Color.White);
+                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, Color.White);
 
                 // Iterate over the (closed) door mappings for the current room
                 foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
