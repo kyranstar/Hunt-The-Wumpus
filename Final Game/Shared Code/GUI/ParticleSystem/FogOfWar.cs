@@ -19,7 +19,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         const int MIN_LIFE = 5000;
         const int MAX_LIFE = 20000;
 
-        const float OPACITY = 0.5f;
+        const float OPACITY = 0.1f;
 
         const float MIN_SIZE = 1.5f;
         const float MAX_SIZE = 5.5f;

@@ -29,7 +29,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private const int VirtualViewHeight = 500;
         private const int PlayerSize = 500;
 
-        public const int NumCloudTextures = 1, NumDoorTextures = 1, NumRoomTextures = 1;
+        public const int NumCloudTextures = 1, NumDoorTextures = 5, NumRoomTextures = 5;
 
         ParticleSystem.ParticleSystem fogSystem;
         private Texture2D[] CloudTextures, ClosedDoorTextures, RoomBaseTextures;
