@@ -1,12 +1,8 @@
 ﻿using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.Helpers;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace HuntTheWumpus.SharedCode
 {
@@ -21,7 +17,7 @@ namespace HuntTheWumpus.SharedCode
         private readonly double RoomBaseApothem;
         public int TargetRoomWidth { get; protected set; }
         public int TargetRoomHeight { get; protected set; }
-        
+
 
         public Cave(int RoomNumSides = 6, double RoomBaseApothem = 300)
         {
@@ -90,7 +86,7 @@ namespace HuntTheWumpus.SharedCode
         {
             if (!cave.ContainsKey(id))
                 return null;
-           return cave[id];
+            return cave[id];
         }
         /// <summary>
         /// Adds a room
@@ -103,16 +99,7 @@ namespace HuntTheWumpus.SharedCode
         /// <param name="pit"></param>
         public void AddRoom(int id, int[] connections, int gold = 0, int arrows = 0, bool bats = false, bool pit = false)
         {
-            this.cave[id] = new Room(){
-                roomId = id,
-                adjacentRooms = connections,
-                gold = gold,
-                arrows = arrows,
-                bats = bats,
-                pit = pit
-            };
-
-            if (bats == true && pit == true)
+            if (bats && pit)
             {
                 throw new InvalidRoomException("Can't have bats AND pit in one room");
             }
@@ -126,6 +113,16 @@ namespace HuntTheWumpus.SharedCode
             {
                 throw new InvalidRoomException("Room can't have negative ID");
             }
+
+            this.cave[id] = new Room()
+            {
+                roomId = id,
+                adjacentRooms = connections,
+                gold = gold,
+                arrows = arrows,
+                bats = bats,
+                pit = pit
+            };
         }
         /// <summary>
         /// Method to randomly generate cave (work in progress, feel free to pitch in)
@@ -190,16 +187,16 @@ namespace HuntTheWumpus.SharedCode
                     arrows
                 );
         }
-        public override bool Equals(Object obj)
+        public override bool Equals(Object other)
         {
             // If parameter is null return false.
-            if (obj == null)
+            if (other == null)
             {
                 return false;
             }
 
             // If parameter cannot be cast to Room return false.
-            Room p = obj as Room;
+            Room p = other as Room;
             if ((Object)p == null)
             {
                 return false;

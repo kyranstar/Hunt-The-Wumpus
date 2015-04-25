@@ -27,33 +27,29 @@ namespace HuntTheWumpus.SharedCode.Helpers
         private static List<Room> FindAStarPath(Room start, Room end, Cave cave)
         {
             int MAX_TRAVERSED_ROOMS = cave.getRoomDict().Count;
-            IPriorityQueue<AStarNode<Room>> openNodes = new HeapPriorityQueue<AStarNode<Room>>(MAX_TRAVERSED_ROOMS);
-            List<AStarNode<Room>> closedNodes = new List<AStarNode<Room>>();
+            IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(MAX_TRAVERSED_ROOMS);
+            List<AStarNode> closedNodes = new List<AStarNode>();
 
-            Func<AStarNode<Room>, IEnumerable<AStarNode<Room>>> getNeighbors = (r) =>
-            {
-                return new List<int>(r.node.adjacentRooms).Select((a) => new AStarNode<Room>(cave.GetRoom(a), r));
-            };
             // Add the start node with an F cost of 0
-            openNodes.Enqueue(new AStarNode<Room>(start), 0);
+            openNodes.Enqueue(new AStarNode(start), 0);
 
             while (openNodes.Count != 0)
             {
                 //The one with the least F cost
-                AStarNode<Room> current = openNodes.Dequeue();
+                AStarNode current = openNodes.Dequeue();
                 closedNodes.Add(current);
 
-                foreach (AStarNode<Room> neighbor in getNeighbors(current))
+                foreach (AStarNode neighbor in getNeighbors(current, cave))
                 {
                     // if we already processed this node
-                    if (closedNodes.Contains<AStarNode<Room>>(neighbor)) continue;
+                    if (closedNodes.Contains<AStarNode>(neighbor)) continue;
 
                     int fCost = GetEstimatedScore(neighbor.node, end, cave) + neighbor.ParentCount;
 
-                    if (openNodes.Contains<AStarNode<Room>>(neighbor))
+                    if (openNodes.Contains<AStarNode>(neighbor))
                     {
                         double priority = -1;
-                        foreach (AStarNode<Room> node in openNodes)
+                        foreach (AStarNode node in openNodes)
                         {
                             if (node.Equals(neighbor))
                             {
@@ -73,7 +69,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                         {
                             // found the path
                             List<Room> path = new List<Room>();
-                            AStarNode<Room> currentNode = neighbor;
+                            AStarNode currentNode = neighbor;
                             while (currentNode.parent != null)
                             {
                                 path.Insert(0, currentNode.node);
@@ -95,58 +91,58 @@ namespace HuntTheWumpus.SharedCode.Helpers
             // Manhattan distance
             return (int)Math.Round(Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y));
         }
-    }
-    class AStarNode<T> : PriorityQueueNode
-    {
-        public AStarNode(T node)
+        private static IEnumerable<AStarNode> getNeighbors(AStarNode center, Cave cave)
         {
-            this.node = node;
-            this.parent = null;
+            return new List<int>(center.node.adjacentRooms).Select((a) => new AStarNode(cave.GetRoom(a), center));
         }
-
-        public AStarNode(T node, AStarNode<T> parent)
+        private class AStarNode : PriorityQueueNode
         {
-            this.node = node;
-            this.parent = parent;
-        }
-
-        public T node;
-        public AStarNode<T> parent;
-
-        public int ParentCount
-        {
-            get
+            public AStarNode(Room node)
             {
-                if (parent == null) return 0;
-                return 1 + parent.ParentCount;
+                this.node = node;
+                this.parent = null;
+            }
+
+            public AStarNode(Room node, AStarNode parent)
+            {
+                this.node = node;
+                this.parent = parent;
+            }
+
+            public Room node;
+            public AStarNode parent;
+
+            public int ParentCount
+            {
+                get
+                {
+                    if (parent == null) return 0;
+                    return 1 + parent.ParentCount;
+                }
+            }
+
+            //Should this method compare both the nodes and the parents or just the nodes?
+            public override bool Equals(object other)
+            {
+                if (other == null)
+                    return false;
+
+                if (other.GetType() != GetType())
+                    return false;
+
+                return node.Equals(((AStarNode)other).node);
+            }
+
+            public override int GetHashCode()
+            {
+                if (node.Equals(null))
+                    return base.GetHashCode();
+
+                return GetType().GetHashCode() ^ node.GetHashCode();
             }
         }
-
-        //Should this method compare both the nodes and the parents or just the nodes?
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            if (obj.GetType() != GetType())
-                return false;
-
-            bool sameKey = node.Equals(((AStarNode<T>)obj).node);
-
-            if (sameKey && node.Equals(default(T)))
-                return ReferenceEquals(this, obj);
-
-            return sameKey;
-        }
-
-        public override int GetHashCode()
-        {
-            if (node.Equals(default(T)))
-                return base.GetHashCode();
-
-            return GetType().GetHashCode() ^ node.GetHashCode();
-        }
     }
+
     public enum PathfindingAlgorithm
     {
         A_STAR,
