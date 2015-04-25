@@ -33,7 +33,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         /// <param name="cloudTextures">A list of textures to use for the cloud</param>
         /// <param name="IsInsideCloud">A function that takes a vector and determines whether the point is inside the cloud</param>
         /// <param name="bounds">The bounds to try to generate particles within</param>
-        public FogOfWar(List<Texture2D> cloudTextures, Camera2D cam, Func<Rectangle, bool> IsInsideCloud)
+        public FogOfWar(Texture2D[] cloudTextures, Camera2D cam, Func<Rectangle, bool> IsInsideCloud)
             : base(cloudTextures, new Vector2(0, 0), PARTICLE_CAP)
         {
             this.IsInsideCloud = IsInsideCloud;
@@ -42,7 +42,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         protected override Particle GenerateNewParticle()
         {
-            Texture2D texture = textures[random.Next(textures.Count)];
+            Texture2D texture = textures[random.Next(textures.Length)];
             Vector2 position;
 
             const int MAX_TRIES = 50;
