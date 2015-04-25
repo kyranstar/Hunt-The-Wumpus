@@ -27,8 +27,6 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private SpriteFont Font;
 
-        private FrameCounter FramerateCounter = new FrameCounter();
-
         private const int VirtualViewHeight = 500;
         private const int PlayerSize = 500;
 
@@ -117,8 +115,6 @@ namespace HuntTheWumpus.SharedCode.GUI
             RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
 
-            Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
-
             MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
         }
@@ -168,16 +164,6 @@ namespace HuntTheWumpus.SharedCode.GUI
             fogSystem.Draw(MapRenderTarget);
 
             MapRenderTarget.End();
-
-            MapRenderTarget.Begin();
-
-            FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
-            var fps = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
-            var particles = string.Format("Particles: {0}", fogSystem.NumberParticles);
-            MapRenderTarget.DrawString(Font, fps, new Vector2(5, 1), Color.Black);
-            MapRenderTarget.DrawString(Font, particles, new Vector2(5, 10), Color.Black);
-
-            MapRenderTarget.End();
         }
 
         private void DrawCaveBase(SpriteBatch Target)
@@ -224,6 +210,11 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void DrawPlayer(SpriteBatch Target)
         {
             Player.Draw(Target);
+        }
+
+        public int FogParticleCount
+        {
+            get { return fogSystem.NumberParticles; }
         }
 
     }

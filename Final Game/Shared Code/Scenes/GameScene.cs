@@ -25,6 +25,11 @@ namespace HuntTheWumpus.SharedCode.Scenes
         MapInputHandler InputHandler;
         GraphicsDevice Graphics;
 
+        SpriteFont UIFont;
+
+        private FrameCounter FramerateCounter = new FrameCounter();
+        SpriteBatch InfoOverlay;
+
 #if DESKTOP
         GodManager God;
 #endif
@@ -35,6 +40,9 @@ namespace HuntTheWumpus.SharedCode.Scenes
             InputHandler = new MapInputHandler(Map);
             MapRenderer = new MapRenderer(Map);
             MapRenderer.LoadContent(Content);
+
+            UIFont = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
+
         }
 
         public override void Initialize(GraphicsDevice GraphicsDevice)
@@ -46,7 +54,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
             new Task(God.Initialize).Start();
 #endif
-
+            InfoOverlay = new SpriteBatch(Graphics);
             MapRenderer.Initialize(GraphicsDevice);
             
             // Ideally, the Map should have a reset method
@@ -64,6 +72,23 @@ namespace HuntTheWumpus.SharedCode.Scenes
         public override void Draw(GameTime GameTime)
         {
             MapRenderer.Draw(GameTime);
+
+
+            InfoOverlay.Begin();
+
+            FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
+
+            // Render general info
+            var FPS = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
+            var Particles = string.Format("Fog particles: {0}", MapRenderer.FogParticleCount);
+            InfoOverlay.DrawString(UIFont, FPS, new Vector2(5, 1), Color.Black);
+            InfoOverlay.DrawString(UIFont, Particles, new Vector2(5, 11), Color.Black);
+
+            // Render room status
+            string Room = Map.Cave[Map.PlayerRoom].ToString();
+            InfoOverlay.DrawString(UIFont, Room, new Vector2(5, 21), Color.Black);
+
+            InfoOverlay.End();
         }
 
         public override void UnloadContent()
