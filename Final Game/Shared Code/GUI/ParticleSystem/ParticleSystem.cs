@@ -14,7 +14,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         public Vector2 EmitterLocation { get; set; }
         protected List<Particle> particles;
-        protected List<Texture2D> textures;
+        protected Texture2D[] textures;
         private int particleCap;
 
         public int NumberParticles
@@ -22,7 +22,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             get { return this.particles.Count; }
         }
 
-        public ParticleSystem(List<Texture2D> textures, Vector2 location, int particleCap)
+        public ParticleSystem(Texture2D[] textures, Vector2 location, int particleCap)
         {
             EmitterLocation = location;
             this.textures = textures;
@@ -63,7 +63,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         protected virtual Particle GenerateNewParticle()
         {
-            Texture2D texture = textures[random.Next(textures.Count)];
+            Texture2D texture = textures[random.Next(textures.Length)];
             Vector2 position = EmitterLocation;
             Vector2 velocity = new Vector2(
                                     1f * (float)(random.NextDouble() * 2 - 1),

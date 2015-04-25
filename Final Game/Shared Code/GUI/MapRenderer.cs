@@ -21,7 +21,6 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Map Map;
 
         private Texture2D RoomBaseTexture;
-        private Texture2D RoomClosedDoorTexture;
         private Texture2D PlayerTexture;
 
         private Sprite2D Player;
@@ -33,8 +32,10 @@ namespace HuntTheWumpus.SharedCode.GUI
         private const int VirtualViewHeight = 500;
         private const int PlayerSize = 500;
 
+        public const int NumCloudTextures = 1, NumDoorTextures = 1;
+
         ParticleSystem.ParticleSystem fogSystem;
-        private List<Texture2D> CloudTextures;
+        private Texture2D[] CloudTextures, ClosedDoorTextures;
 
         public MapRenderer(Map Map)
         {
@@ -87,6 +88,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 RenderHeight = PlayerSize
             };
 
+            UpdateCamera();
+
             fogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam, (p) =>
             {
                 int centerX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f));
@@ -112,13 +115,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void LoadContent(ContentManager Content)
         {
             RoomBaseTexture = Content.Load<Texture2D>("Images/RoomBase");
-            RoomClosedDoorTexture = Content.Load<Texture2D>("Images/ClosedDoor");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
 
             Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
 
-            CloudTextures = new List<Texture2D>();
-            CloudTextures.Add(Content.Load<Texture2D>("Images/cloud"));
+            MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
+            MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
         }
 
         /// <summary>
@@ -197,13 +199,13 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Target.Draw(RoomBaseTexture, RoomTargetArea, Color.White);
 
                 // Iterate over the (closed) door mappings for the current room
-                foreach (Tuple<Vector2, float> DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
+                foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
                 {
                     // Calculate the destination rectangle for the door mapping
                     Rectangle TargetSectionArea = new Rectangle()
                     {
-                        X = (int)Math.Round(DoorMapping.Item1.X),
-                        Y = (int)Math.Round(DoorMapping.Item1.Y),
+                        X = (int)Math.Round(DoorMapping.Position.X),
+                        Y = (int)Math.Round(DoorMapping.Position.Y),
                         Width = Map.Cave.TargetRoomWidth / 2, // TODO: Figure out integer inaccuracies
                         Height = Map.Cave.TargetRoomHeight / 2
 
@@ -211,9 +213,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                     // Draw the door texture
                     Target.Draw(
-                        RoomClosedDoorTexture,
+                        ClosedDoorTextures[DoorMapping.Image],
                         destinationRectangle: TargetSectionArea,
-                        rotation: DoorMapping.Item2,
+                        rotation: DoorMapping.Rotation,
                         color: Color.White);
                 }
             }

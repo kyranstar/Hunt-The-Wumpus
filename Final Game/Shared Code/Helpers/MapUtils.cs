@@ -1,6 +1,9 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.GUI;
 using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +12,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
 {
     public static class MapUtils
     {
+        static Random Random = new Random();
+
         /// <summary>
         /// Lays out the given map by converting the room's individual connections into absolute positions
         /// </summary>
@@ -90,9 +95,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="Connections">The set of connections that the given room has</param>
         /// <param name="RoomOrigin">The position of the given room</param>
         /// <returns>A mapping of positions and rotations for each closed door</returns>
-        public static Tuple<Vector2, float>[] MapDoorsForRoom(int[] Connections, Vector2 RoomOrigin, double RoomBaseApothem, int RoomNumSides, float TargetRoomWidth, float TargetRoomHeight)
+        public static DoorLayoutMapping[] MapDoorsForRoom(int[] Connections, Vector2 RoomOrigin, double RoomBaseApothem, int RoomNumSides, float TargetRoomWidth, float TargetRoomHeight)
         {
-            List<Tuple<Vector2, float>> DoorMappings = new List<Tuple<Vector2, float>>();
+            List<DoorLayoutMapping> DoorMappings = new List<DoorLayoutMapping>();
 
             foreach (int Direction in
                 Connections
@@ -118,7 +123,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 // Get the rotation to make the wedge fit corectly
                 float DoorIconRotation = -GetAngleForSide(Direction, RoomNumSides) + ((float)Math.PI * 0.5f);
 
-                DoorMappings.Add(new Tuple<Vector2, float>(DoorIconPosition, DoorIconRotation));
+                DoorMappings.Add(new DoorLayoutMapping()
+                    {
+                        Position = DoorIconPosition,
+                        Rotation = DoorIconRotation,
+                        Image = Random.Next(MapRenderer.NumDoorTextures)
+                    });
             }
 
             // Can't use yield return because we need an array 
@@ -179,6 +189,24 @@ namespace HuntTheWumpus.SharedCode.GameMap
             double Angle = (Math.PI / 2f + SingleSectionAngle / 2f) - SingleSectionAngle * Side;
             return (float)(MathUtils.Mod(Angle, Math.PI * 2));
         }
+
+        /// <summary>
+        /// Loads textures from the provided content manager into the specified array target.
+        /// Load from path "Images/<prefix><index>", where prefix is the supplied string and index
+        /// is the texture index that it is trying to load (0 <= index < NumTextures)
+        /// </summary>
+        /// <param name="Textures">The target array to load the textures into.</param>
+        /// <param name="NumTextures">The number of textures to load.</param>
+        /// <param name="NamePrefix">The prefix to use in the asset file name.</param>
+        /// <param name="Content">The content manager to use.</param>
+        public static void LoadTexturesIntoArray(out Texture2D[] Textures, int NumTextures, string NamePrefix, ContentManager Content)
+        {
+            Textures = new Texture2D[NumTextures];
+            for(int i = 0; i < NumTextures; i++)
+            {
+                Textures[i] = Content.Load<Texture2D>("Images/" + NamePrefix + i);
+            }
+    }
     }
 
     /// <summary>
@@ -188,6 +216,16 @@ namespace HuntTheWumpus.SharedCode.GameMap
     {
         public Room Room;
         public Vector2 RoomPosition;
-        public Tuple<Vector2, float>[] ClosedDoorMappings;
+        public DoorLayoutMapping[] ClosedDoorMappings;
+    }
+
+    /// <summary>
+    /// Holds render information about a single door.
+    /// </summary>
+    public class DoorLayoutMapping
+    {
+        public float Rotation;
+        public Vector2 Position;
+        public int Image;
     }
 }
