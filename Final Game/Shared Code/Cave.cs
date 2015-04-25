@@ -31,7 +31,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// contains generated cave (dictionary of rooms)
         /// </summary>
-        private Dictionary<int, Room> cave = new Dictionary<int, Room>();
+        private IDictionary<int, Room> cave = new Dictionary<int, Room>();
 
         /// <summary>
         /// Gets the calculated positions for the available room IDs
@@ -65,7 +65,7 @@ namespace HuntTheWumpus.SharedCode
         /// returns current cave on request
         /// </summary>
         /// <returns>current cave</returns>
-        public List<Room> getRoomList()
+        public List<Room> GetRoomList()
         {
             return cave.Values.ToList<Room>();
         }
@@ -73,7 +73,7 @@ namespace HuntTheWumpus.SharedCode
         /// Returns the current cave in dictionary form (roomId -> room)
         /// </summary>
         /// <returns></returns>
-        public Dictionary<int, Room> getRoomDict()
+        public IDictionary<int, Room> GetRoomDict()
         {
             return cave;
         }
@@ -99,30 +99,7 @@ namespace HuntTheWumpus.SharedCode
         /// <param name="pit"></param>
         public void AddRoom(int id, int[] connections, int gold = 0, int arrows = 0, bool bats = false, bool pit = false)
         {
-            if (bats && pit)
-            {
-                throw new InvalidRoomException("Can't have bats AND pit in one room");
-            }
-
-            if (connections.Length == 0)
-            {
-                throw new InvalidRoomException("Each room needs to be accessible");
-            }
-
-            if (id < 0)
-            {
-                throw new InvalidRoomException("Room can't have negative ID");
-            }
-
-            this.cave[id] = new Room()
-            {
-                roomId = id,
-                adjacentRooms = connections,
-                gold = gold,
-                arrows = arrows,
-                bats = bats,
-                pit = pit
-            };
+            this.cave[id] = new Room(id, gold, arrows, bats, pit, connections);
         }
         /// <summary>
         /// Method to randomly generate cave (work in progress, feel free to pitch in)
@@ -132,7 +109,7 @@ namespace HuntTheWumpus.SharedCode
         // Requirements for cave:
         // In list of all room connections, each room must appear 1/2 # of rooms times
         // Each room must have at least 1, no more than 3 doors
-        public Cave randomCaveGen(int rooms)
+        public Cave RandomCaveGen(int rooms)
         {
             Cave randomCave = new Cave();
             return randomCave;
@@ -154,56 +131,125 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// room's location in cave
         /// </summary>
-        public int roomId;
+        private int roomId;
+
+        public int RoomId
+        {
+            get { return roomId; }
+            set
+            {
+                if (roomId < 0)
+                {
+                    throw new InvalidRoomException("Room can't have negative ID");
+                }
+                roomId = value;
+            }
+        }
+
+        private int gold;
         /// <summary>
         /// how much gold the room contains (gold >= 0)
         /// </summary>
-        public int gold;
+        public int Gold
+        {
+            get { return gold; }
+            set
+            {
+                if (value < 0) throw new InvalidRoomException("Gold must be >= 0");
+                gold = value;
+            }
+        }
         /// <summary>
         /// how many arrows the room contains (arrows >= 0)
         /// </summary>
-        public int arrows;
+        private int arrows;
+
+        public int Arrows
+        {
+            get { return arrows; }
+            set
+            {
+                if (value < 0) throw new InvalidRoomException("Arrows must be >= 0");
+                arrows = value;
+            }
+        }
+        private bool hasBats;
         /// <summary>
         /// true if room contains bats, false if not
         /// </summary>
-        public bool bats;
+        public bool HasBats
+        {
+            get { return hasBats; }
+            set
+            {
+                // If we already have a pit in this room and we're setting bats to true
+                if (value && HasPit)
+                {
+                    throw new InvalidRoomException("Can't have bats AND pit in one room");
+                }
+                hasBats = value;
+            }
+        }
+        private bool hasPit;
         /// <summary>
         /// true if room contains a pit, false if not
         /// </summary>
-        public bool pit;
+        public bool HasPit
+        {
+            get { return hasPit; }
+            set
+            {
+                // If we already have bats in this room and we're setting pit to true
+                if (value && HasBats)
+                {
+                    throw new InvalidRoomException("Can't have bats AND pit in one room");
+                }
+                hasPit = value;
+            }
+        }
+        public int[] adjacentRooms;
         /// <summary>
         /// what other rooms this room is connected to
         /// </summary>
-        public int[] adjacentRooms;
+        public int[] AdjacentRooms
+        {
+            get { return adjacentRooms; }
+            set
+            {
+                if (value.Length == 0)
+                {
+                    throw new InvalidRoomException("Each room needs to be accessible");
+                }
+                adjacentRooms = value;
+            }
+        }
+
+        public Room(int roomId, int gold, int arrows, bool bats, bool pit, int[] adjacentRooms)
+        {
+            this.roomId = roomId;
+            this.gold = gold;
+            this.arrows = arrows;
+            this.HasBats = bats;
+            this.HasPit = pit;
+            this.AdjacentRooms = adjacentRooms;
+        }
 
         public override string ToString()
         {
             return string.Format(
                     "Room {{id: {0}, has bats: {1}, has pit: {2}, gold: {3}, arrows: {4}}}",
                     roomId,
-                    bats ? "yes" : "no",
-                    pit ? "yes" : "no",
+                    HasBats ? "yes" : "no",
+                    HasPit ? "yes" : "no",
                     gold,
                     arrows
                 );
         }
+        // We should probably make these methods more robust
         public override bool Equals(Object other)
         {
-            // If parameter is null return false.
-            if (other == null)
-            {
-                return false;
-            }
-
-            // If parameter cannot be cast to Room return false.
-            Room p = other as Room;
-            if ((Object)p == null)
-            {
-                return false;
-            }
-
-            // Shoullddddd be good enough...
-            return roomId == p.roomId;
+            Room otherRoom = other as Room;
+            return otherRoom != null && roomId == otherRoom.roomId;
         }
         public override int GetHashCode()
         {

@@ -26,9 +26,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
         private static List<Room> FindAStarPath(Room start, Room end, Cave cave)
         {
-            int MAX_TRAVERSED_ROOMS = cave.getRoomDict().Count;
+            int MAX_TRAVERSED_ROOMS = cave.GetRoomDict().Count;
             IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(MAX_TRAVERSED_ROOMS);
-            List<AStarNode> closedNodes = new List<AStarNode>();
+            IList<AStarNode> closedNodes = new List<AStarNode>();
 
             // Add the start node with an F cost of 0
             openNodes.Enqueue(new AStarNode(start), 0);
@@ -86,14 +86,14 @@ namespace HuntTheWumpus.SharedCode.Helpers
         }
         private static int GetEstimatedScore(Room start, Room end, Cave cave)
         {
-            Vector2 startPos = cave.RoomLayout[start.roomId].RoomPosition;
-            Vector2 endPos = cave.RoomLayout[end.roomId].RoomPosition;
+            Vector2 startPos = cave.RoomLayout[start.RoomId].RoomPosition;
+            Vector2 endPos = cave.RoomLayout[end.RoomId].RoomPosition;
             // Manhattan distance
             return (int)Math.Round(Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y));
         }
         private static IEnumerable<AStarNode> getNeighbors(AStarNode center, Cave cave)
         {
-            return new List<int>(center.node.adjacentRooms).Select((a) => new AStarNode(cave.GetRoom(a), center));
+            return center.node.AdjacentRooms.Select(roomIndex => new AStarNode(cave.GetRoom(roomIndex), center));
         }
         private class AStarNode : PriorityQueueNode
         {

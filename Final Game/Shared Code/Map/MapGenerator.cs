@@ -31,7 +31,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             List<int> allAdjacentRooms = new List<int>();
             foreach (Room x in newCave)
             {
-                foreach (int y in x.adjacentRooms)
+                foreach (int y in x.AdjacentRooms)
                 {
                     allAdjacentRooms.Add(y);
                 }

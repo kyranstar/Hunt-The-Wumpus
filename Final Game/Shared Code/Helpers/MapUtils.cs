@@ -21,7 +21,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>A mapping of room IDs to their room's positions</returns>
         public static Dictionary<int, RoomLayoutMapping> GetRoomLayout(Room[] Rooms, double RoomBaseApothem, int RoomNumSides, float TargetRoomWidth, float TargetRoomHeight)
         {
-            Dictionary<int, Room> UnmappedRooms = Rooms.ToDictionary(Room => Room.roomId);
+            Dictionary<int, Room> UnmappedRooms = Rooms.ToDictionary(Room => Room.RoomId);
             Dictionary<int, RoomLayoutMapping> NewLayout = GetRoomLayout(Rooms[0], new Vector2(), UnmappedRooms, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
 
             // If not all rooms were found, we know that not all of them have a valid connection
@@ -40,25 +40,25 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>A mapping of room IDs to their room's positions</returns>
         public static Dictionary<int, RoomLayoutMapping> GetRoomLayout(Room CurrentRoom, Vector2 CurrentPoint, Dictionary<int, Room> UnmappedRooms, double RoomBaseApothem, int RoomNumSides, float TargetRoomWidth, float TargetRoomHeight)
         {
-            Log.Info("GetRoomLayout called for room " + CurrentRoom.roomId + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
+            Log.Info("GetRoomLayout called for room " + CurrentRoom.RoomId + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
 
             // Start with an empty result
             Dictionary<int, RoomLayoutMapping> NewMappedRooms = new Dictionary<int, RoomLayoutMapping>();
 
             // Iterate over the connections (the index in the array indicates the side)
-            for (int ConnectionDirection = 0; ConnectionDirection < CurrentRoom.adjacentRooms.Length; ConnectionDirection++)
+            for (int ConnectionDirection = 0; ConnectionDirection < CurrentRoom.AdjacentRooms.Length; ConnectionDirection++)
             {
                 // Get the ID of the current room
-                int ConnectedRoomID = CurrentRoom.adjacentRooms[ConnectionDirection];
+                int ConnectedRoomId = CurrentRoom.AdjacentRooms[ConnectionDirection];
 
                 Room NextRoom;
                 // Only process the room if it hasn't been processed already
-                if (UnmappedRooms.TryGetValue(ConnectedRoomID, out NextRoom))
+                if (UnmappedRooms.TryGetValue(ConnectedRoomId, out NextRoom))
                 {
                     // If we have gotten to this next room by reference but the next room
                     //   does not have a connection back to the first one, warn of issues!
-                    if (!NextRoom.adjacentRooms.Contains(CurrentRoom.roomId))
-                        Log.Warn("Room " + CurrentRoom.roomId + " claims it is connected to room " + NextRoom.roomId + ", but the inverse connection was not found!");
+                    if (!NextRoom.AdjacentRooms.Contains(CurrentRoom.RoomId))
+                        Log.Warn("Room " + CurrentRoom.RoomId + " claims it is connected to room " + NextRoom.RoomId + ", but the inverse connection was not found!");
 
                     RoomLayoutMapping NextMapping = new RoomLayoutMapping()
                     {
@@ -69,17 +69,17 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     NextMapping.RoomPosition = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem * 2, RoomNumSides);
 
                     // Get the list of poses for the non-connection overlays (closed doors)
-                    NextMapping.ClosedDoorMappings = MapDoorsForRoom(NextRoom.adjacentRooms, NextMapping.RoomPosition, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
+                    NextMapping.ClosedDoorMappings = MapDoorsForRoom(NextRoom.AdjacentRooms, NextMapping.RoomPosition, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
 
                     // Remove the room now that we have calculated its position
                     //   we don't want the next call to index it again
-                    UnmappedRooms.Remove(ConnectedRoomID);
+                    UnmappedRooms.Remove(ConnectedRoomId);
 
                     // Recurse through the connections of the next room
                     Dictionary<int, RoomLayoutMapping> MappedRooms = GetRoomLayout(NextRoom, NextMapping.RoomPosition, UnmappedRooms, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
 
                     // Add the current room to the deeper map
-                    MappedRooms.Add(NextRoom.roomId, NextMapping);
+                    MappedRooms.Add(NextRoom.RoomId, NextMapping);
                     // Merge the result with the results from the other connections
                     NewMappedRooms = NewMappedRooms.MergeLeft(MappedRooms);
 
@@ -101,7 +101,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             foreach (int Direction in
                 Connections
-                .Select((RoomID, Index) => new KeyValuePair<int, int>(Index, RoomID)) // Map the connections to <Direction, RoomID>
+                .Select((RoomId, Index) => new KeyValuePair<int, int>(Index, RoomId)) // Map the connections to <Direction, RoomId>
                 .Where(AdjacentRoomMapping => AdjacentRoomMapping.Value == -1) // Only select the non-connections
                 .Select(Pair => Pair.Key)) // Convert it back to an array of directions
             {

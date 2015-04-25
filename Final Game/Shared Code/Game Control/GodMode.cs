@@ -72,7 +72,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
         {
-            foreach (Room Room in Map.Cave.getRoomList())
+            foreach (Room Room in Map.Cave.GetRoomList())
                 OutputInformation(Room.ToString().Replace("{", "{{").Replace("}", "}}"));
             return true;
         }

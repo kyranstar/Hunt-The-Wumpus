@@ -1,12 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HuntTheWumpus.SharedCode.GameControl;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using HuntTheWumpus.SharedCode.GameMap;
-using HuntTheWumpus.SharedCode.GameControl;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -98,10 +95,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             Room currentRoom = Cave.GetRoom(PlayerRoom);
             //if the room in the direction exists
-            if (currentRoom.adjacentRooms[dir] != -1)
+            if (currentRoom.AdjacentRooms[dir] != -1)
             {
                 //set our current room to that room
-                PlayerRoom = Cave.GetRoom(currentRoom.adjacentRooms[(int)dir]).roomId;
+                PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[(int)dir]).RoomId;
                 RoomUpdate();
                 return true;
             }
@@ -147,10 +144,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         private void CollectItemsFromRoom()
         {
             Room currentRoom = Cave.GetRoom(PlayerRoom);
-            Player.Gold += currentRoom.gold;
-            Player.Arrows += currentRoom.arrows;
+            Player.Gold += currentRoom.Gold;
+            Player.Arrows += currentRoom.Arrows;
 
-            currentRoom.gold = currentRoom.arrows = 0;
+            currentRoom.Gold = currentRoom.Arrows = 0;
         }
 
         /// <summary>
@@ -192,7 +189,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>Whether the player can shoot into the given room (if the player is adjacent to the room).</returns>
         public bool CanShoot(int roomId)
         {
-            return Cave.GetRoom(PlayerRoom).adjacentRooms.Contains(roomId);
+            return Cave.GetRoom(PlayerRoom).AdjacentRooms.Contains(roomId);
         }
 
         /// <summary>
@@ -237,12 +234,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             List<PlayerWarnings> list = new List<PlayerWarnings>();
 
-            int[] adjacentRooms = Cave.GetRoom(PlayerRoom).adjacentRooms;
+            int[] adjacentRooms = Cave.GetRoom(PlayerRoom).AdjacentRooms;
             foreach (int room in adjacentRooms)
             {
                 Room r = Cave.GetRoom(room);
-                if (r.bats) list.Add(PlayerWarnings.Bat);
-                if (r.pit) list.Add(PlayerWarnings.Pit);
+                if (r.HasBats) list.Add(PlayerWarnings.Bat);
+                if (r.HasPit) list.Add(PlayerWarnings.Pit);
             }
             if (adjacentRooms.Contains(Wumpus.Location)) list.Add(PlayerWarnings.Wumpus);
 
@@ -254,11 +251,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="theCave"></param>
         public void AssertCorrectLayout(Cave theCave)
         {
-            Dictionary<int, Room> cave = theCave.getRoomDict();
+            IDictionary<int, Room> cave = theCave.GetRoomDict();
             //Checks that all rooms only connect to rooms that exist or to -1
             bool allConnectionsValid = cave.Values.All<Room>(
                 //For each room make sure
-                   (e) => e.adjacentRooms.All(
+                   (e) => e.AdjacentRooms.All(
                        // For each connection make sure it exists or its a null connection
                        (r) => cave.Keys.Contains(r) || r == -1
 
