@@ -99,6 +99,11 @@ namespace HuntTheWumpus.SharedCode
         /// <param name="pit"></param>
         public void AddRoom(int id, int[] connections, int gold = 0, int arrows = 0, bool bats = false, bool pit = false)
         {
+            if (cave.ContainsKey(id))
+            {
+                throw new InvalidRoomException("Cannot have two rooms with the same ID!");
+            }
+
             this.cave[id] = new Room(id, gold, arrows, bats, pit, connections);
         }
         /// <summary>
@@ -141,7 +146,7 @@ namespace HuntTheWumpus.SharedCode
         public int RoomID
         {
             get { return roomID; }
-            set
+            private set
             {
                 if (roomID < 0)
                 {
@@ -180,7 +185,7 @@ namespace HuntTheWumpus.SharedCode
         public bool HasBats
         {
             get { return hasBats; }
-            set
+            private set
             {
                 // If we already have a pit in this room and we're setting bats to true
                 if (value && HasPit)
@@ -196,7 +201,7 @@ namespace HuntTheWumpus.SharedCode
         public bool HasPit
         {
             get { return hasPit; }
-            set
+            private set
             {
                 // If we already have bats in this room and we're setting pit to true
                 if (value && HasBats)
@@ -212,7 +217,7 @@ namespace HuntTheWumpus.SharedCode
         public int[] AdjacentRooms
         {
             get { return adjacentRooms; }
-            set
+            private set
             {
                 if (value.Length == 0)
                 {
