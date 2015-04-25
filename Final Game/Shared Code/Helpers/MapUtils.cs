@@ -1,16 +1,13 @@
-﻿using HuntTheWumpus.SharedCode;
-using HuntTheWumpus.SharedCode.GameControl;
+﻿using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
-    static class MapUtils
+    public static class MapUtils
     {
         /// <summary>
         /// Lays out the given map by converting the room's individual connections into absolute positions

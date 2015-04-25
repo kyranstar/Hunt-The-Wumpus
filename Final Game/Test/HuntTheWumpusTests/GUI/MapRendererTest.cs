@@ -13,23 +13,24 @@ namespace HuntTheWumpusTests.GUI
     [TestClass]
     public class MapRendererTest
     {
+
         [TestMethod]
         public void TestSquareMapLayout()
         {
             Map Map = new Map();
             // Test calculations using a square room
-            MapRenderer MapRenderer = new MapRenderer(Map, 4, 1);
+            MapRenderer MapRenderer = new MapRenderer(Map);
 
             Map.Cave = TestUtil.SquareTestCave;
-            MapRenderer.RegenerateLayout();
+            Map.Cave.RegenerateLayout();
 
             // Make sure that there are the expected number of generated values 
-            Assert.AreEqual(TestUtil.SquareExpectedRoomPoints.Count, MapRenderer.RoomLayout.Count);
+            Assert.AreEqual(TestUtil.SquareExpectedRoomPoints.Count, Map.Cave.RoomLayout.Count);
             // Quick check to make sure that all the same room IDs were returned
-            Assert.IsTrue(TestUtil.SquareExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
+            Assert.IsTrue(TestUtil.SquareExpectedRoomPoints.Keys.SequenceEqual(Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in TestUtil.SquareExpectedRoomPoints)
-                TestUtil.AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key].RoomPosition, 4);
+                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].RoomPosition, 4);
         }
 
         [TestMethod]
@@ -37,18 +38,18 @@ namespace HuntTheWumpusTests.GUI
         {
             Map Map = new Map();
             // Test calculations using a square room
-            MapRenderer MapRenderer = new MapRenderer(Map, 6, 1);
+            MapRenderer MapRenderer = new MapRenderer(Map);
 
             Map.Cave = TestUtil.HexTestCave;
-            MapRenderer.RegenerateLayout();
+            Map.Cave.RegenerateLayout();
 
             // Make sure that there are the expected number of generated values 
-            Assert.AreEqual(TestUtil.HexExpectedRoomPoints.Count, MapRenderer.RoomLayout.Count);
+            Assert.AreEqual(TestUtil.HexExpectedRoomPoints.Count, Map.Cave.RoomLayout.Count);
             // Quick check to make sure that all the same room IDs were returned
-            Assert.IsTrue(TestUtil.HexExpectedRoomPoints.Keys.SequenceEqual(MapRenderer.RoomLayout.Keys.OrderBy(i => i)));
+            Assert.IsTrue(TestUtil.HexExpectedRoomPoints.Keys.SequenceEqual(Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in TestUtil.HexExpectedRoomPoints)
-                TestUtil.AssertVector(Val.Value, MapRenderer.RoomLayout[Val.Key].RoomPosition);
+                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].RoomPosition);
         }
 
         [TestMethod]
@@ -69,18 +70,18 @@ namespace HuntTheWumpusTests.GUI
             for (int i = 0; i < midpointAngles.Length; i++)
             {
                 //Test side angles
-                Assert.AreEqual(midpointAngles[i], MapRenderer.GetAngleForSide(i, NumSides), TestUtil.FloatThreshold);
+                Assert.AreEqual(midpointAngles[i], MapUtils.GetAngleForSide(i, NumSides), TestUtil.FloatThreshold);
                 // Test side offsets. Negate Y because of XNA coords
-                TestUtil.AssertVector(new Vector2((float)Math.Cos(midpointAngles[i]), (float)(-1 * Math.Sin(midpointAngles[i]))), MapRenderer.GetOffsetForSide(i, 1, NumSides));
+                TestUtil.AssertVector(new Vector2((float)Math.Cos(midpointAngles[i]), (float)(-1 * Math.Sin(midpointAngles[i]))), MapUtils.GetOffsetForSide(i, 1, NumSides));
 
                 double cornerAngle = MathUtils.Mod(midpointAngles[i] + Math.PI / NumSides, 2 * Math.PI);
 
                 // Test corner angles
-                Assert.AreEqual(cornerAngle, MapRenderer.GetAngleForSectionRadius(i, NumSides), TestUtil.FloatThreshold);
+                Assert.AreEqual(cornerAngle, MapUtils.GetAngleForSectionRadius(i, NumSides), TestUtil.FloatThreshold);
 
                 // Test corner offsets. Negate Y because of XNA coords
                 double rad = MathUtils.PolygonRadius(NumSides, 1);
-                TestUtil.AssertVector(new Vector2((float)(Math.Cos(cornerAngle) * rad), (float)(-1 * rad * Math.Sin(cornerAngle))), MapRenderer.GetOffsetForSectionRadius(i, 1, NumSides));
+                TestUtil.AssertVector(new Vector2((float)(Math.Cos(cornerAngle) * rad), (float)(-1 * rad * Math.Sin(cornerAngle))), MapUtils.GetOffsetForSectionRadius(i, 1, NumSides));
             }
 
         }
@@ -109,18 +110,18 @@ namespace HuntTheWumpusTests.GUI
             for (int i = 0; i < midpointAngles.Length; i++)
             {
                 //Test side angles
-                Assert.AreEqual(midpointAngles[i], MapRenderer.GetAngleForSide(i, NumSides), TestUtil.FloatThreshold);
+                Assert.AreEqual(midpointAngles[i], MapUtils.GetAngleForSide(i, NumSides), TestUtil.FloatThreshold);
                 // Test side offsets. Negate Y because of XNA coords
-                TestUtil.AssertVector(new Vector2((float)Math.Cos(midpointAngles[i]), (float)(-1 * Math.Sin(midpointAngles[i]))), MapRenderer.GetOffsetForSide(i, 1, NumSides));
+                TestUtil.AssertVector(new Vector2((float)Math.Cos(midpointAngles[i]), (float)(-1 * Math.Sin(midpointAngles[i]))), MapUtils.GetOffsetForSide(i, 1, NumSides));
 
                 double cornerAngle = MathUtils.Mod(midpointAngles[i] + Math.PI / NumSides, 2 * Math.PI);
 
                 // Test corner angles
-                Assert.AreEqual(cornerAngle, MapRenderer.GetAngleForSectionRadius(i, NumSides), TestUtil.FloatThreshold);
+                Assert.AreEqual(cornerAngle, MapUtils.GetAngleForSectionRadius(i, NumSides), TestUtil.FloatThreshold);
 
                 // Test corner offsets. Negate Y because of XNA coords
                 double rad = MathUtils.PolygonRadius(NumSides, 1);
-                TestUtil.AssertVector(new Vector2((float)(Math.Cos(cornerAngle) * rad), (float)(-1 * rad * Math.Sin(cornerAngle))), MapRenderer.GetOffsetForSectionRadius(i, 1, NumSides));
+                TestUtil.AssertVector(new Vector2((float)(Math.Cos(cornerAngle) * rad), (float)(-1 * rad * Math.Sin(cornerAngle))), MapUtils.GetOffsetForSectionRadius(i, 1, NumSides));
             }
 
         }

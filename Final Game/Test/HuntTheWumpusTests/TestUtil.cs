@@ -11,8 +11,8 @@ namespace HuntTheWumpusTests
         #region Constant test data
         public const float FloatThreshold = 0.0001f;
 
-        public readonly static Cave SquareTestCave = new Cave();
-        public readonly static Cave HexTestCave = new Cave();
+        public readonly static Cave SquareTestCave = new Cave(RoomNumSides: 4, RoomBaseApothem: 1);
+        public readonly static Cave HexTestCave = new Cave(RoomNumSides: 6, RoomBaseApothem: 1);
 
         static TestUtil()
         {
