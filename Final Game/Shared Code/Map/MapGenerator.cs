@@ -32,17 +32,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public List<Room> generateRandomCave()
         {
             List<Room> newCave = new List<Room>(29);
-            List<int> allAdjacentRooms = new List<int>();
-            foreach (Room x in newCave)
+            List<int[]> allAdjacentRooms = new List<int[]>(29);
+            for (int x = 0; x < newCave.Count; x++)
             {
-                foreach (int y in x.AdjacentRooms)
-                {
-                    allAdjacentRooms.Add(y);
-                }
+                newCave.Add(new Room(x, 0, 0, false, false, new int[] {-1,-1,-1,-1,-1,-1}));
             }
-            foreach (Room x in newCave)
+            foreach(Room x in newCave)
             {
-                allAdjacentRooms.Sort();
+                allAdjacentRooms.Add(x.AdjacentRooms);
             }
             return newCave;
         }
