@@ -21,6 +21,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
             : base()
         {
             GraphicsManager = new GraphicsDeviceManager(this);
+            GraphicsManager.PreferredBackBufferWidth = 1000;
+            GraphicsManager.PreferredBackBufferHeight = 500;
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
 
@@ -112,7 +114,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Goldenrod);
+            GraphicsDevice.Clear(Color.DimGray);
 
             SceneManager.Draw(gameTime);
 
