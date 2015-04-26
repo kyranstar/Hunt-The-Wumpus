@@ -143,7 +143,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// room's location in cave
         /// </summary>
-        public readonly int RoomID
+        public int RoomID
         {
             get { return roomID; }
             private set
@@ -182,7 +182,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// true if room contains bats, false if not
         /// </summary>
-        public readonly bool HasBats
+        public bool HasBats
         {
             get { return hasBats; }
             private set
@@ -198,7 +198,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// true if room contains a pit, false if not
         /// </summary>
-        public readonly bool HasPit
+        public bool HasPit
         {
             get { return hasPit; }
             private set
@@ -214,7 +214,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// what other rooms this room is connected to
         /// </summary>
-        public readonly int[] AdjacentRooms
+        public int[] AdjacentRooms
         {
             get { return adjacentRooms; }
             private set
