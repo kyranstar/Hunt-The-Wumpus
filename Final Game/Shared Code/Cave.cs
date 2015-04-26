@@ -143,7 +143,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// room's location in cave
         /// </summary>
-        public int RoomID
+        public readonly int RoomID
         {
             get { return roomID; }
             private set
@@ -182,7 +182,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// true if room contains bats, false if not
         /// </summary>
-        public bool HasBats
+        public readonly bool HasBats
         {
             get { return hasBats; }
             private set
@@ -198,7 +198,7 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// true if room contains a pit, false if not
         /// </summary>
-        public bool HasPit
+        public readonly bool HasPit
         {
             get { return hasPit; }
             private set
@@ -214,12 +214,14 @@ namespace HuntTheWumpus.SharedCode
         /// <summary>
         /// what other rooms this room is connected to
         /// </summary>
-        public int[] AdjacentRooms
+        public readonly int[] AdjacentRooms
         {
             get { return adjacentRooms; }
             private set
             {
-                if (value.Length == 0)
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                if (!value.Any())
                 {
                     throw new InvalidRoomException("Each room needs to be accessible");
                 }
@@ -252,11 +254,11 @@ namespace HuntTheWumpus.SharedCode
         public override bool Equals(Object other)
         {
             Room otherRoom = other as Room;
-            return otherRoom != null && roomID == otherRoom.roomID;
+            return otherRoom != null && RoomID == otherRoom.RoomID;
         }
         public override int GetHashCode()
         {
-            return roomID;
+            return RoomID;
         }
 
     }
