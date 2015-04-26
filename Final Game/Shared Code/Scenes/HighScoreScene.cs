@@ -16,9 +16,9 @@ using HuntTheWumpus.SharedCode;
 
 namespace HuntTheWumpus.SharedCode.Scenes
 {
-    class MainMenuScene : Scene
+    class HighScoreScene : Scene
     {
-        MainMenuView MenuGUI;
+        HighScoreView ScoreGUI;
 
         public override void LoadContent(ContentManager Content)
         {
@@ -27,19 +27,19 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Initialize(GraphicsDevice GraphicsDevice)
         {
-            MenuGUI = new MainMenuView(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            MenuGUI.DataContext = new MainMenuContext();
+            ScoreGUI = new HighScoreView(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            ScoreGUI.DataContext = new HighScoreContext();
         }
 
         public override void Update(GameTime GameTime)
         {
-            MenuGUI.UpdateInput(GameTime.ElapsedGameTime.TotalMilliseconds);
-            MenuGUI.UpdateLayout(GameTime.ElapsedGameTime.TotalMilliseconds);
+            ScoreGUI.UpdateInput(GameTime.ElapsedGameTime.TotalMilliseconds);
+            ScoreGUI.UpdateLayout(GameTime.ElapsedGameTime.TotalMilliseconds);
         }
 
         public override void Draw(GameTime GameTime)
         {
-            MenuGUI.Draw(GameTime.ElapsedGameTime.TotalSeconds);
+            ScoreGUI.Draw(GameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public override void UnloadContent()
@@ -49,7 +49,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Uninitialize()
         {
-
+            
         }
     }
 }

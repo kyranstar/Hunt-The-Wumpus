@@ -23,6 +23,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             SceneManager.MenuScene = new MainMenuScene();
             SceneManager.GameScene = new GameScene();
+            SceneManager.HighScoreScene = new HighScoreScene();
 
             SceneManager.Content = Content;
             SceneManager.Graphics = Graphics;
@@ -32,7 +33,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             MenuScene.LoadContent(Content);
             GameScene.LoadContent(Content);
-            //HighScoreScene.LoadContent(Content);
+            HighScoreScene.LoadContent(Content);
         }
 
         public static void LoadScene(Scene NewScene)
@@ -59,7 +60,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             CurrentScene = null;
             MenuScene.UnloadContent();
             GameScene.UnloadContent();
-            //HighScoreScene.UnloadContent();
+            HighScoreScene.UnloadContent();
         }
     }
 }
