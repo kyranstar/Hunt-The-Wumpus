@@ -157,7 +157,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public bool StopAnimation(AnimationType Type)
         {
             if (Animations.ContainsKey(Type))
-                Animations[Type].IsStarted = true;
+                Animations[Type].IsStarted = false;
 
             return Animations.ContainsKey(Type);
         }
