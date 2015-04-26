@@ -91,10 +91,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int index = 0; index < particles.Count; index++)
-            {
-                particles[index].Draw(spriteBatch);
-            }
+            foreach (Particle p in particles)
+                p.Draw(spriteBatch);
         }
     }
 }
