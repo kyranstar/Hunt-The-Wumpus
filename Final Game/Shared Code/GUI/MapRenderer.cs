@@ -40,7 +40,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.Map = Map;
 
             // TODO: Remove this when we are done debugging (set the overridden position to null)
-            OverriddenCameraPosition = new Vector2(1200, 1000);
+            //OverriddenCameraPosition = new Vector2(1200, 1000);
         }
 
         /// <summary>

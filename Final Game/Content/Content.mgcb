@@ -58,17 +58,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/ClosedDoor0.png
 
-#begin Images/Cloud0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:TextureFormat=Color
-/build:Images/Cloud0.png
-
 #begin Images/RoomBase2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -157,7 +146,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/RoomBase1.png
 
-#begin Images/Cloud1.png
+#begin Images/Cloud0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -166,16 +155,5 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
-/build:Images/Cloud1.png
-
-#begin Images/Cloud2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:TextureFormat=Color
-/build:Images/Cloud2.png
+/build:Images/Cloud0.png
 
