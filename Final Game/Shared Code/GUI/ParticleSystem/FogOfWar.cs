@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
@@ -12,17 +11,17 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         const int PARTICLE_CAP = 600;
 
-        const float CLOUD_SPEED = .001f;
+        const float CLOUD_SPEED = .01f;
         const int CLOUD_LIGHTNESS_MIN = 50;
         const int CLOUD_LIGHTNESS_MAX = 150;
         const float SPIN_SPEED = 0.0005f;
         const int MIN_LIFE = 5000;
         const int MAX_LIFE = 20000;
 
-        const float OPACITY = 0.8f;
+        const float OPACITY = 0.5f;
 
         const float MIN_SIZE = 1.5f;
-        const float MAX_SIZE = 5.5f;
+        const float MAX_SIZE = 3.5f;
 
         private Camera2D Camera;
 

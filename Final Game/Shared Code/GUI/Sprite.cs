@@ -42,7 +42,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             set
             {
-                if(value.HasValue)
+                if (value.HasValue)
                 {
                     RenderWidth = value.Value.Width;
                     RenderHeight = value.Value.Height;
@@ -54,14 +54,14 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public bool IsTransparent
         {
-            get { return Opacity < OpacityThreshold;  }
+            get { return Opacity < OpacityThreshold; }
         }
 
         public Sprite2D(
             Texture2D Texture,
             Rectangle? Target = null,
             int X = 0, int Y = 0,
-            int? Width = null, int? Height = null, 
+            int? Width = null, int? Height = null,
             float Rotation = 0,
             float Scale = 1,
             float Opacity = 1,
@@ -113,18 +113,18 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Draw(SpriteBatch Target)
         {
             if (Texture != null)
-                Target.Draw(Texture, destinationRectangle: TargetArea, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(Scale));
+                Target.Draw(Texture, new Vector2(RenderX, RenderY), rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(Scale));
         }
 
         public void Update(GameTime Time)
         {
             foreach (var Animation in Animations)
             {
-                if(Animation.Value.IsStarted)
+                if (Animation.Value.IsStarted)
                 {
                     Animation.Value.Update(Time);
 
-                    if(Animation.Value.IsFinished)
+                    if (Animation.Value.IsFinished)
                     {
                         Animation.Value.IsStarted = false;
                         Animation.Value.Reset();
@@ -148,7 +148,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public bool StartAnimation(AnimationType Type)
         {
-            if(Animations.ContainsKey(Type))
+            if (Animations.ContainsKey(Type))
                 Animations[Type].IsStarted = true;
 
             return Animations.ContainsKey(Type);
@@ -164,7 +164,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public bool? GetAnimationState(AnimationType Type)
         {
-            if(Animations.ContainsKey(Type))
+            if (Animations.ContainsKey(Type))
                 return Animations[Type].IsFinished;
             else return null;
         }
