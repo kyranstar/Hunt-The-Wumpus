@@ -26,7 +26,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
         private static List<Room> FindAStarPath(Room start, Room end, Cave cave)
         {
-            int MAX_TRAVERSED_ROOMS = cave.GetRoomDict().Count;
+            int MAX_TRAVERSED_ROOMS = cave.Rooms.Length;
             IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(MAX_TRAVERSED_ROOMS);
             IList<AStarNode> closedNodes = new List<AStarNode>();
 

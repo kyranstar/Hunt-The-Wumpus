@@ -42,6 +42,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             Log.Info("GetRoomLayout called for room " + CurrentRoom.RoomID + " at point " + CurrentPoint + " with " + UnmappedRooms.Count + " unmapped rooms");
 
+            // TODO: Use the cave's validation logic to validate cave
+
             // Start with an empty result
             Dictionary<int, RoomLayoutMapping> NewMappedRooms = new Dictionary<int, RoomLayoutMapping>();
 

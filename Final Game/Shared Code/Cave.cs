@@ -62,21 +62,17 @@ namespace HuntTheWumpus.SharedCode
         }
 
         /// <summary>
-        /// returns current cave on request
-        /// </summary>
-        /// <returns>current cave</returns>
-        public List<Room> GetRoomList()
-        {
-            return cave.Values.ToList<Room>();
-        }
-        /// <summary>
         /// Returns the current cave in dictionary form (roomId -> room)
         /// </summary>
         /// <returns></returns>
-        public IDictionary<int, Room> GetRoomDict()
+        public IDictionary<int, Room> RoomDict
         {
-            return cave;
+            get
+            {
+                return cave;
+            }
         }
+
         /// <summary>
         /// Gets the room with the id 
         /// </summary>
@@ -106,19 +102,6 @@ namespace HuntTheWumpus.SharedCode
 
             this.cave[id] = new Room(id, gold, arrows, bats, pit, connections);
         }
-        /// <summary>
-        /// Method to randomly generate cave (work in progress, feel free to pitch in)
-        /// </summary>
-        /// <param name="rooms"># of rooms needed in cave</param>
-        /// <returns>randomly generated cave</returns>
-        // Requirements for cave:
-        // In list of all room connections, each room must appear 1/2 # of rooms times
-        // Each room must have at least 1, no more than 3 doors
-        public Cave RandomCaveGen(int rooms)
-        {
-            Cave randomCave = new Cave();
-            return randomCave;
-        }
 
         /// <summary>
         /// Updates the internal layout calculations (adapts to new cave connections)
@@ -126,6 +109,75 @@ namespace HuntTheWumpus.SharedCode
         public void RegenerateLayout()
         {
             RoomLayout = MapUtils.GetRoomLayout(cave.Values.ToArray(), RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                return CheckIfValid() == CaveLayoutStatus.None;
+            }
+        }
+
+        public CaveLayoutStatus CheckIfValid(int NumMinConnections = -1, int NumMaxConnections = -1)
+        {
+            IDictionary<int, Room> cave = this.RoomDict;
+
+            // Make sure that all connections lead to valid rooms,
+            //  and that all connections are bi-directional
+            bool AllConnectionsValid = cave.Values.All<Room>(
+                // For each room connected to the current one
+                   (e) => e.AdjacentRooms.All(
+                       (r) => r == -1 || (cave.ContainsKey(r) && cave[r].AdjacentRooms.Contains(e.RoomID))
+                   ));
+
+            Dictionary<int, int> ValidatedRooms = cave.ToDictionary(pair => pair.Key, pair => 0);
+            List<int> UnmarkedRooms = ValidatedRooms.Keys.ToList();
+
+            Action<Room> MarkConnectedRooms = null;
+            MarkConnectedRooms = (Room Room) =>
+            {
+                if (!UnmarkedRooms.Contains(Room.RoomID))
+                    return;
+                UnmarkedRooms.Remove(Room.RoomID);
+
+                foreach (int ID in (from TmpID in Room.AdjacentRooms where TmpID >= 0 select TmpID))
+                {
+                    ValidatedRooms[ID]++;
+                    MarkConnectedRooms(this[ID]);
+                }
+
+            };
+
+            MarkConnectedRooms(this.Rooms[0]);
+
+            int[] UnreachableRooms = UnmarkedRooms.ToArray();
+
+            int[] TooFewConnections = ValidatedRooms
+                .Where(Pair => NumMinConnections != -1 && Pair.Value < NumMinConnections)
+                .Select(Pair => Pair.Key)
+                .ToArray();
+
+            int[] TooManyConnections = ValidatedRooms
+                .Where(Pair => NumMaxConnections != -1 && Pair.Value > NumMaxConnections)
+                .Select(Pair => Pair.Key)
+                .ToArray();
+            
+            CaveLayoutStatus Result = CaveLayoutStatus.None;
+
+            if (UnreachableRooms.Length > 0)
+                Result |= CaveLayoutStatus.UnreachableRooms;
+
+            if (TooFewConnections.Length > 0)
+                Result |= CaveLayoutStatus.TooFewConnections;
+
+            if (TooManyConnections.Length > 0)
+                Result |= CaveLayoutStatus.TooManyConnections;
+
+            if (!AllConnectionsValid)
+                Result |= CaveLayoutStatus.MismatchedConnections;
+
+            return Result;
         }
     }
     /// <summary>
@@ -259,5 +311,35 @@ namespace HuntTheWumpus.SharedCode
             return roomID;
         }
 
+    }
+
+    [Flags]
+    public enum CaveLayoutStatus
+    {
+        /// <summary>
+        /// There were no layout validation errors.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// One or more rooms has a connection that
+        /// isn't reciprocated by the connected room.
+        /// </summary>
+        MismatchedConnections = 2,
+        /// <summary>
+        /// One or more rooms are unreachable.
+        /// </summary>
+        UnreachableRooms = 4,
+        /// <summary>
+        /// One or more rooms does not meet
+        /// the minimum number of required
+        /// connections.
+        /// </summary>
+        TooFewConnections = 8,
+        /// <summary>
+        /// One or more rooms does not meet
+        /// the maximum number of required
+        /// connections.
+        /// </summary>
+        TooManyConnections = 16
     }
 }

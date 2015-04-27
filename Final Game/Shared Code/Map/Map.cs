@@ -51,8 +51,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
             get { return _cave; }
             set
             {
-                AssertCorrectLayout(value);
-                _cave = value;
+                if (value.IsValid)
+                    _cave = value;
+                else
+                    throw new ArgumentException("The given cave was invalid.");
             }
         }
         /// <summary>
@@ -70,13 +72,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public Map()
         {
             Log.Info("Creating map...");
-            Cave = new Cave();
+            Cave = MapGenerator.GenerateRandomCave();
             Wumpus = new Wumpus(Cave);
             Player = new Player();
             PlayerLocation = new Point(0, 0);
-
-            new MapGenerator().generateMap(this);
-            AssertCorrectLayout(Cave);
         }
 
         /// <summary>
@@ -244,40 +243,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
             if (adjacentRooms.Contains(Wumpus.Location)) list.Add(PlayerWarnings.Wumpus);
 
             return list;
-        }
-        /// <summary>
-        /// This method asserts that this cave is valid. Don't call this in production code probably
-        /// </summary>
-        /// <param name="theCave"></param>
-        public void AssertCorrectLayout(Cave theCave)
-        {
-            IDictionary<int, Room> cave = theCave.GetRoomDict();
-            //Checks that all rooms only connect to rooms that exist or to -1
-            bool allConnectionsValid = cave.Values.All<Room>(
-                //For each room make sure
-                   (e) => e.AdjacentRooms.All(
-                       // For each connection make sure it exists or its a null connection
-                       (r) => cave.Keys.Contains(r) || r == -1
-
-                   ));
-            bool allRoomsCanReachEachOther = true;
-            //cave.Values.All(
-            //    (i) => cave.Values.All(
-            //        (j) => i.roomId == j.roomId || i.CanAccess(j) 
-            //        )
-            //    );
-
-            if (!allConnectionsValid)
-            {
-                Log.Error("A room refers to a room that does not exist!");
-            }
-            if (!allRoomsCanReachEachOther)
-            {
-                Log.Error("At least one room can not reach another!");
-            }
-
-            Log.Info("Cave layout check finished");
-
         }
 
         /// <summary>

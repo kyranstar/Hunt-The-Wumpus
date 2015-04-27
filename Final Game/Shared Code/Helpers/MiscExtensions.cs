@@ -107,4 +107,94 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 throw new Exception("The target does not exist.");
         }
     }
+
+    public static class EnumerationExtensions
+    {
+
+        /// <summary>
+        /// Checks if the given enum has a certain flag
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool Has<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (((int)(object)type & (int)(object)value) == (int)(object)value);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the given enum is only the specified flag
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool Is<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (int)(object)type == (int)(object)value;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Adds a flag to the specified enum
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T Add<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (T)(object)(((int)(object)type | (int)(object)value));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Could not append value from enumerated type '{0}'.",
+                        typeof(T).Name
+                        ), ex);
+            }
+        }
+
+        /// <summary>
+        /// Removes a flag from the specified enum
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T Remove<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (T)(object)(((int)(object)type & ~(int)(object)value));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Could not remove value from enumerated type '{0}'.",
+                        typeof(T).Name
+                        ), ex);
+            }
+        }
+
+    }
+
 }
