@@ -14,7 +14,7 @@ namespace HuntTheWumpus.SharedCode.Scores
     [Serializable]
     public class ScoreEntry
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         public int TurnsTaken { get; set; }
         public int GoldRemaining { get; set; }
