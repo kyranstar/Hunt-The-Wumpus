@@ -271,7 +271,9 @@ namespace HuntTheWumpus.SharedCode
             get { return adjacentRooms; }
             private set
             {
-                if (value.Length == 0)
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                if (!value.Any())
                 {
                     throw new InvalidRoomException("Each room needs to be accessible");
                 }
@@ -304,11 +306,11 @@ namespace HuntTheWumpus.SharedCode
         public override bool Equals(Object other)
         {
             Room otherRoom = other as Room;
-            return otherRoom != null && roomID == otherRoom.roomID;
+            return otherRoom != null && RoomID == otherRoom.RoomID;
         }
         public override int GetHashCode()
         {
-            return roomID;
+            return RoomID;
         }
 
     }
