@@ -197,4 +197,32 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
     }
 
+    public static class MiscUtils
+    {
+        static Random Random = new Random();
+
+        public static T GetRandom<T>(this T[] Me)
+        {
+            if (Me.Length <= 0)
+                return default(T);
+
+            return Me[Me.GetRandomIndex()];
+        }
+
+        public static int GetRandomIndex<T>(this T[] Me)
+        {
+            if (Me.Length <= 0)
+                return -1;
+
+            return Random.Next(Me.Length);
+        }
+
+        public static int RandomIndex(int Length)
+        {
+            if (Length <= 0)
+                return -1;
+
+            return Random.Next(Length);
+        }
+    }
 }

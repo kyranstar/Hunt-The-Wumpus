@@ -24,16 +24,22 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private Sprite2D Player;
 
-        private SpriteFont Font;
-
         private const int VirtualViewHeight = 500;
         private const int PlayerSize = 500;
 
-        public const int NumCloudTextures = 1, NumDoorTextures = 5, NumRoomTextures = 5;
+        public const int NumCloudTextures = 1,
+            NumDoorTextures = 5,
+            NumRoomTextures = 5,
+            NumPitTextures = 0,
+            NumGoldTextures = 0;
 
         ParticleSystem.ParticleSystem backFogSystem;
         ParticleSystem.FogOfWar frontFogSystem;
-        private Texture2D[] CloudTextures, ClosedDoorTextures, RoomBaseTextures;
+        private Texture2D[] CloudTextures,
+            ClosedDoorTextures,
+            RoomBaseTextures,
+            PitTextures,
+            GoldTextures;
 
         public MapRenderer(Map Map)
         {
@@ -107,6 +113,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
             MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content);
+            MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content);
+            MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "Gold", Content);
         }
 
         /// <summary>
@@ -181,6 +189,12 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
                 Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, Color.White);
 
+                if (LayoutMapping.Value.PitImage >= 0)
+                    Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
+
+                if (LayoutMapping.Value.GoldImage >= 0)
+                    Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, Color.White);
+
                 // Iterate over the (closed) door mappings for the current room
                 foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
                 {
@@ -196,7 +210,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                     // Draw the door texture
                     Target.Draw(
-                        ClosedDoorTextures[DoorMapping.Image],
+                        ClosedDoorTextures[DoorMapping.BaseImage],
                         destinationRectangle: TargetSectionArea,
                         rotation: DoorMapping.Rotation,
                         color: Color.White);

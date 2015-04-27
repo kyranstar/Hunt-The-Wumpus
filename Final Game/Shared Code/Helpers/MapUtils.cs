@@ -65,7 +65,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     RoomLayoutMapping NextMapping = new RoomLayoutMapping()
                     {
                         Room = NextRoom,
-                        Image = Random.Next(MapRenderer.NumRoomTextures)
+                        Image = Random.Next(MapRenderer.NumRoomTextures),
+                        PitImage = NextRoom.HasPit ? MiscUtils.RandomIndex(MapRenderer.NumPitTextures) : -1,
+                        // TODO: Render gold quantity
+                        GoldImage = NextRoom.Gold > 0 ? MiscUtils.RandomIndex(MapRenderer.NumGoldTextures) : -1
                     };
 
                     // Get the point for the next room
@@ -130,7 +133,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     {
                         Position = DoorIconPosition,
                         Rotation = DoorIconRotation,
-                        Image = Random.Next(MapRenderer.NumDoorTextures)
+                        BaseImage = MiscUtils.RandomIndex(MapRenderer.NumDoorTextures)
                     });
             }
 
@@ -209,7 +212,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 Textures[i] = Content.Load<Texture2D>("Images/" + NamePrefix + i);
             }
-    }
+        }
     }
 
     /// <summary>
@@ -220,7 +223,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public Room Room;
         public Vector2 RoomPosition;
         public DoorLayoutMapping[] ClosedDoorMappings;
+
         public int Image;
+        public int PitImage;
+        public int GoldImage;
     }
 
     /// <summary>
@@ -230,6 +236,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
     {
         public float Rotation;
         public Vector2 Position;
-        public int Image;
+
+        public int BaseImage;
     }
 }
