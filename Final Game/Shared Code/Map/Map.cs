@@ -29,6 +29,16 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class Map
     {
+        private List<Room> TraveledPath = new List<Room>();
+
+        public int[] PlayerPath
+        {
+            get
+            {
+                return TraveledPath.Select(r => r.RoomID).ToArray();
+            }
+        }
+
         /// <summary>
         /// Holds the id of the room that the player is currently in.
         /// </summary>
@@ -76,6 +86,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Wumpus = new Wumpus(Cave);
             Player = new Player();
             PlayerLocation = new Point(0, 0);
+
+            RoomUpdate();
         }
 
         /// <summary>
@@ -108,6 +120,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         private void RoomUpdate()
         {
+
+            CollectItemsFromRoom();
+            TraveledPath.Add(Cave[PlayerRoom]);
+
             if (Wumpus.Location == PlayerRoom)
             {
                 // We're in the same room as the wumpus!
@@ -135,7 +151,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
 
             }
-            CollectItemsFromRoom();
+
         }
         /// <summary>
         /// The player collects items from his current room. Call this when the player enters a new room.

@@ -173,7 +173,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
             // Iterate over each layout mapping
-            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in Map.Cave.RoomLayout)
+            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in
+                (from Mapping in Map.Cave.RoomLayout where Map.PlayerPath.Contains(Mapping.Key) select Mapping))
             {
                 // Get the position from the mapping (and round it)
                 int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
