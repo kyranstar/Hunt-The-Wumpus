@@ -19,12 +19,11 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         const int MIN_LIFE = 5000;
         const int MAX_LIFE = 20000;
 
-        const float OPACITY = 0.05f;
+        const float OPACITY = 0.8f;
 
         const float MIN_SIZE = 1.5f;
         const float MAX_SIZE = 5.5f;
 
-        private Func<Rectangle, bool> IsInsideCloud;
         private Camera2D Camera;
 
         /// <summary>
@@ -33,29 +32,19 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         /// <param name="cloudTextures">A list of textures to use for the cloud</param>
         /// <param name="IsInsideCloud">A function that takes a vector and determines whether the point is inside the cloud</param>
         /// <param name="bounds">The bounds to try to generate particles within</param>
-        public FogOfWar(Texture2D[] cloudTextures, Camera2D cam, Func<Rectangle, bool> IsInsideCloud)
+        public FogOfWar(Texture2D[] cloudTextures, Camera2D cam)
             : base(cloudTextures, new Vector2(0, 0), PARTICLE_CAP)
         {
-            this.IsInsideCloud = IsInsideCloud;
             this.Camera = cam;
         }
 
         protected override Particle GenerateNewParticle()
         {
             Texture2D texture = textures[random.Next(textures.Length)];
-            Vector2 position;
 
-            const int MAX_TRIES = 50;
-            int tries = 0;
-            do
-            {
-                position = new Vector2(
-                    -Camera.VirtualVisibleViewport.X + (float)(random.NextDouble() * Camera.VirtualVisibleViewport.Width),
-                    -Camera.VirtualVisibleViewport.Y + (float)(random.NextDouble() * Camera.VirtualVisibleViewport.Height));
-                tries++;
-                // If this doesn't find a valid position after 50 tries, it will just create an invalid particle.
-                // We need to figure out a way to fix this.
-            } while (tries < MAX_TRIES && !IsInsideCloud(new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height)));
+            Vector2 position = new Vector2(
+                -Camera.VirtualVisibleViewport.X + (float)(random.Next(Camera.VirtualVisibleViewport.Width)),
+                -Camera.VirtualVisibleViewport.Y + (float)(random.Next(Camera.VirtualVisibleViewport.Height)));
 
             Vector2 velocity = new Vector2(
                                     CLOUD_SPEED * (float)(random.NextDouble() * 2 - 1),

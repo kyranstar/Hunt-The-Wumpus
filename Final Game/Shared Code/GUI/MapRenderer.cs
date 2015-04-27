@@ -87,20 +87,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             UpdateCamera();
 
-            fogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam, (p) =>
-            {
-                int centerX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f));
-                int centerY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f));
-
-                return !new List<Vector2> 
-                { 
-                    p.Center.ToVector2(), 
-                    new Vector2(p.X, p.Y), 
-                    new Vector2(p.X + p.Width, p.Y),
-                    new Vector2(p.X + p.Width, p.Y + p.Height),
-                    new Vector2(p.X, p.Y + p.Height),
-                }.Any((v) => MathUtils.IsInsideHexagon(v, new Vector2(centerX, centerY), Map.Cave.TargetRoomWidth / 2, Map.Cave.TargetRoomHeight / 2));
-            });
+            fogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
 
             fogSystem.Initialize();
         }
@@ -127,9 +114,10 @@ namespace HuntTheWumpus.SharedCode.GUI
             Player.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
             Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
 
-            fogSystem.Update(time);
-
             UpdateCamera();
+
+
+            fogSystem.Update(time);
         }
 
         private void UpdateCamera()
@@ -158,9 +146,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform());
 
+            fogSystem.Draw(MapRenderTarget);
             DrawCaveBase(MapRenderTarget);
             DrawPlayer(MapRenderTarget);
-            fogSystem.Draw(MapRenderTarget);
 
             MapRenderTarget.End();
         }
