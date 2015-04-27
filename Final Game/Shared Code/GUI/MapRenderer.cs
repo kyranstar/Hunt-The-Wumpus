@@ -31,7 +31,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public const int NumCloudTextures = 1, NumDoorTextures = 5, NumRoomTextures = 5;
 
-        ParticleSystem.ParticleSystem fogSystem;
+        ParticleSystem.ParticleSystem backFogSystem;
+        ParticleSystem.FogOfWar frontFogSystem;
         private Texture2D[] CloudTextures, ClosedDoorTextures, RoomBaseTextures;
 
         public MapRenderer(Map Map)
@@ -87,9 +88,12 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             UpdateCamera();
 
-            fogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
+            backFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
+            frontFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
+            frontFogSystem.Opacity = 0.12f;
 
-            fogSystem.Initialize();
+            backFogSystem.Initialize();
+            frontFogSystem.Initialize();
         }
 
         /// <summary>
@@ -117,7 +121,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             UpdateCamera();
 
 
-            fogSystem.Update(time);
+            backFogSystem.Update(time);
+            frontFogSystem.Update(time);
         }
 
         private void UpdateCamera()
@@ -146,8 +151,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform());
 
-            fogSystem.Draw(MapRenderTarget);
+            backFogSystem.Draw(MapRenderTarget);
+
             DrawCaveBase(MapRenderTarget);
+
+            frontFogSystem.Draw(MapRenderTarget);
+
             DrawPlayer(MapRenderTarget);
 
             MapRenderTarget.End();
@@ -202,7 +211,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public int FogParticleCount
         {
-            get { return fogSystem.NumberParticles; }
+            get { return backFogSystem.NumberParticles + frontFogSystem.NumberParticles; }
         }
 
     }

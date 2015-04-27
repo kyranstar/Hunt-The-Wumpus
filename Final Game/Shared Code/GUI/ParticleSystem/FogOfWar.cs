@@ -6,10 +6,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
     class FogOfWar : ParticleSystem
     {
-        readonly SpriteFadeAnimation SpriteFadeInAnimation = new SpriteFadeAnimation(0, OPACITY, 500),
-            SpriteFadeOutAnimation = new SpriteFadeAnimation(OPACITY, 0, 500);
 
-        const int PARTICLE_CAP = 600;
+        const int PARTICLE_CAP = 150;
 
         const float CLOUD_SPEED = .01f;
         const int CLOUD_LIGHTNESS_MIN = 50;
@@ -18,10 +16,10 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
         const int MIN_LIFE = 5000;
         const int MAX_LIFE = 20000;
 
-        const float OPACITY = 0.5f;
+        public float Opacity = 0.5f;
 
         const float MIN_SIZE = 1.5f;
-        const float MAX_SIZE = 3.5f;
+        const float MAX_SIZE = 5.5f;
 
         private Camera2D Camera;
 
@@ -67,10 +65,14 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                 DrawColor: color,
                 Scale: size,
                 LifetimeMillis: livingTime,
-                Opacity: OPACITY);
+                Opacity: Opacity);
 
-            NewParticle.AddAnimation(AnimationType.FadeIn, SpriteFadeInAnimation.Clone());
-            NewParticle.AddAnimation(AnimationType.FadeOut, SpriteFadeOutAnimation.Clone());
+            
+            SpriteFadeAnimation SpriteFadeInAnimation = new SpriteFadeAnimation(0, Opacity, 500),
+            SpriteFadeOutAnimation = new SpriteFadeAnimation(Opacity, 0, 500);
+
+            NewParticle.AddAnimation(AnimationType.FadeIn, SpriteFadeInAnimation);
+            NewParticle.AddAnimation(AnimationType.FadeOut, SpriteFadeOutAnimation);
 
             return NewParticle;
         }
