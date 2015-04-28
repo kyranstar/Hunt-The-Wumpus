@@ -179,6 +179,11 @@ namespace HuntTheWumpus.SharedCode
 
             return Result;
         }
+
+        public int Distance(Room a, Room b)
+        {
+            return Pathfinding.FindPath(a, b, this).Count;
+        }
     }
     /// <summary>
     /// Class which represents one room which is part of the cave system
@@ -312,7 +317,6 @@ namespace HuntTheWumpus.SharedCode
         {
             return RoomID;
         }
-
     }
 
     [Flags]

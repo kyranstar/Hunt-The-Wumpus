@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
@@ -137,17 +138,23 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
                 else
                 {
-                    //// Move the wumpus 2-4 rooms away.
-                    //List<int> validRooms = new List<int>();
-                    //foreach (KeyValuePair<int, Room> pair in Cave.getRoomDict())
-                    //{
-                    //    int distance = pair.Value.Distance(PlayerRoom);
-                    //    if (distance >= 2 && distance <= 4)
-                    //    {
-                    //        validRooms.Add(pair.Key);
-                    //    }
-                    //}
-                    //Wumpus.Location = validRooms[new Random().Next(validRooms.Count)];
+                    // Move the wumpus 2-4 rooms away.
+                    int oldLocation = Wumpus.Location;
+
+                    List<int> validRooms = new List<int>();
+                    Random r = new Random();
+                    foreach (int i in Enumerable.Range(0, 9).OrderBy(x => r.Next()))
+                    {
+                        KeyValuePair<int, Room> pair = Cave.RoomDict.ElementAt(i);
+
+                        int distance = Cave.Distance(pair.Value, Cave[PlayerRoom]);
+                        if (distance >= 2 && distance <= 4)
+                        {
+                            Wumpus.Location = pair.Key;
+                        }
+                    }
+
+                    Debug.Assert(oldLocation != Wumpus.Location);
                 }
 
             }

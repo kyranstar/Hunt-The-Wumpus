@@ -93,7 +93,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         }
         private static IEnumerable<AStarNode> getNeighbors(AStarNode center, Cave cave)
         {
-            return center.node.AdjacentRooms.Select(roomIndex => new AStarNode(cave.GetRoom(roomIndex), center));
+            return center.node.AdjacentRooms.Where((i) => i != -1).Select(roomIndex => new AStarNode(cave.GetRoom(roomIndex), center));
         }
         private class AStarNode : PriorityQueueNode
         {
