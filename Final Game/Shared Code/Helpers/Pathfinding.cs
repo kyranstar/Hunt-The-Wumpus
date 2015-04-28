@@ -45,9 +45,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
                     if (closedNodes.Contains<AStarNode>(neighbor)) continue;
 
                     int fCost = GetEstimatedScore(neighbor.node, end, cave) + neighbor.ParentCount;
-                    if(avoidObjects && neighbor.node.HasBats || neighbor.node.HasPit)
+                    if (avoidObjects && (neighbor.node.HasBats || neighbor.node.HasPit))
                     {
-                        // a lot, but not max value because we don't want to overflow.
+                        // a lot, but not max value because we don't want to overflow. 
                         fCost += 10000;
                     }
 
