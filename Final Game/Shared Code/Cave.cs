@@ -33,13 +33,15 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         private IDictionary<int, Room> cave = new Dictionary<int, Room>();
 
+
+        private Dictionary<int, RoomLayoutMapping> roomLayout;
         /// <summary>
         /// Gets the calculated positions for the available room IDs
         /// </summary>
         public Dictionary<int, RoomLayoutMapping> RoomLayout
         {
-            get;
-            protected set;
+            get { if(roomLayout == null){RegenerateLayout();}return roomLayout;}
+            protected set {roomLayout = value;}
         }
 
         /// <summary>
@@ -180,9 +182,14 @@ namespace HuntTheWumpus.SharedCode
             return Result;
         }
 
-        public int Distance(Room a, Room b)
+        public int? Distance(Room a, Room b)
         {
-            return Pathfinding.FindPath(a, b, this).Count;
+            var path = Pathfinding.FindPath(a, b, this);
+            if (path == null)
+            {
+                return null;
+            }
+            return path.Count;
         }
     }
     /// <summary>

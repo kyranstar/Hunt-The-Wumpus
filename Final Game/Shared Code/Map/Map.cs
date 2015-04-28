@@ -147,8 +147,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     {
                         KeyValuePair<int, Room> pair = Cave.RoomDict.ElementAt(i);
 
-                        int distance = Cave.Distance(pair.Value, Cave[PlayerRoom]);
-                        if (distance >= 2 && distance <= 4)
+                        int? distance = Cave.Distance(pair.Value, Cave[PlayerRoom]);
+                        if (distance.HasValue && distance.Value >= 2 && distance.Value <= 4)
                         {
                             Wumpus.Location = pair.Key;
                         }
