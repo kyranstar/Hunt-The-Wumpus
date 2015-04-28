@@ -194,10 +194,12 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
+        /// <param name="avoidObstacles"></param>
+        /// <param name="algorithm"></param>
         /// <returns>null if there is no path, the length of the path in between the rooms otherwise</returns>
-        public int? Distance(Room a, Room b, PathfindingAlgorithm algorithm = PathfindingAlgorithm.A_STAR)
+        public int? Distance(Room a, Room b, bool avoidObstacles ,PathfindingAlgorithm algorithm = PathfindingAlgorithm.A_STAR)
         {
-            var path = Pathfinding.FindPath(a, b, this, algorithm);
+            var path = Pathfinding.FindPath(a, b, this, avoidObstacles, algorithm);
             if (path == null)
             {
                 return null;

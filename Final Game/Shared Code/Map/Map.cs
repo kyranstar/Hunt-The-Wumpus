@@ -142,11 +142,13 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
                     List<int> validRooms = new List<int>();
                     Random r = new Random();
-                    foreach (int i in Enumerable.Range(0, 9).OrderBy(x => r.Next()))
+                    foreach (int i in Enumerable.Range(0, Cave.RoomDict.Count).OrderBy(x => r.Next()))
                     {
                         KeyValuePair<int, Room> pair = Cave.RoomDict.ElementAt(i);
 
-                        int? distance = Cave.Distance(pair.Value, Cave[PlayerRoom]);
+                        if (pair.Value.HasBats || pair.Value.HasPit) continue;
+
+                        int? distance = Cave.Distance(pair.Value, Cave[PlayerRoom], true);
                         if (distance.HasValue && distance.Value >= 2 && distance.Value <= 4)
                         {
                             Wumpus.Location = pair.Key;
