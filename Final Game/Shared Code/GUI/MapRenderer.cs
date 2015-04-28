@@ -1,6 +1,5 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GameMap;
-using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

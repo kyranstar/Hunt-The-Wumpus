@@ -1,10 +1,6 @@
-﻿using System;
+﻿using HuntTheWumpus.SharedCode.GameControl;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using HuntTheWumpus.SharedCode.GameControl;
 
 namespace HuntTheWumpus.Platform.Desktop.Trivia
 {

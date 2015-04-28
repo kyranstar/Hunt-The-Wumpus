@@ -1,12 +1,8 @@
-﻿using HuntTheWumpus.SharedCode.GameMap;
-using HuntTheWumpus.SharedCode.GameControl;
+﻿using HuntTheWumpus.SharedCode.GameControl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {

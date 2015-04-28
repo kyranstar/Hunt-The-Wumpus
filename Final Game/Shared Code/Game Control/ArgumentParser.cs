@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using HuntTheWumpus.SharedCode.Helpers;
+using System;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-
-using HuntTheWumpus.SharedCode.GameMap;
-using System.Reflection;
-using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {

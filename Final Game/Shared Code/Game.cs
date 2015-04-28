@@ -1,11 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EmptyKeys.UserInterface;
+using EmptyKeys.UserInterface.Media;
+using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-using HuntTheWumpus.SharedCode.GameControl;
-using EmptyKeys.UserInterface;
-using EmptyKeys.UserInterface.Media;
-using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GameCore
 {

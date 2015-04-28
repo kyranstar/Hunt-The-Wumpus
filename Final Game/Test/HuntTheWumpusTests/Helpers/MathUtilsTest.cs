@@ -1,7 +1,7 @@
-﻿using System;
+﻿using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace HuntTheWumpusTests.Helpers
 {

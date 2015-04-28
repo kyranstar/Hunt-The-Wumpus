@@ -1,7 +1,6 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -134,7 +133,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 const int NUM_TO_BEAT_WUMPUS = 3;
                 if (triviaQuestionsRight < NUM_TO_BEAT_WUMPUS)
                 {
-                    // Game over.
+                    //TODO: Game over.
                 }
                 else
                 {
@@ -155,6 +154,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     }
 
                     Debug.Assert(oldLocation != Wumpus.Location);
+                    Log.Info("You scared the Wumpus away to room " + Wumpus.Location);
                 }
 
             }
@@ -228,11 +228,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             if (Wumpus.Location == roomId)
             {
-                // You shot the wumpus. You win? 
+                //TODO: You shot the wumpus. You win? Or trivia?
             }
             else if (Player.Arrows <= 0)
             {
-                // Game over! 
+                //TODO: Game over! 
             }
 
         }
@@ -286,7 +286,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
             /// </summary>
             Wumpus,
         }
-        public static string GetDescription(PlayerWarnings warning)
+        /// <summary>
+        /// Returns a string description of a warning
+        /// </summary>
+        /// <param name="warning"></param>
+        /// <returns></returns>
+        public static string GetWarningDescription(PlayerWarnings warning)
         {
             switch (warning)
             {
@@ -308,8 +313,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Southeast,
             South,
             Southwest,
-            Northwest
-
+            Northwest,
         }
 
         /// <summary>
@@ -320,8 +324,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             North,
             East,
             South,
-            West
-
+            West,
         }
     }
 }

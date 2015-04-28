@@ -1,13 +1,8 @@
-﻿using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.GUI;
-using HuntTheWumpus.SharedCode.Helpers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+﻿using HuntTheWumpus.SharedCode.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace HuntTheWumpus.SharedCode.Scores

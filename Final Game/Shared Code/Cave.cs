@@ -1,4 +1,5 @@
-﻿using HuntTheWumpus.SharedCode.GameMap;
+﻿using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.Helpers;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,13 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         public Dictionary<int, RoomLayoutMapping> RoomLayout
         {
-            get { if(roomLayout == null){RegenerateLayout();}return roomLayout;}
+            get { 
+                if(roomLayout == null)
+                {
+                    RegenerateLayout();
+                }
+                return roomLayout;
+            }
             protected set {roomLayout = value;}
         }
 
@@ -182,13 +189,20 @@ namespace HuntTheWumpus.SharedCode
             return Result;
         }
 
-        public int? Distance(Room a, Room b)
+        /// <summary>
+        /// Gets the distance between two rooms using a pathfinding algorithm.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>null if there is no path, the length of the path in between the rooms otherwise</returns>
+        public int? Distance(Room a, Room b, PathfindingAlgorithm algorithm = PathfindingAlgorithm.A_STAR)
         {
-            var path = Pathfinding.FindPath(a, b, this);
+            var path = Pathfinding.FindPath(a, b, this, algorithm);
             if (path == null)
             {
                 return null;
             }
+
             return path.Count;
         }
     }
@@ -232,7 +246,7 @@ namespace HuntTheWumpus.SharedCode
             }
         }
         /// <summary>
-        /// how many arrows the room contains (arrows >= 0)
+        /// How many arrows the room contains (arrows >= 0)
         /// </summary>
         public int Arrows
         {
@@ -244,7 +258,7 @@ namespace HuntTheWumpus.SharedCode
             }
         }
         /// <summary>
-        /// true if room contains bats, false if not
+        /// True if room contains bats, false if not
         /// </summary>
         public bool HasBats
         {
@@ -260,7 +274,7 @@ namespace HuntTheWumpus.SharedCode
             }
         }
         /// <summary>
-        /// true if room contains a pit, false if not
+        /// True if room contains a pit, false if not
         /// </summary>
         public bool HasPit
         {
@@ -276,7 +290,7 @@ namespace HuntTheWumpus.SharedCode
             }
         }
         /// <summary>
-        /// what other rooms this room is connected to
+        /// Which other rooms this room is connected to, stored as RoomIds or -1 for no room
         /// </summary>
         public int[] AdjacentRooms
         {
@@ -314,7 +328,6 @@ namespace HuntTheWumpus.SharedCode
                     arrows
                 );
         }
-        // We should probably make these methods more robust
         public override bool Equals(Object other)
         {
             Room otherRoom = other as Room;

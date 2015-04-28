@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using HuntTheWumpus.SharedCode.GUI;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {

@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-using EmptyKeys.UserInterface.Mvvm;
-using EmptyKeys.UserInterface.Input;
-
-using HuntTheWumpus.SharedCode;
-using HuntTheWumpus.SharedCode.Helpers;
-using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.GUI;
+﻿using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.GUI;
+using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.Scenes
