@@ -176,6 +176,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             if (RoomBaseTextures.Length <= 0 || Map.Cave.RoomLayout == null)
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
+            //TODO: Combine these two loops
             // Iterate over each layout mapping
             foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in
                 (from Mapping in Map.Cave.RoomLayout where Map.PlayerPath.Contains(Mapping.Key) select Mapping))
@@ -214,6 +215,19 @@ namespace HuntTheWumpus.SharedCode.GUI
                         rotation: DoorMapping.Rotation,
                         color: Color.White);
                 }
+            }
+            // Draw black adjacent rooms
+            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in
+               (from Mapping in Map.Cave.RoomLayout where !Map.PlayerPath.Contains(Mapping.Key) && 
+                    Map.PlayerPath.Select(i => Map.Cave.GetRoom(i)).Any(r => r.AdjacentRooms.Contains(Mapping.Key)) select Mapping))
+            {
+                // Get the position from the mapping (and round it)
+                int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
+                int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
+
+                // Calculate the target room rectangle and draw the texture
+                Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
+                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, Color.Black);
             }
         }
 

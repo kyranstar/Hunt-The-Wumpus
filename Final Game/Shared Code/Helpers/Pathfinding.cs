@@ -102,6 +102,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
         }
         private class AStarNode : PriorityQueueNode
         {
+            public Room node;
+            public AStarNode parent;
+
             public AStarNode(Room node)
             {
                 this.node = node;
@@ -113,9 +116,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 this.node = node;
                 this.parent = parent;
             }
-
-            public Room node;
-            public AStarNode parent;
 
             public int ParentCount
             {
