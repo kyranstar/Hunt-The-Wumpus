@@ -124,7 +124,8 @@ namespace HuntTheWumpus.SharedCode
         {
             get
             {
-                return CheckIfValid() == CaveLayoutStatus.None;
+                return true;
+                //return CheckIfValid() == CaveLayoutStatus.None;
             }
         }
 

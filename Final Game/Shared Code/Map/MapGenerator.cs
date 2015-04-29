@@ -47,7 +47,38 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     NewCave.AddRoom(GetID(Row, Col), GetConnectionsForGridRoom(Row, Col).ToArray());
                 }
 
-            return NewCave;
+            for (int ID = 0; ID < NewCave.Rooms.Length; ID++)
+            {
+                if (NewCave[ID].AdjacentRooms[1] != -1)
+                    NewCave[NewCave[ID].AdjacentRooms[1]].AdjacentRooms[4] = -1;
+
+                NewCave[ID].AdjacentRooms[1] = -1;
+            }
+
+            //Work in progress
+            //for (int ID = 0; ID < NewCave.Rooms.Length; ID++)
+            //{
+            //    Random rand = new Random();
+            //    int y = rand.Next(0, 1);
+            //    if (y == 0)
+            //        y = 2;
+            //    else
+            //        y = 5;
+            //    if (NewCave[ID].AdjacentRooms[y] != -1)
+            //    {
+            //        int z = NewCave[ID].AdjacentRooms[y];
+            //        if (z != -1)
+            //        {
+            //            if (y == 2)
+            //                NewCave[z].AdjacentRooms[5] = -1;
+            //            if (y == 5)
+            //                NewCave[z].AdjacentRooms[2] = -1;
+            //            NewCave[ID].AdjacentRooms[y] = -1;
+            //        }
+            //    }
+
+            //}
+                return NewCave;
         }
 
         static IEnumerable<int> GetConnectionsForGridRoom(int Row, int Col)
