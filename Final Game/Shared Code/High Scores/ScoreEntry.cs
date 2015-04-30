@@ -3,7 +3,6 @@ using System.Xml.Serialization;
 
 namespace HuntTheWumpus.SharedCode.Scores
 {
-    [Serializable]
     public class ScoreEntry
     {
         public string Username { get; set; }

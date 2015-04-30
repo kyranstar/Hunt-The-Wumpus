@@ -125,69 +125,8 @@ namespace HuntTheWumpus.SharedCode
             get
             {
                 return true;
-                //return CheckIfValid() == CaveLayoutStatus.None;
+                //return CaveUtils.CheckIfValid(RoomDict) == CaveLayoutStatus.None;
             }
-        }
-
-        public CaveLayoutStatus CheckIfValid(int NumMinConnections = -1, int NumMaxConnections = -1)
-        {
-            IDictionary<int, Room> cave = this.RoomDict;
-
-            // Make sure that all connections lead to valid rooms,
-            //  and that all connections are bi-directional
-            bool AllConnectionsValid = cave.Values.All<Room>(
-                // For each room connected to the current one
-                   (e) => e.AdjacentRooms.All(
-                       (r) => r == -1 || (cave.ContainsKey(r) && cave[r].AdjacentRooms.Contains(e.RoomID))
-                   ));
-
-            Dictionary<int, int> ValidatedRooms = cave.ToDictionary(pair => pair.Key, pair => 0);
-            List<int> UnmarkedRooms = ValidatedRooms.Keys.ToList();
-
-            Action<Room> MarkConnectedRooms = null;
-            MarkConnectedRooms = (Room Room) =>
-            {
-                if (!UnmarkedRooms.Contains(Room.RoomID))
-                    return;
-                UnmarkedRooms.Remove(Room.RoomID);
-
-                foreach (int ID in (from TmpID in Room.AdjacentRooms where TmpID >= 0 select TmpID))
-                {
-                    ValidatedRooms[ID]++;
-                    MarkConnectedRooms(this[ID]);
-                }
-
-            };
-
-            MarkConnectedRooms(this.Rooms[0]);
-
-            int[] UnreachableRooms = UnmarkedRooms.ToArray();
-
-            int[] TooFewConnections = ValidatedRooms
-                .Where(Pair => NumMinConnections != -1 && Pair.Value < NumMinConnections)
-                .Select(Pair => Pair.Key)
-                .ToArray();
-
-            int[] TooManyConnections = ValidatedRooms
-                .Where(Pair => NumMaxConnections != -1 && Pair.Value > NumMaxConnections)
-                .Select(Pair => Pair.Key)
-                .ToArray();
-            
-            CaveLayoutStatus Result = CaveLayoutStatus.None;
-
-            if (UnreachableRooms.Length > 0)
-                Result |= CaveLayoutStatus.UnreachableRooms;
-
-            if (TooFewConnections.Length > 0)
-                Result |= CaveLayoutStatus.TooFewConnections;
-
-            if (TooManyConnections.Length > 0)
-                Result |= CaveLayoutStatus.TooManyConnections;
-
-            if (!AllConnectionsValid)
-                Result |= CaveLayoutStatus.MismatchedConnections;
-
-            return Result;
         }
 
         /// <summary>

@@ -1,8 +1,6 @@
 ﻿using HuntTheWumpus.SharedCode.GameMap;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-
 namespace HuntTheWumpusTests
 {
     [TestClass]

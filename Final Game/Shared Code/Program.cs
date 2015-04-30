@@ -2,10 +2,6 @@
 using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GameCore;
 using System;
-
-#if DESKTOP
-
-#endif
 #endregion
 
 namespace HuntTheWumpus.Platform.Desktop
