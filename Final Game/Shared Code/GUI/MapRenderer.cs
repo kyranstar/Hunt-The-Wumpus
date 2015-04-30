@@ -20,11 +20,14 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Map Map;
 
         private Texture2D PlayerTexture;
+        private Texture2D WumpusTexture;
 
         private Sprite2D Player;
+        private Sprite2D Wumpus;
 
         private const int VirtualViewHeight = 500;
-        private const int PlayerSize = 500;
+        private const int PlayerHeight = 500;
+        private const int WumpusHeight = 500;
 
         public const int NumCloudTextures = 1,
             NumDoorTextures = 5,
@@ -43,9 +46,6 @@ namespace HuntTheWumpus.SharedCode.GUI
         public MapRenderer(Map Map)
         {
             this.Map = Map;
-
-            // TODO: Remove this when we are done debugging (set the overridden position to null)
-            //OverriddenCameraPosition = new Vector2(1200, 1000);
         }
 
         /// <summary>
@@ -87,8 +87,14 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Player = new Sprite2D(PlayerTexture)
             {
-                RenderWidth = PlayerSize,
-                RenderHeight = PlayerSize
+                RenderWidth = (int)Math.Round(PlayerHeight / (double)PlayerTexture.Height * PlayerTexture.Width),
+                RenderHeight = PlayerHeight
+            };
+
+            Wumpus = new Sprite2D(WumpusTexture)
+            {
+                RenderWidth = (int)Math.Round(WumpusHeight / (double)WumpusTexture.Height * WumpusTexture.Width),
+                RenderHeight = PlayerHeight
             };
 
             UpdateCamera();
@@ -108,6 +114,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void LoadContent(ContentManager Content)
         {
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
+            WumpusTexture = Content.Load<Texture2D>("Images/Wumpus");
 
             MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
@@ -126,10 +133,19 @@ namespace HuntTheWumpus.SharedCode.GUI
             Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y - 230;
 
             UpdateCamera();
-
+            UpdateWumpus();
 
             backFogSystem.Update(time);
             frontFogSystem.Update(time);
+        }
+
+        private void UpdateWumpus()
+        {
+            // TODO: Figure out where we store character position
+            Wumpus.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Wumpus.HalfWidth);
+            Wumpus.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Wumpus.HalfHeight);
+
+            // TODO: Hide Wumpus when it shouldn't be shown
         }
 
         private void UpdateCamera()
@@ -164,7 +180,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             frontFogSystem.Draw(MapRenderTarget);
 
-            DrawPlayer(MapRenderTarget);
+
+            Player.Draw(MapRenderTarget);
+            Wumpus.Draw(MapRenderTarget);
 
             MapRenderTarget.End();
         }
@@ -232,11 +250,6 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
                 Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, new Color(50, 50, 50, 5));
             }
-        }
-
-        private void DrawPlayer(SpriteBatch Target)
-        {
-            Player.Draw(Target);
         }
 
         public int FogParticleCount
