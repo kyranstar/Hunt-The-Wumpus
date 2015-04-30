@@ -218,8 +218,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
             // Draw black adjacent rooms
             foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in
-               (from Mapping in Map.Cave.RoomLayout where !Map.PlayerPath.Contains(Mapping.Key) && 
-                    Map.PlayerPath.Select(i => Map.Cave.GetRoom(i)).Any(r => r.AdjacentRooms.Contains(Mapping.Key)) select Mapping))
+               (from Mapping in Map.Cave.RoomLayout
+                where !Map.PlayerPath.Contains(Mapping.Key)
+                    && Map.PlayerPath.Select(i => Map.Cave.GetRoom(i))
+                        .Any(r => r.AdjacentRooms.Contains(Mapping.Key))
+                select Mapping))
             {
                 // Get the position from the mapping (and round it)
                 int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
@@ -227,7 +230,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 // Calculate the target room rectangle and draw the texture
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, Color.Black);
+                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, new Color(255, 255, 255, 5));
             }
         }
 
