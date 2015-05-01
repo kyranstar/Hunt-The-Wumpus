@@ -203,6 +203,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 return false;
 
             PlayerRoom = RoomID;
+            RoomUpdate();
             return true;
         }
 
