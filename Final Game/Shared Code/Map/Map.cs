@@ -29,15 +29,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class Map
     {
-        private List<Room> TraveledPath = new List<Room>();
-
-        public int[] PlayerPath
-        {
-            get
-            {
-                return TraveledPath.Select(r => r.RoomID).ToArray();
-            }
-        }
+        public ISet<int> PlayerPath = new HashSet<int>();
 
         /// <summary>
         /// Holds the id of the room that the player is currently in.
@@ -122,7 +114,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
 
             CollectItemsFromRoom();
-            TraveledPath.Add(Cave[PlayerRoom]);
+            PlayerPath.Add(PlayerRoom);
 
             if (Wumpus.Location == PlayerRoom)
             {
@@ -140,7 +132,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     // Move the wumpus 2-4 rooms away.
                     int oldLocation = Wumpus.Location;
 
-                    List<int> validRooms = new List<int>();
                     Random r = new Random();
                     foreach (int i in Enumerable.Range(0, Cave.RoomDict.Count).OrderBy(x => r.Next()))
                     {
