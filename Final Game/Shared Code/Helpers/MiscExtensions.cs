@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -102,6 +103,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 PropInfo.SetValue(Object, Convert.ChangeType(Value, PropInfo.PropertyType));
             else
                 throw new Exception("The target does not exist.");
+        }
+        /// <summary>
+        /// Returns the caller of the method that calls this method.
+        /// </summary>
+        /// <param name="framesUp">The number of stack frames to go up. Defaults to one, the caller.</param>
+        /// <returns>The type of the caller</returns>
+        public static Type GetCallerClass(int framesUp = 1)
+        {
+            StackFrame frame = new StackFrame(framesUp + 1);
+            return frame.GetMethod().DeclaringType;
         }
     }
 
