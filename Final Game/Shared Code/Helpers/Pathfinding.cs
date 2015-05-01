@@ -14,17 +14,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="end">The end point</param>
         /// <param name="algorithm">The algorithm to find a path with</param>
         /// <returns>A list of rooms making a path, or null if there is not path.</returns>
-        public static List<Room> FindPath(Room start, Room end, Cave cave, bool avoidObjects, PathfindingAlgorithm algorithm = PathfindingAlgorithm.A_STAR)
-        {
-            switch (algorithm)
-            {
-                case PathfindingAlgorithm.A_STAR: return FindAStarPath(start, end, avoidObjects, cave);
-
-                default: throw new Exception();
-            }
-        }
-
-        private static List<Room> FindAStarPath(Room start, Room end, bool avoidObjects, Cave cave)
+        public static List<Room> FindPath(Room start, Room end, Cave cave, bool avoidObjects)
         {
             int MAX_TRAVERSED_ROOMS = cave.Rooms.Length;
             IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(MAX_TRAVERSED_ROOMS);
@@ -146,10 +136,5 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 return GetType().GetHashCode() ^ node.GetHashCode();
             }
         }
-    }
-
-    public enum PathfindingAlgorithm
-    {
-        A_STAR,
     }
 }

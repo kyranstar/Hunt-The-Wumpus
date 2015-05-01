@@ -1,5 +1,4 @@
-﻿using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.GameMap;
+﻿using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.Helpers;
 using System;
 using System.Collections.Generic;
@@ -41,14 +40,15 @@ namespace HuntTheWumpus.SharedCode
         /// </summary>
         public Dictionary<int, RoomLayoutMapping> RoomLayout
         {
-            get { 
-                if(roomLayout == null)
+            get
+            {
+                if (roomLayout == null)
                 {
                     RegenerateLayout();
                 }
                 return roomLayout;
             }
-            protected set {roomLayout = value;}
+            protected set { roomLayout = value; }
         }
 
         /// <summary>
@@ -137,9 +137,9 @@ namespace HuntTheWumpus.SharedCode
         /// <param name="avoidObstacles"></param>
         /// <param name="algorithm"></param>
         /// <returns>null if there is no path, the length of the path in between the rooms otherwise</returns>
-        public int? Distance(Room a, Room b, bool avoidObstacles ,PathfindingAlgorithm algorithm = PathfindingAlgorithm.A_STAR)
+        public int? Distance(Room a, Room b, bool avoidObstacles)
         {
-            var path = Pathfinding.FindPath(a, b, this, avoidObstacles, algorithm);
+            var path = Pathfinding.FindPath(a, b, this, avoidObstacles);
             if (path == null)
             {
                 return null;
