@@ -32,6 +32,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Root.RegisterCommand(new RoomInfoCommand(Map));
             Root.RegisterCommand(new ListRoomsCommand(Map));
             Root.RegisterCommand(new SetViewCommand(MapRenderer));
+            Root.RegisterCommand(new Display(Map));
 
             CommandEngine Engine = new CommandEngine(Root);
             Engine.Run(new string[0]);
@@ -54,6 +55,41 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             int ID = int.Parse(GetParam(paramList, 0));
             return Map.MovePlayerTo(ID);
+        }
+    }
+    class Display : ActionCommandBase
+    {
+        private const string HAZARDS = "hazards";
+        private const string ROOMS = "rooms";
+
+        private const string Help = 
+@"Graphically displays whatever is passed in as a parameter:
+        - " + HAZARDS + @": Displays pits, bats, and the wumpus in their location.
+        - " + ROOMS + @": Sets all rooms as visible and removes fog of war.";
+
+
+        Map Map;
+        public Display(Map Map) : base("display", Help)
+        {
+            this.Map = Map;
+        }
+
+        public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
+        {
+            string toDisplay = GetParam(paramList, 0);
+            switch (toDisplay)
+            {
+                case HAZARDS:
+                    //TODO display hazards
+                    break;
+                case ROOMS:
+                    foreach (int room in Map.Cave.RoomDict.Keys)
+                    {
+                        Map.PlayerPath.Add(room);
+                    }
+                    break;
+            }
+            return true;
         }
     }
 
