@@ -10,6 +10,13 @@ namespace HuntTheWumpus.SharedCode.GUI
         public MainMenuContext()
         {
             RunGameCommand = new RelayCommand(new Action<object>(LoadGameScene));
+            ShowScoresCommand = new RelayCommand(new Action<object>(LoadScoreScene));
+        }
+
+        public ICommand ShowScoresCommand
+        {
+            get;
+            protected set;
         }
 
         public ICommand RunGameCommand
@@ -21,6 +28,11 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void LoadGameScene(object o)
         {
             SceneManager.LoadScene(SceneManager.GameScene);
+        }
+
+        private void LoadScoreScene(object o)
+        {
+            SceneManager.LoadScene(SceneManager.HighScoreScene);
         }
     }
 }

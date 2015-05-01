@@ -40,13 +40,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" />
 
-        <Button Name="StartButton"  Content="Start Game" Margin="5" Command="{Binding RunGameCommand}" Grid.Row="3" Grid.Column="1" />
+        <Button Name="StartButton"  Content="Start Game" Margin="5" Command="{Binding RunGameCommand}" Grid.Row="2" Grid.Column="1" />
+        <Button Name="HighScoreButton"  Content="View Scores" Margin="5" Command="{Binding ShowScoresCommand}" Grid.Row="3" Grid.Column="1" />
     </Grid>
 </ek:UIRoot>
 

@@ -28,6 +28,8 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private Button StartButton;
         
+        private Button HighScoreButton;
+        
         public MainMenuView(int width, int height) : 
                 base(width, height) {
             Style style = RootStyle.CreateRootStyle();
@@ -49,13 +51,13 @@ namespace EmptyKeys.UserInterface.Generated {
             row_e_0_1.Height = new GridLength(2F, GridUnitType.Star);
             this.e_0.RowDefinitions.Add(row_e_0_1);
             RowDefinition row_e_0_2 = new RowDefinition();
-            row_e_0_2.Height = new GridLength(1F, GridUnitType.Star);
+            row_e_0_2.Height = new GridLength(2F, GridUnitType.Star);
             this.e_0.RowDefinitions.Add(row_e_0_2);
             RowDefinition row_e_0_3 = new RowDefinition();
             row_e_0_3.Height = new GridLength(2F, GridUnitType.Star);
             this.e_0.RowDefinitions.Add(row_e_0_3);
             RowDefinition row_e_0_4 = new RowDefinition();
-            row_e_0_4.Height = new GridLength(4F, GridUnitType.Star);
+            row_e_0_4.Height = new GridLength(2F, GridUnitType.Star);
             this.e_0.RowDefinitions.Add(row_e_0_4);
             ColumnDefinition col_e_0_0 = new ColumnDefinition();
             this.e_0.ColumnDefinitions.Add(col_e_0_0);
@@ -83,9 +85,20 @@ namespace EmptyKeys.UserInterface.Generated {
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
             this.StartButton.Content = "Start Game";
             Grid.SetColumn(this.StartButton, 1);
-            Grid.SetRow(this.StartButton, 3);
+            Grid.SetRow(this.StartButton, 2);
             Binding binding_StartButton_Command = new Binding("RunGameCommand");
             this.StartButton.SetBinding(Button.CommandProperty, binding_StartButton_Command);
+            // HighScoreButton element
+            this.HighScoreButton = new Button();
+            this.e_0.Children.Add(this.HighScoreButton);
+            this.HighScoreButton.Name = "HighScoreButton";
+            this.HighScoreButton.Margin = new Thickness(5F, 5F, 5F, 5F);
+            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.HighScoreButton.Content = "View Scores";
+            Grid.SetColumn(this.HighScoreButton, 1);
+            Grid.SetRow(this.HighScoreButton, 3);
+            Binding binding_HighScoreButton_Command = new Binding("ShowScoresCommand");
+            this.HighScoreButton.SetBinding(Button.CommandProperty, binding_HighScoreButton_Command);
         }
     }
 }
