@@ -11,7 +11,7 @@ namespace HuntTheWumpus.SharedCode.Scores
     {
         private const string ScoreFileName = "HighScores.xml";
         private readonly string ScoreFile = FileUtils.GetConfigPath(ScoreFileName);
-        private List<ScoreEntry> Scores = null;
+        private List<ScoreEntry> _Scores = null;
 
         private readonly XmlSerializer Serializer = new XmlSerializer(typeof(ScoreEntry[]));
 
@@ -25,19 +25,19 @@ namespace HuntTheWumpus.SharedCode.Scores
             using (Stream Stream = FileUtils.GetFileStream(ScoreFile))
             {
                 if (Stream.Length > 0)
-                    Scores = ((ScoreEntry[])Serializer.Deserialize(Stream)).ToList();
-                else Scores = new List<ScoreEntry>();
+                    _Scores = ((ScoreEntry[])Serializer.Deserialize(Stream)).ToList();
+                else _Scores = new List<ScoreEntry>();
             }
         }
 
         public void Save()
         {
-            Serializer.Serialize(FileUtils.GetFileStream(ScoreFile), Scores.ToArray());
+            Serializer.Serialize(FileUtils.GetFileStream(ScoreFile), _Scores.ToArray());
         }
 
         private void ValidateScores()
         {
-            if (Scores == null)
+            if (_Scores == null)
                 throw new Exception("This operation cannot be performed until scores have been loaded.");
         }
 
@@ -45,14 +45,22 @@ namespace HuntTheWumpus.SharedCode.Scores
         {
             ValidateScores();
 
-            Scores.Add(Score);
-            Scores.Sort((a, b) => a.Score.CompareTo(b.Score));
+            _Scores.Add(Score);
+            _Scores.Sort((a, b) => a.Score.CompareTo(b.Score));
         }
 
         public ScoreEntry[] GetAllScores()
         {
             ValidateScores();
-            return Scores.ToArray();
+            return _Scores.ToArray();
+        }
+
+        public ScoreEntry[] Scores
+        {
+            get
+            {
+                return GetAllScores();
+            }
         }
     }
 }
