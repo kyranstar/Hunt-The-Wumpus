@@ -104,16 +104,29 @@ namespace HuntTheWumpus.SharedCode.Helpers
             else
                 throw new Exception("The target does not exist.");
         }
+
+#if DESKTOP
         /// <summary>
-        /// Returns the caller of the method that calls this method.
+        /// Returns the class at the given index in the call stack.
         /// </summary>
-        /// <param name="framesUp">The number of stack frames to go up. Defaults to one, the caller.</param>
-        /// <returns>The type of the caller</returns>
+        /// <param name="framesUp">The number of stack frames to go up. Defaults to one, the direct caller.</param>
+        /// <returns>The class info from the target frame</returns>
         public static Type GetCallerClass(int framesUp = 1)
         {
-            StackFrame frame = new StackFrame(framesUp + 1);
-            return frame.GetMethod().DeclaringType;
+            return GetCallerMethod(framesUp + 1).DeclaringType;
         }
+
+        /// <summary>
+        /// Returns the method at the given index in the call stack.
+        /// </summary>
+        /// <param name="framesUp">The number of stack frames to go up. Defaults to one, the direct caller.</param>
+        /// <returns>The method info from the target frame</returns>
+        public static MethodBase GetCallerMethod(int framesUp = 1)
+        {
+            StackFrame frame = new StackFrame(framesUp + 1);
+            return frame.GetMethod();
+        }
+#endif
     }
 
     public static class EnumerationExtensions

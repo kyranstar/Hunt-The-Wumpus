@@ -16,8 +16,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public static void Info(string Message)
         {
-            PrintCallerClass();
 #if DESKTOP
+            PrintSimpleStack();
             WriteToConsole("INFO:", ConsoleColor.White, ConsoleColor.DarkCyan);
             WriteLineToConsole(" " + Message, ConsoleColor.Cyan, ConsoleColor.Black);
 #endif
@@ -26,8 +26,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public static void Warn(string Message)
         {
-            PrintCallerClass();
 #if DESKTOP
+            PrintSimpleStack();
             WriteToConsole("WARN:", ConsoleColor.White, ConsoleColor.DarkYellow);
             WriteLineToConsole(" " + Message, ConsoleColor.Yellow, ConsoleColor.Black);
 #endif
@@ -36,8 +36,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public static void Error(string Message)
         {
-            PrintCallerClass();
 #if DESKTOP
+            PrintSimpleStack();
             WriteToConsole("ERR:", ConsoleColor.White, ConsoleColor.DarkRed);
             WriteLineToConsole(" " + Message, ConsoleColor.Red, ConsoleColor.Black);
 #endif
@@ -65,14 +65,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = ConsoleColor.Black;
         }
-#endif
-        private static void PrintCallerClass()
+
+        private static void PrintSimpleStack()
         {
-            string className = ReflectionUtils.GetCallerClass(framesUp: 2).Name;
-#if DESKTOP
-            WriteLineToConsole(className + " - ", ConsoleColor.White, ConsoleColor.DarkRed);
-#endif
-            Debug.WriteLine(className + " - ");
+            string ClassName = ReflectionUtils.GetCallerClass(framesUp: 2).Name;
+            string MethodName = ReflectionUtils.GetCallerMethod(framesUp: 2).Name;
+            WriteLineToConsole(ClassName + ":" + MethodName + " - ", ConsoleColor.White, ConsoleColor.DarkRed);
         }
+#endif
     }
 }
