@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
@@ -75,21 +74,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             Log.Info("Creating map...");
             Cave = MapGenerator.GenerateRandomCave();
-            Wumpus = new Wumpus(Cave);
+            Wumpus = new Wumpus(this);
             Player = new Player();
             PlayerLocation = new Point(0, 0);
 
             RoomUpdate();
         }
-
-        /// <summary>
-        /// This moves the wumpus to a new position.
-        /// </summary>
-        public void MoveWumpus()
-        {
-            Wumpus.Move();
-        }
-
         /// <summary>
         /// Moves the player relatively to a new room if this room connects to that room.
         /// </summary>
@@ -103,8 +93,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 //set our current room to that room
                 PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[(int)dir]).RoomID;
                 RoomUpdate();
+                //Wumpus has to move after the player does
+                Wumpus.Move();
                 return true;
             }
+            Wumpus.Move();
             return false;
         }
         /// <summary>
@@ -129,24 +122,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
                 else
                 {
-                    // Move the wumpus 2-4 rooms away.
-                    int oldLocation = Wumpus.Location;
-
-                    Random r = new Random();
-                    foreach (int i in Enumerable.Range(0, Cave.RoomDict.Count).OrderBy(x => r.Next()))
-                    {
-                        KeyValuePair<int, Room> pair = Cave.RoomDict.ElementAt(i);
-
-                        if (pair.Value.HasBats || pair.Value.HasPit) continue;
-
-                        int? distance = Cave.Distance(pair.Value, Cave[PlayerRoom], true);
-                        if (distance.HasValue && distance.Value >= 2 && distance.Value <= 4)
-                        {
-                            Wumpus.Location = pair.Key;
-                        }
-                    }
-
-                    Debug.Assert(oldLocation != Wumpus.Location);
+                    Wumpus.HitPlayer();
                     Log.Info("You scared the Wumpus away to room " + Wumpus.Location);
                 }
 

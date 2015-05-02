@@ -66,6 +66,10 @@ namespace HuntTheWumpus.SharedCode
         {
             get
             {
+                if (!cave.ContainsKey(RoomID))
+                {
+                    throw new KeyNotFoundException("Cave did not contain key " + RoomID);
+                }
                 return cave[RoomID];
             }
         }
