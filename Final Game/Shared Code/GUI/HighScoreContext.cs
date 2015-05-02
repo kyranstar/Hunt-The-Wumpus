@@ -1,4 +1,6 @@
-﻿using EmptyKeys.UserInterface.Mvvm;
+﻿using EmptyKeys.UserInterface.Input;
+using EmptyKeys.UserInterface.Mvvm;
+using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Scores;
 using System;
 
@@ -9,6 +11,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         ScoreManager ScoreMan;
         public HighScoreContext()
         {
+            BackCommand = new RelayCommand(new Action<object>(LoadMenuScene));
+
             ScoreMan = new ScoreManager();
             ScoreMan.Load();
 
@@ -26,6 +30,12 @@ namespace HuntTheWumpus.SharedCode.GUI
                 ScoreMan.Save();
             }
         }
+        
+        public ICommand BackCommand
+        {
+            get;
+            protected set;
+        }
 
         public ScoreEntry[] HighScores
         {
@@ -33,6 +43,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 return ScoreMan.Scores;
             }
+        }
+
+        private void LoadMenuScene(object o)
+        {
+            SceneManager.LoadScene(SceneManager.MenuScene);
         }
     }
 }

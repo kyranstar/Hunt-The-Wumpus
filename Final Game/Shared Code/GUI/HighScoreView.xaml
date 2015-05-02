@@ -1,13 +1,19 @@
-<ek:UIRoot   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ek="clr-namespace:EmptyKeys.UserInterface.Designer;assembly=EmptyKeys.UserInterface.Designer"
-             mc:Ignorable="d" 
-             d:DesignHeight="640" d:DesignWidth="800">
-
-  <DataGrid Name="ScoreTable" ItemsSource="{Binding HighScores}" >
-    <!--AutoGenerateColumns="False">
+<ek:UIRoot
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:ek="clr-namespace:EmptyKeys.UserInterface.Designer;assembly=EmptyKeys.UserInterface.Designer"
+  mc:Ignorable="d" d:DesignHeight="640" d:DesignWidth="800">
+  <Grid Name="LayoutRoot">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="40"/>
+        <RowDefinition />
+    </Grid.RowDefinitions>
+    
+    <Button Name="BackButton"  Content="← Back to Main Menu" Margin="5" Width="150" Command="{Binding BackCommand}" Grid.Row="0" HorizontalAlignment="Left" />
+    <DataGrid Name="ScoreTable" ItemsSource="{Binding HighScores}" Grid.Row="1">
+      <!--AutoGenerateColumns="False">
     <DataGrid.Columns>
       <DataGridTemplateColumn Header="Username" Width="SizeToCells" IsReadOnly="True">
         <DataGridTemplateColumn.CellTemplate>
@@ -17,6 +23,6 @@
         </DataGridTemplateColumn.CellTemplate>
       </DataGridTemplateColumn>
     </DataGrid.Columns-->
-  </DataGrid>
+    </DataGrid>
+  </Grid>
 </ek:UIRoot>
-

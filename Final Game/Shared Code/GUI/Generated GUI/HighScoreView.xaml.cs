@@ -22,6 +22,10 @@ namespace EmptyKeys.UserInterface.Generated {
     [GeneratedCodeAttribute("Empty Keys UI Generator", "1.6.0.0")]
     public partial class HighScoreView : UIRoot {
         
+        private Grid LayoutRoot;
+        
+        private Button BackButton;
+        
         private DataGrid ScoreTable;
         
         public HighScoreView(int width, int height) : 
@@ -34,11 +38,33 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private void InitializeComponent() {
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            // LayoutRoot element
+            this.LayoutRoot = new Grid();
+            this.Content = this.LayoutRoot;
+            this.LayoutRoot.Name = "LayoutRoot";
+            RowDefinition row_LayoutRoot_0 = new RowDefinition();
+            row_LayoutRoot_0.Height = new GridLength(40F, GridUnitType.Pixel);
+            this.LayoutRoot.RowDefinitions.Add(row_LayoutRoot_0);
+            RowDefinition row_LayoutRoot_1 = new RowDefinition();
+            this.LayoutRoot.RowDefinitions.Add(row_LayoutRoot_1);
+            // BackButton element
+            this.BackButton = new Button();
+            this.LayoutRoot.Children.Add(this.BackButton);
+            this.BackButton.Name = "BackButton";
+            this.BackButton.Width = 150F;
+            this.BackButton.Margin = new Thickness(5F, 5F, 5F, 5F);
+            this.BackButton.HorizontalAlignment = HorizontalAlignment.Left;
+            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.BackButton.Content = "← Back to Main Menu";
+            Grid.SetRow(this.BackButton, 0);
+            Binding binding_BackButton_Command = new Binding("BackCommand");
+            this.BackButton.SetBinding(Button.CommandProperty, binding_BackButton_Command);
             // ScoreTable element
             this.ScoreTable = new DataGrid();
-            this.Content = this.ScoreTable;
+            this.LayoutRoot.Children.Add(this.ScoreTable);
             this.ScoreTable.Name = "ScoreTable";
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            Grid.SetRow(this.ScoreTable, 1);
             Binding binding_ScoreTable_ItemsSource = new Binding("HighScores");
             this.ScoreTable.SetBinding(DataGrid.ItemsSourceProperty, binding_ScoreTable_ItemsSource);
         }
