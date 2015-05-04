@@ -12,15 +12,22 @@ namespace HuntTheWumpus.SharedCode.GUI
 {
     public class HudRenderer
     {
+        // Render pipeline
         private GraphicsDevice Graphics;
         private SpriteBatch HudRenderTarget;
 
-        private SpriteFont UIFont;
+        // Fonts and textures
+        private SpriteFont UIFont9;
+        private SpriteFont UIFont20;
+        private Texture2D GrayFill;
+        private Texture2D CoinTexture;
 
+        // Measurement and state
         private FrameCounter FramerateCounter = new FrameCounter();
-
         private MapRenderer MapRanderer;
         private Map Map;
+
+        private const int InventoryTrayHeight = 30;
 
         public HudRenderer(MapRenderer MapRenderer, Map Map)
         {
@@ -44,7 +51,10 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <param name="Content"></param>
         public void LoadContent(ContentManager Content)
         {
-            UIFont = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
+            UIFont9 = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
+            UIFont20 = Content.Load<SpriteFont>("Segoe_UI_20_Regular");
+            GrayFill = Content.Load<Texture2D>("Images/HUD/GrayFill");
+            CoinTexture = Content.Load<Texture2D>("Images/Gold");
         }
 
         /// <summary>
@@ -65,17 +75,61 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
 
+            DrawDebugInfo();
+            DrawInventory();
+
+            HudRenderTarget.End();
+        }
+
+        private void DrawInventory()
+        {
+            // TODO: Make inventory less ugly
+
+            // Render inventory
+            Rectangle InventoryTray = new Rectangle()
+            {
+                // Bar along bottom
+                Width = Graphics.Viewport.Width,
+                Height = InventoryTrayHeight,
+                X = 0,
+                Y = Graphics.Viewport.Height - InventoryTrayHeight
+            };
+
+            HudRenderTarget.Draw(GrayFill, InventoryTray, ColorUtils.FromAlpha(0.6f));
+
+            // Coin will be 90% of parent's height
+            double TargetCoinSize = InventoryTrayHeight * 0.9;
+
+            Rectangle CoinImageTarget = new Rectangle()
+            {
+                Width = TargetCoinSize.ToInt(),
+                Height = TargetCoinSize.ToInt(),
+                X = InventoryTray.X + (TargetCoinSize * 0.2).ToInt(),
+                Y = InventoryTray.Y + ((InventoryTrayHeight - TargetCoinSize)/2).ToInt()
+            };
+
+            HudRenderTarget.Draw(CoinTexture, CoinImageTarget, Color.White);
+            HudRenderTarget.DrawString(UIFont20, Map.Player.Gold.ToString(), new Vector2(CoinImageTarget.Right + 3, CoinImageTarget.Y - 5), Color.Black);
+
+            // TODO: Get arrow image
+            HudRenderTarget.DrawString(UIFont20, "Arrows remaining: " + Map.Player.Arrows, new Vector2(CoinImageTarget.Right + 30, CoinImageTarget.Y - 5), Color.Black);
+
+        }
+
+        private void DrawDebugInfo()
+        {
+            // TODO: Make this math use a target rectangle for debug info
+            //  instead of hard-coded magic numbers
+
             // Render general info
-            var FPS = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
-            var Particles = string.Format("Fog particles: {0}", MapRanderer.FogParticleCount);
-            HudRenderTarget.DrawString(UIFont, FPS, new Vector2(5, 1), Color.Black);
-            HudRenderTarget.DrawString(UIFont, Particles, new Vector2(5, 11), Color.Black);
+            string FPS = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
+            string Particles = string.Format("Fog particles: {0}", MapRanderer.FogParticleCount);
+            HudRenderTarget.DrawString(UIFont9, FPS, new Vector2(5, 1), Color.White);
+            HudRenderTarget.DrawString(UIFont9, Particles, new Vector2(5, 11), Color.White);
 
             // Render room status
             string Room = Map.Cave[Map.PlayerRoom].ToString();
-            HudRenderTarget.DrawString(UIFont, Room, new Vector2(5, 21), Color.Black);
-
-            HudRenderTarget.End();
+            HudRenderTarget.DrawString(UIFont9, Room, new Vector2(5, 21), Color.White);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -245,6 +246,36 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 return -1;
 
             return Random.Next(Length);
+        }
+
+        /// <summary>
+        /// Rounds and casts the current double value.
+        /// Shorthand for <code>(int)Math.Round(Value)</code>
+        /// </summary>
+        /// <param name="Value"></param>
+        /// <returns>The closest integer to the current double value.</returns>
+        public static int ToInt(this double Value)
+        {
+            return (int)Math.Round(Value);
+        }
+
+        /// <summary>
+        /// Rounds and casts the current float value.
+        /// Shorthand for <code>(int)Math.Round(Value)</code>
+        /// </summary>
+        /// <param name="Value"></param>
+        /// <returns>The closest integer to the current float value.</returns>
+        public static int ToInt(this float Value)
+        {
+            return (int)Math.Round(Value);
+        }
+    }
+
+    public static class ColorUtils
+    {
+        public static Color FromAlpha(float Alpha)
+        {
+            return Color.White * Alpha;
         }
     }
 }
