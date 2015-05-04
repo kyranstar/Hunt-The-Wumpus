@@ -15,11 +15,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
         MapRenderer MapRenderer;
         MapInputHandler InputHandler;
         GraphicsDevice Graphics;
-
-        SpriteFont UIFont;
-
-        private FrameCounter FramerateCounter = new FrameCounter();
-        SpriteBatch InfoOverlay;
+        HudRenderer HUD;
 
 #if DESKTOP
         GodManager God;
@@ -28,11 +24,14 @@ namespace HuntTheWumpus.SharedCode.Scenes
         public override void LoadContent(ContentManager Content)
         {
             Map = new Map();
+
             InputHandler = new MapInputHandler(Map);
+
             MapRenderer = new MapRenderer(Map);
             MapRenderer.LoadContent(Content);
 
-            UIFont = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
+            HUD = new HudRenderer(MapRenderer, Map);
+            HUD.LoadContent(Content);
 
         }
 
@@ -42,11 +41,11 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
 #if DESKTOP
             God = new GodManager(Map, MapRenderer);
-
+            // Run god console on separate thread
             new Task(God.Initialize).Start();
 #endif
-            InfoOverlay = new SpriteBatch(Graphics);
             MapRenderer.Initialize(GraphicsDevice);
+            HUD.Initialize(GraphicsDevice);
             
             // Ideally, the Map should have a reset method
             // TODO: Reset map here
@@ -58,28 +57,13 @@ namespace HuntTheWumpus.SharedCode.Scenes
         {
             InputHandler.Update(GameTime);
             MapRenderer.Update(GameTime);
+            HUD.Update(GameTime);
         }
 
         public override void Draw(GameTime GameTime)
         {
             MapRenderer.Draw(GameTime);
-
-
-            InfoOverlay.Begin();
-
-            FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
-
-            // Render general info
-            var FPS = string.Format("FPS: {0}", FramerateCounter.AverageFramesPerSecond);
-            var Particles = string.Format("Fog particles: {0}", MapRenderer.FogParticleCount);
-            InfoOverlay.DrawString(UIFont, FPS, new Vector2(5, 1), Color.Black);
-            InfoOverlay.DrawString(UIFont, Particles, new Vector2(5, 11), Color.Black);
-
-            // Render room status
-            string Room = Map.Cave[Map.PlayerRoom].ToString();
-            InfoOverlay.DrawString(UIFont, Room, new Vector2(5, 21), Color.Black);
-
-            InfoOverlay.End();
+            HUD.Draw(GameTime);
         }
 
         public override void UnloadContent()
