@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -222,20 +223,20 @@ namespace HuntTheWumpus.SharedCode.Helpers
     {
         static Random Random = new Random();
 
-        public static T GetRandom<T>(this T[] Me)
+        public static T GetRandom<T>(this IEnumerable<T> Me)
         {
-            if (Me.Length <= 0)
+            if (Me.Count() <= 0)
                 return default(T);
-
-            return Me[Me.GetRandomIndex()];
+            
+            return Me.ElementAt(Me.GetRandomIndex());
         }
 
-        public static int GetRandomIndex<T>(this T[] Me)
+        public static int GetRandomIndex<T>(this IEnumerable<T> Me)
         {
-            if (Me.Length <= 0)
+            if (Me.Count() <= 0)
                 return -1;
 
-            return Random.Next(Me.Length);
+            return Random.Next(Me.Count());
         }
 
         public static int RandomIndex(int Length)

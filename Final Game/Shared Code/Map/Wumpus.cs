@@ -1,5 +1,6 @@
 ﻿
 using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -100,11 +101,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             public int TurnsActive = 0;
 
-            private Wumpus wumpus;
+            private Wumpus Wumpus;
             private Map map;
             public ActiveWumpusBehavior(Wumpus wumpus, Map cave)
             {
-                this.wumpus = wumpus;
+                this.Wumpus = wumpus;
                 this.map = cave;
             }
             void WumpusBehavior.Move()
@@ -112,9 +113,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 TurnsActive++;
 
                 Random r = new Random();
-                var validNeighbors = map.Cave[wumpus.Location].AdjacentRooms.
-                    OrderBy((a) => r.Next()).
-                    Where((a) => a != -1 && !(map.Cave[a].HasPit || map.Cave[a].HasBats || map.PlayerRoom == a));
+                var validNeighbors = map.Cave[Wumpus.Location].AdjacentRooms
+                    .Where((a) =>
+                        a != -1
+                        && !map.Cave[a].HasPit
+                        && !map.Cave[a].HasBats
+                        && map.PlayerRoom != a);
                 if (validNeighbors.ToList().Count == 0)
                 {
                     Log.Warn("Wumpus is not able to move!");
@@ -122,7 +126,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
                 else
                 {
-                    wumpus.Location = validNeighbors.First();
+                    Wumpus.Location = validNeighbors.GetRandom();
+                    Log.Info("Wumpus moved to room " + Wumpus.Location);
                 }
             }
         }
