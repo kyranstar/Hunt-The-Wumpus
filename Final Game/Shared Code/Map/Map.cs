@@ -28,7 +28,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class Map
     {
-        public ISet<int> PlayerPath = new HashSet<int>();
+        public List<int> PlayerPath = new List<int>();
 
         /// <summary>
         /// Holds the id of the room that the player is currently in.
@@ -78,7 +78,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Player = new Player();
             PlayerLocation = new Point(0, 0);
 
-            RoomUpdate();
+            ProcessPlayerMove();
         }
         /// <summary>
         /// Moves the player relatively to a new room if this room connects to that room.
@@ -92,9 +92,13 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 //set our current room to that room
                 PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[(int)dir]).RoomID;
-                RoomUpdate();
+
+                // Update player tracking
+                ProcessPlayerMove();
+
                 //Wumpus has to move after the player does
                 Wumpus.Move();
+
                 return true;
             }
             Wumpus.Move();
@@ -103,17 +107,20 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <summary>
         /// Call this method whenever entering a new room.
         /// </summary>
-        private void RoomUpdate()
+        private void ProcessPlayerMove()
         {
 
             CollectItemsFromRoom();
             PlayerPath.Add(PlayerRoom);
-
+            Player.Turns = PlayerPath.Count;
+            
+            // TODO: Process hitting bats, pit, etc
             if (Wumpus.Location == PlayerRoom)
             {
                 // We're in the same room as the wumpus!
 
                 // We need to ask the player 5 trivia questions.
+                // TODO: Add trivia set here
                 int triviaQuestionsRight = 5;
                 const int NUM_TO_BEAT_WUMPUS = 3;
                 if (triviaQuestionsRight < NUM_TO_BEAT_WUMPUS)
@@ -170,7 +177,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 return false;
 
             PlayerRoom = RoomID;
-            RoomUpdate();
+            ProcessPlayerMove();
+
             return true;
         }
 
