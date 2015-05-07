@@ -96,6 +96,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Utils\EmptyKeys GUI Generator\Generate GUI.ps1">
+      <Link>Generate GUI.ps1</Link>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
