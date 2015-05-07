@@ -1,0 +1,54 @@
+<ek:UIRoot   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ek="clr-namespace:EmptyKeys.UserInterface.Designer;assembly=EmptyKeys.UserInterface.Designer"
+             mc:Ignorable="d" 
+             d:DesignHeight="640" d:DesignWidth="800"
+             Background="Transparent">
+
+    <!-- User can define style for his root control -->
+    <!--ek:UIRoot.Style>
+        <Style>
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ek:UIRoot}">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">                            
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ek:UIRoot.Style-->
+
+    <!--ek:UIRoot.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UserInterface;component/Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ek:UIRoot.Resources-->
+
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30px"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
+            <Image> 
+                <Image.Source> 
+                    <BitmapImage UriSource="Images/Gold.png"/> 
+                </Image.Source> 
+            </Image>
+            <TextBlock Text="{Binding Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+            <TextBlock Text="{Binding Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
+        </StackPanel>
+    </Grid>
+</ek:UIRoot>
+

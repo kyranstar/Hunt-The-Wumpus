@@ -4,6 +4,7 @@ using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using EmptyKeys.UserInterface.Generated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +16,15 @@ namespace HuntTheWumpus.SharedCode.GUI
         // Render pipeline
         private GraphicsDevice Graphics;
         private SpriteBatch HudRenderTarget;
+        private HUDOverlayView HudView;
 
         // Fonts and textures
         private SpriteFont UIFont9;
-        private SpriteFont UIFont20;
-        private Texture2D GrayFill;
-        private Texture2D CoinTexture;
 
         // Measurement and state
         private FrameCounter FramerateCounter = new FrameCounter();
         private MapRenderer MapRanderer;
         private Map Map;
-
-        private const int InventoryTrayHeight = 30;
 
         public HudRenderer(MapRenderer MapRenderer, Map Map)
         {
@@ -43,6 +40,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             HudRenderTarget = new SpriteBatch(Graphics);
             this.Graphics = Graphics;
+
+            HudView = new HUDOverlayView(Graphics.Viewport.Width, Graphics.Viewport.Height);
+            HudView.DataContext = new HUDContext(Map.Player);
         }
 
         /// <summary>
@@ -52,17 +52,15 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void LoadContent(ContentManager Content)
         {
             UIFont9 = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
-            UIFont20 = Content.Load<SpriteFont>("Segoe_UI_20_Regular");
-            GrayFill = Content.Load<Texture2D>("Images/HUD/GrayFill");
-            CoinTexture = Content.Load<Texture2D>("Images/Gold");
         }
 
         /// <summary>
         /// Updates the state of the map renerer to prepare for drawing.
         /// </summary>
-        public void Update(GameTime time)
+        public void Update(GameTime Time)
         {
-            
+            HudView.UpdateInput(Time.ElapsedGameTime.TotalMilliseconds);
+            HudView.UpdateLayout(Time.ElapsedGameTime.TotalMilliseconds);
         }
 
         /// <summary>
@@ -71,49 +69,14 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <param name="GameTime"></param>
         public void Draw(GameTime GameTime)
         {
+            HudView.Draw(GameTime.ElapsedGameTime.TotalMilliseconds);
+
             HudRenderTarget.Begin();
 
             FramerateCounter.Update((float)GameTime.ElapsedGameTime.TotalSeconds);
-
             DrawDebugInfo();
-            DrawInventory();
 
             HudRenderTarget.End();
-        }
-
-        private void DrawInventory()
-        {
-            // TODO: Make inventory less ugly
-
-            // Render inventory
-            Rectangle InventoryTray = new Rectangle()
-            {
-                // Bar along bottom
-                Width = Graphics.Viewport.Width,
-                Height = InventoryTrayHeight,
-                X = 0,
-                Y = Graphics.Viewport.Height - InventoryTrayHeight
-            };
-
-            HudRenderTarget.Draw(GrayFill, InventoryTray, ColorUtils.FromAlpha(0.6f));
-
-            // Coin will be 90% of parent's height
-            double TargetCoinSize = InventoryTrayHeight * 0.9;
-
-            Rectangle CoinImageTarget = new Rectangle()
-            {
-                Width = TargetCoinSize.ToInt(),
-                Height = TargetCoinSize.ToInt(),
-                X = InventoryTray.X + (TargetCoinSize * 0.2).ToInt(),
-                Y = InventoryTray.Y + ((InventoryTrayHeight - TargetCoinSize)/2).ToInt()
-            };
-
-            HudRenderTarget.Draw(CoinTexture, CoinImageTarget, Color.White);
-            HudRenderTarget.DrawString(UIFont20, Map.Player.Gold.ToString(), new Vector2(CoinImageTarget.Right + 3, CoinImageTarget.Y - 5), Color.Black);
-
-            // TODO: Get arrow image
-            HudRenderTarget.DrawString(UIFont20, "Arrows remaining: " + Map.Player.Arrows, new Vector2(CoinImageTarget.Right + 30, CoinImageTarget.Y - 5), Color.Black);
-
         }
 
         private void DrawDebugInfo()
