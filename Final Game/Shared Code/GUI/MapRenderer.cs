@@ -32,7 +32,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public const int NumCloudTextures = 1,
             NumDoorTextures = 5,
             NumRoomTextures = 5,
-            NumPitTextures = 0,
+            NumPitTextures = 1,
             NumGoldTextures = 0;
 
         ParticleSystem.ParticleSystem backFogSystem;
