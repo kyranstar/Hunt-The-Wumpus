@@ -72,17 +72,20 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 if(Wumpus.Location == TargetRoom)
                 {
                     // TODO: end game
+                    Log.Info("Yay! You shot the wumpus!");
                     return true;
                 }
                 else
                 {
                     // TODO: Present message (miss)
+                    Log.Info("Your arrow missed the wumpus.");
                     return false;
                 }
             }
             else
             {
                 // TODO: Present message (hit wall)
+                Log.Info("You managed to shoot a wall. Good job.");
                 return false;
             }
         }
@@ -225,9 +228,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         /// <param name="roomId"></param>
         /// <returns>Whether the player can shoot into the given room (if the player is adjacent to the room).</returns>
-        public bool CanShootTo(int roomId)
+        public bool CanShootTo(int roomID)
         {
-            return Cave.GetRoom(PlayerRoom).AdjacentRooms.Contains(roomId);
+            return roomID != -1 && Cave.GetRoom(PlayerRoom).AdjacentRooms.Contains(roomID);
         }
 
         /// <summary>

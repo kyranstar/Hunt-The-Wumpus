@@ -251,8 +251,18 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 Color DrawColor = new Color(50, 50, 50, 5);
 
+                // Highlight this room if the user is aiming into it
                 if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
                     DrawColor = new Color(150, 150, 150, 10);
+
+                // Highlight this room w/ brighter color if the user has shot into it
+                Map.Direction? ShootDirection = Map.InputHandler.NavDirection;
+                if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
+                {
+                    int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
+                    if (RoomAtShootDirection  == LayoutMapping.Key)
+                        DrawColor = new Color(255, 150, 150, 30);
+                }
 
                 Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
             }

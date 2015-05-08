@@ -47,7 +47,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
-            foreach(Keys key in Keyboard.GetState().GetPressedKeys())
+            Keys[] NewKeyState = Keyboard.GetState().GetPressedKeys();
+            foreach (Keys key in NewKeyState)
             {
                 if (!PressedKeys.Contains(key))
                 {
@@ -60,9 +61,18 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     HandleContinuedKeyPress(key, time);
                 }
             }
+
+            foreach(Keys key in PressedKeys)
+            {
+                if(!NewKeyState.Contains(key))
+                {
+                    KeyUp(key, time);
+                }
+            }
             
             PressedKeys = Keyboard.GetState().GetPressedKeys();
         }
+
         /// <summary>
         /// Handles map logic for the press of a single key
         /// </summary>
@@ -71,17 +81,20 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             Map.Direction? MoveDirection = MapKeyToDirection(Key);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-            {
-                if (MoveDirection.HasValue)
-                    map.TryShootTowards(MoveDirection.Value);
-
-            }
-            else if(MoveDirection.HasValue)
-            {
+            if(!IsAiming && MoveDirection.HasValue)
                 map.MovePlayer(MoveDirection.Value);
-            }
 
+        }
+
+        /// <summary>
+        /// Handles map logic for the press of a single key
+        /// </summary>
+        /// <param name="Key"></param>
+        private void KeyUp(Keys Key, GameTime GameTime)
+        {
+            Map.Direction? ShootDir = MapKeyToDirection(Key);
+            if(ShootDir.HasValue)
+                map.TryShootTowards(ShootDir.Value);
         }
 
         /// <summary>
