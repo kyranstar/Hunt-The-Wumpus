@@ -22,8 +22,9 @@ namespace HuntTheWumpus.SharedCode.GameCore
             GraphicsManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
-            Window.AllowUserResizing = true;
             GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
+            GraphicsManager.PreferredBackBufferHeight = 1000;
+            GraphicsManager.PreferredBackBufferWidth = 2000;
 
 #if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
