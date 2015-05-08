@@ -248,7 +248,13 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 // Calculate the target room rectangle and draw the texture
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, new Color(50, 50, 50, 5));
+
+                Color DrawColor = new Color(50, 50, 50, 5);
+
+                if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
+                    DrawColor = new Color(150, 150, 150, 10);
+
+                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
             }
         }
 
