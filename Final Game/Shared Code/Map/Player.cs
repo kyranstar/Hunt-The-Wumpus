@@ -1,31 +1,54 @@
 ﻿
+using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.Scores;
+using System.ComponentModel;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
     /// <summary>
     /// Represents the player. Holds his current stats like gold, arrows, etc.
     /// </summary>
-    public class Player
+    public class Player : INotifyPropertyChanged
     {
         private readonly ScoreEntry InternalScore;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string PropName)
+        {
+            if(PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(PropName));
+        }
 
         //Required fields and their getters
         public int Gold 
         {
             get { return InternalScore.GoldRemaining; }
-            set { InternalScore.GoldRemaining = value; }
+            set
+            {
+                InternalScore.GoldRemaining = value;
+                RaisePropertyChanged("Gold");
+            }
         }
         
         public int Arrows
         {
             get { return InternalScore.ArrowsRemaining; }
-            set { InternalScore.ArrowsRemaining = value; }
+            set
+            {
+                InternalScore.ArrowsRemaining = value;
+                RaisePropertyChanged("Arrows");
+            }
         }
 
         public int Turns
         {
             get { return InternalScore.TurnsTaken; }
+            set
+            {
+                InternalScore.TurnsTaken = value;
+                RaisePropertyChanged("Turns");
+            }
         }
 
         public int Score

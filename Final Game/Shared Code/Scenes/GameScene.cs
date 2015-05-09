@@ -13,7 +13,6 @@ namespace HuntTheWumpus.SharedCode.Scenes
     {
         Map Map;
         MapRenderer MapRenderer;
-        MapInputHandler InputHandler;
         GraphicsDevice Graphics;
         HudRenderer HUD;
 
@@ -25,7 +24,6 @@ namespace HuntTheWumpus.SharedCode.Scenes
         {
             Map = new Map();
 
-            InputHandler = new MapInputHandler(Map);
 
             MapRenderer = new MapRenderer(Map);
             MapRenderer.LoadContent(Content);
@@ -55,7 +53,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void Update(GameTime GameTime)
         {
-            InputHandler.Update(GameTime);
+            Map.Update(GameTime);
             MapRenderer.Update(GameTime);
             HUD.Update(GameTime);
         }

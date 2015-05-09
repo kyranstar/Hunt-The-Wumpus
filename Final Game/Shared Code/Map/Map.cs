@@ -28,7 +28,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class Map
     {
-        public ISet<int> PlayerPath = new HashSet<int>();
+        public MapInputHandler InputHandler;
+        public List<int> PlayerPath = new List<int>();
 
         /// <summary>
         /// Holds the id of the room that the player is currently in.
@@ -58,6 +59,37 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     throw new ArgumentException("The given cave was invalid.");
             }
         }
+
+        public bool TryShootTowards(Direction Direction)
+        {
+            // TODO: Animate shooting
+
+            Player.Arrows--;
+
+            int TargetRoom = Cave[PlayerRoom].AdjacentRooms[(int)Direction];
+            if (CanShootTo(TargetRoom))
+            {
+                if(Wumpus.Location == TargetRoom)
+                {
+                    // TODO: end game
+                    Log.Info("Yay! You shot the wumpus!");
+                    return true;
+                }
+                else
+                {
+                    // TODO: Present message (miss)
+                    Log.Info("Your arrow missed the wumpus.");
+                    return false;
+                }
+            }
+            else
+            {
+                // TODO: Present message (hit wall)
+                Log.Info("You managed to shoot a wall. Good job.");
+                return false;
+            }
+        }
+
         /// <summary>
         /// Holds a reference to the wumpus
         /// </summary>
@@ -76,10 +108,19 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Cave = MapGenerator.GenerateRandomCave();
             Wumpus = new Wumpus(this);
             Player = new Player();
+
+            InputHandler = new MapInputHandler(this);
+
             PlayerLocation = new Point(0, 0);
 
-            RoomUpdate();
+            ProcessPlayerMove();
         }
+
+        public void Update(GameTime GameTime)
+        {
+            InputHandler.Update(GameTime);
+        }
+
         /// <summary>
         /// Moves the player relatively to a new room if this room connects to that room.
         /// </summary>
@@ -92,9 +133,13 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 //set our current room to that room
                 PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[(int)dir]).RoomID;
-                RoomUpdate();
+
+                // Update player tracking
+                ProcessPlayerMove();
+
                 //Wumpus has to move after the player does
                 Wumpus.Move();
+
                 return true;
             }
             Wumpus.Move();
@@ -103,17 +148,20 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <summary>
         /// Call this method whenever entering a new room.
         /// </summary>
-        private void RoomUpdate()
+        private void ProcessPlayerMove()
         {
 
             CollectItemsFromRoom();
             PlayerPath.Add(PlayerRoom);
-
+            Player.Turns = PlayerPath.Count;
+            
+            // TODO: Process hitting bats, pit, etc
             if (Wumpus.Location == PlayerRoom)
             {
                 // We're in the same room as the wumpus!
 
                 // We need to ask the player 5 trivia questions.
+                // TODO: Add trivia set here
                 int triviaQuestionsRight = 5;
                 const int NUM_TO_BEAT_WUMPUS = 3;
                 if (triviaQuestionsRight < NUM_TO_BEAT_WUMPUS)
@@ -170,7 +218,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 return false;
 
             PlayerRoom = RoomID;
-            RoomUpdate();
+            ProcessPlayerMove();
+
             return true;
         }
 
@@ -179,32 +228,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         /// <param name="roomId"></param>
         /// <returns>Whether the player can shoot into the given room (if the player is adjacent to the room).</returns>
-        public bool CanShoot(int roomId)
+        public bool CanShootTo(int roomID)
         {
-            return Cave.GetRoom(PlayerRoom).AdjacentRooms.Contains(roomId);
-        }
-
-        /// <summary>
-        /// Shoots an arrow into the room with the given id. If you hit the wumpus, you win. If you run out of arrows, you lose.
-        /// </summary>
-        /// <param name="roomId">The room to shoot into</param>
-        public void ShootArrow(int roomId)
-        {
-            if (!CanShoot(roomId))
-            {
-                throw new Exception("Always check if you can shoot arrows before you shoot!");
-            }
-            Player.Arrows--;
-
-            if (Wumpus.Location == roomId)
-            {
-                //TODO: You shot the wumpus. You win? Or trivia?
-            }
-            else if (Player.Arrows <= 0)
-            {
-                //TODO: Game over! 
-            }
-
+            return roomID != -1 && Cave.GetRoom(PlayerRoom).AdjacentRooms.Contains(roomID);
         }
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             Type TargetObjType = typeof(T);
             PropertyInfo PropInfo = TargetObjType.GetRuntimeProperty(PropName);
             if (PropInfo == null)
-                throw new Exception("The target property does not exist.");
+                return null;
 
             return PropInfo.GetValue(Object);
         }
@@ -64,7 +64,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             Type TargetObjType = typeof(T);
             FieldInfo FieldInfo = TargetObjType.GetRuntimeField(FieldName);
             if (FieldInfo == null)
-                throw new Exception("The target field does not exist.");
+                return null;
 
             return FieldInfo.GetValue(Object);
         }
@@ -81,16 +81,10 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
         public static object GetPropertyOrField<T>(T Object, string Name)
         {
-            Type TargetObjType = typeof(T);
-            FieldInfo FieldInfo = TargetObjType.GetRuntimeField(Name);
-            PropertyInfo PropInfo = TargetObjType.GetRuntimeProperty(Name);
+            object FieldResult = GetField(Object, Name);
+            object PropResult = GetProperty(Object, Name);
 
-            if(FieldInfo != null)
-                return FieldInfo.GetValue(Object);
-            else if(PropInfo != null)
-                return PropInfo.GetValue(Object);
-            else
-                throw new Exception("The target does not exist.");
+            return FieldResult ?? PropResult;
         }
 
         public static void SetPropertyOrField<T>(T Object, string Name, object Value)
@@ -127,6 +121,17 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             StackFrame frame = new StackFrame(framesUp + 1);
             return frame.GetMethod();
+        }
+
+        /// <summary>
+        /// Returns the name of the property getter/setter at the given index in the call stack.
+        /// </summary>
+        /// <param name="framesUp">The number of stack frames to go up. Defaults to one, the direct caller.</param>
+        /// <returns>The property name of the target frame</returns>
+        public static string GetCallerProperty(int FramesUp = 1)
+        {
+            // TODO: replace hacks
+            return GetCallerMethod(FramesUp + 1).Name.Replace("get_", "").Replace("set_", "");
         }
 #endif
     }

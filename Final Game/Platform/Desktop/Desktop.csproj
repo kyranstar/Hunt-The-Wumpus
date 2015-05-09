@@ -50,6 +50,7 @@
     <Compile Include="..\..\Shared Code\**\*.cs">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
+    <Compile Include="Trivia\Question.cs" />
     <Compile Include="Trivia\Trivia.cs" />
     <!--Content Include="..\..\Shared Code\**\*.*">
       <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
@@ -95,6 +96,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Utils\EmptyKeys GUI Generator\Generate GUI.ps1">
+      <Link>Generate GUI.ps1</Link>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

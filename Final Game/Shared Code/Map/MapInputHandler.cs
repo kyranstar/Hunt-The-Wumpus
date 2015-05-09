@@ -9,13 +9,33 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// <summary>
     /// A class that handles inputs for the map.
     /// </summary>
-    class MapInputHandler
+    public class MapInputHandler
     {
-
         public const int PlayerVelocity = 600;
 
         private Map map;
-        private Keys[] lastPressedKeys = {};
+        private Keys[] PressedKeys = {};
+
+        public bool IsAiming
+        {
+            get
+            {
+                return PressedKeys.Contains(Keys.LeftShift);
+            }
+        }
+
+        public Map.Direction? NavDirection
+        {
+            get
+            {
+                // TODO: Clean up this logic
+                Map.Direction? Dir;
+                foreach (Keys Key in PressedKeys)
+                    if ((Dir = MapKeyToDirection(Key)).HasValue)
+                        return Dir;
+                return null;
+            }
+        }
 
         public MapInputHandler(Map map)
         {
@@ -27,49 +47,54 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
-            foreach(Keys key in Keyboard.GetState().GetPressedKeys())
+            Keys[] NewKeyState = Keyboard.GetState().GetPressedKeys();
+            foreach (Keys key in NewKeyState)
             {
-                if (!lastPressedKeys.Contains(key))
+                if (!PressedKeys.Contains(key))
                 {
                     //new key is pressed
                     Log.Info("Key pressed: " + key);
-                    HandleNewKeyPress(key, time);
+                    KeyDown(key, time);
                 }
                 else
                 {
                     HandleContinuedKeyPress(key, time);
                 }
             }
+
+            foreach(Keys key in PressedKeys)
+            {
+                if(!NewKeyState.Contains(key))
+                {
+                    KeyUp(key, time);
+                }
+            }
             
-            lastPressedKeys = Keyboard.GetState().GetPressedKeys();
+            PressedKeys = Keyboard.GetState().GetPressedKeys();
         }
+
         /// <summary>
-        /// Only called once per keypress
+        /// Handles map logic for the press of a single key
         /// </summary>
         /// <param name="Key"></param>
-        private void HandleNewKeyPress(Keys Key, GameTime GameTime)
+        private void KeyDown(Keys Key, GameTime GameTime)
         {
-            switch (Key)
-            {
-                case Keys.W:
-                    map.MovePlayer(Map.Direction.North);
-                    break;
-                case Keys.E:
-                    map.MovePlayer(Map.Direction.Northeast);
-                    break;
-                case Keys.D:
-                    map.MovePlayer(Map.Direction.Southeast);
-                    break;
-                case Keys.S:
-                    map.MovePlayer(Map.Direction.South);
-                    break;
-                case Keys.A:
-                    map.MovePlayer(Map.Direction.Southwest);
-                    break;
-                case Keys.Q:
-                    map.MovePlayer(Map.Direction.Northwest);
-                    break;
-            }
+            Map.Direction? MoveDirection = MapKeyToDirection(Key);
+
+            if(!IsAiming && MoveDirection.HasValue)
+                map.MovePlayer(MoveDirection.Value);
+
+        }
+
+        /// <summary>
+        /// Handles map logic for the press of a single key
+        /// </summary>
+        /// <param name="Key"></param>
+        private void KeyUp(Keys Key, GameTime GameTime)
+        {
+            Map.Direction? ShootDir = MapKeyToDirection(Key);
+            if(ShootDir.HasValue)
+                map.TryShootTowards(ShootDir.Value);
         }
 
         /// <summary>
@@ -93,6 +118,27 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 case Keys.Left:
                     map.PlayerLocation.X -= SpeedIncrement;
                     break;
+            }
+        }
+
+        private Map.Direction? MapKeyToDirection(Keys Key)
+        {
+            switch (Key)
+            {
+                case Keys.W:
+                    return Map.Direction.North;
+                case Keys.E:
+                    return Map.Direction.Northeast;
+                case Keys.D:
+                    return Map.Direction.Southeast;
+                case Keys.S:
+                    return Map.Direction.South;
+                case Keys.A:
+                    return Map.Direction.Southwest;
+                case Keys.Q:
+                    return Map.Direction.Northwest;
+                default:
+                    return null;
             }
         }
     }

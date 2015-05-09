@@ -43,7 +43,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public const int NumCloudTextures = 1,
             NumDoorTextures = 5,
             NumRoomTextures = 5,
-            NumPitTextures = 0,
+            NumPitTextures = 1,
             NumGoldTextures = 0;
 
         ParticleSystem.ParticleSystem backFogSystem;
@@ -260,7 +260,23 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 // Calculate the target room rectangle and draw the texture
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, new Color(50, 50, 50, 5));
+
+                Color DrawColor = new Color(50, 50, 50, 5);
+
+                // Highlight this room if the user is aiming into it
+                if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
+                    DrawColor = new Color(150, 150, 150, 10);
+
+                // Highlight this room w/ brighter color if the user has shot into it
+                Map.Direction? ShootDirection = Map.InputHandler.NavDirection;
+                if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
+                {
+                    int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
+                    if (RoomAtShootDirection  == LayoutMapping.Key)
+                        DrawColor = new Color(255, 150, 150, 30);
+                }
+
+                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
             }
         }
 

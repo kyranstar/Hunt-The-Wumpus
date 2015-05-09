@@ -12,12 +12,21 @@ namespace HuntTheWumpus.Platform.Desktop.Trivia
         {
             get { return _hints; }
         }
+
+        private List<String> _possibleQuestions;
         
         public Trivia()
         {
             Log.Info("Creating Trivia...");
             _hints.AddRange(new string[] {"hint1", "hint2", "hint3"});
+            _possibleQuestions.AddRange(new string[] { "question1", "question2", "question3" });
 
+        }
+        public Question CreateNewQuestion()
+        {
+            return new Question (_possibleQuestions[0]
+                , new List<string>(new string[] {"wrong", "wrong", "right", "wrong"})
+                , "right");
         }
     }
 }

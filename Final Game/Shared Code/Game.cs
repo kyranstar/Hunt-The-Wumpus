@@ -20,12 +20,11 @@ namespace HuntTheWumpus.SharedCode.GameCore
             : base()
         {
             GraphicsManager = new GraphicsDeviceManager(this);
-            GraphicsManager.PreferredBackBufferWidth = 1000;
-            GraphicsManager.PreferredBackBufferHeight = 500;
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
-
             GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
+            GraphicsManager.PreferredBackBufferHeight = 1000;
+            GraphicsManager.PreferredBackBufferWidth = 2000;
 
 #if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
@@ -34,6 +33,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
 
         void GraphicsManager_DeviceCreated(object sender, System.EventArgs e)
         {
+            //GraphicsManager.PreferredBackBufferWidth = 1000;
             Log.Info("Graphics device created");
             Engine Engine = new MonoGameEngine(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
@@ -50,7 +50,6 @@ namespace HuntTheWumpus.SharedCode.GameCore
             Log.Info("Initializing game...");
             SceneManager.InitializeSceneManager(this.Content, this.GraphicsDevice);
             SceneManager.LoadScene(SceneManager.MenuScene);
-
             base.Initialize();
         }
 
@@ -64,8 +63,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
 
             SoundManager.Instance.LoadSounds(Content);
             SpriteFont Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
-            FontManager.DefaultFont = Engine.Instance.Renderer.CreateFont(Font); 
-
+            FontManager.DefaultFont = Engine.Instance.Renderer.CreateFont(Font);
 
             // TODO: use this.Content to load your game content here
             SceneManager.LoadAllSceneContent();
@@ -114,9 +112,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DimGray);
-
             SceneManager.Draw(gameTime);
-
             base.Draw(gameTime);
         }
     }
