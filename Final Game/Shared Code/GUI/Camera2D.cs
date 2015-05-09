@@ -67,16 +67,10 @@ namespace HuntTheWumpus.SharedCode.GUI
             Matrix OriginMatrix = Matrix.CreateTranslation(new Vector3(Origin.X, Origin.Y, 0));
 
             Matrix VirtualTransform = TranslationMatrix * RotationMatrix * ZoomMatrix * OriginMatrix;
+            
+            return VirtualTransform;
 
-            if(!RenderViewport.HasValue || !VirtualRawViewSize.HasValue)
-                return VirtualTransform;
-
-            Matrix RenderScaleMatrix = Matrix.CreateScale( new Vector3(
-                RenderViewport.Value.Width / VirtualRawViewSize.Value.X,
-                RenderViewport.Value.Height / VirtualRawViewSize.Value.Y,
-                1f));
-
-            return VirtualTransform * RenderScaleMatrix;
+            //TODO: Fix client DPI scaling
         }
 
         public override string ToString()

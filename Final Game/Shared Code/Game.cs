@@ -23,8 +23,6 @@ namespace HuntTheWumpus.SharedCode.GameCore
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
             GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
-            GraphicsManager.PreferredBackBufferHeight = 1000;
-            GraphicsManager.PreferredBackBufferWidth = 2000;
 
 #if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
@@ -33,8 +31,12 @@ namespace HuntTheWumpus.SharedCode.GameCore
 
         void GraphicsManager_DeviceCreated(object sender, System.EventArgs e)
         {
-            //GraphicsManager.PreferredBackBufferWidth = 1000;
             Log.Info("Graphics device created");
+
+            GraphicsManager.PreferredBackBufferWidth = (int)(GraphicsManager.GraphicsDevice.Adapter.CurrentDisplayMode.Width * 0.6);
+            GraphicsManager.PreferredBackBufferHeight = (int)(GraphicsManager.GraphicsDevice.Adapter.CurrentDisplayMode.Height * 0.6);
+            GraphicsManager.ApplyChanges();
+
             Engine Engine = new MonoGameEngine(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
