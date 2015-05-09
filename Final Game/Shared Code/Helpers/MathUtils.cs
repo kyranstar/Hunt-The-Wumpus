@@ -71,16 +71,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
         }
 
         /// <summary>
-        /// Converts an angle measured in degrees into radians.
-        /// </summary>
-        /// <param name="angle">Angle in degrees</param>
-        /// <returns>Angle in radians</returns>
-        public static double ToRadians(double angle)
-        {
-            return (Math.PI / 180) * angle;
-        }
-
-        /// <summary>
         /// Checks if the given number is even.
         /// </summary>
         /// <param name="d">The number.</param>
@@ -99,6 +89,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             return 1d / Math.Cos(Angle);
         }
+
         /// <summary>
         /// C#'s % operator returns the remainder, not the modulus. This method always returns a positive value.
         /// </summary>
@@ -109,6 +100,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             double r = x % m;
             return r < 0 ? r + m : r;
+        }
+        
+        public static float ClosestMultipleLessThan(float Divisor, float Threshold)
+        {
+            return (float)Math.Floor(Threshold / Divisor) * Divisor;
+        }
+
+        public static float ClosestMultipleGreaterThan(float Divisor, float Threshold)
+        {
+            return (float)Math.Ceiling(Threshold / Divisor) * Divisor;
         }
     }
 }

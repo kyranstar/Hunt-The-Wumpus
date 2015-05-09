@@ -11,6 +11,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 {
     public class MapRenderer
     {
+        // Render pipeline
         private GraphicsDevice Graphics;
         private SpriteBatch MapRenderTarget;
 
@@ -19,12 +20,22 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private Map Map;
 
+        // Textures
         private Texture2D PlayerTexture;
         private Texture2D WumpusTexture;
+        private Texture2D BackgroundTexture;
+        private Texture2D[] CloudTextures,
+            ClosedDoorTextures,
+            RoomBaseTextures,
+            PitTextures,
+            GoldTextures;
 
+        // Sprites and drawing helpers
         private Sprite2D Player;
         private Sprite2D Wumpus;
+        private TiledTexture BackgroundTiles;
 
+        // Consts
         private const int VirtualViewHeight = 500;
         private const int PlayerHeight = 500;
         private const int WumpusHeight = 500;
@@ -37,11 +48,6 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         ParticleSystem.ParticleSystem backFogSystem;
         ParticleSystem.FogOfWar frontFogSystem;
-        private Texture2D[] CloudTextures,
-            ClosedDoorTextures,
-            RoomBaseTextures,
-            PitTextures,
-            GoldTextures;
 
         public MapRenderer(Map Map)
         {
@@ -85,6 +91,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                     Zoom = 0.16f
                 };
 
+            BackgroundTiles = new TiledTexture(BackgroundTexture, MapCam);
+
             Player = new Sprite2D(PlayerTexture)
             {
                 RenderWidth = (int)Math.Round(PlayerHeight / (double)PlayerTexture.Height * PlayerTexture.Width),
@@ -115,6 +123,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
             WumpusTexture = Content.Load<Texture2D>("Images/Wumpus");
+            BackgroundTexture = Content.Load<Texture2D>("Images/Background");
 
             MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
@@ -128,6 +137,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         public void Update(GameTime time)
         {
+            BackgroundTiles.Update(time);
+
             // TODO: Clean up this math
             Player.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X - 250;
             Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y - 230;
@@ -174,6 +185,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform());
 
+            BackgroundTiles.Draw(MapRenderTarget);
             backFogSystem.Draw(MapRenderTarget);
 
             DrawCaveBase(MapRenderTarget);

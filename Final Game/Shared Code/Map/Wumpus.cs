@@ -116,6 +116,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 var validNeighbors = map.Cave[Wumpus.Location].AdjacentRooms
                     .Where((a) =>
                         a != -1
+                        && map.Cave.RoomDict.ContainsKey(a)
                         && !map.Cave[a].HasPit
                         && !map.Cave[a].HasBats
                         && map.PlayerRoom != a);

@@ -196,3 +196,14 @@
 /processorParam:TextureFormat=Compressed
 /build:Segoe_UI_20_Regular.spritefont
 
+#begin Images/Background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Images/Background.png
+
