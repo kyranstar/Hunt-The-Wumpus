@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -274,11 +275,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             return (int)Math.Round(Value);
         }
+
+        public static Rectangle ToRect(this Viewport Viewport)
+        {
+            return new Rectangle(Viewport.X, Viewport.Y, Viewport.Width, Viewport.Height);
+        }
     }
 
     public static class ColorUtils
     {
-        public static Color FromAlpha(float Alpha)
+        public static Color FromAlpha(float Alpha = 255)
         {
             return Color.White * Alpha;
         }

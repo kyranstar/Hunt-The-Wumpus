@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -22,8 +23,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 Viewport Result = new Viewport()
                 {
-                    X = (int)Math.Round(Position.X),
-                    Y = (int)Math.Round(Position.Y)
+                    X = Position.X.ToInt(),
+                    Y = Position.Y.ToInt()
                 };
 
                 if (VirtualRawViewSize.HasValue)

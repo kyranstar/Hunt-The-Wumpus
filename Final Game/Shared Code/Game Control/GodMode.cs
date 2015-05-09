@@ -32,6 +32,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Root.RegisterCommand(new RoomInfoCommand(Map));
             Root.RegisterCommand(new ListRoomsCommand(Map));
             Root.RegisterCommand(new SetViewCommand(MapRenderer));
+            Root.RegisterCommand(new OutlineCommand(MapRenderer));
             Root.RegisterCommand(new Display(Map));
 
             CommandEngine Engine = new CommandEngine(Root);
@@ -138,6 +139,39 @@ namespace HuntTheWumpus.SharedCode.GameControl
             }
             else
                 MapRenderer.CameraZoom = float.Parse(paramList.Trim());
+
+            return true;
+        }
+    }
+
+    class OutlineCommand : ActionCommandBase
+    {
+        private const string Help = "Controls the positioning and visibility of the debug outline.";
+
+        MapRenderer MapRenderer;
+        public OutlineCommand(MapRenderer MapRenderer)
+            : base("outline", Help)
+        {
+            this.MapRenderer = MapRenderer;
+        }
+
+        public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
+        {
+            if(paramList == null || paramList.Length <= 0 || paramList == "none")
+            {
+                MapRenderer.DebugOutline = null;
+                return true;
+            }
+
+            switch(paramList)
+            {
+                case "viewport":
+                    MapRenderer.DebugOutline = MapRenderer.MapCam.VirtualVisibleViewport.ToRect();
+                    break;
+                default:
+                    this.OutputError("Outline mode not found.");
+                    break;
+            }
 
             return true;
         }

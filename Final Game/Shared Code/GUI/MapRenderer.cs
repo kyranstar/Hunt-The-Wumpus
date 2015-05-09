@@ -16,7 +16,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private GraphicsDevice Graphics;
         private SpriteBatch MapRenderTarget;
 
-        private Camera2D MapCam;
+        public Camera2D MapCam;
         private Vector2 VirtualViewSize;
 
         private Map Map;
@@ -25,6 +25,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Texture2D PlayerTexture;
         private Texture2D WumpusTexture;
         private Texture2D BackgroundTexture;
+        private Texture2D DebugOutlineTexture;
         private Texture2D[] CloudTextures,
             ClosedDoorTextures,
             RoomBaseTextures,
@@ -35,6 +36,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Sprite2D Player;
         private Sprite2D Wumpus;
         private TiledTexture BackgroundTiles;
+
+        public Rectangle? DebugOutline = null;
 
         // Consts
         private const int VirtualViewHeight = 500;
@@ -111,7 +114,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             backFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
             frontFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
-            frontFogSystem.Opacity = 0.12f;
+            frontFogSystem.Opacity = 0.3f;
 
             backFogSystem.Initialize();
             frontFogSystem.Initialize();
@@ -126,6 +129,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
             WumpusTexture = Content.Load<Texture2D>("Images/Wumpus");
             BackgroundTexture = Content.Load<Texture2D>("Images/Background");
+            DebugOutlineTexture = Content.Load<Texture2D>("Images/Outline");
 
             MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
@@ -197,6 +201,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Player.Draw(MapRenderTarget);
             Wumpus.Draw(MapRenderTarget);
+
+            if (DebugOutline.HasValue)
+                MapRenderTarget.Draw(DebugOutlineTexture, DebugOutline.Value, Color.White);
 
             MapRenderTarget.End();
         }
