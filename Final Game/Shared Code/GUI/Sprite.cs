@@ -113,7 +113,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Draw(SpriteBatch Target)
         {
             if (Texture != null)
-                Target.Draw(Texture, new Vector2(RenderX, RenderY), rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(Scale));
+                Target.Draw(Texture, destinationRectangle: TargetArea, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(Scale));
         }
 
         public void Update(GameTime Time)

@@ -1,5 +1,6 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,7 +38,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         // Consts
         private const int VirtualViewHeight = 500;
-        private const int PlayerHeight = 500;
+        private readonly int PlayerHeight;
         private const int WumpusHeight = 500;
 
         public const int NumCloudTextures = 1,
@@ -52,6 +53,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public MapRenderer(Map Map)
         {
             this.Map = Map;
+            PlayerHeight = (Map.Cave.TargetRoomHeight * 0.7).ToInt();
         }
 
         /// <summary>
@@ -140,8 +142,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             BackgroundTiles.Update(time);
 
             // TODO: Clean up this math
-            Player.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X - 250;
-            Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y - 230;
+            Player.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
+            Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
 
             UpdateCamera();
             UpdateWumpus();
