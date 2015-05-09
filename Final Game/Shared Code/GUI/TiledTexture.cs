@@ -55,19 +55,26 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             int ViewportWidth = Camera.VirtualVisibleViewport.Width;
             int ViewportHeight = Camera.VirtualVisibleViewport.Height;
-            int ViewportX = Camera.VirtualVisibleViewport.X;
-            int ViewportY = Camera.VirtualVisibleViewport.Y;
-            
-            // TODO: Move layout into update loop
-            for (float x = MathUtils.ClosestMultipleLessThan(TextureWidth, ViewportX);
-                    x < MathUtils.ClosestMultipleLessThan(TextureWidth, ViewportX + ViewportWidth);x += TextureWidth)
+            int ViewportX = -Camera.VirtualVisibleViewport.X;
+            int ViewportY = -Camera.VirtualVisibleViewport.Y;
+
+            Rectangle TextureSource = new Rectangle()
             {
-                for (float y = MathUtils.ClosestMultipleLessThan(TextureHeight, ViewportY);
-                    y < MathUtils.ClosestMultipleLessThan(TextureHeight, ViewportY + ViewportHeight); y += TextureHeight)
-                {
-                    Target.Draw(Texture, position: new Vector2(x, y), scale: new Vector2(Scale), color: DrawColor * Opacity);
-                }
-            }
+                Width = ViewportWidth,
+                Height = ViewportHeight,
+                X = (ViewportX % TextureWidth).ToInt(),
+                Y = (ViewportY % TextureHeight).ToInt()
+            };
+
+            Rectangle TextureDest = new Rectangle()
+            {
+                X = ViewportX,
+                Y = ViewportY,
+                Width = ViewportWidth,
+                Height = ViewportHeight
+            };
+
+            Target.Draw(Texture, destinationRectangle: TextureDest, scale: new Vector2(Scale), color: DrawColor * Opacity, sourceRectangle: TextureSource);
         }
 
         public void Update(GameTime Time)

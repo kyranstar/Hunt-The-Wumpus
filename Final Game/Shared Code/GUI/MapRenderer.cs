@@ -183,7 +183,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <param name="GameTime"></param>
         public void Draw(GameTime GameTime)
         {
-            MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform());
+            MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform(), samplerState: SamplerState.LinearWrap);
 
             BackgroundTiles.Draw(MapRenderTarget);
             backFogSystem.Draw(MapRenderTarget);
