@@ -20,6 +20,7 @@ namespace HuntTheWumpusTests
         {
             Map map = new Map();
             map.Cave = TestUtil.SquareTestCave;
+            map.Wumpus.SetActive(false);
 
             // Make sure that we are in room #0
             Assert.AreEqual(0, map.PlayerRoom);
@@ -48,6 +49,7 @@ namespace HuntTheWumpusTests
         {
             Map map = new Map();
             map.Cave = TestUtil.HexTestCave;
+            map.Wumpus.SetActive(false);
 
             // Make sure that we are in room #0
             Assert.AreEqual(0, map.PlayerRoom);

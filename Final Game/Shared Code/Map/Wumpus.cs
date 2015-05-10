@@ -63,6 +63,18 @@ namespace HuntTheWumpus.SharedCode.GameMap
             MoveAway(2, 4);
         }
 
+        public void SetActive(bool active)
+        {
+            if (active)
+            {
+                currentBehavior = ACTIVE_BEHAVIOR;
+            }
+            else
+            {
+                currentBehavior = PASSIVE_BEHAVIOR;
+            }
+        }
+
         /// <summary>
         /// Moves the wumpus lowerBound-upperBound tiles away from its current location, both inclusive.
         /// </summary>

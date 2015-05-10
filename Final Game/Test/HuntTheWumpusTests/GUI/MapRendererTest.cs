@@ -105,7 +105,7 @@ namespace HuntTheWumpusTests.GUI
             // Convert angles to radians
             for (int i = 0; i < midpointAngles.Length; i++)
             {
-                midpointAngles[i] = MathUtils.Mod(MathHelper.ToRadians((float)midpointAngles[i]), Math.PI * 2);
+                midpointAngles[i] = MathUtils.Mod(midpointAngles[i] * (Math.PI / 180), Math.PI * 2);
             }
             for (int i = 0; i < midpointAngles.Length; i++)
             {
