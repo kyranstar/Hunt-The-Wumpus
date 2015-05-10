@@ -63,16 +63,24 @@ namespace HuntTheWumpus.SharedCode.GameMap
             MoveAway(2, 4);
         }
 
-        public void SetActive(bool active)
+        public bool Active
         {
-            if (active)
+            get
             {
-                currentBehavior = ACTIVE_BEHAVIOR;
+                return currentBehavior == ACTIVE_BEHAVIOR;
             }
-            else
+            set
             {
-                currentBehavior = PASSIVE_BEHAVIOR;
+                if (value)
+                {
+                    currentBehavior = ACTIVE_BEHAVIOR;
+                }
+                else
+                {
+                    currentBehavior = PASSIVE_BEHAVIOR;
+                }
             }
+
         }
 
         /// <summary>
