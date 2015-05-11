@@ -174,13 +174,14 @@
             <param name="value">The value.</param>
             <returns></returns>
         </member>
-        <member name="M:EmptyKeys.UserInterface.Generator.CodeComHelper.GenerateBindings(System.CodeDom.CodeMemberMethod,System.CodeDom.CodeExpression,System.Windows.FrameworkElement)">
+        <member name="M:EmptyKeys.UserInterface.Generator.CodeComHelper.GenerateBindings(System.CodeDom.CodeMemberMethod,System.CodeDom.CodeExpression,System.Windows.DependencyObject,System.String)">
             <summary>
             Generates the bindings.
             </summary>
             <param name="method">The method.</param>
             <param name="target">The target.</param>
             <param name="source">The source.</param>
+            <param name="sourceName">Name of the source.</param>
         </member>
         <member name="M:EmptyKeys.UserInterface.Generator.CodeComHelper.GenerateResourceReferences(System.CodeDom.CodeMemberMethod,System.CodeDom.CodeExpression,System.Windows.FrameworkElement)">
             <summary>
@@ -333,11 +334,12 @@
             <param name="weight">The weight.</param>
             <param name="method">The method.</param>
         </member>
-        <member name="M:EmptyKeys.UserInterface.Generator.FontGenerator.GenerateFontAssets(System.String)">
+        <member name="M:EmptyKeys.UserInterface.Generator.FontGenerator.GenerateFontAssets(System.String,EmptyKeys.UserInterface.Generator.RenderMode)">
             <summary>
             Generates the font assets.
             </summary>
             <param name="path">The path.</param>
+            <param name="renderMode">The render mode.</param>
         </member>
         <member name="P:EmptyKeys.UserInterface.Generator.FontGenerator.Instance">
             <summary>
@@ -539,6 +541,21 @@
         <member name="F:EmptyKeys.UserInterface.Generator.RenderMode.MonoGame">
             <summary>
             MonoGame
+            </summary>
+        </member>
+        <member name="F:EmptyKeys.UserInterface.Generator.RenderMode.FNA">
+            <summary>
+            FNA
+            </summary>
+        </member>
+        <member name="F:EmptyKeys.UserInterface.Generator.RenderMode.CocosSharp">
+            <summary>
+            Cocos Sharp
+            </summary>
+        </member>
+        <member name="F:EmptyKeys.UserInterface.Generator.RenderMode.Paradox">
+            <summary>
+            Paradox engine
             </summary>
         </member>
         <member name="T:EmptyKeys.UserInterface.Generator.ResourceDictionaryGenerator">

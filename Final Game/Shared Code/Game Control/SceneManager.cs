@@ -8,7 +8,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
     /// <summary>
     /// Manages the state of all scenes
     /// </summary>
-    static class SceneManager
+    public static class SceneManager
     {
         public static Scene MenuScene;
         public static Scene GameScene;
