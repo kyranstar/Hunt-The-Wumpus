@@ -29,7 +29,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
     public class Map
     {
         public MapInputHandler InputHandler;
-        public List<int> PlayerPath = new List<int>();
+        public ISet<int> PlayerPath = new HashSet<int>();
+        public int MoveCount = 0;
 
         /// <summary>
         /// Holds the id of the room that the player is currently in.
@@ -153,7 +154,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             CollectItemsFromRoom();
             PlayerPath.Add(PlayerRoom);
-            Player.Turns = PlayerPath.Count;
+            MoveCount++;
+            Player.Turns = MoveCount;
             
             // TODO: Process hitting bats, pit, etc
             if (Wumpus.Location == PlayerRoom)
@@ -174,6 +176,66 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     Log.Info("You scared the Wumpus away to room " + Wumpus.Location);
                 }
 
+            }
+            else
+            {
+                Room currentRoom = Cave[PlayerRoom];
+                if (currentRoom.HasBats)
+                {
+                    Log.Info("Player hit bats and was moved!");
+                    // Move player to random room without a hazard
+
+                    Random rand = new Random();
+                    var nonHazardousRooms = Cave.Rooms.
+                        OrderBy((e) => rand.Next()).
+                        Where((r) => !r.HasPit && !r.HasBats && Wumpus.Location != r.RoomID);
+
+                    PlayerRoom = nonHazardousRooms.
+                        First().RoomID;
+                    // Move bats to another random room without hazard and without player
+                    currentRoom.HasBats = false;
+                    nonHazardousRooms.Where((r) => r.RoomID != PlayerRoom).
+                        First().HasBats = true;
+
+                    ProcessPlayerMove();
+                }
+                else if (currentRoom.HasPit)
+                {
+                    const int numToAsk = 3;
+
+                    // Ask 3 questions
+                    // If 2 or more are right
+                    int numCorrect = 2;
+                    if (numCorrect >= 2)
+                    {
+                        // Place player in already visited location without hazards
+                        Room alreadyVisited = PlayerPath.Select((i) => Cave[i]).
+                            Where((r) => !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID).
+                            FirstOrDefault();
+                        // If there are no non-hazardous locations weve already visited
+                        if (alreadyVisited == null)
+                        {
+                            // Check all possible rooms instead
+                            var allRooms = Cave.Rooms.
+                                Where((r) => !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID).
+                                FirstOrDefault();
+                            if (allRooms != null)
+                            {
+                                PlayerRoom = allRooms.RoomID;
+                            }
+                        }
+                        else
+                        {
+                            PlayerRoom = alreadyVisited.RoomID;
+                        }
+                    }
+                    else
+                    {
+                        // Else game over
+                    }
+
+                    ProcessPlayerMove();
+                }
             }
 
         }

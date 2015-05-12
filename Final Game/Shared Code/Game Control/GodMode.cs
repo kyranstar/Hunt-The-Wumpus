@@ -87,6 +87,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     foreach (int room in Map.Cave.RoomDict.Keys)
                     {
                         Map.PlayerPath.Add(room);
+                        Map.MoveCount++;
                     }
                     break;
             }

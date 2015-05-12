@@ -209,7 +209,7 @@ namespace HuntTheWumpus.SharedCode
         public bool HasBats
         {
             get { return hasBats; }
-            private set
+            set
             {
                 // If we already have a pit in this room and we're setting bats to true
                 if (value && HasPit)
