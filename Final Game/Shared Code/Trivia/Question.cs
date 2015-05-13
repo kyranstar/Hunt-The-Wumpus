@@ -33,9 +33,9 @@ namespace HuntTheWumpus.SharedCode.Trivia
             _correctAnswer = CorrectAnswerInput;
         }
         
-        public bool IsCorrect(Question PlayerQuestion, String PlayerAnswer)
+        public bool IsCorrect(String PlayerAnswer)
         {
-            return PlayerQuestion.CorrectAnswer.Equals(PlayerAnswer, StringComparison.Ordinal);
+            return _correctAnswer.Equals(PlayerAnswer, StringComparison.Ordinal);
         }
 
 

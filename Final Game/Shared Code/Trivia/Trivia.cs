@@ -13,20 +13,39 @@ namespace HuntTheWumpus.SharedCode.Trivia
             get { return _hints; }
         }
 
-        private List<String> _possibleQuestions;
+        private List<Question> _questionsToAsk;
+        private List<Question> _questionsAlreadyAsked;
         
         public Trivia()
         {
             Log.Info("Creating Trivia...");
-            _hints.AddRange(new string[] {"hint1", "hint2", "hint3"});
-            _possibleQuestions.AddRange(new string[] { "question1", "question2", "question3" });
+            _hints.AddRange(new string[] { "hint1", "hint2", "hint3" });
+            _questionsToAsk.Add(new Question("question1", new List<string> { "1", "2", "3", "4" }, "1"));
+            _questionsToAsk.Add(new Question("question2", new List<string> { "1", "2", "3", "4" }, "2"));
+            _questionsToAsk.Add(new Question("question3", new List<string> { "1", "2", "3", "4" }, "3"));
+            _questionsToAsk.Add(new Question("question4", new List<string> { "1", "2", "3", "4" }, "4"));
+            _questionsToAsk.Add(new Question("question5", new List<string> { "5", "6", "7", "8" }, "5"));
+            _questionsToAsk.Add(new Question("question6", new List<string> { "5", "6", "7", "8" }, "6"));
+            _questionsToAsk.Add(new Question("question7", new List<string> { "5", "6", "7", "8" }, "7"));
+            _questionsToAsk.Add(new Question("question8", new List<string> { "5", "6", "7", "8" }, "8"));
+        }
 
-        }
-        public Question CreateNewQuestion()
+        public TriviaSet CreateTriviaSet()
         {
-            return new Question (_possibleQuestions[0]
-                , new List<string>(new string[] {"wrong", "wrong", "right", "wrong"})
-                , "right");
+            Random random = new Random();
+            Question question;
+            List<Question> InputList = new List<Question>();
+            int j;
+            for(int i = 0; i<3; i++)
+            {
+                j = random.Next(0, _questionsToAsk.Count);
+                question = _questionsToAsk[j];
+                InputList.Add(question);
+                _questionsAlreadyAsked.Add(question);
+                _questionsToAsk.Remove(question);
+            }
+            return new TriviaSet(InputList);
         }
+        
     }
 }
