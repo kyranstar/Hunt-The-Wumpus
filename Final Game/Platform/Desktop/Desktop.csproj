@@ -50,8 +50,6 @@
     <Compile Include="..\..\Shared Code\**\*.cs">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
-    <Compile Include="Trivia\Question.cs" />
-    <Compile Include="Trivia\Trivia.cs" />
     <!--Content Include="..\..\Shared Code\**\*.*">
       <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
