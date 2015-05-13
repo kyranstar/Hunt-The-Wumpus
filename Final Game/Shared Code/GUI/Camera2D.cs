@@ -45,7 +45,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Camera2D(Vector2? VirtualViewSize = null, Viewport? RenderViewport = null)
         {
-            Zoom = 1;
+            Zoom = 1f;
             Position = Vector2.Zero;
             Rotation = 0;
             Origin = Vector2.Zero;
@@ -68,8 +68,16 @@ namespace HuntTheWumpus.SharedCode.GUI
             Matrix OriginMatrix = Matrix.CreateTranslation(new Vector3(Origin.X, Origin.Y, 0));
 
             Matrix VirtualTransform = TranslationMatrix * RotationMatrix * ZoomMatrix * OriginMatrix;
-            
-            return VirtualTransform;
+
+            if (!RenderViewport.HasValue || !VirtualRawViewSize.HasValue)
+                return VirtualTransform;
+
+            Matrix RenderScaleMatrix = Matrix.CreateScale(new Vector3(
+                RenderViewport.Value.Width / VirtualRawViewSize.Value.X,
+                RenderViewport.Value.Height / VirtualRawViewSize.Value.Y,
+                1f));
+
+            return VirtualTransform * RenderScaleMatrix;
 
             //TODO: Fix client DPI scaling
         }

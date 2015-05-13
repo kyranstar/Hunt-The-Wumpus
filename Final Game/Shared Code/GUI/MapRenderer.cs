@@ -170,8 +170,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             Vector2 CameraPosition = new Vector2()
             {
                 // TODO: Clean up this math
-                X = -(Player.RenderX + Player.HalfWidth - Graphics.Viewport.Width / 2 / MapCam.Zoom),
-                Y = -(Player.RenderY + Player.HalfHeight - Graphics.Viewport.Height / 2 / MapCam.Zoom)
+                X = -(Player.RenderX + Player.HalfWidth - MapCam.VirtualVisibleViewport.Width / 2),
+                Y = -(Player.RenderY + Player.HalfHeight - MapCam.VirtualVisibleViewport.Height / 2)
             };
 
             if (OverriddenCameraPosition.HasValue)
