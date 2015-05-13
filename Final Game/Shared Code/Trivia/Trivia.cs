@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HuntTheWumpus.Platform.Desktop.Trivia
+namespace HuntTheWumpus.SharedCode.Trivia
 {
     class Trivia
     {
