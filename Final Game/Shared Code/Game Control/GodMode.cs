@@ -167,7 +167,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             switch(paramList)
             {
                 case "viewport":
-                    MapRenderer.DebugOutline = MapRenderer.MapCam.VirtualVisibleViewport.ToRect();
+                    MapRenderer.DebugOutline = MapRenderer.MapCam.VirtualVisibleViewport.ToRect(-1, -1);
                     break;
                 default:
                     this.OutputError("Outline mode not found.");

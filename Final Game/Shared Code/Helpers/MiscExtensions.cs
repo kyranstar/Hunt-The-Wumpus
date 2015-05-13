@@ -276,9 +276,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
             return (int)Math.Round(Value);
         }
 
-        public static Rectangle ToRect(this Viewport Viewport)
+        public static Rectangle ToRect(this Viewport Viewport, float xScale = 1, float yScale = 1)
         {
-            return new Rectangle(Viewport.X, Viewport.Y, Viewport.Width, Viewport.Height);
+            return new Rectangle((Viewport.X * xScale).ToInt(), (Viewport.Y * yScale).ToInt(), Viewport.Width, Viewport.Height);
         }
     }
 
