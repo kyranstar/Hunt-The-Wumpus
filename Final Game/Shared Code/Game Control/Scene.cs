@@ -7,7 +7,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
     /// <summary>
     /// Interface for a scene
     /// </summary>
-    abstract class Scene
+    public abstract class Scene
     {
         /// <summary>
         /// Will be called once per game execution, when the program is started. This is where you load

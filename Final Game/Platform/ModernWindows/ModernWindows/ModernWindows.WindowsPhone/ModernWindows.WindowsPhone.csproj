@@ -88,9 +88,10 @@
       <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Shared Code\**\*.cs">
+    <Compile Include="..\..\..\..\Shared Code\**\*.cs" Exclude="..\..\..\..\**\obj\**\*.cs;..\..\..\..\**\Properties\**\*.cs">
       <Link>%(RecursiveDir)%(FileName)</Link>
     </Compile>
   </ItemGroup>
@@ -109,15 +110,33 @@
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EmptyKeys.UserInterface, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libs\EmptyKeys.UserInterface.dll</HintPath>
+    <Reference Include="EmptyKeys.UserInterface, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Common\AnyCPU\EmptyKeys.UserInterface.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="EmptyKeys.UserInterface.Core">
-      <HintPath>..\..\..\Libs\EmptyKeys.UserInterface.Core.dll</HintPath>
+    <Reference Include="EmptyKeys.UserInterface.CocosSharp, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\CocosSharp\AnyCPU\EmptyKeys.UserInterface.CocosSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="EmptyKeys.UserInterface.MonoGame">
-      <HintPath>..\..\..\Libs\EmptyKeys.UserInterface.MonoGame.dll</HintPath>
+    <Reference Include="EmptyKeys.UserInterface.Core, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Common\AnyCPU\EmptyKeys.UserInterface.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EmptyKeys.UserInterface.FNA, Version=1.6.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\FNA\x86\EmptyKeys.UserInterface.FNA.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EmptyKeys.UserInterface.MonoGame, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MonoGame\AnyCPU\EmptyKeys.UserInterface.MonoGame.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EmptyKeys.UserInterface.Paradox, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Paradox\AnyCPU\EmptyKeys.UserInterface.Paradox.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EmptyKeys.UserInterface.SunBurn, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Sunburn\AnyCPU\EmptyKeys.UserInterface.SunBurn.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MSBuildProgramFiles32)\MonoGame\v3.0\Assemblies\WindowsPhone81\MonoGame.Framework.dll</HintPath>
@@ -127,6 +146,9 @@
     <MonoGameContentReference Include="..\..\..\..\content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\ModernWindows.Shared\Shared.Application.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
