@@ -38,9 +38,9 @@
             <RowDefinition Height="30px"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
-            <Image> 
+            <Image Width="100" Height="30"> 
                 <Image.Source> 
-                    <BitmapImage UriSource="Images/Gold.png"/> 
+                    <BitmapImage UriSource="XAML Assets/Gold.png"/> 
                 </Image.Source> 
             </Image>
             <TextBlock Text="{Binding Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />

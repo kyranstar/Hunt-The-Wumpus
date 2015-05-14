@@ -52,6 +52,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EmptyKeys.UserInterface, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\EmptyKeysUI.1.6.5.0\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Common\AnyCPU\EmptyKeys.UserInterface.dll</HintPath>
@@ -168,9 +171,23 @@
       <Name>Desktop</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="XAML Assets\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)..\Utils\EmptyKeys GUI Generator\ekUiGen.exe" --input="$(ProjectDir)" --output="$(ProjectDir)" --oa="$(SolutionDir)Content" --rm=MonoGame</PostBuildEvent>
+    <PostBuildEvent>SET indir=$(ProjectDir)
+SET outdir=$(ProjectDir)
+SET srcassdir=$(ProjectDir)
+SET destassdir=$(SolutionDir)Content
+
+REM IF %25datapath:~-1%25==\ SET datapath=%25datapath:~0,-1%25
+
+SET indir=%25indir:~0,-1%25
+SET outdir=%25outdir:~0,-1%25
+SET srcassdir=%25srcassdir:~0,-1%25
+
+"$(SolutionDir)..\Utils\EmptyKeys GUI Generator\ekUiGen.exe" --input="%25indir%25" --output="%25outdir%25" --ia="%25srcassdir%25" --oa="%25destassdir%25" --rm=MonoGame</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -11,6 +11,7 @@ namespace EmptyKeys.UserInterface.Generated {
     using EmptyKeys.UserInterface.Data;
     using EmptyKeys.UserInterface.Controls;
     using EmptyKeys.UserInterface.Controls.Primitives;
+    using EmptyKeys.UserInterface.Input;
     using EmptyKeys.UserInterface.Media;
     using EmptyKeys.UserInterface.Media.Animation;
     using EmptyKeys.UserInterface.Media.Imaging;
@@ -19,7 +20,7 @@ namespace EmptyKeys.UserInterface.Generated {
     using EmptyKeys.UserInterface.Themes;
     
     
-    [GeneratedCodeAttribute("Empty Keys UI Generator", "1.6.0.0")]
+    [GeneratedCodeAttribute("Empty Keys UI Generator", "1.6.5.0")]
     public partial class HUDOverlayView : UIRoot {
         
         private Grid e_0;
@@ -69,9 +70,11 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_2 = new Image();
             this.e_1.Children.Add(this.e_2);
             this.e_2.Name = "e_2";
+            this.e_2.Height = 30F;
+            this.e_2.Width = 100F;
             BitmapImage e_2_bm = new BitmapImage();
-            e_2_bm.TextureAsset = "Images/Gold";
-            ImageManager.Instance.AddImage("Images/Gold");
+            e_2_bm.TextureAsset = "XAML Assets/Gold";
+            ImageManager.Instance.AddImage("XAML Assets/Gold");
             this.e_2.Source = e_2_bm;
             // e_3 element
             this.e_3 = new TextBlock();
