@@ -46,7 +46,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public const int NumCloudTextures = 1,
             NumDoorTextures = 5,
-            NumRoomTextures = 5,
+            NumRoomTextures = 4,
             NumPitTextures = 1,
             NumGoldTextures = 0;
 
@@ -281,8 +281,15 @@ namespace HuntTheWumpus.SharedCode.GUI
                 if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
                 {
                     int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
-                    if (RoomAtShootDirection  == LayoutMapping.Key)
-                        DrawColor = new Color(255, 150, 150, 30);
+                    if (RoomAtShootDirection == LayoutMapping.Key)
+                    {
+                        if (RoomAtShootDirection == Map.Wumpus.Location)
+                        {
+                            DrawColor = new Color(0, 255, 0, 60);
+                        }
+                        else
+                            DrawColor = new Color(255, 0, 0, 60);
+                    }
                 }
 
                 Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
