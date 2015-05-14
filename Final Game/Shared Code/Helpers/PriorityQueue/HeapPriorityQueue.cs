@@ -12,7 +12,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
     public sealed class HeapPriorityQueue<T> : IPriorityQueue<T>
         where T : PriorityQueueNode
     {
-        private int _numNodes;
         private readonly T[] _nodes;
         private long _numNodesEverEnqueued;
 
@@ -22,7 +21,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="maxNodes">The max nodes ever allowed to be enqueued (going over this will cause an exception)</param>
         public HeapPriorityQueue(int maxNodes)
         {
-            _numNodes = 0;
+            Count = 0;
             _nodes = new T[maxNodes + 1];
             _numNodesEverEnqueued = 0;
         }
@@ -30,13 +29,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <summary>
         /// Returns the number of nodes in the queue.  O(1)
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return _numNodes;
-            }
-        }
+        public int Count { get; private set; }
 
         /// <summary>
         /// Returns the maximum number of items that can be enqueued at once in this queue.  Once you hit this number (ie. once Count == MaxSize),
@@ -58,8 +51,8 @@ namespace HuntTheWumpus.SharedCode.Helpers
 #endif
         public void Clear()
         {
-            Array.Clear(_nodes, 1, _numNodes);
-            _numNodes = 0;
+            Array.Clear(_nodes, 1, Count);
+            Count = 0;
         }
 
         /// <summary>
@@ -82,11 +75,11 @@ namespace HuntTheWumpus.SharedCode.Helpers
         public void Enqueue(T node, double priority)
         {
             node.Priority = priority;
-            _numNodes++;
-            _nodes[_numNodes] = node;
-            node.QueueIndex = _numNodes;
+            Count++;
+            _nodes[Count] = node;
+            node.QueueIndex = Count;
             node.InsertionIndex = _numNodesEverEnqueued++;
-            CascadeUp(_nodes[_numNodes]);
+            CascadeUp(_nodes[Count]);
         }
 
 #if NET_VERSION_4_5
@@ -136,7 +129,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 int childLeftIndex = 2 * finalQueueIndex;
 
                 //Check if the left-child is higher-priority than the current node
-                if (childLeftIndex > _numNodes)
+                if (childLeftIndex > Count)
                 {
                     //This could be placed outside the loop, but then we'd have to check newParent != node twice
                     node.QueueIndex = finalQueueIndex;
@@ -152,7 +145,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
                 //Check if the right-child is higher-priority than either the current node or the left child
                 int childRightIndex = childLeftIndex + 1;
-                if (childRightIndex <= _numNodes)
+                if (childRightIndex <= Count)
                 {
                     T childRight = _nodes[childRightIndex];
                     if (HasHigherPriority(childRight, newParent))
@@ -257,24 +250,24 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 return;
             }
 
-            if (_numNodes <= 1)
+            if (Count <= 1)
             {
                 _nodes[1] = null;
-                _numNodes = 0;
+                Count = 0;
                 return;
             }
 
             //Make sure the node is the last node in the queue
             bool wasSwapped = false;
-            T formerLastNode = _nodes[_numNodes];
-            if (node.QueueIndex != _numNodes)
+            T formerLastNode = _nodes[Count];
+            if (node.QueueIndex != Count)
             {
                 //Swap the node with the last node
                 Swap(node, formerLastNode);
                 wasSwapped = true;
             }
 
-            _numNodes--;
+            Count--;
             _nodes[node.QueueIndex] = null;
 
             if (wasSwapped)
@@ -286,7 +279,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 1; i <= _numNodes; i++)
+            for (int i = 1; i <= Count; i++)
                 yield return _nodes[i];
         }
 

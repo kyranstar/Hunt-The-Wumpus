@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
@@ -33,11 +33,8 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             if (IsEven(NumSides))
                 return Apothem * 2d;
-            else
-            {
-                double Radius = Apothem * Sec(Math.PI / NumSides);
-                return Radius + Apothem;
-            }
+            double Radius = Apothem * Sec(Math.PI / NumSides);
+            return Radius + Apothem;
         }
 
         /// <summary>
@@ -101,7 +98,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             double r = x % m;
             return r < 0 ? r + m : r;
         }
-        
+
         public static float ClosestMultipleLessThan(float Divisor, float Threshold)
         {
             return (float)Math.Floor(Threshold / Divisor) * Divisor;

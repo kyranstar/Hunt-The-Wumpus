@@ -1,10 +1,11 @@
 ﻿
-using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
+
 namespace HuntTheWumpus.SharedCode.GameMap
 {
     /// <summary>
@@ -22,6 +23,21 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         private WumpusBehavior currentBehavior;
 
+        private readonly Cave cave;
+
+        /// <summary>
+        /// Initializes a new instance of the Wumpus class.
+        /// </summary>
+        /// <param name="map"></param>
+        public Wumpus(Map map)
+        {
+            cave = map.Cave;
+            ACTIVE_BEHAVIOR = new ActiveWumpusBehavior(this, map);
+            PASSIVE_BEHAVIOR = new PassiveWumpusBehavior(this, map);
+
+            currentBehavior = PASSIVE_BEHAVIOR;
+        }
+
         /// <summary>
         /// The current location of the Wumpus (Room ID)
         /// </summary>
@@ -29,38 +45,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             set;
             get;
-        }
-        private Cave cave;
-
-        /// <summary>
-        /// Initializes a new instance of the Wumpus class.
-        /// </summary>
-        /// <param name="cave"></param>
-        public Wumpus(Map map)
-        {
-            this.cave = map.Cave;
-            ACTIVE_BEHAVIOR = new ActiveWumpusBehavior(this, map);
-            PASSIVE_BEHAVIOR = new PassiveWumpusBehavior(this, map);
-
-            currentBehavior = PASSIVE_BEHAVIOR;
-        }
-        /// <summary>
-        /// Moves the Wumpus to a nearby valid position
-        /// </summary>
-        public void Move()
-        {
-            currentBehavior.Move();
-            if (currentBehavior == ACTIVE_BEHAVIOR && (currentBehavior as ActiveWumpusBehavior).TurnsActive >= MAX_TURNS_ACTIVE)
-            {
-                currentBehavior = PASSIVE_BEHAVIOR;
-            }
-        }
-        /// <summary>
-        /// Call this when the wumpus is in the same room as the player in order to move it.
-        /// </summary>
-        public void HitPlayer()
-        {
-            MoveAway(2, 4);
         }
 
         public bool Active
@@ -81,6 +65,26 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Moves the Wumpus to a nearby valid position
+        /// </summary>
+        public void Move()
+        {
+            currentBehavior.Move();
+            if (currentBehavior == ACTIVE_BEHAVIOR && ((ActiveWumpusBehavior)currentBehavior).TurnsActive >= MAX_TURNS_ACTIVE)
+            {
+                currentBehavior = PASSIVE_BEHAVIOR;
+            }
+        }
+
+        /// <summary>
+        /// Call this when the wumpus is in the same room as the player in order to move it.
+        /// </summary>
+        public void HitPlayer()
+        {
+            MoveAway(2, 4);
         }
 
         /// <summary>
@@ -113,54 +117,54 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             Debug.Assert(oldLocation != Location);
         }
+
         private interface WumpusBehavior
         {
             void Move();
         }
+
         private class ActiveWumpusBehavior : WumpusBehavior
         {
-            public int TurnsActive = 0;
+            private readonly Map map;
+            private readonly Wumpus Wumpus;
+            public int TurnsActive;
 
-            private Wumpus Wumpus;
-            private Map map;
             public ActiveWumpusBehavior(Wumpus wumpus, Map cave)
             {
-                this.Wumpus = wumpus;
-                this.map = cave;
+                Wumpus = wumpus;
+                map = cave;
             }
+
             void WumpusBehavior.Move()
             {
                 TurnsActive++;
 
                 Random r = new Random();
                 var validNeighbors = map.Cave[Wumpus.Location].AdjacentRooms
-                    .Where((a) =>
+                    .Where(a =>
                         a != -1
                         && map.Cave.RoomDict.ContainsKey(a)
                         && !map.Cave[a].HasPit
                         && !map.Cave[a].HasBats
-                        && map.PlayerRoom != a);
-                if (validNeighbors.ToList().Count == 0)
+                        && map.PlayerRoom != a)
+                    .ToList();
+
+                if (validNeighbors.Count == 0)
                 {
                     Log.Warn("Wumpus is not able to move!");
-                    return;
                 }
-                else
-                {
-                    Wumpus.Location = validNeighbors.GetRandom();
-                    Log.Info("Wumpus moved to room " + Wumpus.Location);
-                }
+                Wumpus.Location = validNeighbors.GetRandom();
+                Log.Info("Wumpus moved to room " + Wumpus.Location);
             }
         }
+
         private class PassiveWumpusBehavior : WumpusBehavior
         {
-            private Wumpus wumpus;
-            private Map map;
+            
             public PassiveWumpusBehavior(Wumpus wumpus, Map cave)
             {
-                this.wumpus = wumpus;
-                this.map = cave;
             }
+            // Do nothing
             void WumpusBehavior.Move()
             {
 

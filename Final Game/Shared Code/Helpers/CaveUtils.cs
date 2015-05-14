@@ -11,9 +11,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
             // Make sure that all connections lead to valid rooms,
             //  and that all connections are bi-directional
-            bool AllConnectionsValid = Cave.Values.All<Room>(
-                   (e) => e.AdjacentRooms.All(
-                       (r) => r == -1 || (Cave.ContainsKey(r) && Cave[r].AdjacentRooms.Contains(e.RoomID))
+            bool AllConnectionsValid = Cave.Values.All(
+                   e => e.AdjacentRooms.All(
+                       r => r == -1 || (Cave.ContainsKey(r) && Cave[r].AdjacentRooms.Contains(e.RoomID))
                    ));
 
             Dictionary<int, int> ValidatedRooms = Cave.ToDictionary(pair => pair.Key, pair => 0);
@@ -64,6 +64,5 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
             return Result;
         }
-
     }
 }

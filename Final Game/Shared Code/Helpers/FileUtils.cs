@@ -11,7 +11,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
 #if DESKTOP
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
-            return new System.IO.FileStream(FilePath, Mode);
+            return new FileStream(FilePath, Mode);
 #elif NETFX_CORE
             // TODO: Handle this in modern apps
             throw new NotImplementedException();

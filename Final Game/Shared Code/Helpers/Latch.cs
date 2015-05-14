@@ -6,18 +6,20 @@ namespace HuntTheWumpus.SharedCode.Helpers
     /// </summary>
     class Latch
     {
-        public bool PreviousValue {get; protected set; }
-
         public Latch(bool InitialValue)
         {
             PreviousValue = InitialValue;
         }
+
         /// <summary>
         /// Constructs a latch with the value false.
         /// </summary>
         public Latch() : this(false)
         {
         }
+
+        public bool PreviousValue {get; protected set; }
+
         /// <summary>
         /// Takes a boolean value and updates this latch's state. Returns the type of change that occured.
         /// </summary>
@@ -30,7 +32,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
             if (!PreviousValue && NewValue)
                 return EdgeType.RisingEdge;
-            else if (PreviousValue && !NewValue)
+            if (PreviousValue && !NewValue)
                 return EdgeType.FallingEdge;
 
             return EdgeType.None;

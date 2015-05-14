@@ -13,8 +13,8 @@ namespace HuntTheWumpus.SharedCode.Trivia
             get { return _hints; }
         }
 
-        private static List<Question> _questionsToAsk;
-        private static List<Question> _questionsAlreadyAsked;
+        private static List<Question> _questionsToAsk = new List<Question>();
+        private static List<Question> _questionsAlreadyAsked = new List<Question>();
         
         static Trivia()
         {
@@ -33,17 +33,16 @@ namespace HuntTheWumpus.SharedCode.Trivia
         public static TriviaSet CreateTriviaSet(int NumberOfQuestions)
         {
             Random random = new Random();
-            List<Question> InputList = new List<Question>();
-            int j;
+            List<Question> inputList = new List<Question>();
             for(int i = 0; i<NumberOfQuestions; i++)
             {
-                j = random.Next(0, _questionsToAsk.Count);
-                Question question = question = _questionsToAsk[j];
-                InputList.Add(question);
+                int j = random.Next(0, _questionsToAsk.Count);
+                Question question = _questionsToAsk[j];
+                inputList.Add(question);
                 _questionsAlreadyAsked.Add(question);
                 _questionsToAsk.Remove(question);
             }
-            return new TriviaSet(InputList);
+            return new TriviaSet(inputList);
         }
         
     }

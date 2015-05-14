@@ -1,18 +1,18 @@
-﻿using HuntTheWumpus.SharedCode.GameControl;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GUI;
 using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
     public static class MapUtils
     {
-        static Random Random = new Random();
+        static readonly Random Random = new Random();
 
         /// <summary>
         /// Lays out the given map by converting the room's individual connections into absolute positions
@@ -26,7 +26,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             // If not all rooms were found, we know that not all of them have a valid connection
             if (UnmappedRooms.Count > 0)
-                Log.Warn("Some rooms have no valid connections and have not been positioned! The following rooms haven't been connected: " + String.Join(", ", UnmappedRooms.Keys.ToArray()));
+                Log.Warn("Some rooms have no valid connections and have not been positioned! The following rooms haven't been connected: " + string.Join(", ", UnmappedRooms.Keys.ToArray()));
 
             return NewLayout;
         }
@@ -62,7 +62,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     if (!NextRoom.AdjacentRooms.Contains(CurrentRoom.RoomID))
                         Log.Warn("Room " + CurrentRoom.RoomID + " claims it is connected to room " + NextRoom.RoomID + ", but the inverse connection was not found!");
 
-                    RoomLayoutMapping NextMapping = new RoomLayoutMapping()
+                    RoomLayoutMapping NextMapping = new RoomLayoutMapping
                     {
                         Room = NextRoom,
                         Image = Random.Next(MapRenderer.NumRoomTextures),
@@ -114,13 +114,13 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
                 // Get the offsets for the current direction
                 Vector2 Offset = GetOffsetForSectionRadius(Direction, RoomBaseApothem, RoomNumSides);
-                Vector2 CenterRoom = new Vector2()
+                Vector2 CenterRoom = new Vector2
                 {
                     X = RoomOrigin.X + TargetRoomWidth / 2,
                     Y = RoomOrigin.Y + TargetRoomHeight / 2
                 };
 
-                Vector2 DoorIconPosition = new Vector2()
+                Vector2 DoorIconPosition = new Vector2
                 {
                     X = CenterRoom.X + Offset.X,
                     Y = CenterRoom.Y + Offset.Y
@@ -129,8 +129,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 // Get the rotation to make the wedge fit corectly
                 float DoorIconRotation = -GetAngleForSide(Direction, RoomNumSides) + ((float)Math.PI * 0.5f);
 
-                DoorMappings.Add(new DoorLayoutMapping()
-                    {
+                DoorMappings.Add(new DoorLayoutMapping
+                {
                         Position = DoorIconPosition,
                         Rotation = DoorIconRotation,
                         BaseImage = MiscUtils.RandomIndex(MapRenderer.NumDoorTextures)
@@ -220,13 +220,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class RoomLayoutMapping
     {
-        public Room Room;
-        public Vector2 RoomPosition;
         public DoorLayoutMapping[] ClosedDoorMappings;
-
+        public int GoldImage;
         public int Image;
         public int PitImage;
-        public int GoldImage;
+        public Room Room;
+        public Vector2 RoomPosition;
     }
 
     /// <summary>
@@ -234,9 +233,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class DoorLayoutMapping
     {
-        public float Rotation;
-        public Vector2 Position;
-
         public int BaseImage;
+        public Vector2 Position;
+        public float Rotation;
     }
 }

@@ -1,11 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
@@ -35,7 +34,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
             }
             return newMap;
         }
-
     }
 
     public static class ReflectionUtils
@@ -139,7 +137,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
     public static class EnumerationExtensions
     {
-
         /// <summary>
         /// Checks if the given enum has a certain flag
         /// </summary>
@@ -147,7 +144,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool Has<T>(this System.Enum type, T value)
+        public static bool Has<T>(this Enum type, T value)
         {
             try
             {
@@ -166,7 +163,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool Is<T>(this System.Enum type, T value)
+        public static bool Is<T>(this Enum type, T value)
         {
             try
             {
@@ -185,7 +182,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static T Add<T>(this System.Enum type, T value)
+        public static T Add<T>(this Enum type, T value)
         {
             try
             {
@@ -208,7 +205,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static T Remove<T>(this System.Enum type, T value)
+        public static T Remove<T>(this Enum type, T value)
         {
             try
             {
@@ -223,12 +220,11 @@ namespace HuntTheWumpus.SharedCode.Helpers
                         ), ex);
             }
         }
-
     }
 
     public static class MiscUtils
     {
-        static Random Random = new Random();
+        static readonly Random Random = new Random();
 
         public static T GetRandom<T>(this IEnumerable<T> Me)
         {

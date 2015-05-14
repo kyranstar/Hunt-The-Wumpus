@@ -6,34 +6,34 @@ namespace HuntTheWumpus.SharedCode.Trivia
 {
     public class Question
     {
-        private String _questionText;
+        private string _questionText;
 
-        public String QuestionText
+        public string QuestionText
         {
             get { return _questionText; }
         }
 
-        private List<String> _answerChoices = new List<String>();
+        private List<string> _answerChoices = new List<string>();
 
-        public List<String> AnswerChoices
+        public List<string> AnswerChoices
         {
             get { return _answerChoices; }
         }
 
-        private String _correctAnswer;
-        public String CorrectAnswer
+        private string _correctAnswer;
+        public string CorrectAnswer
         {
             get { return _correctAnswer; }
         }
 
-        public Question(String QuestionTextInput, List<String> AnswerChoicesInput, String CorrectAnswerInput)
+        public Question(string QuestionTextInput, List<string> AnswerChoicesInput, string CorrectAnswerInput)
         {
             _questionText = QuestionTextInput;
             _answerChoices = AnswerChoicesInput;
             _correctAnswer = CorrectAnswerInput;
         }
         
-        public bool IsCorrect(String PlayerAnswer)
+        public bool IsCorrect(string PlayerAnswer)
         {
             return _correctAnswer.Equals(PlayerAnswer, StringComparison.Ordinal);
         }

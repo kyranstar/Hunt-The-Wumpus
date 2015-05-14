@@ -1,8 +1,8 @@
-﻿using HuntTheWumpus.SharedCode.GameMap;
-using HuntTheWumpus.SharedCode.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode
 {
@@ -12,29 +12,28 @@ namespace HuntTheWumpus.SharedCode
     /// </summary>
     public class Cave
     {
+        /// <summary>
+        /// contains generated cave (dictionary of rooms)
+        /// </summary>
+        private readonly IDictionary<int, Room> cave = new Dictionary<int, Room>();
+
+        private readonly double RoomBaseApothem;
         // Length of the apothem of each room as it should be drawn (virtual coords)
         private readonly int RoomNumSides;
-        private readonly double RoomBaseApothem;
-        public int TargetRoomWidth { get; protected set; }
-        public int TargetRoomHeight { get; protected set; }
-
+        private Dictionary<int, RoomLayoutMapping> roomLayout;
 
         public Cave(int RoomNumSides = 6, double RoomBaseApothem = 300)
         {
             this.RoomBaseApothem = RoomBaseApothem;
             this.RoomNumSides = RoomNumSides;
 
-            this.TargetRoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
-            this.TargetRoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
+            TargetRoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
+            TargetRoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
         }
 
-        /// <summary>
-        /// contains generated cave (dictionary of rooms)
-        /// </summary>
-        private IDictionary<int, Room> cave = new Dictionary<int, Room>();
+        public int TargetRoomWidth { get; protected set; }
+        public int TargetRoomHeight { get; protected set; }
 
-
-        private Dictionary<int, RoomLayoutMapping> roomLayout;
         /// <summary>
         /// Gets the calculated positions for the available room IDs
         /// </summary>
@@ -86,6 +85,15 @@ namespace HuntTheWumpus.SharedCode
             }
         }
 
+        public bool IsValid
+        {
+            get
+            {
+                return true;
+                //return CaveUtils.CheckIfValid(RoomDict) == CaveLayoutStatus.None;
+            }
+        }
+
         /// <summary>
         /// Gets the room with the id 
         /// </summary>
@@ -97,6 +105,7 @@ namespace HuntTheWumpus.SharedCode
                 return null;
             return cave[id];
         }
+
         /// <summary>
         /// Adds a room
         /// </summary>
@@ -113,7 +122,7 @@ namespace HuntTheWumpus.SharedCode
                 throw new InvalidRoomException("Cannot have two rooms with the same ID!");
             }
 
-            this.cave[id] = new Room(id, gold, arrows, bats, pit, connections);
+            cave[id] = new Room(id, gold, arrows, bats, pit, connections);
         }
 
         /// <summary>
@@ -122,15 +131,6 @@ namespace HuntTheWumpus.SharedCode
         public void RegenerateLayout()
         {
             RoomLayout = MapUtils.GetRoomLayout(cave.Values.ToArray(), RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
-        }
-
-        public bool IsValid
-        {
-            get
-            {
-                return true;
-                //return CaveUtils.CheckIfValid(RoomDict) == CaveLayoutStatus.None;
-            }
         }
 
         /// <summary>
@@ -157,12 +157,22 @@ namespace HuntTheWumpus.SharedCode
     /// </summary>
     public class Room
     {
-        private int roomID;
-        private int gold;
+        private int[] adjacentRooms;
         private int arrows;
+        private int gold;
         private bool hasBats;
         private bool hasPit;
-        private int[] adjacentRooms;
+        private int roomID;
+
+        public Room(int roomId, int gold, int arrows, bool bats, bool pit, int[] adjacentRooms)
+        {
+            roomID = roomId;
+            this.gold = gold;
+            this.arrows = arrows;
+            HasBats = bats;
+            HasPit = pit;
+            AdjacentRooms = adjacentRooms;
+        }
 
         /// <summary>
         /// room's location in cave
@@ -179,6 +189,7 @@ namespace HuntTheWumpus.SharedCode
                 roomID = value;
             }
         }
+
         /// <summary>
         /// how much gold the room contains (gold >= 0)
         /// </summary>
@@ -191,6 +202,7 @@ namespace HuntTheWumpus.SharedCode
                 gold = value;
             }
         }
+
         /// <summary>
         /// How many arrows the room contains (arrows >= 0)
         /// </summary>
@@ -203,6 +215,7 @@ namespace HuntTheWumpus.SharedCode
                 arrows = value;
             }
         }
+
         /// <summary>
         /// True if room contains bats, false if not
         /// </summary>
@@ -219,6 +232,7 @@ namespace HuntTheWumpus.SharedCode
                 hasBats = value;
             }
         }
+
         /// <summary>
         /// True if room contains a pit, false if not
         /// </summary>
@@ -235,6 +249,7 @@ namespace HuntTheWumpus.SharedCode
                 hasPit = value;
             }
         }
+
         /// <summary>
         /// Which other rooms this room is connected to, stored as RoomIds or -1 for no room
         /// </summary>
@@ -253,16 +268,6 @@ namespace HuntTheWumpus.SharedCode
             }
         }
 
-        public Room(int roomId, int gold, int arrows, bool bats, bool pit, int[] adjacentRooms)
-        {
-            this.roomID = roomId;
-            this.gold = gold;
-            this.arrows = arrows;
-            this.HasBats = bats;
-            this.HasPit = pit;
-            this.AdjacentRooms = adjacentRooms;
-        }
-
         public override string ToString()
         {
             return string.Format(
@@ -274,11 +279,13 @@ namespace HuntTheWumpus.SharedCode
                     arrows
                 );
         }
-        public override bool Equals(Object other)
+
+        public override bool Equals(object other)
         {
             Room otherRoom = other as Room;
             return otherRoom != null && RoomID == otherRoom.RoomID;
         }
+
         public override int GetHashCode()
         {
             return RoomID;

@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
@@ -79,6 +79,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             // path not found
             return null;
         }
+
         private static int GetEstimatedScore(Room start, Room end, Cave cave)
         {
             Vector2 startPos = cave.RoomLayout[start.RoomID].RoomPosition;
@@ -86,19 +87,21 @@ namespace HuntTheWumpus.SharedCode.Helpers
             // Manhattan distance
             return (int)Math.Round(Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y));
         }
+
         private static IEnumerable<AStarNode> getNeighbors(AStarNode center, Cave cave)
         {
-            return center.node.AdjacentRooms.Where((i) => i != -1).Select(roomIndex => new AStarNode(cave.GetRoom(roomIndex), center));
+            return center.node.AdjacentRooms.Where(i => i != -1).Select(roomIndex => new AStarNode(cave.GetRoom(roomIndex), center));
         }
+
         private class AStarNode : PriorityQueueNode
         {
-            public Room node;
-            public AStarNode parent;
+            public readonly Room node;
+            public readonly AStarNode parent;
 
             public AStarNode(Room node)
             {
                 this.node = node;
-                this.parent = null;
+                parent = null;
             }
 
             public AStarNode(Room node, AStarNode parent)

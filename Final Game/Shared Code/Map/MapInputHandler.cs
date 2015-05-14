@@ -1,8 +1,8 @@
-﻿using HuntTheWumpus.SharedCode.GameControl;
+﻿using System;
+using System.Linq;
+using HuntTheWumpus.SharedCode.GameControl;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -12,9 +12,13 @@ namespace HuntTheWumpus.SharedCode.GameMap
     public class MapInputHandler
     {
         public const int PlayerVelocity = 600;
-
-        private Map map;
+        private readonly Map map;
         private Keys[] PressedKeys = {};
+
+        public MapInputHandler(Map map)
+        {
+            this.map = map;
+        }
 
         public bool IsAiming
         {
@@ -37,10 +41,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
         }
 
-        public MapInputHandler(Map map)
-        {
-            this.map = map;
-        }
         /// <summary>
         /// Handles all updates for the map this tick.
         /// </summary>
@@ -93,7 +93,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         private void KeyUp(Keys Key, GameTime GameTime)
         {
             Map.Direction? ShootDir = MapKeyToDirection(Key);
-            if (ShootDir.HasValue && this.IsAiming)
+            if (ShootDir.HasValue && IsAiming)
                 map.TryShootTowards(ShootDir.Value);
         }
 
