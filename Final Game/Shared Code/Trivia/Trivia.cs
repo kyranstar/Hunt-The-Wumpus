@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.Trivia
 {
-    public class Trivia
+    public static class Trivia
     {
-        private List<String> _hints = new List<String>();
+        private static List<String> _hints = new List<String>();
 
-        public List<String> Hints
+        public static List<String> Hints
         {
             get { return _hints; }
         }
 
-        private List<Question> _questionsToAsk;
-        private List<Question> _questionsAlreadyAsked;
+        private static List<Question> _questionsToAsk;
+        private static List<Question> _questionsAlreadyAsked;
         
-        public Trivia()
+        static Trivia()
         {
             Log.Info("Creating Trivia...");
             _hints.AddRange(new string[] { "hint1", "hint2", "hint3" });
@@ -30,16 +30,15 @@ namespace HuntTheWumpus.SharedCode.Trivia
             _questionsToAsk.Add(new Question("question8", new List<string> { "5", "6", "7", "8" }, "8"));
         }
 
-        public TriviaSet CreateTriviaSet(int NumberOfQuestions)
+        public static TriviaSet CreateTriviaSet(int NumberOfQuestions)
         {
             Random random = new Random();
-            Question question;
             List<Question> InputList = new List<Question>();
             int j;
             for(int i = 0; i<NumberOfQuestions; i++)
             {
                 j = random.Next(0, _questionsToAsk.Count);
-                question = _questionsToAsk[j];
+                Question question = question = _questionsToAsk[j];
                 InputList.Add(question);
                 _questionsAlreadyAsked.Add(question);
                 _questionsToAsk.Remove(question);
