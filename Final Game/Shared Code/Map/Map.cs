@@ -1,8 +1,10 @@
-﻿using HuntTheWumpus.SharedCode.GameControl;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Trivia;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -31,6 +33,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public MapInputHandler InputHandler;
         public ISet<int> PlayerPath = new HashSet<int>();
         public int MoveCount = 0;
+
+        public TriviaSet CurrentTrivia;
+        public TriviaQuestionState QuestionState;
 
         /// <summary>
         /// Holds the id of the room that the player is currently in.

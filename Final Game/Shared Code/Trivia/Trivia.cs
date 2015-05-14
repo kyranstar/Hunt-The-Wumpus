@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.Trivia
 {
-    class Trivia
+    public class Trivia
     {
         private List<String> _hints = new List<String>();
 

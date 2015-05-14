@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HuntTheWumpus.SharedCode.Trivia
 {
-    class TriviaSet
+    public class TriviaSet
     {
         private int _counter;
 
