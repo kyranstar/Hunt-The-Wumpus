@@ -30,13 +30,13 @@ namespace HuntTheWumpus.SharedCode.Trivia
             _questionsToAsk.Add(new Question("question8", new List<string> { "5", "6", "7", "8" }, "8"));
         }
 
-        public TriviaSet CreateTriviaSet()
+        public TriviaSet CreateTriviaSet(int NumberOfQuestions)
         {
             Random random = new Random();
             Question question;
             List<Question> InputList = new List<Question>();
             int j;
-            for(int i = 0; i<3; i++)
+            for(int i = 0; i<NumberOfQuestions; i++)
             {
                 j = random.Next(0, _questionsToAsk.Count);
                 question = _questionsToAsk[j];
