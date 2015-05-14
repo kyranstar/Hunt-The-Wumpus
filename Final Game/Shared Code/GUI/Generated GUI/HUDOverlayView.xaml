@@ -35,10 +35,10 @@
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="200px"></RowDefinition>
+            <RowDefinition Height="30px"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
-            <Image Width="100" Height="200"> 
+            <Image Width="30" Height="30"> 
                 <Image.Source> 
                     <BitmapImage UriSource="XAML Assets/Gold.png"/> 
                 </Image.Source> 
