@@ -93,7 +93,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         private void KeyUp(Keys Key, GameTime GameTime)
         {
             Map.Direction? ShootDir = MapKeyToDirection(Key);
-            if(ShootDir.HasValue)
+            if (ShootDir.HasValue && this.IsAiming)
                 map.TryShootTowards(ShootDir.Value);
         }
 

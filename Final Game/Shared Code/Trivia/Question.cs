@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HuntTheWumpus.Platform.Desktop.Trivia
+namespace HuntTheWumpus.SharedCode.Trivia
 {
     class Question
     {
@@ -33,9 +33,9 @@ namespace HuntTheWumpus.Platform.Desktop.Trivia
             _correctAnswer = CorrectAnswerInput;
         }
         
-        public bool IsCorrect(Question PlayerQuestion, String PlayerAnswer)
+        public bool IsCorrect(String PlayerAnswer)
         {
-            return PlayerQuestion.CorrectAnswer.Equals(PlayerAnswer, StringComparison.Ordinal);
+            return _correctAnswer.Equals(PlayerAnswer, StringComparison.Ordinal);
         }
 
 

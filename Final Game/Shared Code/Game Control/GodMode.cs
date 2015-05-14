@@ -87,6 +87,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     foreach (int room in Map.Cave.RoomDict.Keys)
                     {
                         Map.PlayerPath.Add(room);
+                        Map.MoveCount++;
                     }
                     break;
             }
@@ -166,7 +167,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             switch(paramList)
             {
                 case "viewport":
-                    MapRenderer.DebugOutline = MapRenderer.MapCam.VirtualVisibleViewport.ToRect();
+                    MapRenderer.DebugOutline = MapRenderer.MapCam.VirtualVisibleViewport.ToRect(-1, -1);
                     break;
                 default:
                     this.OutputError("Outline mode not found.");
