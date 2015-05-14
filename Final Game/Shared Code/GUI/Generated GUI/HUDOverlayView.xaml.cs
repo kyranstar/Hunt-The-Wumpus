@@ -57,7 +57,7 @@ namespace EmptyKeys.UserInterface.Generated {
             row_e_0_0.Height = new GridLength(1F, GridUnitType.Star);
             this.e_0.RowDefinitions.Add(row_e_0_0);
             RowDefinition row_e_0_1 = new RowDefinition();
-            row_e_0_1.Height = new GridLength(30F, GridUnitType.Pixel);
+            row_e_0_1.Height = new GridLength(200F, GridUnitType.Pixel);
             this.e_0.RowDefinitions.Add(row_e_0_1);
             // e_1 element
             this.e_1 = new StackPanel();
@@ -70,7 +70,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_2 = new Image();
             this.e_1.Children.Add(this.e_2);
             this.e_2.Name = "e_2";
-            this.e_2.Height = 30F;
+            this.e_2.Height = 200F;
             this.e_2.Width = 100F;
             BitmapImage e_2_bm = new BitmapImage();
             e_2_bm.TextureAsset = "XAML Assets/Gold";
