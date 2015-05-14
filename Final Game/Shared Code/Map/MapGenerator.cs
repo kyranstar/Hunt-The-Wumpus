@@ -56,6 +56,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
 
             NewCave[0].AdjacentRooms[0] = 24;
+            NewCave[24].AdjacentRooms[3] = 0;
             NewCave[3].HasPit = true;
 
             //Work in progress
