@@ -45,8 +45,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         private const int WumpusHeight = 500;
 
         public const int NumCloudTextures = 1,
-            NumDoorTextures = 5,
-            NumRoomTextures = 4,
+            NumDoorTextures = 1,
+            NumRoomTextures = 1,
             NumPitTextures = 1,
             NumGoldTextures = 0;
 
