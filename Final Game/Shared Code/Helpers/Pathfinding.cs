@@ -82,8 +82,8 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
         private static int GetEstimatedScore(Room start, Room end, Cave cave)
         {
-            Vector2 startPos = cave.RoomLayout[start.RoomID].RoomPosition;
-            Vector2 endPos = cave.RoomLayout[end.RoomID].RoomPosition;
+            Vector2 startPos = cave.RoomLayout[start.RoomID].PrimaryRoomPosition;
+            Vector2 endPos = cave.RoomLayout[end.RoomID].PrimaryRoomPosition;
             // Manhattan distance
             return (int)Math.Round(Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y));
         }

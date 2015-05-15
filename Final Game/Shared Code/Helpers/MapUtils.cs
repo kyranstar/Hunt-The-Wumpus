@@ -53,8 +53,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 // Get the ID of the current room
                 int ConnectedRoomId = CurrentRoom.AdjacentRooms[ConnectionDirection];
 
+                Vector2 NextRoomPosition = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem * 2, RoomNumSides);
+
                 Room NextRoom;
-                // Only process the room if it hasn't been processed already
+                // Only process the room as a real room if it hasn't been processed already
                 if (UnmappedRooms.TryGetValue(ConnectedRoomId, out NextRoom))
                 {
                     // If we have gotten to this next room by reference but the next room
@@ -72,23 +74,28 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     };
 
                     // Get the point for the next room
-                    NextMapping.RoomPosition = CurrentPoint + GetOffsetForSide(ConnectionDirection, RoomBaseApothem * 2, RoomNumSides);
+                    NextMapping.PrimaryRoomPosition = NextRoomPosition;
 
                     // Get the list of poses for the non-connection overlays (closed doors)
-                    NextMapping.ClosedDoorMappings = MapDoorsForRoom(NextRoom.AdjacentRooms, NextMapping.RoomPosition, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
+                    NextMapping.ClosedDoorMappings = MapDoorsForRoom(NextRoom.AdjacentRooms, NextMapping.PrimaryRoomPosition, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
 
                     // Remove the room now that we have calculated its position
                     //   we don't want the next call to index it again
                     UnmappedRooms.Remove(ConnectedRoomId);
 
                     // Recurse through the connections of the next room
-                    Dictionary<int, RoomLayoutMapping> MappedRooms = GetRoomLayout(NextRoom, NextMapping.RoomPosition, UnmappedRooms, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
+                    Dictionary<int, RoomLayoutMapping> MappedRooms = GetRoomLayout(NextRoom, NextMapping.PrimaryRoomPosition, UnmappedRooms, RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
 
                     // Add the current room to the deeper map
                     MappedRooms.Add(NextRoom.RoomID, NextMapping);
                     // Merge the result with the results from the other connections
                     NewMappedRooms = NewMappedRooms.MergeLeft(MappedRooms);
 
+                }
+                else if (NewMappedRooms.ContainsKey(ConnectedRoomId) && !NewMappedRooms[ConnectedRoomId].PrimaryRoomPosition.EqualsIsh(NextRoomPosition)
+                    && !NewMappedRooms[ConnectedRoomId].PhantomPositions.ToArray().ContainsWithinThreshold(NextRoomPosition))
+                {
+                    NewMappedRooms[ConnectedRoomId].PhantomPositions.Add(NextRoomPosition);
                 }
             }
 
@@ -220,12 +227,26 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class RoomLayoutMapping
     {
+        public Vector2 PrimaryRoomPosition;
+
         public DoorLayoutMapping[] ClosedDoorMappings;
+        public Room Room;
+
         public int GoldImage;
         public int Image;
         public int PitImage;
-        public Room Room;
-        public Vector2 RoomPosition;
+
+        /// <summary>
+        /// Holds the alternative positions that this
+        /// room can exist at when rendered at the edge
+        /// of the wrapping map.
+        /// </summary>
+        public List<Vector2> PhantomPositions;
+
+        public RoomLayoutMapping()
+        {
+            PhantomPositions = new List<Vector2>();
+        }
     }
 
     /// <summary>

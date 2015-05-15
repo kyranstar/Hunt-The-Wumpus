@@ -30,7 +30,7 @@ namespace HuntTheWumpusTests.GUI
             Assert.IsTrue(TestUtil.SquareExpectedRoomPoints.Keys.SequenceEqual(Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in TestUtil.SquareExpectedRoomPoints)
-                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].RoomPosition, 4);
+                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].PrimaryRoomPosition, 4);
         }
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace HuntTheWumpusTests.GUI
             Assert.IsTrue(TestUtil.HexExpectedRoomPoints.Keys.SequenceEqual(Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in TestUtil.HexExpectedRoomPoints)
-                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].RoomPosition);
+                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].PrimaryRoomPosition);
         }
 
         [TestMethod]

@@ -146,8 +146,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             BackgroundTiles.Update(time);
 
             // TODO: Clean up this math
-            Player.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
-            Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
+            Player.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].PrimaryRoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
+            Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].PrimaryRoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
 
             UpdateCamera();
             UpdateWumpus();
@@ -159,8 +159,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void UpdateWumpus()
         {
             // TODO: Figure out where we store character position
-            Wumpus.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Wumpus.HalfWidth);
-            Wumpus.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Wumpus.HalfHeight);
+            Wumpus.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].PrimaryRoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Wumpus.HalfWidth);
+            Wumpus.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].PrimaryRoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Wumpus.HalfHeight);
 
             // TODO: Hide Wumpus when it shouldn't be shown
         }
@@ -221,8 +221,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 (from Mapping in Map.Cave.RoomLayout where Map.PlayerPath.Contains(Mapping.Key) select Mapping))
             {
                 // Get the position from the mapping (and round it)
-                int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
-                int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
+                int XPos = (int)Math.Round(LayoutMapping.Value.PrimaryRoomPosition.X);
+                int YPos = (int)Math.Round(LayoutMapping.Value.PrimaryRoomPosition.Y);
 
                 // Calculate the target room rectangle and draw the texture
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
@@ -255,6 +255,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                         color: Color.White);
                 }
             }
+
             // Draw black adjacent rooms
             foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in
                (from Mapping in Map.Cave.RoomLayout
@@ -263,37 +264,47 @@ namespace HuntTheWumpus.SharedCode.GUI
                         .Any(r => r.AdjacentRooms.Contains(Mapping.Key))
                 select Mapping))
             {
-                // Get the position from the mapping (and round it)
-                int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
-                int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
-
-                // Calculate the target room rectangle and draw the texture
-                Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-
-                Color DrawColor = new Color(50, 50, 50, 5);
-
-                // Highlight this room if the user is aiming into it
-                if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
-                    DrawColor = new Color(150, 150, 150, 10);
-
-                // Highlight this room w/ brighter color if the user has shot into it
-                Map.Direction? ShootDirection = Map.InputHandler.NavDirection;
-                if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
+                DrawAdjacentRoom(LayoutMapping.Value.PrimaryRoomPosition, LayoutMapping.Key, LayoutMapping.Value.Image, Target);
+                foreach (Vector2 PhantomPosition in LayoutMapping.Value.PhantomPositions)
                 {
-                    int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
-                    if (RoomAtShootDirection == LayoutMapping.Key)
-                    {
-                        if (RoomAtShootDirection == Map.Wumpus.Location)
-                        {
-                            DrawColor = new Color(0, 255, 0, 60);
-                        }
-                        else
-                            DrawColor = new Color(255, 0, 0, 60);
-                    }
+                    DrawAdjacentRoom(PhantomPosition, LayoutMapping.Key, LayoutMapping.Value.Image, Target);
                 }
-
-                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
             }
+        }
+
+        private void DrawAdjacentRoom(Vector2 Position, int RoomID, int BaseImageNumber, SpriteBatch Target)
+        {
+            // Get the position from the mapping (and round it)
+            int XPos = (int)Math.Round(Position.X);
+            int YPos = (int)Math.Round(Position.Y);
+
+            // Calculate the target room rectangle and draw the texture
+            Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
+
+            Color DrawColor = new Color(50, 50, 50, 5);
+
+            // Highlight this room if the user is aiming into it
+            if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(RoomID))
+                DrawColor = new Color(150, 150, 150, 10);
+
+            // Highlight this room w/ brighter color if the user has shot into it
+            Map.Direction? ShootDirection = Map.InputHandler.NavDirection;
+            if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
+            {
+                int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
+                if (RoomAtShootDirection == RoomID)
+                {
+                    // Use different color if they will hit the wumpus
+                    if (RoomAtShootDirection == Map.Wumpus.Location)
+                    {
+                        DrawColor = new Color(0, 255, 0, 60);
+                    }
+                    else
+                        DrawColor = new Color(255, 0, 0, 60);
+                }
+            }
+
+            Target.Draw(RoomBaseTextures[BaseImageNumber], RoomTargetArea, DrawColor);
         }
 
         public int FogParticleCount
