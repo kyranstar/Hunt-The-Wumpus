@@ -137,6 +137,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.TriviaDisplay = new Grid();
             this.UIRoot.Children.Add(this.TriviaDisplay);
             this.TriviaDisplay.Name = "TriviaDisplay";
+            this.TriviaDisplay.Visibility = Visibility.Hidden;
             this.TriviaDisplay.Background = new SolidColorBrush(new ColorW(51, 51, 51, 204));
             RowDefinition row_TriviaDisplay_0 = new RowDefinition();
             row_TriviaDisplay_0.Height = new GridLength(1F, GridUnitType.Star);
