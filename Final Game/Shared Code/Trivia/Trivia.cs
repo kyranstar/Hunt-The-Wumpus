@@ -6,11 +6,14 @@ namespace HuntTheWumpus.SharedCode.Trivia
 {
     public static class Trivia
     {
-        private static List<String> _hints = new List<String>();
-
-        public static List<String> Hints
+        public static List<string> LockedHints
         {
-            get { return _hints; }
+            get; private set;
+        }
+
+        public static List<string> AvailableHints
+        {
+            get; private set;
         }
 
         private static List<Question> _questionsToAsk = new List<Question>();
@@ -19,11 +22,11 @@ namespace HuntTheWumpus.SharedCode.Trivia
         static Trivia()
         {
             Log.Info("Creating Trivia...");
-            _hints.AddRange(new string[] { "hint1", "hint2", "hint3" });
+
             _questionsToAsk.Add(new Question("What color is red paint?", new List<string> { "Red", "Blue", "Orange", "Rainbow" }, "Red"));
             _questionsToAsk.Add(new Question("What color is blue paint?", new List<string> { "Blue", "Orange", "Red", "It depends..." }, "Blue"));
             _questionsToAsk.Add(new Question("What color is orange paint?", new List<string> { "Red", "Orange", "Blue", "Purple" }, "Red"));
-            _questionsToAsk.Add(new Question("What color is white paint paint?", new List<string> { "White", "Blue", "Green", "Red" }, "White"));
+            _questionsToAsk.Add(new Question("What color is white paint?", new List<string> { "White", "Blue", "Green", "Red" }, "White"));
             _questionsToAsk.Add(new Question("What color is violet paint?", new List<string> { "Violet", "Orange", "Rainbow", "Red" }, "Red"));
         }
 

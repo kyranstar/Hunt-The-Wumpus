@@ -56,7 +56,7 @@
                 <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
             </StackPanel>
         </Grid>
-        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaProgressAsVisibility}">
+        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaProgressAsVisibility}" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="70px"/>
@@ -66,9 +66,13 @@
             </Grid.RowDefinitions>
             <TextBlock Name="QuestionText" Text="{Binding CurrentTriviaQuestionText}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
             <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ComboBox Name="TriviaAnswerSelector" Width="250px" FontSize="20" ItemsSource="{Binding CurrentTriviaQuestionAnswersAsComboBoxOptions}" SelectedIndex="{Binding SelectedAnswerIndex}"/>
+                <ComboBox Name="TriviaAnswerSelector" Width="250px" FontSize="20" ItemsSource="{Binding CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding SelectedAnswerIndex}"/>
                 <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding SubmitAnswerCommand}"/>
             </StackPanel>
+        </Grid>
+        <Grid Background="#333333" HorizontalAlignment="Stretch">
+            <TextBlock Text="Hints" FontSize="60" Foreground="White" HorizontalAlignment="Center"/>
+            <ListBox HorizontalAlignment="Center" Background="Transparent" ItemsSource="{Binding UnlockedHints}" />
         </Grid>
     </Grid>
 </ek:UIRoot>

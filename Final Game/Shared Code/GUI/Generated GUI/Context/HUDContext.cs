@@ -107,7 +107,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         }
 
         // TODO: AHHHHHHHHHHHHHHHHHHHHHHH
-        public ComboBoxItem[] CurrentTriviaQuestionAnswersAsComboBoxOptions
+        public ComboBoxItem[] CurrentTriviaQuestionAnswersAsComboBoxItems
         {
             get
             {
@@ -117,6 +117,14 @@ namespace HuntTheWumpus.SharedCode.GUI
                 {
                     Content = x
                 }).ToArray();
+            }
+        }
+
+        public ListBoxItem[] UnlockedHintsAsListBoxItems
+        {
+            get
+            {
+                return null;
             }
         }
 
