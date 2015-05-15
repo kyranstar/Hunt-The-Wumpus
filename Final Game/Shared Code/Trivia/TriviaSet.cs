@@ -8,11 +8,15 @@ namespace HuntTheWumpus.SharedCode.Trivia
 {
     public class TriviaSet
     {
-        private int _counter;
-
-        public int Counter
+        private int _questionCounter;
+        private int _numberCorrect;
+        public int NumberCorrect
         {
-            get { return _counter; }
+            get{return _numberCorrect;}
+        }
+        public int QuestionCounter
+        {
+            get { return _questionCounter; }
         }
         private List<Question> _qlist;
         public List<Question> QList
@@ -23,6 +27,13 @@ namespace HuntTheWumpus.SharedCode.Trivia
         public TriviaSet(List<Question> QList)
         {
             _qlist = QList;
+        }
+        public void IsQuestionCorrect(Question question, String PlayerAnswer)
+        {
+            if (question.IsCorrect(PlayerAnswer))
+            {
+                _numberCorrect++;
+            }
         }
     }
 }
