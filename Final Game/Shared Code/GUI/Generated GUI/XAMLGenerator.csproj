@@ -103,12 +103,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="HighScoreContext.cs" />
-    <None Include="HighScoreView.xaml.cs" />
+    <None Include="XAML Output\HighScoreView.xaml.cs" />
+    <None Include="XAML Output\HUDOverlayView.xaml.cs" />
+    <None Include="XAML Output\MainMenuView.xaml.cs" />
     <None Include="HUDContext.cs" />
-    <None Include="HUDOverlayView.xaml.cs" />
-    <None Include="MainMenuContext.cs" />
-    <None Include="MainMenuView.xaml.cs" />
+    <None Include="Context\HighScoreContext.cs" />
+    <None Include="Context\MainMenuContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -178,14 +178,14 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>SET indir=$(ProjectDir)
-SET outdir=$(ProjectDir)
+SET outdir=$(ProjectDir)XAML Output
 SET srcassdir=$(ProjectDir)
 SET destassdir=$(SolutionDir)Content
 
 REM IF %25datapath:~-1%25==\ SET datapath=%25datapath:~0,-1%25
 
 SET indir=%25indir:~0,-1%25
-SET outdir=%25outdir:~0,-1%25
+REM SET outdir=%25outdir:~0,-1%25
 SET srcassdir=%25srcassdir:~0,-1%25
 
 "$(SolutionDir)..\Utils\EmptyKeys GUI Generator\ekUiGen.exe" --input="%25indir%25" --output="%25outdir%25" --ia="%25srcassdir%25" --oa="%25destassdir%25" --rm=MonoGame</PostBuildEvent>
