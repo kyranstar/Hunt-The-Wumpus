@@ -165,6 +165,8 @@ namespace EmptyKeys.UserInterface.Generated {
             RowDefinition row_TriviaDisplay_4 = new RowDefinition();
             row_TriviaDisplay_4.Height = new GridLength(1F, GridUnitType.Star);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_4);
+            Binding binding_TriviaDisplay_Visibility = new Binding("TriviaProgressAsVisibility");
+            this.TriviaDisplay.SetBinding(Grid.VisibilityProperty, binding_TriviaDisplay_Visibility);
             // QuestionText element
             this.QuestionText = new TextBlock();
             this.TriviaDisplay.Children.Add(this.QuestionText);
@@ -172,10 +174,11 @@ namespace EmptyKeys.UserInterface.Generated {
             this.QuestionText.HorizontalAlignment = HorizontalAlignment.Center;
             this.QuestionText.VerticalAlignment = VerticalAlignment.Center;
             this.QuestionText.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            this.QuestionText.Text = "What color is blue paint?";
             FontManager.Instance.AddFont("Segoe UI", 40F, FontStyle.Regular, "Segoe_UI_30_Regular");
             this.QuestionText.FontSize = 40F;
             Grid.SetRow(this.QuestionText, 1);
+            Binding binding_QuestionText_Text = new Binding("CurrentTriviaQuestionText");
+            this.QuestionText.SetBinding(TextBlock.TextProperty, binding_QuestionText_Text);
             // TriviaAnswerSelector element
             this.TriviaAnswerSelector = new ComboBox();
             this.TriviaDisplay.Children.Add(this.TriviaAnswerSelector);

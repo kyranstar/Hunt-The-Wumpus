@@ -24,6 +24,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         private WumpusBehavior currentBehavior;
 
         private readonly Cave cave;
+        private readonly Map map;
 
         /// <summary>
         /// Initializes a new instance of the Wumpus class.
@@ -32,6 +33,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public Wumpus(Map map)
         {
             cave = map.Cave;
+            this.map = map;
+
             ACTIVE_BEHAVIOR = new ActiveWumpusBehavior(this, map);
             PASSIVE_BEHAVIOR = new PassiveWumpusBehavior(this, map);
 
@@ -114,6 +117,30 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
             currentBehavior = ACTIVE_BEHAVIOR;
             ACTIVE_BEHAVIOR.TurnsActive = 0;
+
+            Debug.Assert(oldLocation != Location);
+        }
+
+        /// <summary>
+        /// Moves the wumpus to a random room.
+        /// </summary>
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        public void MoveToRandomRoom()
+        {
+            int oldLocation = Location;
+
+            Random r = new Random();
+            //Order rooms randomly
+            foreach (int i in Enumerable.Range(0, cave.RoomDict.Count).OrderBy(x => r.Next()))
+            {
+                KeyValuePair<int, Room> pair = cave.RoomDict.ElementAt(i);
+
+                //Don't move the wumpus to a room with hazards
+                if (pair.Value.HasBats || pair.Value.HasPit || pair.Key == map.PlayerRoom) continue;
+
+                Location = pair.Key;
+            }
 
             Debug.Assert(oldLocation != Location);
         }

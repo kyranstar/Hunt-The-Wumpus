@@ -30,7 +30,7 @@ namespace HuntTheWumpus.SharedCode.Trivia
             _questionsToAsk.Add(new Question("question8", new List<string> { "5", "6", "7", "8" }, "8"));
         }
 
-        public static TriviaSet CreateTriviaSet(int NumberOfQuestions)
+        public static TriviaSet CreateTriviaSet(int NumberOfQuestions, TriviaSet.QuestionUpdateHandler NewQuestionHandler = null)
         {
             Random random = new Random();
             List<Question> inputList = new List<Question>();
@@ -39,10 +39,18 @@ namespace HuntTheWumpus.SharedCode.Trivia
                 int j = random.Next(0, _questionsToAsk.Count);
                 Question question = _questionsToAsk[j];
                 inputList.Add(question);
+
                 _questionsAlreadyAsked.Add(question);
                 _questionsToAsk.Remove(question);
+
+                if(_questionsToAsk.Count <= 0)
+                {
+                    _questionsToAsk.AddRange(_questionsAlreadyAsked);
+                    _questionsAlreadyAsked.Clear();
+                }
             }
-            return new TriviaSet(inputList);
+
+            return new TriviaSet(inputList, NewQuestionHandler);
         }
         
     }

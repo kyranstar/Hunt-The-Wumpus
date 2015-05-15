@@ -106,9 +106,9 @@
     <None Include="XAML Output\HighScoreView.xaml.cs" />
     <None Include="XAML Output\HUDOverlayView.xaml.cs" />
     <None Include="XAML Output\MainMenuView.xaml.cs" />
-    <None Include="HUDContext.cs" />
     <None Include="Context\HighScoreContext.cs" />
     <None Include="Context\MainMenuContext.cs" />
+    <Compile Include="Context\HUDContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

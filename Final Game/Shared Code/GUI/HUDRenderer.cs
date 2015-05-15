@@ -42,7 +42,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.Graphics = Graphics;
 
             HudView = new HUDOverlayView(Graphics.Viewport.Width, Graphics.Viewport.Height);
-            HudView.DataContext = new HUDContext(Map.Player);
+            HudView.DataContext = new HUDContext(Map);
         }
 
         /// <summary>

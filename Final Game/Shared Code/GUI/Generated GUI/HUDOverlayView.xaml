@@ -56,7 +56,7 @@
                 <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
             </StackPanel>
         </Grid>
-        <Grid Background="#cc333333" Name="TriviaDisplay">
+        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaProgressAsVisibility}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="70px"/>
@@ -64,7 +64,7 @@
                 <RowDefinition Height="40px"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="QuestionText" Text="What color is blue paint?" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
+            <TextBlock Name="QuestionText" Text="{Binding CurrentTriviaQuestionText}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
             <ComboBox Name="TriviaAnswerSelector" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250px" Grid.Row="3" FontSize="20">
                 <ComboBoxItem Content="Red"/>
                 <ComboBoxItem Content="Blue"/>

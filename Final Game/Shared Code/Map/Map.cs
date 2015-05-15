@@ -86,7 +86,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public readonly Wumpus Wumpus;
 
         private Cave _cave;
-        public TriviaSet CurrentTrivia;
         public MapInputHandler InputHandler;
         public int MoveCount;
 
@@ -96,7 +95,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public Point PlayerLocation;
 
         public ISet<int> PlayerPath = new HashSet<int>();
+
+        public TriviaSet CurrentTrivia;
         public TriviaQuestionState QuestionState;
+        public TriviaSet.QuestionUpdateHandler NewQuestionHandler;
 
         /// <summary>
         ///     Constructs the map and generates the cave with a MapGenerator.
@@ -112,7 +114,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             PlayerLocation = new Point(0, 0);
 
-            ProcessPlayerMove();
+            Wumpus.MoveToRandomRoom();
+            CollectItemsFromRoom();
+            PlayerPath.Add(PlayerRoom);
         }
 
         /// <summary>
@@ -205,20 +209,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 // We're in the same room as the wumpus!
                 // We need to ask the player 5 trivia questions.
 
-                // TODO: Ask the trivia questions
-
-                int triviaQuestionsRight = 5;
-                const int numToBeatWumpus = 3;
-
-                if (triviaQuestionsRight < numToBeatWumpus)
-                {
-                    //TODO: Game over.
-                }
-                else
-                {
-                    Wumpus.HitPlayer();
-                    Log.Info("You scared the Wumpus away to room " + Wumpus.Location);
-                }
+                LoadNewTrivia(TriviaQuestionState.FightingWumpus, 5);
             }
             else
             {
@@ -384,6 +375,16 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 default:
                     throw new Exception();
             }
+        }
+
+        public void LoadNewTrivia(TriviaQuestionState triviaType, int numTriviaQuestions)
+        {
+            if (CurrentTrivia != null && !CurrentTrivia.IsComplete)
+                Log.Warn("New trivia set added before previous set was complete!");
+
+            CurrentTrivia = Trivia.Trivia.CreateTriviaSet(numTriviaQuestions, NewQuestionHandler);
+            QuestionState = triviaType;
+            NewQuestionHandler(CurrentTrivia, new EventArgs());
         }
     }
 }
