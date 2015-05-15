@@ -114,7 +114,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             backFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
             frontFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
-            frontFogSystem.Opacity = 0.3f;
+            frontFogSystem.Opacity = 0f;
 
             backFogSystem.Initialize();
             frontFogSystem.Initialize();
