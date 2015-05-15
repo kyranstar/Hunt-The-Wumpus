@@ -33,11 +33,13 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private TextBlock e_2;
         
-        private TextBlock e_3;
+        private Image e_3;
         
-        private StackPanel e_4;
+        private TextBlock e_4;
         
-        private TextBlock e_5;
+        private StackPanel e_5;
+        
+        private TextBlock e_6;
         
         private Grid TriviaDisplay;
         
@@ -83,12 +85,12 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_1 = new Image();
             this.e_0.Children.Add(this.e_1);
             this.e_1.Name = "e_1";
-            this.e_1.Height = 30F;
-            this.e_1.Width = 30F;
+            this.e_1.Margin = new Thickness(5F, 5F, 5F, 5F);
             BitmapImage e_1_bm = new BitmapImage();
             e_1_bm.TextureAsset = "XAML Assets/Gold";
             ImageManager.Instance.AddImage("XAML Assets/Gold");
             this.e_1.Source = e_1_bm;
+            this.e_1.Stretch = Stretch.Uniform;
             // e_2 element
             this.e_2 = new TextBlock();
             this.e_0.Children.Add(this.e_2);
@@ -102,42 +104,51 @@ namespace EmptyKeys.UserInterface.Generated {
             Binding binding_e_2_Text = new Binding("Gold");
             this.e_2.SetBinding(TextBlock.TextProperty, binding_e_2_Text);
             // e_3 element
-            this.e_3 = new TextBlock();
+            this.e_3 = new Image();
             this.e_0.Children.Add(this.e_3);
             this.e_3.Name = "e_3";
-            this.e_3.Margin = new Thickness(4F, 0F, 4F, 0F);
-            this.e_3.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_3.FontFamily = new FontFamily("Segoe UI");
-            this.e_3.FontSize = 20F;
-            this.e_3.FontStyle = FontStyle.Bold;
-            Binding binding_e_3_Text = new Binding("Arrows");
-            this.e_3.SetBinding(TextBlock.TextProperty, binding_e_3_Text);
+            this.e_3.Margin = new Thickness(5F, 5F, 5F, 5F);
+            BitmapImage e_3_bm = new BitmapImage();
+            e_3_bm.TextureAsset = "XAML Assets/Arrow";
+            ImageManager.Instance.AddImage("XAML Assets/Arrow");
+            this.e_3.Source = e_3_bm;
+            this.e_3.Stretch = Stretch.Uniform;
             // e_4 element
-            this.e_4 = new StackPanel();
-            this.GameHUD.Children.Add(this.e_4);
+            this.e_4 = new TextBlock();
+            this.e_0.Children.Add(this.e_4);
             this.e_4.Name = "e_4";
-            this.e_4.HorizontalAlignment = HorizontalAlignment.Right;
-            this.e_4.Background = new SolidColorBrush(new ColorW(169, 169, 169, 255));
-            this.e_4.Orientation = Orientation.Horizontal;
-            Grid.SetRow(this.e_4, 1);
-            // e_5 element
-            this.e_5 = new TextBlock();
-            this.e_4.Children.Add(this.e_5);
-            this.e_5.Name = "e_5";
-            this.e_5.Margin = new Thickness(4F, 0F, 4F, 0F);
-            this.e_5.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            this.e_4.Margin = new Thickness(4F, 0F, 4F, 0F);
+            this.e_4.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_5.FontFamily = new FontFamily("Segoe UI");
-            this.e_5.FontSize = 20F;
-            this.e_5.FontStyle = FontStyle.Bold;
-            Binding binding_e_5_Text = new Binding("Turns");
-            this.e_5.SetBinding(TextBlock.TextProperty, binding_e_5_Text);
+            this.e_4.FontFamily = new FontFamily("Segoe UI");
+            this.e_4.FontSize = 20F;
+            this.e_4.FontStyle = FontStyle.Bold;
+            Binding binding_e_4_Text = new Binding("Arrows");
+            this.e_4.SetBinding(TextBlock.TextProperty, binding_e_4_Text);
+            // e_5 element
+            this.e_5 = new StackPanel();
+            this.GameHUD.Children.Add(this.e_5);
+            this.e_5.Name = "e_5";
+            this.e_5.HorizontalAlignment = HorizontalAlignment.Right;
+            this.e_5.Background = new SolidColorBrush(new ColorW(169, 169, 169, 255));
+            this.e_5.Orientation = Orientation.Horizontal;
+            Grid.SetRow(this.e_5, 1);
+            // e_6 element
+            this.e_6 = new TextBlock();
+            this.e_5.Children.Add(this.e_6);
+            this.e_6.Name = "e_6";
+            this.e_6.Margin = new Thickness(4F, 0F, 4F, 0F);
+            this.e_6.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
+            this.e_6.FontFamily = new FontFamily("Segoe UI");
+            this.e_6.FontSize = 20F;
+            this.e_6.FontStyle = FontStyle.Bold;
+            Binding binding_e_6_Text = new Binding("Turns");
+            this.e_6.SetBinding(TextBlock.TextProperty, binding_e_6_Text);
             // TriviaDisplay element
             this.TriviaDisplay = new Grid();
             this.UIRoot.Children.Add(this.TriviaDisplay);
             this.TriviaDisplay.Name = "TriviaDisplay";
-            this.TriviaDisplay.Visibility = Visibility.Hidden;
             this.TriviaDisplay.Background = new SolidColorBrush(new ColorW(51, 51, 51, 204));
             RowDefinition row_TriviaDisplay_0 = new RowDefinition();
             row_TriviaDisplay_0.Height = new GridLength(1F, GridUnitType.Star);
@@ -169,7 +180,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.TriviaAnswerSelector = new ComboBox();
             this.TriviaDisplay.Children.Add(this.TriviaAnswerSelector);
             this.TriviaAnswerSelector.Name = "TriviaAnswerSelector";
-            this.TriviaAnswerSelector.Width = 100F;
+            this.TriviaAnswerSelector.Width = 250F;
             this.TriviaAnswerSelector.HorizontalAlignment = HorizontalAlignment.Center;
             this.TriviaAnswerSelector.VerticalAlignment = VerticalAlignment.Center;
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
@@ -180,30 +191,30 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private System.Collections.ObjectModel.ObservableCollection<object> Get_TriviaAnswerSelector_Items() {
             System.Collections.ObjectModel.ObservableCollection<object> items = new System.Collections.ObjectModel.ObservableCollection<object>();
-            // e_6 element
-            ComboBoxItem e_6 = new ComboBoxItem();
-            e_6.Name = "e_6";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_6.Content = "Red";
-            items.Add(e_6);
             // e_7 element
             ComboBoxItem e_7 = new ComboBoxItem();
             e_7.Name = "e_7";
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_7.Content = "Blue";
+            e_7.Content = "Red";
             items.Add(e_7);
             // e_8 element
             ComboBoxItem e_8 = new ComboBoxItem();
             e_8.Name = "e_8";
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_8.Content = "Green";
+            e_8.Content = "Blue";
             items.Add(e_8);
             // e_9 element
             ComboBoxItem e_9 = new ComboBoxItem();
             e_9.Name = "e_9";
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_9.Content = "It depends...";
+            e_9.Content = "Green";
             items.Add(e_9);
+            // e_10 element
+            ComboBoxItem e_10 = new ComboBoxItem();
+            e_10.Name = "e_10";
+            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            e_10.Content = "It depends...";
+            items.Add(e_10);
             return items;
         }
     }

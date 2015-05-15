@@ -1,4 +1,5 @@
-﻿using HuntTheWumpus.SharedCode.Scenes;
+﻿using EmptyKeys.UserInterface;
+using HuntTheWumpus.SharedCode.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,6 +42,10 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
             NewScene.Initialize(Graphics);
             CurrentScene = NewScene;
+
+            // Load any EmptyKeys GUI content
+            ImageManager.Instance.LoadImages(Content);
+            FontManager.Instance.LoadFonts(Content);
         }
 
         public static void Update(GameTime GameTime)

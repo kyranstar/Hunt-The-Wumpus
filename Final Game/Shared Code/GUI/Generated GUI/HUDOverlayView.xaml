@@ -39,19 +39,24 @@
                 <RowDefinition Height="30px"></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
-                <Image Width="30" Height="30"> 
+                <Image Margin="5,5,5,5" Stretch="Uniform"> 
                     <Image.Source> 
                         <BitmapImage UriSource="XAML Assets/Gold.png"/> 
                     </Image.Source> 
                 </Image>
                 <TextBlock Text="{Binding Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+                <Image Margin="5,5,5,5" Stretch="Uniform">
+                    <Image.Source>
+                        <BitmapImage UriSource="XAML Assets/Arrow.png"/>
+                    </Image.Source>
+                </Image>
                 <TextBlock Text="{Binding Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
             </StackPanel>
         </Grid>
-        <Grid Background="#cc333333" Visibility="Hidden" Name="TriviaDisplay">
+        <Grid Background="#cc333333" Name="TriviaDisplay">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="70px"/>
@@ -60,7 +65,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Name="QuestionText" Text="What color is blue paint?" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
-            <ComboBox Name="TriviaAnswerSelector" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100px" Grid.Row="3" FontSize="20">
+            <ComboBox Name="TriviaAnswerSelector" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250px" Grid.Row="3" FontSize="20">
                 <ComboBoxItem Content="Red"/>
                 <ComboBoxItem Content="Blue"/>
                 <ComboBoxItem Content="Green"/>
