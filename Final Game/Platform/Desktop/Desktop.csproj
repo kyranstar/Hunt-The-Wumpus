@@ -44,12 +44,13 @@
     <ApplicationIcon>..\..\Platform\Platform Assets\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>HuntTheWumpus.Platform.Desktop.Trivia.TriviaLoader</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\Shared Code\**\*.cs" Exclude="..\..\**\obj\**\*.cs;..\..\**\Properties\**\*.cs">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
+    <Compile Include="Trivia\TriviaLoader.cs" />
     <!--Content Include="..\..\Shared Code\**\*.*">
       <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
