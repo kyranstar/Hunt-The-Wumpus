@@ -20,14 +20,11 @@ namespace HuntTheWumpus.SharedCode.Trivia
         {
             Log.Info("Creating Trivia...");
             _hints.AddRange(new string[] { "hint1", "hint2", "hint3" });
-            _questionsToAsk.Add(new Question("question1", new List<string> { "1", "2", "3", "4" }, "1"));
-            _questionsToAsk.Add(new Question("question2", new List<string> { "1", "2", "3", "4" }, "2"));
-            _questionsToAsk.Add(new Question("question3", new List<string> { "1", "2", "3", "4" }, "3"));
-            _questionsToAsk.Add(new Question("question4", new List<string> { "1", "2", "3", "4" }, "4"));
-            _questionsToAsk.Add(new Question("question5", new List<string> { "5", "6", "7", "8" }, "5"));
-            _questionsToAsk.Add(new Question("question6", new List<string> { "5", "6", "7", "8" }, "6"));
-            _questionsToAsk.Add(new Question("question7", new List<string> { "5", "6", "7", "8" }, "7"));
-            _questionsToAsk.Add(new Question("question8", new List<string> { "5", "6", "7", "8" }, "8"));
+            _questionsToAsk.Add(new Question("What color is red paint?", new List<string> { "Red", "Blue", "Orange", "Rainbow" }, "Red"));
+            _questionsToAsk.Add(new Question("What color is blue paint?", new List<string> { "Blue", "Orange", "Red", "It depends..." }, "Blue"));
+            _questionsToAsk.Add(new Question("What color is orange paint?", new List<string> { "Red", "Orange", "Blue", "Purple" }, "Red"));
+            _questionsToAsk.Add(new Question("What color is white paint paint?", new List<string> { "White", "Blue", "Green", "Red" }, "White"));
+            _questionsToAsk.Add(new Question("What color is violet paint?", new List<string> { "Violet", "Orange", "Rainbow", "Red" }, "Red"));
         }
 
         public static TriviaSet CreateTriviaSet(int NumberOfQuestions, TriviaSet.QuestionUpdateHandler NewQuestionHandler = null)

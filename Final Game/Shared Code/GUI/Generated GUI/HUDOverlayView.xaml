@@ -65,12 +65,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Name="QuestionText" Text="{Binding CurrentTriviaQuestionText}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
-            <ComboBox Name="TriviaAnswerSelector" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250px" Grid.Row="3" FontSize="20">
-                <ComboBoxItem Content="Red"/>
-                <ComboBoxItem Content="Blue"/>
-                <ComboBoxItem Content="Green"/>
-                <ComboBoxItem Content="It depends..."/>
-            </ComboBox>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ComboBox Name="TriviaAnswerSelector" Width="250px" FontSize="20" ItemsSource="{Binding CurrentTriviaQuestionAnswersAsComboBoxOptions}" SelectedIndex="{Binding SelectedAnswerIndex}"/>
+                <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding SubmitAnswerCommand}"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </ek:UIRoot>

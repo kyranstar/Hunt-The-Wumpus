@@ -5,6 +5,8 @@ using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.Scores;
 using System;
+using EmptyKeys.UserInterface.Controls;
+using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -19,6 +21,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Player.PropertyChanged += Player_PropertyChanged;
             Map.NewQuestionHandler += Trivia_NewQuestion;
+
+            SubmitAnswerCommand = new RelayCommand(new Action<object>(SubmitAnswer));
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -29,9 +33,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void Trivia_NewQuestion(object sender, EventArgs e)
         {
             // TODO: Fix this bad code
+            RaisePropertyChanged("CurrentTriviaQuestionAnswersAsComboBoxOptions");
             RaisePropertyChanged("IsTriviaInProgress");
             RaisePropertyChanged("TriviaProgressAsVisibility");
-            RaisePropertyChanged("CurrentTriviaQuestion");
+            RaisePropertyChanged("CurrentTriviaQuestionText");
+        }
+
+        public ICommand SubmitAnswerCommand
+        {
+            get;
+            protected set;
         }
 
         public int Gold
@@ -83,6 +94,41 @@ namespace HuntTheWumpus.SharedCode.GUI
                     return null;
                 return Map.CurrentTrivia.CurrentQuestion.QuestionText;
             }
+        }
+
+        public string[] CurrentTriviaQuestionAnswers
+        {
+            get
+            {
+                if (Map.CurrentTrivia == null)
+                    return null;
+                return Map.CurrentTrivia.CurrentQuestion.AnswerChoices.ToArray();
+            }
+        }
+
+        // TODO: AHHHHHHHHHHHHHHHHHHHHHHH
+        public ComboBoxItem[] CurrentTriviaQuestionAnswersAsComboBoxOptions
+        {
+            get
+            {
+                if (CurrentTriviaQuestionAnswers == null)
+                    return new ComboBoxItem[] { new ComboBoxItem() { Content = "<no trivia answers available>" } };
+                return CurrentTriviaQuestionAnswers.Select(x => new ComboBoxItem()
+                {
+                    Content = x
+                }).ToArray();
+            }
+        }
+
+        public int SelectedAnswerIndex
+        {
+            get;
+            set;
+        }
+
+        private void SubmitAnswer(object o)
+        {
+            Map.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
         }
     }
 }

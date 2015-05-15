@@ -45,7 +45,11 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private TextBlock QuestionText;
         
+        private StackPanel e_7;
+        
         private ComboBox TriviaAnswerSelector;
+        
+        private Button e_8;
         
         public HUDOverlayView(int width, int height) : 
                 base(width, height) {
@@ -179,46 +183,36 @@ namespace EmptyKeys.UserInterface.Generated {
             Grid.SetRow(this.QuestionText, 1);
             Binding binding_QuestionText_Text = new Binding("CurrentTriviaQuestionText");
             this.QuestionText.SetBinding(TextBlock.TextProperty, binding_QuestionText_Text);
+            // e_7 element
+            this.e_7 = new StackPanel();
+            this.TriviaDisplay.Children.Add(this.e_7);
+            this.e_7.Name = "e_7";
+            this.e_7.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_7.VerticalAlignment = VerticalAlignment.Center;
+            this.e_7.Orientation = Orientation.Horizontal;
+            Grid.SetRow(this.e_7, 3);
             // TriviaAnswerSelector element
             this.TriviaAnswerSelector = new ComboBox();
-            this.TriviaDisplay.Children.Add(this.TriviaAnswerSelector);
+            this.e_7.Children.Add(this.TriviaAnswerSelector);
             this.TriviaAnswerSelector.Name = "TriviaAnswerSelector";
             this.TriviaAnswerSelector.Width = 250F;
-            this.TriviaAnswerSelector.HorizontalAlignment = HorizontalAlignment.Center;
-            this.TriviaAnswerSelector.VerticalAlignment = VerticalAlignment.Center;
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
             this.TriviaAnswerSelector.FontSize = 20F;
-            this.TriviaAnswerSelector.ItemsSource = this.Get_TriviaAnswerSelector_Items();
-            Grid.SetRow(this.TriviaAnswerSelector, 3);
-        }
-        
-        private System.Collections.ObjectModel.ObservableCollection<object> Get_TriviaAnswerSelector_Items() {
-            System.Collections.ObjectModel.ObservableCollection<object> items = new System.Collections.ObjectModel.ObservableCollection<object>();
-            // e_7 element
-            ComboBoxItem e_7 = new ComboBoxItem();
-            e_7.Name = "e_7";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_7.Content = "Red";
-            items.Add(e_7);
+            Binding binding_TriviaAnswerSelector_ItemsSource = new Binding("CurrentTriviaQuestionAnswersAsComboBoxOptions");
+            this.TriviaAnswerSelector.SetBinding(ComboBox.ItemsSourceProperty, binding_TriviaAnswerSelector_ItemsSource);
+            Binding binding_TriviaAnswerSelector_SelectedIndex = new Binding("SelectedAnswerIndex");
+            this.TriviaAnswerSelector.SetBinding(ComboBox.SelectedIndexProperty, binding_TriviaAnswerSelector_SelectedIndex);
             // e_8 element
-            ComboBoxItem e_8 = new ComboBoxItem();
-            e_8.Name = "e_8";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_8.Content = "Blue";
-            items.Add(e_8);
-            // e_9 element
-            ComboBoxItem e_9 = new ComboBoxItem();
-            e_9.Name = "e_9";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_9.Content = "Green";
-            items.Add(e_9);
-            // e_10 element
-            ComboBoxItem e_10 = new ComboBoxItem();
-            e_10.Name = "e_10";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            e_10.Content = "It depends...";
-            items.Add(e_10);
-            return items;
+            this.e_8 = new Button();
+            this.e_7.Children.Add(this.e_8);
+            this.e_8.Name = "e_8";
+            this.e_8.Width = 70F;
+            this.e_8.Margin = new Thickness(5F, 0F, 0F, 0F);
+            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.e_8.Content = "Submit";
+            Grid.SetRow(this.e_8, 3);
+            Binding binding_e_8_Command = new Binding("SubmitAnswerCommand");
+            this.e_8.SetBinding(Button.CommandProperty, binding_e_8_Command);
         }
     }
 }
