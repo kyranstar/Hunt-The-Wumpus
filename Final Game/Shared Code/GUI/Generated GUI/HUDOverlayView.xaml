@@ -32,23 +32,41 @@
         </ResourceDictionary>
     </ek:UIRoot.Resources-->
 
-    <Grid Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="30px"></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
-            <Image Width="30" Height="30"> 
-                <Image.Source> 
-                    <BitmapImage UriSource="XAML Assets/Gold.png"/> 
-                </Image.Source> 
-            </Image>
-            <TextBlock Text="{Binding Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
-            <TextBlock Text="{Binding Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
-            <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
-        </StackPanel>
+    <Grid Background="Transparent" Name="UIRoot">
+        <Grid Background="Transparent" Name="GameHUD">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="30px"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
+                <Image Width="30" Height="30"> 
+                    <Image.Source> 
+                        <BitmapImage UriSource="XAML Assets/Gold.png"/> 
+                    </Image.Source> 
+                </Image>
+                <TextBlock Text="{Binding Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+                <TextBlock Text="{Binding Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
+            </StackPanel>
+        </Grid>
+        <Grid Background="#cc333333" Visibility="Hidden" Name="TriviaDisplay">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="70px"/>
+                <RowDefinition Height="5px"/>
+                <RowDefinition Height="40px"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="QuestionText" Text="What color is blue paint?" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
+            <ComboBox Name="TriviaAnswerSelector" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100px" Grid.Row="3" FontSize="20">
+                <ComboBoxItem Content="Red"/>
+                <ComboBoxItem Content="Blue"/>
+                <ComboBoxItem Content="Green"/>
+                <ComboBoxItem Content="It depends..."/>
+            </ComboBox>
+        </Grid>
     </Grid>
 </ek:UIRoot>
 

@@ -218,3 +218,21 @@
 /processorParam:TextureFormat=Color
 /build:Images/ClosedDoor4.png
 
+#begin Segoe_UI_15_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Segoe_UI_15_Regular.spritefont
+
+#begin Segoe_UI_30_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Segoe_UI_30_Regular.spritefont
+
+#begin Segoe_UI_300_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Segoe_UI_300_Regular.spritefont
+
