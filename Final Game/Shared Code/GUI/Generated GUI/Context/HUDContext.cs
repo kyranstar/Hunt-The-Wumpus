@@ -33,7 +33,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void Trivia_NewQuestion(object sender, EventArgs e)
         {
             // TODO: Fix this bad code
-            RaisePropertyChanged("CurrentTriviaQuestionAnswersAsComboBoxOptions");
+            RaisePropertyChanged("CurrentTriviaQuestionAnswersAsComboBoxItems");
             RaisePropertyChanged("IsTriviaInProgress");
             RaisePropertyChanged("TriviaProgressAsVisibility");
             RaisePropertyChanged("CurrentTriviaQuestionText");
@@ -73,7 +73,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                return Map.CurrentTrivia != null;
+                return Map.CurrentTrivia != null && Map.CurrentTrivia.CurrentQuestion != null;
             }
         }
 
@@ -90,7 +90,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                if (Map.CurrentTrivia == null)
+                if (!IsTriviaInProgress)
                     return null;
                 return Map.CurrentTrivia.CurrentQuestion.QuestionText;
             }
@@ -120,11 +120,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        public ListBoxItem[] UnlockedHintsAsListBoxItems
+        public string[] UnlockedHints
         {
             get
             {
-                return null;
+                return Trivia.Trivia.AvailableHints.ToArray();
             }
         }
 

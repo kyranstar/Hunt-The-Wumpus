@@ -23,6 +23,11 @@ namespace HuntTheWumpus.SharedCode.Trivia
         {
             Log.Info("Creating Trivia...");
 
+            LockedHints = new List<string>();
+            AvailableHints = new List<string>();
+
+            AvailableHints.Add("Blue paint isn't orange.");
+
             _questionsToAsk.Add(new Question("What color is red paint?", new List<string> { "Red", "Blue", "Orange", "Rainbow" }, "Red"));
             _questionsToAsk.Add(new Question("What color is blue paint?", new List<string> { "Blue", "Orange", "Red", "It depends..." }, "Blue"));
             _questionsToAsk.Add(new Question("What color is orange paint?", new List<string> { "Red", "Orange", "Blue", "Purple" }, "Red"));

@@ -247,3 +247,15 @@
 /processorParam:TextureFormat=Color
 /build:XAML Assets/Arrow.png
 
+#begin Segoe_UI_45_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Segoe_UI_45_Regular.spritefont
+
+#begin Segoe_UI_33.75_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Segoe_UI_33.75_Regular.spritefont
+
