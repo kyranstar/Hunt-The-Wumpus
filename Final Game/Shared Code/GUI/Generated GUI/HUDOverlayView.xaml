@@ -36,7 +36,7 @@
                 <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
             </StackPanel>
         </Grid>
-        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaProgressAsVisibility}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaModalVisibility}" Opacity="{Binding TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="70px"/>

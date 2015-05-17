@@ -7,12 +7,18 @@ using HuntTheWumpus.SharedCode.Scores;
 using System;
 using EmptyKeys.UserInterface.Controls;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
     class HUDContext : ViewModelBase
     {
         Player Player;
+
+        private StateAnimator TriviaModalFadeAnimation;
+        private float PreviousNotifiedTriviaOpacity = 0;
+        
         GameController GameController;
 
         public HUDContext(GameController GameController)
@@ -24,6 +30,18 @@ namespace HuntTheWumpus.SharedCode.GUI
             GameController.NewQuestionHandler += Trivia_NewQuestion;
 
             SubmitAnswerCommand = new RelayCommand(new Action<object>(SubmitAnswer));
+
+            TriviaModalFadeAnimation = new StateAnimator(
+                Pct =>
+                    {
+                        // TODO: Add math to do cubic Bezier curve:
+                        // (0.165, 0.84), (0.44, 1)
+                        return (float)Math.Pow(Pct, 2);
+                    },
+                Pct =>
+                    {
+                        return (float)(1 / Math.Pow(Pct, 2));
+                    }, 1);
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -36,7 +54,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             // TODO: Fix this bad code
             RaisePropertyChanged("CurrentTriviaQuestionAnswersAsComboBoxItems");
             RaisePropertyChanged("IsTriviaInProgress");
-            RaisePropertyChanged("TriviaProgressAsVisibility");
+            RaisePropertyChanged("TriviaModalVisibility");
             RaisePropertyChanged("CurrentTriviaQuestionText");
         }
 
@@ -78,12 +96,19 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        // TODO: Use a converter instead of this
-        public Visibility TriviaProgressAsVisibility
+        public Visibility TriviaModalVisibility
+        {
+            get
+        {
+                return TriviaModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+        
+        public float TriviaModalOpacity
         {
             get
             {
-                return IsTriviaInProgress ? Visibility.Visible : Visibility.Collapsed;
+                return MathHelper.Clamp(TriviaModalFadeAnimation.CurrentValue, 0, 1);
             }
         }
 
@@ -138,6 +163,18 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void SubmitAnswer(object o)
         {
             GameController.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
+        }
+
+        public void Update(GameTime GameTime)
+        {
+            TriviaModalFadeAnimation.Update(GameTime, IsTriviaInProgress);
+
+            if (MathHelper.Distance(TriviaModalOpacity, PreviousNotifiedTriviaOpacity) > 0.01)
+            {
+                RaisePropertyChanged("TriviaModalOpacity");
+                RaisePropertyChanged("TriviaModalVisibility");
+                PreviousNotifiedTriviaOpacity = TriviaModalOpacity;
+            }
         }
     }
 }

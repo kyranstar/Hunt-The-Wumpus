@@ -184,7 +184,9 @@ namespace EmptyKeys.UserInterface.Generated {
             row_TriviaDisplay_4.Height = new GridLength(1F, GridUnitType.Star);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_4);
             Grid.SetColumnSpan(this.TriviaDisplay, 2);
-            Binding binding_TriviaDisplay_Visibility = new Binding("TriviaProgressAsVisibility");
+            Binding binding_TriviaDisplay_Opacity = new Binding("TriviaModalOpacity");
+            this.TriviaDisplay.SetBinding(Grid.OpacityProperty, binding_TriviaDisplay_Opacity);
+            Binding binding_TriviaDisplay_Visibility = new Binding("TriviaModalVisibility");
             this.TriviaDisplay.SetBinding(Grid.VisibilityProperty, binding_TriviaDisplay_Visibility);
             // QuestionText element
             this.QuestionText = new TextBlock();
