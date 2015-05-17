@@ -85,7 +85,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             Vector2 startPos = cave.RoomLayout[start.RoomID].RoomPosition;
             Vector2 endPos = cave.RoomLayout[end.RoomID].RoomPosition;
             // Manhattan distance
-            return (int)Math.Round(Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y));
+            return (Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y)).ToInt();
         }
 
         private static IEnumerable<AStarNode> getNeighbors(AStarNode center, Cave cave)

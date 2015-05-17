@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
@@ -78,8 +78,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
             return new Particle(
                 texture,
-                X: (int)Math.Round(EmitterLocation.X),
-                Y: (int)Math.Round(EmitterLocation.Y),
+                X: EmitterLocation.X.ToInt(),
+                Y: EmitterLocation.Y.ToInt(),
                 Velocity: velocity,
                 Rotation: angle,
                 AngularVelocity: angularVelocity,

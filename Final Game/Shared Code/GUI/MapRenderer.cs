@@ -100,13 +100,13 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Player = new Sprite2D(PlayerTexture)
             {
-                RenderWidth = (int)Math.Round(PlayerHeight / (double)PlayerTexture.Height * PlayerTexture.Width),
+                RenderWidth = (PlayerHeight / (double)PlayerTexture.Height * PlayerTexture.Width).ToInt(),
                 RenderHeight = PlayerHeight
             };
 
             Wumpus = new Sprite2D(WumpusTexture)
             {
-                RenderWidth = (int)Math.Round(WumpusHeight / (double)WumpusTexture.Height * WumpusTexture.Width),
+                RenderWidth = (WumpusHeight / (double)WumpusTexture.Height * WumpusTexture.Width).ToInt(),
                 RenderHeight = PlayerHeight
             };
 
@@ -146,8 +146,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             BackgroundTiles.Update(time);
 
             // TODO: Clean up this math
-            Player.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth) + Map.PlayerLocation.X;
-            Player.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight) + Map.PlayerLocation.Y;
+            Player.RenderX = (Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth).ToInt() + Map.PlayerLocation.X;
+            Player.RenderY = (Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight).ToInt() + Map.PlayerLocation.Y;
 
             UpdateCamera();
             UpdateWumpus();
@@ -159,8 +159,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void UpdateWumpus()
         {
             // TODO: Figure out where we store character position
-            Wumpus.RenderX = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Wumpus.HalfWidth);
-            Wumpus.RenderY = (int)Math.Round(Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Wumpus.HalfHeight);
+            Wumpus.RenderX = (Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Wumpus.HalfWidth).ToInt();
+            Wumpus.RenderY = (Map.Cave.RoomLayout[Map.Wumpus.Location].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Wumpus.HalfHeight).ToInt();
 
             // TODO: Hide Wumpus when it shouldn't be shown
         }
@@ -221,8 +221,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 if (Map.PlayerPath.Contains(LayoutMapping.Key))
                 {
                     // Get the position from the mapping (and round it)
-                    int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
-                    int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
+                    int XPos = LayoutMapping.Value.RoomPosition.X.ToInt();
+                    int YPos = LayoutMapping.Value.RoomPosition.Y.ToInt();
 
                     // Calculate the target room rectangle and draw the texture
                     Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
@@ -240,8 +240,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                         // Calculate the destination rectangle for the door mapping
                         Rectangle TargetSectionArea = new Rectangle()
                         {
-                            X = (int)Math.Round(DoorMapping.Position.X),
-                            Y = (int)Math.Round(DoorMapping.Position.Y),
+                            X = DoorMapping.Position.X.ToInt(),
+                            Y = DoorMapping.Position.Y.ToInt(),
                             Width = Map.Cave.TargetRoomWidth / 2, // TODO: Figure out integer inaccuracies
                             Height = Map.Cave.TargetRoomHeight / 2
 
@@ -258,8 +258,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 else if (Map.PlayerPath.Select(i => Map.Cave.GetRoom(i)).Any(r => r.AdjacentRooms.Contains(LayoutMapping.Key)))
                 {
                     // Get the position from the mapping (and round it)
-                    int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
-                    int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
+                    int XPos = LayoutMapping.Value.RoomPosition.X.ToInt();
+                    int YPos = LayoutMapping.Value.RoomPosition.Y.ToInt();
 
                     // Calculate the target room rectangle and draw the texture
                     Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);

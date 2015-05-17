@@ -27,8 +27,8 @@ namespace HuntTheWumpus.SharedCode
             this.RoomBaseApothem = RoomBaseApothem;
             this.RoomNumSides = RoomNumSides;
 
-            TargetRoomWidth = (int)Math.Round(MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem));
-            TargetRoomHeight = (int)Math.Round(MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem));
+            TargetRoomWidth = (MathUtils.PolygonWidth(RoomNumSides, RoomBaseApothem)).ToInt();
+            TargetRoomHeight = (MathUtils.PolygonHeight(RoomNumSides, RoomBaseApothem)).ToInt();
         }
 
         public int TargetRoomWidth { get; protected set; }
