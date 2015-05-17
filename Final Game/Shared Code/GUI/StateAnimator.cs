@@ -42,7 +42,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 StartTime = Time.TotalGameTime.TotalSeconds;
             }
 
-            double NewCompletionPct = (Time.TotalGameTime.TotalSeconds - StartTime) / AnimationDuration;
+            double NewCompletionPct = MathUtils.Clamp((Time.TotalGameTime.TotalSeconds - StartTime) / AnimationDuration, 0, 1);
             switch (PreviousActiveEdge)
             {
                 case EdgeType.RisingEdge:

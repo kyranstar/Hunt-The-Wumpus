@@ -40,8 +40,9 @@ namespace HuntTheWumpus.SharedCode.GUI
                     },
                 Pct =>
                     {
-                        return (float)(1 / Math.Pow(Pct, 2));
-                    }, 1);
+                        return (float)-Math.Pow(Pct, 2) + 1;
+                    },
+                1);
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
