@@ -35,51 +35,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public event PlayerMoveHandler OnPlayerMoved;
 
         /// <summary>
-        ///     An enumeration of hexagonal directions
-        /// </summary>
-        public enum Direction
-        {
-            North,
-            Northeast,
-            Southeast,
-            South,
-            Southwest,
-            Northwest
-        }
-
-        /// <summary>
-        ///     Represents warnings to be given to the player if they are too close to something.
-        /// </summary>
-        public enum PlayerWarnings
-        {
-            /// <summary>
-            ///     Represents when the player is within one tile of a pit
-            /// </summary>
-            Pit,
-
-            /// <summary>
-            ///     Represents when the player is within one tile of a bat
-            /// </summary>
-            Bat,
-
-            /// <summary>
-            ///     Represents when the player is within one (maybe more for the wumpus? we should discuss this) tile of the wumpus
-            /// </summary>
-            Wumpus
-        }
-
-        /// <summary>
-        ///     An enumeration of square directions
-        /// </summary>
-        public enum SquareDirection
-        {
-            North,
-            East,
-            South,
-            West
-        }
-
-        /// <summary>
         ///     Holds a reference to the current player
         /// </summary>
         public readonly Player Player;
@@ -206,58 +161,30 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Room currentRoom = Cave[PlayerRoom];
             if (currentRoom.HasBats)
             {
-                Log.Info("Player hit bats and was moved!");
-                // Move player to random room without a hazard
-
-                Random rand = new Random();
-                var nonHazardousRooms = Cave.Rooms.
-                    OrderBy(e => rand.Next()).
-                    Where(r => !r.HasPit && !r.HasBats && Wumpus.Location != r.RoomID).ToList();
-
-                PlayerRoom = nonHazardousRooms.First().RoomID;
-                // Move bats to another random room without hazard and without player
-                currentRoom.HasBats = false;
-                nonHazardousRooms.First(r => r.RoomID != PlayerRoom).HasBats = true;
-
-                ProcessPlayerMove();
-            }
-            else if (currentRoom.HasPit)
-            {
-                const int numToAsk = 3;
-
-                // Ask 3 questions
-                // If 2 or more are right
-                int numCorrect = 2;
-                if (numCorrect >= 2)
-                {
-                    // Place player in already visited location without hazards
-                    Room alreadyVisited = PlayerPath.Select(i => Cave[i]).
-                        FirstOrDefault(
-                            r => !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID);
-                    // If there are no non-hazardous locations weve already visited
-                    if (alreadyVisited == null)
-                    {
-                        // Check all possible rooms instead
-                        var allRooms = Cave.Rooms.
-                            FirstOrDefault(
-                                r =>
-                                    !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID);
-                        if (allRooms != null)
-                        {
-                            PlayerRoom = allRooms.RoomID;
-                        }
-                    }
-                    else
-                    {
-                        PlayerRoom = alreadyVisited.RoomID;
-                    }
-                }
-
-                ProcessPlayerMove();
+                MoveToRandomRoom(currentRoom);
             }
 
             OnPlayerMoved(this, new EventArgs());
         }
+
+        private void MoveToRandomRoom(Room currentRoom)
+        {
+            Log.Info("Player hit bats and was moved!");
+            // Move player to random room without a hazard
+
+            Random rand = new Random();
+            var nonHazardousRooms = Cave.Rooms.
+                OrderBy(e => rand.Next()).
+                Where(r => !r.HasPit && !r.HasBats && Wumpus.Location != r.RoomID).ToList();
+
+            PlayerRoom = nonHazardousRooms.First().RoomID;
+            // Move bats to another random room without hazard and without player
+            currentRoom.HasBats = false;
+            nonHazardousRooms.First(r => r.RoomID != PlayerRoom).HasBats = true;
+
+            ProcessPlayerMove();
+        }
+
 
         /// <summary>
         ///     The player collects items from his current room. Call this when the player enters a new room.

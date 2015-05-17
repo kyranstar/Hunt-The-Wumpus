@@ -25,24 +25,24 @@ namespace HuntTheWumpusTests
             // Make sure that we are in room #0
             Assert.AreEqual(0, map.PlayerRoom);
             // There should be only one direction that we can go
-            TestUtil.AssertCannotMove(Map.SquareDirection.North, map);
-            TestUtil.AssertCannotMove(Map.SquareDirection.West, map);
-            TestUtil.AssertCannotMove(Map.SquareDirection.South, map);
+            TestUtil.AssertCannotMove(SquareDirection.North, map);
+            TestUtil.AssertCannotMove(SquareDirection.West, map);
+            TestUtil.AssertCannotMove(SquareDirection.South, map);
 
             // Move to the next room and make sure that we moved
-            TestUtil.AssertCanMove(Map.SquareDirection.East, map);
+            TestUtil.AssertCanMove(SquareDirection.East, map);
             Assert.AreEqual(1, map.PlayerRoom);
 
             // Move up and make sure that we were successful
-            TestUtil.AssertCanMove(Map.SquareDirection.North, map);
+            TestUtil.AssertCanMove(SquareDirection.North, map);
             Assert.AreEqual(2, map.PlayerRoom);
 
             // Move back down
-            TestUtil.AssertCanMove(Map.SquareDirection.South, map);
+            TestUtil.AssertCanMove(SquareDirection.South, map);
             Assert.AreEqual(1, map.PlayerRoom);
 
             // We shouldn't be able to move down again
-            TestUtil.AssertCannotMove(Map.SquareDirection.South, map);
+            TestUtil.AssertCannotMove(SquareDirection.South, map);
         }
         [TestMethod]
         public void TestHexMovePlayer()
@@ -54,22 +54,22 @@ namespace HuntTheWumpusTests
             // Make sure that we are in room #0
             Assert.AreEqual(0, map.PlayerRoom);
             // There should be only one direction that we can go
-            TestUtil.AssertCannotMove(Map.Direction.North, map);
-            TestUtil.AssertCannotMove(Map.Direction.Southeast, map);
-            TestUtil.AssertCannotMove(Map.Direction.South, map);
-            TestUtil.AssertCannotMove(Map.Direction.Southwest, map);
-            TestUtil.AssertCannotMove(Map.Direction.Northwest, map);
+            TestUtil.AssertCannotMove(Direction.North, map);
+            TestUtil.AssertCannotMove(Direction.Southeast, map);
+            TestUtil.AssertCannotMove(Direction.South, map);
+            TestUtil.AssertCannotMove(Direction.Southwest, map);
+            TestUtil.AssertCannotMove(Direction.Northwest, map);
 
             // Move to the next room and make sure that we moved
-            TestUtil.AssertCanMove(Map.Direction.Northeast, map);
+            TestUtil.AssertCanMove(Direction.Northeast, map);
             Assert.AreEqual(1, map.PlayerRoom);
 
             // Move up and make sure that we were successful
-            TestUtil.AssertCanMove(Map.Direction.Northeast, map);
+            TestUtil.AssertCanMove(Direction.Northeast, map);
             Assert.AreEqual(2, map.PlayerRoom);
 
             // Move to the next room and make sure that we moved
-            TestUtil.AssertCanMove(Map.Direction.Southeast, map);
+            TestUtil.AssertCanMove(Direction.Southeast, map);
             Assert.AreEqual(3, map.PlayerRoom);
         }
 

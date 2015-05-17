@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {
@@ -32,6 +33,12 @@ namespace HuntTheWumpus.SharedCode.GameControl
             NewQuestionHandler(CurrentTrivia, new EventArgs());
         }
 
+        public void CloseTrivia()
+        {
+            CurrentTrivia = null;
+            QuestionState = TriviaQuestionState.None;
+        }
+
         public void Initialize()
         {
             // Ideally, the Map should have a reset method
@@ -42,7 +49,64 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public void Update(GameTime GameTime)
         {
+            ResolveRunningTrivia();
+
             Map.Update(GameTime);
+            // TODO: Stop running input handler while trivia is active
+        }
+
+        private void ResolveRunningTrivia()
+        {
+            if (CurrentTrivia != null
+                && CurrentTrivia.IsComplete)
+            {
+                if (QuestionState == TriviaQuestionState.TrappedInPit)
+                    ResolvePitTrivia();
+                else if (QuestionState == TriviaQuestionState.FightingWumpus)
+                {
+                    // TODO: Handle wumpus fight trivia as well
+                }
+
+                CloseTrivia();
+            }
+        }
+
+        private void ResolvePitTrivia()
+        {
+            if (CurrentTrivia.NumberCorrect >= 2)
+            {
+                Func<Room, bool> RoomValidator = r =>
+                    !r.HasBats
+                    && !r.HasPit
+                    && Map.Wumpus.Location != r.RoomID
+                    && Map.PlayerRoom != r.RoomID;
+
+                // Place player in already visited location without hazards
+                Room FirstSafeRoomInPlayerPath = Map.PlayerPath.Select(i => Map.Cave[i])
+                    .FirstOrDefault(RoomValidator);
+
+                // If there are no non-hazardous locations that we've already visited
+                if (FirstSafeRoomInPlayerPath == null)
+                {
+                    // Check all possible rooms instead
+                    var FirstSafeRoom = Map.Cave.Rooms
+                        .FirstOrDefault(RoomValidator);
+
+                    // TODO: This will increment the player's turn
+                    // count by two when they hit a pit (once to fall
+                    // into the pit, once to move to their origin).
+                    // Is this what we want?
+                    if (FirstSafeRoom != null)
+                        Map.MovePlayerTo(FirstSafeRoom.RoomID);
+                }
+                else
+                    // TODO: Same as above
+                    Map.MovePlayerTo(FirstSafeRoomInPlayerPath.RoomID);
+            }
+            else
+            {
+                // TODO: End game?
+            }
         }
 
         public void Map_PlayerMoved(object sender, EventArgs e)
@@ -50,7 +114,10 @@ namespace HuntTheWumpus.SharedCode.GameControl
             if (Map.PlayerRoom == Map.Wumpus.Location)
             {
                 LoadNewTrivia(TriviaQuestionState.FightingWumpus, 5);
-                // TODO: Stop running input handler
+            }
+            else if (Map.Cave[Map.PlayerRoom].HasPit)
+            {
+                LoadNewTrivia(TriviaQuestionState.TrappedInPit, 3);
             }
         }
     }

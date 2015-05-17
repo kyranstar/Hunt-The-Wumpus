@@ -11,6 +11,7 @@ namespace HuntTheWumpus.SharedCode.Trivia
     /// </summary>
     public enum TriviaQuestionState
     {
+        None,
         TrappedInPit,
         FightingWumpus
     }
