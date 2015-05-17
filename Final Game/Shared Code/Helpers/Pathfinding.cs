@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
@@ -14,7 +14,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="end">The end point</param>
         /// <param name="algorithm">The algorithm to find a path with</param>
         /// <returns>A list of rooms making a path, or null if there is not path.</returns>
-        public static List<Room> FindPath(Room start, Room end, Cave cave, bool avoidObjects)
+        public static List<Room> FindPath(Room start, Room end, Cave cave, bool avoidHazards)
         {
             int MAX_TRAVERSED_ROOMS = cave.Rooms.Length;
             IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(MAX_TRAVERSED_ROOMS);
@@ -35,11 +35,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
                     if (closedNodes.Contains<AStarNode>(neighbor)) continue;
 
                     int fCost = GetEstimatedScore(neighbor.node, end, cave) + neighbor.ParentCount;
-                    if (avoidObjects && (neighbor.node.HasBats || neighbor.node.HasPit))
-                    {
-                        // a lot, but not max value because we don't want to overflow. 
-                        fCost += 10000;
-                    }
 
                     if (openNodes.Contains<AStarNode>(neighbor))
                     {
@@ -57,7 +52,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                             openNodes.UpdatePriority(neighbor, fCost);
                         }
                     }
-                    else
+                    else if (!(avoidHazards && (neighbor.node.HasBats || neighbor.node.HasPit)))
                     {
                         openNodes.Enqueue(neighbor, fCost);
                         if (neighbor.node.Equals(end))

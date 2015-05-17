@@ -184,6 +184,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
 #endif
         private bool HasHigherPriority(T higher, T lower)
         {
+            if (higher == null) return false;
+            if (lower == null) return true;
+
             return (higher.Priority < lower.Priority ||
                 (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
         }

@@ -38,7 +38,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public static Cave GenerateRandomCave()
         {
             //TODO: Make less snakey, add hazards and make sure player can traverse map without hitting hazards
-            const int maxRoomCount = 20;
+            const int maxRoomCount = 30;
             const int maxConnectionsToCreatePerRoom = 4;
 
             Random rand = new Random();
@@ -66,7 +66,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             rooms[lastPos.X, lastPos.Y] = id;
             id++;
 
-            for (int i = maxRoomCount - 1; i > 0; i--)
+            for (int i = maxRoomCount; i > 0; i--)
             {
                 int numToCreate = rand.Next(maxConnectionsToCreatePerRoom);
                 for (int j = 0; j < numToCreate; j++)
@@ -118,12 +118,64 @@ namespace HuntTheWumpus.SharedCode.GameMap
             return NewCave;
         }
         /// <summary>
-        /// Adds 2 pits and 2 bats according to spec. Also positions the wumpus.
+        /// Adds 2 pits and 2 bats according to spec.
         /// </summary>
         /// <param name="NewCave"></param>
         private static void AddHazards(Cave NewCave)
         {
+            for (int i = 0; i < 2; i++)
+            {
+                int room = FindValidHazardSpot(NewCave);
+                if (room >= 0)
+                    NewCave[room].HasPit = true;
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                int room = FindValidHazardSpot(NewCave);
+                if (room >= 0)
+                    NewCave[room].HasBats = true;
+            }
+        }
+        private static int FindValidHazardSpot(Cave cave)
+        {
+            foreach (Room room in cave.RoomDict.Values)
+            {
+                // Invalid if it already has a hazard
+                if (room.HasBats || room.HasPit) continue;
 
+                // Try to add a hazard
+                room.HasBats = true;
+
+                //If all tiles can still access each other
+                if (CheckAccessible(cave, room.RoomID))
+                {
+                    room.HasBats = false;
+                    // This is a good candidate
+                    return room.RoomID;
+                }
+                // If not, reset
+                room.HasBats = false;
+            }
+            return -1;
+        }
+
+        private static bool CheckAccessible(Cave cave, int id)
+        {
+            for (int i = 0; i < cave.Rooms.Length; i++)
+            {
+                for (int j = i + 1; j < cave.Rooms.Length; j++)
+                {
+                    if (cave[i].RoomID == id || cave[j].RoomID == id) continue;
+                    // Player starting spot = 0
+                    if (cave[i].RoomID == 0) continue;
+                    // If there is no path from one room to another, it is not accessible
+                    if (Pathfinding.FindPath(cave[i], cave[j], cave, true) == null)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         private static string GetErrors(Cave cave)
         {
