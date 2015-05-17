@@ -31,7 +31,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
                     ValidatedRooms[ID]++;
                     MarkConnectedRooms(Cave[ID]);
                 }
-
             };
 
             MarkConnectedRooms(Cave.First().Value);

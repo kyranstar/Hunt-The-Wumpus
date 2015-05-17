@@ -20,6 +20,8 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
         public bool PreviousValue {get; protected set; }
 
+        public EdgeType PreviousEdgeResult { get; protected set; }
+
         /// <summary>
         /// Takes a boolean value and updates this latch's state. Returns the type of change that occured.
         /// </summary>
@@ -31,11 +33,11 @@ namespace HuntTheWumpus.SharedCode.Helpers
             this.PreviousValue = NewValue;
 
             if (!PreviousValue && NewValue)
-                return EdgeType.RisingEdge;
+                return PreviousEdgeResult = EdgeType.RisingEdge;
             if (PreviousValue && !NewValue)
-                return EdgeType.FallingEdge;
+                return PreviousEdgeResult = EdgeType.FallingEdge;
 
-            return EdgeType.None;
+            return PreviousEdgeResult = EdgeType.None;
         }
     }
     /// <summary>

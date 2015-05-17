@@ -7,22 +7,52 @@ using HuntTheWumpus.SharedCode.Scores;
 using System;
 using EmptyKeys.UserInterface.Controls;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
     class HUDContext : ViewModelBase
     {
         Player Player;
-        Map Map;
-        public HUDContext(Map Map)
+
+        private StateAnimator TriviaModalFadeAnimation;
+        private float PreviousNotifiedTriviaOpacity = 0;
+        
+        GameController GameController;
+
+        private const string QuestionBindingGroup = "QuestionBinding";
+        private const string QuestionVisibilityGroup = "QuestionVisibility";
+
+        public HUDContext(GameController GameController)
         {
-            this.Map = Map;
-            this.Player = Map.Player;
+            this.GameController = GameController;
+            this.Player = GameController.Map.Player;
 
             Player.PropertyChanged += Player_PropertyChanged;
-            Map.NewQuestionHandler += Trivia_NewQuestion;
+            GameController.NewQuestionHandler += Trivia_NewQuestion;
 
             SubmitAnswerCommand = new RelayCommand(new Action<object>(SubmitAnswer));
+
+            TriviaModalFadeAnimation = new StateAnimator(
+                Pct =>
+                    {
+                        // TODO: Add math to do cubic Bezier curve:
+                        // (0.165, 0.84), (0.44, 1)
+                        return (float)Math.Pow(Pct, 2);
+                    },
+                Pct =>
+                    {
+                        return (float)-Math.Pow(Pct, 2) + 1;
+                    },
+                1);
+        }
+
+        private void RaisePropertyChangedForGroup(string GroupName)
+        {
+            string[] QuestionBindingProps = MemberGroupAttribute.GetMemberNamesByGroup(this, GroupName);
+            foreach (string Prop in QuestionBindingProps)
+                RaisePropertyChanged(Prop);
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -32,11 +62,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void Trivia_NewQuestion(object sender, EventArgs e)
         {
-            // TODO: Fix this bad code
-            RaisePropertyChanged("CurrentTriviaQuestionAnswersAsComboBoxOptions");
-            RaisePropertyChanged("IsTriviaInProgress");
-            RaisePropertyChanged("TriviaProgressAsVisibility");
-            RaisePropertyChanged("CurrentTriviaQuestionText");
+            RaisePropertyChangedForGroup(QuestionBindingGroup);
         }
 
         public ICommand SubmitAnswerCommand
@@ -60,7 +86,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return Player.Arrows;
             }
         }
-
+        
         public int Turns
         {
             get
@@ -68,31 +94,42 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return Player.Turns;
             }
         }
-
+        
         public bool IsTriviaInProgress
         {
             get
             {
-                return Map.CurrentTrivia != null;
+                return GameController.CurrentTrivia != null && GameController.CurrentTrivia.CurrentQuestion != null;
             }
         }
 
-        // TODO: Use a converter instead of this
-        public Visibility TriviaProgressAsVisibility
+        [MemberGroup(QuestionVisibilityGroup)]
+        [MemberGroup(QuestionBindingGroup)]
+        public Visibility TriviaModalVisibility
         {
             get
             {
-                return IsTriviaInProgress ? Visibility.Visible : Visibility.Collapsed;
+                return TriviaModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+        
+        [MemberGroup(QuestionVisibilityGroup)]
+        public float TriviaModalOpacity
+        {
+            get
+            {
+                return MathHelper.Clamp(TriviaModalFadeAnimation.CurrentValue, 0, 1);
             }
         }
 
+        [MemberGroup(QuestionBindingGroup)]
         public string CurrentTriviaQuestionText
         {
             get
             {
-                if (Map.CurrentTrivia == null)
+                if (!IsTriviaInProgress)
                     return null;
-                return Map.CurrentTrivia.CurrentQuestion.QuestionText;
+                return GameController.CurrentTrivia.CurrentQuestion.QuestionText;
             }
         }
 
@@ -100,14 +137,14 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                if (Map.CurrentTrivia == null)
+                if (GameController.CurrentTrivia == null)
                     return null;
-                return Map.CurrentTrivia.CurrentQuestion.AnswerChoices.ToArray();
+                return GameController.CurrentTrivia.CurrentQuestion.AnswerChoices.ToArray();
             }
         }
 
-        // TODO: AHHHHHHHHHHHHHHHHHHHHHHH
-        public ComboBoxItem[] CurrentTriviaQuestionAnswersAsComboBoxOptions
+        [MemberGroup(QuestionBindingGroup)]
+        public ComboBoxItem[] CurrentTriviaQuestionAnswersAsComboBoxItems
         {
             get
             {
@@ -120,6 +157,14 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        public string[] UnlockedHints
+        {
+            get
+            {
+                return Trivia.Trivia.AvailableHints.ToArray();
+            }
+        }
+
         public int SelectedAnswerIndex
         {
             get;
@@ -128,7 +173,18 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void SubmitAnswer(object o)
         {
-            Map.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
+            GameController.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
+        }
+
+        public void Update(GameTime GameTime)
+        {
+            TriviaModalFadeAnimation.Update(GameTime, IsTriviaInProgress);
+
+            if (MathHelper.Distance(TriviaModalOpacity, PreviousNotifiedTriviaOpacity) > 0.01)
+            {
+                RaisePropertyChangedForGroup(QuestionVisibilityGroup);
+                PreviousNotifiedTriviaOpacity = TriviaModalOpacity;
+            }
         }
     }
 }

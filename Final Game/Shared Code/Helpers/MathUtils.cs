@@ -37,6 +37,12 @@ namespace HuntTheWumpus.SharedCode.Helpers
             return Radius + Apothem;
         }
 
+        public static double Clamp(double value, double min, double max)
+        {
+            return Math.Max(min, Math.Min(max, value));
+        }
+
+
         /// <summary>
         /// Converts polar coordinates into XNA-style cartesian coordinates.
         /// </summary>

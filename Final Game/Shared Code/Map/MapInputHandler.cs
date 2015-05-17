@@ -28,12 +28,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
         }
 
-        public Map.Direction? NavDirection
+        public Direction? NavDirection
         {
             get
             {
                 // TODO: Clean up this logic
-                Map.Direction? Dir;
+                Direction? Dir;
                 foreach (Keys Key in PressedKeys)
                     if ((Dir = MapKeyToDirection(Key)).HasValue)
                         return Dir;
@@ -79,7 +79,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="Key"></param>
         private void KeyDown(Keys Key, GameTime GameTime)
         {
-            Map.Direction? MoveDirection = MapKeyToDirection(Key);
+            Direction? MoveDirection = MapKeyToDirection(Key);
 
             if(!IsAiming && MoveDirection.HasValue)
                 map.MovePlayer(MoveDirection.Value);
@@ -92,7 +92,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="Key"></param>
         private void KeyUp(Keys Key, GameTime GameTime)
         {
-            Map.Direction? ShootDir = MapKeyToDirection(Key);
+            Direction? ShootDir = MapKeyToDirection(Key);
             if (ShootDir.HasValue && IsAiming)
                 map.TryShootTowards(ShootDir.Value);
         }
@@ -121,22 +121,22 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
         }
 
-        private Map.Direction? MapKeyToDirection(Keys Key)
+        private Direction? MapKeyToDirection(Keys Key)
         {
             switch (Key)
             {
                 case Keys.W:
-                    return Map.Direction.North;
+                    return Direction.North;
                 case Keys.E:
-                    return Map.Direction.Northeast;
+                    return Direction.Northeast;
                 case Keys.D:
-                    return Map.Direction.Southeast;
+                    return Direction.Southeast;
                 case Keys.S:
-                    return Map.Direction.South;
+                    return Direction.South;
                 case Keys.A:
-                    return Map.Direction.Southwest;
+                    return Direction.Southwest;
                 case Keys.Q:
-                    return Map.Direction.Northwest;
+                    return Direction.Northwest;
                 default:
                     return null;
             }
