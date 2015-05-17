@@ -108,16 +108,16 @@ namespace HuntTheWumpus.SharedCode.GameMap
             switch (key)
             {
                 case Keys.Up:
-                    map.PlayerLocation.Y -= SpeedIncrement;
+                    map.PlayerRoomLocation.Y -= SpeedIncrement;
                     break;
                 case Keys.Down:
-                    map.PlayerLocation.Y += SpeedIncrement;
+                    map.PlayerRoomLocation.Y += SpeedIncrement;
                     break;
                 case Keys.Right:
-                    map.PlayerLocation.X += SpeedIncrement;
+                    map.PlayerRoomLocation.X += SpeedIncrement;
                     break;
                 case Keys.Left:
-                    map.PlayerLocation.X -= SpeedIncrement;
+                    map.PlayerRoomLocation.X -= SpeedIncrement;
                     break;
             }
         }

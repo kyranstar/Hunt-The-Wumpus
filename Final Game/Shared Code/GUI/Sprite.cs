@@ -168,5 +168,12 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return Animations[Type].IsFinished;
             else return null;
         }
+
+        public SpriteAnimation GetAnimation(AnimationType Type)
+        {
+            if (!Animations.ContainsKey(Type))
+                return null;
+            return Animations[Type];
+        }
     }
 }

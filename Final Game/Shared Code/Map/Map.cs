@@ -51,7 +51,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <summary>
         ///     Holds the location of the player within the current room. The origin is the center of this room.
         /// </summary>
-        public Point PlayerLocation;
+        public Point PlayerRoomLocation;
 
         public ISet<int> PlayerPath = new HashSet<int>();
 
@@ -67,7 +67,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             InputHandler = new MapInputHandler(this);
 
-            PlayerLocation = new Point(0, 0);
+            PlayerRoomLocation = new Point(0, 0);
 
             Wumpus.MoveToRandomRoom();
             CollectItemsFromRoom();

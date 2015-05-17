@@ -276,6 +276,32 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             return new Rectangle((Viewport.X * xScale).ToInt(), (Viewport.Y * yScale).ToInt(), Viewport.Width, Viewport.Height);
         }
+
+        public static Vector2 Clone(this Vector2 Source)
+        {
+            return new Vector2(Source.X, Source.Y);
+        }
+
+        /// <summary>
+        /// Checks for approximate equality of two vectors within a given threshold.
+        /// TODO: I know this name sucks, but I like it ;)
+        /// </summary>
+        /// <param name="Vector"></param>
+        /// <param name="Threshold"></param>
+        /// <returns></returns>
+        public static bool EqualsIsh(this Vector2 Vector, Vector2 Other, float Threshold = 0.000001f)
+        {
+            return Math.Abs(Vector.X - Other.X) <= Threshold && Math.Abs(Vector.Y - Other.Y) <= Threshold;
+        }
+
+        public static bool ContainsWithinThreshold(this Vector2[] VectorList, Vector2 Target, float Threshold = 0.000001f)
+        {
+            foreach (Vector2 Vector in VectorList)
+                if (Vector.EqualsIsh(Target, Threshold))
+                    return true;
+
+            return false;
+        }
     }
 
     public static class ColorUtils

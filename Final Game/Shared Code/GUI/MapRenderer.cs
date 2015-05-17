@@ -106,6 +106,9 @@ namespace HuntTheWumpus.SharedCode.GUI
                 RenderHeight = PlayerHeight
             };
 
+            Player.AddAnimation(AnimationType.MoveToNewRoom, new SpriteMoveAnimation(1000));
+            Player.StartAnimation(AnimationType.MoveToNewRoom);
+
             Wumpus = new Sprite2D(WumpusTexture)
             {
                 RenderWidth = (WumpusHeight / (double)WumpusTexture.Height * WumpusTexture.Width).ToInt(),
@@ -149,8 +152,17 @@ namespace HuntTheWumpus.SharedCode.GUI
             BackgroundTiles.Update(time);
 
             // TODO: Clean up this math
-            Player.RenderX = (Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth).ToInt() + Map.PlayerLocation.X;
-            Player.RenderY = (Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight).ToInt() + Map.PlayerLocation.Y;
+            float PlayerTargetX = Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth + Map.PlayerRoomLocation.X;
+            float PlayerTargetY = Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight + Map.PlayerRoomLocation.Y;
+
+            SpriteMoveAnimation Animation = Player.GetAnimation(AnimationType.MoveToNewRoom) as SpriteMoveAnimation;
+            // Currently, setting the target position on this animation saves its current position as the new starting
+            // point. This means that as it gets closer to the target, the overall distance that the animation needs to
+            // travel decreases. This creates the "easing" that we see, but it isn't being done in an obvious way.
+            // TODO: Fix this and remove the above comment essay
+            Animation.TargetPosition = new Vector2(PlayerTargetX, PlayerTargetY);
+
+            Player.Update(time);
 
             UpdateCamera();
             UpdateWumpus();
