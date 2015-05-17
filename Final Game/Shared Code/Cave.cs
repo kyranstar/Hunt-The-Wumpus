@@ -89,8 +89,7 @@ namespace HuntTheWumpus.SharedCode
         {
             get
             {
-                return true;
-                //return CaveUtils.CheckIfValid(RoomDict) == CaveLayoutStatus.None;
+                return CaveUtils.CheckIfValid(RoomDict) == CaveLayoutStatus.None;
             }
         }
 

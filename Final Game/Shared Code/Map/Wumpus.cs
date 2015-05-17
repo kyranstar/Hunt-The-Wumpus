@@ -1,10 +1,10 @@
 ﻿
+using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -187,7 +187,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         private class PassiveWumpusBehavior : WumpusBehavior
         {
-            
+
             public PassiveWumpusBehavior(Wumpus wumpus, Map cave)
             {
             }

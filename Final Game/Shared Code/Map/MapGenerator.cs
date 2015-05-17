@@ -1,7 +1,7 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
@@ -13,7 +13,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         const int MinRoomConnections = 1, MaxRoomConnections = 3;
 
-        public static void generateMap(Map map)
+        public static void GenerateMap(Map map)
         {
             //for now just makes a preset map
             map.Cave = new Cave();
@@ -37,101 +37,150 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>A randomly generated cave that conforms to the spec.</returns>
         public static Cave GenerateRandomCave()
         {
-            // TODO: Actually randomize
+            const int maxRoomCount = 10;
+
+            Random rand = new Random();
             Cave NewCave = new Cave();
 
-            for (int Col = 0; Col < GridWidth; Col++)
-                for (int Row = 0; Row < GridHeight; Row++)
-                {
-                    Log.Info("Getting room setup for room " + Col + ", " + Row);
-                    NewCave.AddRoom(GetID(Row, Col), GetConnectionsForGridRoom(Row, Col).ToArray());
-                }
+            int id = 0;
+            int lastRoom = 0;
 
-            for (int ID = 0; ID < NewCave.Rooms.Length; ID++)
+            // Idk, this seems to work
+            const int size = maxRoomCount * 3;
+
+            // Holds all the rooms that exist
+            int[,] rooms = new int[size, size];
+            for (int i = 0; i < size; i++)
             {
-                if (NewCave[ID].AdjacentRooms[1] != -1)
-                    NewCave[NewCave[ID].AdjacentRooms[1]].AdjacentRooms[4] = -1;
-
-                NewCave[ID].AdjacentRooms[1] = -1;
+                for (int j = 0; j < size; j++)
+                {
+                    rooms[i, j] = -1;
+                }
             }
 
-            NewCave[0].AdjacentRooms[0] = 24;
-            NewCave[24].AdjacentRooms[3] = 0;
-            NewCave[3].HasPit = true;
+            //Start in the middle
+            Point lastPos = new Point(size / 2, size / 2);
+            NewCave.AddRoom(id, Enumerable.Repeat(-1, 6).ToArray());
+            rooms[lastPos.X, lastPos.Y] = id;
+            id++;
 
-            //Work in progress
-            //for (int ID = 0; ID < NewCave.Rooms.Length; ID++)
-            //{
-            //    Random rand = new Random();
-            //    int y = rand.Next(0, 1);
-            //    if (y == 0)
-            //        y = 2;
-            //    else
-            //        y = 5;
-            //    if (NewCave[ID].AdjacentRooms[y] != -1)
-            //    {
-            //        int z = NewCave[ID].AdjacentRooms[y];
-            //        if (z != -1)
-            //        {
-            //            if (y == 2)
-            //                NewCave[z].AdjacentRooms[5] = -1;
-            //            if (y == 5)
-            //                NewCave[z].AdjacentRooms[2] = -1;
-            //            NewCave[ID].AdjacentRooms[y] = -1;
-            //        }
-            //    }
+            for (int i = maxRoomCount - 1; i > 0; i--)
+            {
+                int direction = rand.Next(6);
+                int inverseDirection = GetInverseDirection(direction);
 
-            //}
-                return NewCave;
+                Point newPoint = GetDifference(lastPos.X, lastPos.Y, direction);
+
+                if (rooms[newPoint.X, newPoint.Y] >= 0)
+                {
+                    //We ran into an old room. Create a connection between us and it.
+                    NewCave[lastRoom].AdjacentRooms[direction] = rooms[newPoint.X, newPoint.Y];
+                    NewCave[rooms[newPoint.X, newPoint.Y]].AdjacentRooms[GetInverseDirection(direction)] = lastRoom;
+
+
+                    //Set last room to current room
+                    lastRoom = rooms[newPoint.X, newPoint.Y];
+                    lastPos = newPoint;
+                }
+                else
+                {
+                    //Set connections
+                    int[] connections = Enumerable.Repeat(-1, 6).ToArray();
+                    connections[inverseDirection] = lastRoom;
+                    NewCave[lastRoom].AdjacentRooms[direction] = id;
+
+                    //Add room
+                    NewCave.AddRoom(id, connections);
+                    rooms[newPoint.X, newPoint.Y] = id;
+
+                    //Set last room to current room
+                    lastRoom = id;
+                    lastPos = newPoint;
+
+                    id++;
+                }
+            }
+            if (!NewCave.IsValid)
+            {
+
+                Log.Error("Nonvalid cave was generated. Errors: " + GetErrors(NewCave));
+            }
+            return NewCave;
+        }
+        static string GetErrors(Cave cave)
+        {
+            CaveLayoutStatus status = CaveUtils.CheckIfValid(cave.RoomDict);
+            string errors = "";
+            if (status == CaveLayoutStatus.TooFewConnections)
+            {
+                errors += "Too few connections, ";
+            }
+            if (status == CaveLayoutStatus.MismatchedConnections)
+            {
+                errors += "Mismatched connections, ";
+            }
+            if (status == CaveLayoutStatus.TooManyConnections)
+            {
+                errors += "Too many connections, ";
+            }
+            if (status == CaveLayoutStatus.UnreachableRooms)
+            {
+                errors += "Unreachable rooms, ";
+            }
+            return errors;
         }
 
-        static IEnumerable<int> GetConnectionsForGridRoom(int Row, int Col)
+        static int GetInverseDirection(int direction)
         {
-            for (int i = 0; i < 6; i++)
-                yield return GetIDAtDirection(Row, Col, i);
+            switch (direction)
+            {
+                case 0:
+                    return 3;
+                case 1:
+                    return 4;
+                case 2:
+                    return 5;
+                case 3:
+                    return 0;
+                case 4:
+                    return 1;
+                case 5:
+                    return 2;
+                default:
+                    throw new ArgumentException("0 <= direction < 6");
+            }
         }
-
-        static int GetIDAtDirection(int CurrRow, int CurrCol, int Direction)
+        static Point GetDifference(int CurrRow, int CurrCol, int Direction)
         {
-            // TODO: Make less atrocious
             switch (Direction)
             {
                 case 0:
-                    return GetID(CurrRow - 1, CurrCol);
+                    return new Point(CurrRow - 1, CurrCol);
                 case 1:
                     if (MathUtils.IsEven(CurrCol))
-                        return GetID(CurrRow - 1, CurrCol + 1);
+                        return new Point(CurrRow - 1, CurrCol + 1);
                     else
-                        return GetID(CurrRow, CurrCol + 1);
+                        return new Point(CurrRow, CurrCol + 1);
                 case 2:
                     if (MathUtils.IsEven(CurrCol))
-                        return GetID(CurrRow, CurrCol + 1);
+                        return new Point(CurrRow, CurrCol + 1);
                     else
-                        return GetID(CurrRow + 1, CurrCol + 1);
+                        return new Point(CurrRow + 1, CurrCol + 1);
                 case 3:
-                    return GetID(CurrRow + 1, CurrCol);
+                    return new Point(CurrRow + 1, CurrCol);
                 case 4:
                     if (MathUtils.IsEven(CurrCol))
-                        return GetID(CurrRow, CurrCol - 1);
+                        return new Point(CurrRow, CurrCol - 1);
                     else
-                        return GetID(CurrRow + 1, CurrCol - 1);
+                        return new Point(CurrRow + 1, CurrCol - 1);
                 case 5:
                     if (MathUtils.IsEven(CurrCol))
-                        return GetID(CurrRow - 1, CurrCol - 1);
+                        return new Point(CurrRow - 1, CurrCol - 1);
                     else
-                        return GetID(CurrRow, CurrCol - 1);
+                        return new Point(CurrRow, CurrCol - 1);
                 default:
-                    // TODO: Heed the exception
-                    throw new Exception("TODO: Pick better exception");
+                    throw new ArgumentException("Direction was not between 0 and 5 inclusive. Was " + Direction);
             }
-        }
-
-        static int GetID(int Row, int Col)
-        {
-            if (Row < 0 || Col < 0 || Row >= GridHeight || Col >= GridWidth)
-                return -1;
-            else
-                return Row * GridWidth + Col;
         }
     }
 }
