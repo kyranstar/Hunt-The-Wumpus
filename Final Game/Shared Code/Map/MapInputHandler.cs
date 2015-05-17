@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -103,7 +104,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="key"></param>
         private void HandleContinuedKeyPress(Keys key, GameTime GameTime)
         {
-            int SpeedIncrement = (int)Math.Round(PlayerVelocity * GameTime.ElapsedGameTime.TotalSeconds);
+            int SpeedIncrement = (PlayerVelocity * GameTime.ElapsedGameTime.TotalSeconds).ToInt();
             switch (key)
             {
                 case Keys.Up:

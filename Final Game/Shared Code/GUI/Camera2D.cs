@@ -29,8 +29,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 if (VirtualRawViewSize.HasValue)
                 {
-                    Result.Width = (int)Math.Round(VirtualRawViewSize.Value.X / Zoom);
-                    Result.Height = (int)Math.Round(VirtualRawViewSize.Value.Y / Zoom);
+                    Result.Width = (VirtualRawViewSize.Value.X / Zoom).ToInt();
+                    Result.Height = (VirtualRawViewSize.Value.Y / Zoom).ToInt();
                 }
 
                 return Result;

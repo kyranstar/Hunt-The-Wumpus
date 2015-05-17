@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
@@ -58,8 +59,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
             Particle NewParticle = new Particle(
                 Texture: texture,
-                X: (int)Math.Round(position.X),
-                Y: (int)Math.Round(position.Y),
+                X: position.X.ToInt(),
+                Y: position.Y.ToInt(),
                 Rotation: angle,
                 AngularVelocity: angularVelocity,
                 DrawColor: color,
