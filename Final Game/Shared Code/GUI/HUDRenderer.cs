@@ -18,6 +18,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         private SpriteBatch HudRenderTarget;
         private HUDOverlayView HudView;
 
+        // XAML context
+        private HUDContext HudContext;
+
         // Fonts and textures
         private SpriteFont UIFont9;
 
@@ -42,7 +45,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.Graphics = Graphics;
 
             HudView = new HUDOverlayView(Graphics.Viewport.Width, Graphics.Viewport.Height);
-            HudView.DataContext = new HUDContext(Map);
+            HudContext = new HUDContext(Map);
+            HudView.DataContext = HudContext;
         }
 
         /// <summary>
@@ -59,6 +63,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// </summary>
         public void Update(GameTime Time)
         {
+            HudContext.Update(Time);
             HudView.UpdateInput(Time.ElapsedGameTime.TotalMilliseconds);
             HudView.UpdateLayout(Time.ElapsedGameTime.TotalMilliseconds);
         }
