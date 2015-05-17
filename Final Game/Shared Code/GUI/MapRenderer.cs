@@ -18,7 +18,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Camera2D MapCam;
         private Vector2 VirtualViewSize;
-
+        
         private Map Map;
 
         // Textures

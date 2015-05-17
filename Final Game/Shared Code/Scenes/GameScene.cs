@@ -11,7 +11,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 {
     class GameScene : Scene
     {
-        Map Map;
+        GameController GameController;
         MapRenderer MapRenderer;
         GraphicsDevice Graphics;
         HudRenderer HUD;
@@ -22,13 +22,13 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void LoadContent(ContentManager Content)
         {
-            Map = new Map();
+            GameController = new GameController();
 
 
-            MapRenderer = new MapRenderer(Map);
+            MapRenderer = new MapRenderer(GameController.Map);
             MapRenderer.LoadContent(Content);
 
-            HUD = new HudRenderer(MapRenderer, Map);
+            HUD = new HudRenderer(MapRenderer, GameController);
             HUD.LoadContent(Content);
 
         }
@@ -38,22 +38,19 @@ namespace HuntTheWumpus.SharedCode.Scenes
             this.Graphics = GraphicsDevice;
 
 #if DESKTOP
-            God = new GodManager(Map, MapRenderer);
+            God = new GodManager(GameController, MapRenderer);
             // Run god console on separate thread
             new Task(God.Initialize).Start();
 #endif
             MapRenderer.Initialize(GraphicsDevice);
             HUD.Initialize(GraphicsDevice);
-            
-            // Ideally, the Map should have a reset method
-            // TODO: Reset map here
 
-            Map.Cave.RegenerateLayout();
+            GameController.Initialize();
         }
 
         public override void Update(GameTime GameTime)
         {
-            Map.Update(GameTime);
+            GameController.Update(GameTime);
             MapRenderer.Update(GameTime);
             HUD.Update(GameTime);
         }

@@ -16,11 +16,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
     public class GodManager
     {
         public Map Map;
+        public GameController GameController;
         public MapRenderer MapRenderer;
 
-        public GodManager(Map Map, MapRenderer MapRenderer)
+        public GodManager(GameController GameController, MapRenderer MapRenderer)
         {
-            this.Map = Map;
+            this.GameController = GameController;
+            this.Map = GameController.Map;
             this.MapRenderer = MapRenderer;
         }
 

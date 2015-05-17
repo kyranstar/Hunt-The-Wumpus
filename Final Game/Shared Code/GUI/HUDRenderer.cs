@@ -27,12 +27,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         // Measurement and state
         private FrameCounter FramerateCounter = new FrameCounter();
         private MapRenderer MapRanderer;
-        private Map Map;
+        private GameController GameController;
 
-        public HudRenderer(MapRenderer MapRenderer, Map Map)
+        public HudRenderer(MapRenderer MapRenderer, GameController GameController)
         {
             this.MapRanderer = MapRenderer;
-            this.Map = Map;
+            this.GameController = GameController;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.Graphics = Graphics;
 
             HudView = new HUDOverlayView(Graphics.Viewport.Width, Graphics.Viewport.Height);
-            HudContext = new HUDContext(Map);
+            HudContext = new HUDContext(GameController);
             HudView.DataContext = HudContext;
         }
 
@@ -96,7 +96,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             HudRenderTarget.DrawString(UIFont9, Particles, new Vector2(5, 11), Color.White);
 
             // Render room status
-            string Room = Map.Cave[Map.PlayerRoom].ToString();
+            string Room = GameController.Map.Cave[GameController.Map.PlayerRoom].ToString();
             HudRenderTarget.DrawString(UIFont9, Room, new Vector2(5, 21), Color.White);
         }
     }

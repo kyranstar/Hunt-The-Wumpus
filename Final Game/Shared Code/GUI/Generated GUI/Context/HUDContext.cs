@@ -15,18 +15,19 @@ namespace HuntTheWumpus.SharedCode.GUI
     class HUDContext : ViewModelBase
     {
         Player Player;
-        Map Map;
 
         private StateAnimator TriviaModalFadeAnimation;
         private float PreviousNotifiedTriviaOpacity = 0;
+        
+        GameController GameController;
 
-        public HUDContext(Map Map)
+        public HUDContext(GameController GameController)
         {
-            this.Map = Map;
-            this.Player = Map.Player;
+            this.GameController = GameController;
+            this.Player = GameController.Map.Player;
 
             Player.PropertyChanged += Player_PropertyChanged;
-            Map.NewQuestionHandler += Trivia_NewQuestion;
+            GameController.NewQuestionHandler += Trivia_NewQuestion;
 
             SubmitAnswerCommand = new RelayCommand(new Action<object>(SubmitAnswer));
 
@@ -91,14 +92,14 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                return Map.CurrentTrivia != null && Map.CurrentTrivia.CurrentQuestion != null;
+                return GameController.CurrentTrivia != null && GameController.CurrentTrivia.CurrentQuestion != null;
             }
         }
-        
+
         public Visibility TriviaModalVisibility
         {
             get
-            {
+        {
                 return TriviaModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -117,7 +118,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 if (!IsTriviaInProgress)
                     return null;
-                return Map.CurrentTrivia.CurrentQuestion.QuestionText;
+                return GameController.CurrentTrivia.CurrentQuestion.QuestionText;
             }
         }
 
@@ -125,9 +126,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                if (Map.CurrentTrivia == null)
+                if (GameController.CurrentTrivia == null)
                     return null;
-                return Map.CurrentTrivia.CurrentQuestion.AnswerChoices.ToArray();
+                return GameController.CurrentTrivia.CurrentQuestion.AnswerChoices.ToArray();
             }
         }
 
@@ -161,7 +162,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void SubmitAnswer(object o)
         {
-            Map.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
+            GameController.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
         }
 
         public void Update(GameTime GameTime)
