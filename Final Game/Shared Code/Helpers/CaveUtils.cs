@@ -6,7 +6,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 {
     public static class CaveUtils
     {
-        public static CaveLayoutStatus CheckIfValid(Dictionary<int, Room> Cave, int NumMinConnections = -1, int NumMaxConnections = -1)
+        public static CaveLayoutStatus CheckIfValid(IDictionary<int, Room> Cave, int NumMinConnections = -1, int NumMaxConnections = -1)
         {
 
             // Make sure that all connections lead to valid rooms,
