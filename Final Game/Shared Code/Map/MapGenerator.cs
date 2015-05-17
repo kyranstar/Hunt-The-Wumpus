@@ -37,7 +37,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>A randomly generated cave that conforms to the spec.</returns>
         public static Cave GenerateRandomCave()
         {
-            const int maxRoomCount = 10;
+            //TODO: Make less snakey, add hazards and make sure player can traverse map without hitting hazards
+            const int maxRoomCount = 20;
+            const int maxConnectionsToCreatePerRoom = 4;
 
             Random rand = new Random();
             Cave NewCave = new Cave();
@@ -45,7 +47,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             int id = 0;
             int lastRoom = 0;
 
-            // Idk, this seems to work
+            // Must be at least maxRoomCount * 2. 3 to be safe
             const int size = maxRoomCount * 3;
 
             // Holds all the rooms that exist
@@ -66,71 +68,87 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             for (int i = maxRoomCount - 1; i > 0; i--)
             {
-                int direction = rand.Next(6);
-                int inverseDirection = GetInverseDirection(direction);
-
-                Point newPoint = GetDifference(lastPos.X, lastPos.Y, direction);
-
-                if (rooms[newPoint.X, newPoint.Y] >= 0)
+                int numToCreate = rand.Next(maxConnectionsToCreatePerRoom);
+                for (int j = 0; j < numToCreate; j++)
                 {
-                    //We ran into an old room. Create a connection between us and it.
-                    NewCave[lastRoom].AdjacentRooms[direction] = rooms[newPoint.X, newPoint.Y];
-                    NewCave[rooms[newPoint.X, newPoint.Y]].AdjacentRooms[GetInverseDirection(direction)] = lastRoom;
+                    int direction = rand.Next(6);
+                    int inverseDirection = GetInverseDirection(direction);
 
+                    Point newPoint = GetDifference(lastPos.X, lastPos.Y, direction);
 
-                    //Set last room to current room
-                    lastRoom = rooms[newPoint.X, newPoint.Y];
-                    lastPos = newPoint;
-                }
-                else
-                {
-                    //Set connections
-                    int[] connections = Enumerable.Repeat(-1, 6).ToArray();
-                    connections[inverseDirection] = lastRoom;
-                    NewCave[lastRoom].AdjacentRooms[direction] = id;
+                    if (rooms[newPoint.X, newPoint.Y] >= 0)
+                    {
+                        //We ran into an old room. Create a connection between us and it.
+                        NewCave[lastRoom].AdjacentRooms[direction] = rooms[newPoint.X, newPoint.Y];
+                        NewCave[rooms[newPoint.X, newPoint.Y]].AdjacentRooms[GetInverseDirection(direction)] = lastRoom;
 
-                    //Add room
-                    NewCave.AddRoom(id, connections);
-                    rooms[newPoint.X, newPoint.Y] = id;
+                        if (j == numToCreate - 1)
+                        {
+                            //Set last room to current room
+                            lastRoom = rooms[newPoint.X, newPoint.Y];
+                            lastPos = newPoint;
+                        }
+                    }
+                    else
+                    {
+                        //Set connections
+                        int[] connections = Enumerable.Repeat(-1, 6).ToArray();
+                        connections[inverseDirection] = lastRoom;
+                        NewCave[lastRoom].AdjacentRooms[direction] = id;
 
-                    //Set last room to current room
-                    lastRoom = id;
-                    lastPos = newPoint;
+                        //Add room
+                        NewCave.AddRoom(id, connections);
+                        rooms[newPoint.X, newPoint.Y] = id;
+                        if (j == numToCreate - 1)
+                        {
+                            //Set last room to current room
+                            lastRoom = id;
+                            lastPos = newPoint;
+                        }
 
-                    id++;
+                        id++;
+                    }
                 }
             }
+            AddHazards(NewCave);
             if (!NewCave.IsValid)
             {
-
                 Log.Error("Nonvalid cave was generated. Errors: " + GetErrors(NewCave));
             }
             return NewCave;
         }
-        static string GetErrors(Cave cave)
+        /// <summary>
+        /// Adds 2 pits and 2 bats according to spec. Also positions the wumpus.
+        /// </summary>
+        /// <param name="NewCave"></param>
+        private static void AddHazards(Cave NewCave)
+        {
+
+        }
+        private static string GetErrors(Cave cave)
         {
             CaveLayoutStatus status = CaveUtils.CheckIfValid(cave.RoomDict);
             string errors = "";
-            if (status == CaveLayoutStatus.TooFewConnections)
+            if (status.Has(CaveLayoutStatus.TooFewConnections))
             {
                 errors += "Too few connections, ";
             }
-            if (status == CaveLayoutStatus.MismatchedConnections)
+            if (status.Has(CaveLayoutStatus.MismatchedConnections))
             {
                 errors += "Mismatched connections, ";
             }
-            if (status == CaveLayoutStatus.TooManyConnections)
+            if (status.Has(CaveLayoutStatus.TooManyConnections))
             {
                 errors += "Too many connections, ";
             }
-            if (status == CaveLayoutStatus.UnreachableRooms)
+            if (status.Has(CaveLayoutStatus.UnreachableRooms))
             {
                 errors += "Unreachable rooms, ";
             }
             return errors;
         }
 
-        static int GetInverseDirection(int direction)
+        private static int GetInverseDirection(int direction)
         {
             switch (direction)
             {
@@ -150,7 +168,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     throw new ArgumentException("0 <= direction < 6");
             }
         }
-        static Point GetDifference(int CurrRow, int CurrCol, int Direction)
+        private static Point GetDifference(int CurrRow, int CurrCol, int Direction)
         {
             switch (Direction)
             {
