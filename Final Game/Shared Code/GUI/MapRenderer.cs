@@ -18,7 +18,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Camera2D MapCam;
         private Vector2 VirtualViewSize;
-        
+
         private Map Map;
 
         // Textures
@@ -215,84 +215,79 @@ namespace HuntTheWumpus.SharedCode.GUI
             if (RoomBaseTextures.Length <= 0 || Map.Cave.RoomLayout == null)
                 Log.Error("Textures and cave layout must be loaded before the cave can be drawn.");
 
-            //TODO: Combine these two loops
             // Iterate over each layout mapping
-            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in
-                (from Mapping in Map.Cave.RoomLayout where Map.PlayerPath.Contains(Mapping.Key) select Mapping))
+            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in Map.Cave.RoomLayout)
             {
-                // Get the position from the mapping (and round it)
-                int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
-                int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
-
-                // Calculate the target room rectangle and draw the texture
-                Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, Color.White);
-
-                if (LayoutMapping.Value.PitImage >= 0)
-                    Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
-
-                if (LayoutMapping.Value.GoldImage >= 0)
-                    Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, Color.White);
-
-                // Iterate over the (closed) door mappings for the current room
-                foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
+                if (Map.PlayerPath.Contains(LayoutMapping.Key))
                 {
-                    // Calculate the destination rectangle for the door mapping
-                    Rectangle TargetSectionArea = new Rectangle()
+                    // Get the position from the mapping (and round it)
+                    int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
+                    int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
+
+                    // Calculate the target room rectangle and draw the texture
+                    Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
+                    Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, Color.White);
+
+                    if (LayoutMapping.Value.PitImage >= 0)
+                        Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
+
+                    if (LayoutMapping.Value.GoldImage >= 0)
+                        Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, Color.White);
+
+                    // Iterate over the (closed) door mappings for the current room
+                    foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
                     {
-                        X = (int)Math.Round(DoorMapping.Position.X),
-                        Y = (int)Math.Round(DoorMapping.Position.Y),
-                        Width = Map.Cave.TargetRoomWidth / 2, // TODO: Figure out integer inaccuracies
-                        Height = Map.Cave.TargetRoomHeight / 2
-
-                    };
-
-                    // Draw the door texture
-                    Target.Draw(
-                        ClosedDoorTextures[DoorMapping.BaseImage],
-                        destinationRectangle: TargetSectionArea,
-                        rotation: DoorMapping.Rotation,
-                        color: Color.White);
-                }
-            }
-            // Draw black adjacent rooms
-            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in
-               (from Mapping in Map.Cave.RoomLayout
-                where !Map.PlayerPath.Contains(Mapping.Key)
-                    && Map.PlayerPath.Select(i => Map.Cave.GetRoom(i))
-                        .Any(r => r.AdjacentRooms.Contains(Mapping.Key))
-                select Mapping))
-            {
-                // Get the position from the mapping (and round it)
-                int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
-                int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
-
-                // Calculate the target room rectangle and draw the texture
-                Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-
-                Color DrawColor = new Color(50, 50, 50, 5);
-
-                // Highlight this room if the user is aiming into it
-                if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
-                    DrawColor = new Color(150, 150, 150, 10);
-
-                // Highlight this room w/ brighter color if the user has shot into it
-                Direction? ShootDirection = Map.InputHandler.NavDirection;
-                if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
-                {
-                    int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
-                    if (RoomAtShootDirection == LayoutMapping.Key)
-                    {
-                        if (RoomAtShootDirection == Map.Wumpus.Location)
+                        // Calculate the destination rectangle for the door mapping
+                        Rectangle TargetSectionArea = new Rectangle()
                         {
-                            DrawColor = new Color(0, 255, 0, 60);
-                        }
-                        else
-                            DrawColor = new Color(255, 0, 0, 60);
+                            X = (int)Math.Round(DoorMapping.Position.X),
+                            Y = (int)Math.Round(DoorMapping.Position.Y),
+                            Width = Map.Cave.TargetRoomWidth / 2, // TODO: Figure out integer inaccuracies
+                            Height = Map.Cave.TargetRoomHeight / 2
+
+                        };
+
+                        // Draw the door texture
+                        Target.Draw(
+                            ClosedDoorTextures[DoorMapping.BaseImage],
+                            destinationRectangle: TargetSectionArea,
+                            rotation: DoorMapping.Rotation,
+                            color: Color.White);
                     }
                 }
+                else if (Map.PlayerPath.Select(i => Map.Cave.GetRoom(i)).Any(r => r.AdjacentRooms.Contains(LayoutMapping.Key)))
+                {
+                    // Get the position from the mapping (and round it)
+                    int XPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.X);
+                    int YPos = (int)Math.Round(LayoutMapping.Value.RoomPosition.Y);
 
-                Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
+                    // Calculate the target room rectangle and draw the texture
+                    Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
+
+                    Color DrawColor = new Color(50, 50, 50, 5);
+
+                    // Highlight this room if the user is aiming into it
+                    if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
+                        DrawColor = new Color(150, 150, 150, 10);
+
+                    // Highlight this room w/ brighter color if the user has shot into it
+                    Direction? ShootDirection = Map.InputHandler.NavDirection;
+                    if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
+                    {
+                        int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
+                        if (RoomAtShootDirection == LayoutMapping.Key)
+                        {
+                            if (RoomAtShootDirection == Map.Wumpus.Location)
+                            {
+                                DrawColor = new Color(0, 255, 0, 60);
+                            }
+                            else
+                                DrawColor = new Color(255, 0, 0, 60);
+                        }
+                    }
+
+                    Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
+                }
             }
         }
 
