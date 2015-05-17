@@ -106,7 +106,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 RenderHeight = PlayerHeight
             };
 
-            Player.AddAnimation(AnimationType.MoveToNewRoom, new SpriteMoveAnimation(1000));
+            Player.AddAnimation(AnimationType.MoveToNewRoom, new SpriteMoveAnimation(400));
             Player.StartAnimation(AnimationType.MoveToNewRoom);
 
             Wumpus = new Sprite2D(WumpusTexture)
