@@ -30,6 +30,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
     /// </summary>
     public class Map
     {
+        // TODO: Send new room info in EventArgs
+        public delegate void PlayerMoveHandler(object sender, EventArgs e);
+        public event PlayerMoveHandler OnPlayerMoved;
+
         /// <summary>
         ///     An enumeration of hexagonal directions
         /// </summary>
@@ -95,10 +99,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public Point PlayerLocation;
 
         public ISet<int> PlayerPath = new HashSet<int>();
-
-        public TriviaSet CurrentTrivia;
-        public TriviaQuestionState QuestionState;
-        public TriviaSet.QuestionUpdateHandler NewQuestionHandler;
 
         /// <summary>
         ///     Constructs the map and generates the cave with a MapGenerator.
@@ -203,69 +203,60 @@ namespace HuntTheWumpus.SharedCode.GameMap
             MoveCount++;
             Player.Turns = MoveCount;
 
-            // TODO: Process hitting bats, pit, etc
-            if (Wumpus.Location == PlayerRoom)
+            Room currentRoom = Cave[PlayerRoom];
+            if (currentRoom.HasBats)
             {
-                // We're in the same room as the wumpus!
-                // We need to ask the player 5 trivia questions.
+                Log.Info("Player hit bats and was moved!");
+                // Move player to random room without a hazard
 
-                LoadNewTrivia(TriviaQuestionState.FightingWumpus, 5);
+                Random rand = new Random();
+                var nonHazardousRooms = Cave.Rooms.
+                    OrderBy(e => rand.Next()).
+                    Where(r => !r.HasPit && !r.HasBats && Wumpus.Location != r.RoomID).ToList();
+
+                PlayerRoom = nonHazardousRooms.First().RoomID;
+                // Move bats to another random room without hazard and without player
+                currentRoom.HasBats = false;
+                nonHazardousRooms.First(r => r.RoomID != PlayerRoom).HasBats = true;
+
+                ProcessPlayerMove();
             }
-            else
+            else if (currentRoom.HasPit)
             {
-                Room currentRoom = Cave[PlayerRoom];
-                if (currentRoom.HasBats)
+                const int numToAsk = 3;
+
+                // Ask 3 questions
+                // If 2 or more are right
+                int numCorrect = 2;
+                if (numCorrect >= 2)
                 {
-                    Log.Info("Player hit bats and was moved!");
-                    // Move player to random room without a hazard
-
-                    Random rand = new Random();
-                    var nonHazardousRooms = Cave.Rooms.
-                        OrderBy(e => rand.Next()).
-                        Where(r => !r.HasPit && !r.HasBats && Wumpus.Location != r.RoomID).ToList();
-
-                    PlayerRoom = nonHazardousRooms.First().RoomID;
-                    // Move bats to another random room without hazard and without player
-                    currentRoom.HasBats = false;
-                    nonHazardousRooms.First(r => r.RoomID != PlayerRoom).HasBats = true;
-
-                    ProcessPlayerMove();
-                }
-                else if (currentRoom.HasPit)
-                {
-                    const int numToAsk = 3;
-
-                    // Ask 3 questions
-                    // If 2 or more are right
-                    int numCorrect = 2;
-                    if (numCorrect >= 2)
+                    // Place player in already visited location without hazards
+                    Room alreadyVisited = PlayerPath.Select(i => Cave[i]).
+                        FirstOrDefault(
+                            r => !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID);
+                    // If there are no non-hazardous locations weve already visited
+                    if (alreadyVisited == null)
                     {
-                        // Place player in already visited location without hazards
-                        Room alreadyVisited = PlayerPath.Select(i => Cave[i]).
+                        // Check all possible rooms instead
+                        var allRooms = Cave.Rooms.
                             FirstOrDefault(
-                                r => !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID);
-                        // If there are no non-hazardous locations weve already visited
-                        if (alreadyVisited == null)
+                                r =>
+                                    !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID);
+                        if (allRooms != null)
                         {
-                            // Check all possible rooms instead
-                            var allRooms = Cave.Rooms.
-                                FirstOrDefault(
-                                    r =>
-                                        !r.HasBats && !r.HasPit && Wumpus.Location != r.RoomID && PlayerRoom != r.RoomID);
-                            if (allRooms != null)
-                            {
-                                PlayerRoom = allRooms.RoomID;
-                            }
-                        }
-                        else
-                        {
-                            PlayerRoom = alreadyVisited.RoomID;
+                            PlayerRoom = allRooms.RoomID;
                         }
                     }
-
-                    ProcessPlayerMove();
+                    else
+                    {
+                        PlayerRoom = alreadyVisited.RoomID;
+                    }
                 }
+
+                ProcessPlayerMove();
             }
+
+            OnPlayerMoved(this, new EventArgs());
         }
 
         /// <summary>
@@ -375,16 +366,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 default:
                     throw new Exception();
             }
-        }
-
-        public void LoadNewTrivia(TriviaQuestionState triviaType, int numTriviaQuestions)
-        {
-            if (CurrentTrivia != null && !CurrentTrivia.IsComplete)
-                Log.Warn("New trivia set added before previous set was complete!");
-
-            CurrentTrivia = Trivia.Trivia.CreateTriviaSet(numTriviaQuestions, NewQuestionHandler);
-            QuestionState = triviaType;
-            NewQuestionHandler(CurrentTrivia, new EventArgs());
         }
     }
 }
