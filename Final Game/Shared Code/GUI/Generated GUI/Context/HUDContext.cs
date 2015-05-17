@@ -21,6 +21,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         
         GameController GameController;
 
+        private const string QuestionBindingGroup = "QuestionBinding";
+        private const string QuestionVisibilityGroup = "QuestionVisibility";
+
         public HUDContext(GameController GameController)
         {
             this.GameController = GameController;
@@ -45,6 +48,13 @@ namespace HuntTheWumpus.SharedCode.GUI
                 1);
         }
 
+        private void RaisePropertyChangedForGroup(string GroupName)
+        {
+            string[] QuestionBindingProps = MemberGroupAttribute.GetMemberNamesByGroup(this, GroupName);
+            foreach (string Prop in QuestionBindingProps)
+                RaisePropertyChanged(Prop);
+        }
+
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             RaisePropertyChanged(e.PropertyName);
@@ -52,11 +62,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void Trivia_NewQuestion(object sender, EventArgs e)
         {
-            // TODO: Fix this bad code
-            RaisePropertyChanged("CurrentTriviaQuestionAnswersAsComboBoxItems");
-            RaisePropertyChanged("IsTriviaInProgress");
-            RaisePropertyChanged("TriviaModalVisibility");
-            RaisePropertyChanged("CurrentTriviaQuestionText");
+            RaisePropertyChangedForGroup(QuestionBindingGroup);
         }
 
         public ICommand SubmitAnswerCommand
@@ -80,7 +86,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return Player.Arrows;
             }
         }
-
+        
         public int Turns
         {
             get
@@ -88,7 +94,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return Player.Turns;
             }
         }
-
+        
         public bool IsTriviaInProgress
         {
             get
@@ -97,14 +103,17 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        [MemberGroup(QuestionVisibilityGroup)]
+        [MemberGroup(QuestionBindingGroup)]
         public Visibility TriviaModalVisibility
         {
             get
-        {
+            {
                 return TriviaModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
             }
         }
         
+        [MemberGroup(QuestionVisibilityGroup)]
         public float TriviaModalOpacity
         {
             get
@@ -113,6 +122,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        [MemberGroup(QuestionBindingGroup)]
         public string CurrentTriviaQuestionText
         {
             get
@@ -133,7 +143,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        // TODO: AHHHHHHHHHHHHHHHHHHHHHHH
+        [MemberGroup(QuestionBindingGroup)]
         public ComboBoxItem[] CurrentTriviaQuestionAnswersAsComboBoxItems
         {
             get
@@ -172,8 +182,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             if (MathHelper.Distance(TriviaModalOpacity, PreviousNotifiedTriviaOpacity) > 0.01)
             {
-                RaisePropertyChanged("TriviaModalOpacity");
-                RaisePropertyChanged("TriviaModalVisibility");
+                RaisePropertyChangedForGroup(QuestionVisibilityGroup);
                 PreviousNotifiedTriviaOpacity = TriviaModalOpacity;
             }
         }
