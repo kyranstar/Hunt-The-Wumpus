@@ -30,7 +30,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             ClosedDoorTextures,
             RoomBaseTextures,
             PitTextures,
-            GoldTextures;
+            GoldTextures,
+            BatTextures;
 
         // Sprites and drawing helpers
         private Sprite2D Player;
@@ -48,7 +49,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             NumDoorTextures = 1,
             NumRoomTextures = 1,
             NumPitTextures = 1,
-            NumGoldTextures = 0;
+            NumGoldTextures = 0,
+            NumBatTextures = 1;
 
         ParticleSystem.ParticleSystem backFogSystem;
         ParticleSystem.FogOfWar frontFogSystem;
@@ -136,6 +138,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content);
             MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content);
             MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "Gold", Content);
+            MapUtils.LoadTexturesIntoArray(out BatTextures, NumBatTextures, "Bat", Content);
         }
 
         /// <summary>
@@ -233,6 +236,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                     if (LayoutMapping.Value.GoldImage >= 0)
                         Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, Color.White);
+
+                    if (LayoutMapping.Value.BatImage >= 0)
+                        Target.Draw(BatTextures[LayoutMapping.Value.BatImage], RoomTargetArea, Color.White);
 
                     // Iterate over the (closed) door mappings for the current room
                     foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
