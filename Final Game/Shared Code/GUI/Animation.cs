@@ -150,12 +150,13 @@ namespace HuntTheWumpus.SharedCode.GUI
             set
             {
                 _TargetPosition = value;
-                InitialPosition = CurrentPosition.Clone();
+                if(CurrentPosition.HasValue)
+                    InitialPosition = CurrentPosition.Value.Clone();
 
             }
         }
 
-        Vector2 CurrentPosition;
+        Vector2? CurrentPosition = null;
 
         public SpriteMoveAnimation(Vector2? InitialPosition, Vector2? FinalPosition, int MoveDuration)
         {
@@ -190,13 +191,13 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public override void Update(GameTime Time)
         {
-            if (!CurrentPosition.EqualsIsh(TargetPosition.Value))
+            if (!CurrentPosition.Value.EqualsIsh(TargetPosition.Value))
             {
                 double xDist = (TargetPosition.Value.X - InitialPosition.Value.X) / MoveDuration * Time.ElapsedGameTime.TotalMilliseconds;
                 double yDist = (TargetPosition.Value.Y - InitialPosition.Value.Y) / MoveDuration * Time.ElapsedGameTime.TotalMilliseconds;
 
                 CurrentPosition += new Vector2((float)xDist, (float)yDist);
-                Target.Position = CurrentPosition;
+                Target.Position = CurrentPosition.Value;
             }
             // TODO: Limit position so that it can't go past target
 

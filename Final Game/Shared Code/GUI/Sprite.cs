@@ -94,14 +94,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.DrawColor = DrawColor ?? Color.White;
 
             this.Animations = Animations ?? new Dictionary<AnimationType, SpriteAnimation>();
-
-            foreach (var Animation in this.Animations)
-                Animation.Value.Initialize(this);
         }
 
         public virtual void Initialize()
         {
-            // Don't do anything
+            foreach (var Animation in this.Animations)
+                Animation.Value.Initialize(this);
         }
 
         public void AddAnimation(AnimationType Type, SpriteAnimation Animation)
