@@ -115,6 +115,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 Log.Error("Nonvalid cave was generated. Errors: " + GetErrors(NewCave));
             }
+            Log.Error("Num pits: " + NewCave.Rooms.Count(r => r.HasPit) + "\n Num bats: " + NewCave.Rooms.Count(r => r.HasBats));
             return NewCave;
         }
         /// <summary>
@@ -138,49 +139,26 @@ namespace HuntTheWumpus.SharedCode.GameMap
         }
         private static int FindValidHazardSpot(Cave cave)
         {
-            foreach (Room room in cave.RoomDict.Values)
+            var rand = new Random();
+            // Random order so we don't get a bunch in the beginning of the map
+            foreach (Room room in cave.RoomDict.Values.OrderBy(r => rand.Next()))
             {
-                // Invalid if it already has a hazard
-                if (room.HasBats || room.HasPit) continue;
+                // Invalid if it already has a hazard, or if it is the player's starting position
+                if (room.HasBats || room.HasPit || room.RoomID == 0) continue;
 
-                // Try to add a hazard
-                room.HasBats = true;
-
-                //If all tiles can still access each other
-                if (CheckAccessible(cave, room.RoomID))
+                // A room is automatically valid if it only has one connection
+                if (room.AdjacentRooms.Where(r => r != -1).Count() == 1)
                 {
-                    room.HasBats = false;
-                    // This is a good candidate
                     return room.RoomID;
                 }
-                // If not, reset
-                room.HasBats = false;
             }
             return -1;
         }
 
-        private static bool CheckAccessible(Cave cave, int id)
-        {
-            for (int i = 0; i < cave.Rooms.Length; i++)
-            {
-                for (int j = i + 1; j < cave.Rooms.Length; j++)
-                {
-                    if (cave[i].RoomID == id || cave[j].RoomID == id) continue;
-                    // Player starting spot = 0
-                    if (cave[i].RoomID == 0) continue;
-                    // If there is no path from one room to another, it is not accessible
-                    if (Pathfinding.FindPath(cave[i], cave[j], cave, true) == null)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
         private static string GetErrors(Cave cave)
         {
-            CaveLayoutStatus status = CaveUtils.CheckIfValid(cave.RoomDict);
-            string errors = "";
+            var status = CaveUtils.CheckIfValid(cave.RoomDict);
+            var errors = "";
             if (status.Has(CaveLayoutStatus.TooFewConnections))
             {
                 errors += "Too few connections, ";
@@ -227,27 +205,15 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 case 0:
                     return new Point(CurrRow - 1, CurrCol);
                 case 1:
-                    if (MathUtils.IsEven(CurrCol))
-                        return new Point(CurrRow - 1, CurrCol + 1);
-                    else
-                        return new Point(CurrRow, CurrCol + 1);
+                    return MathUtils.IsEven(CurrCol) ? new Point(CurrRow - 1, CurrCol + 1) :  new Point(CurrRow, CurrCol + 1);
                 case 2:
-                    if (MathUtils.IsEven(CurrCol))
-                        return new Point(CurrRow, CurrCol + 1);
-                    else
-                        return new Point(CurrRow + 1, CurrCol + 1);
+                    return MathUtils.IsEven(CurrCol) ? new Point(CurrRow, CurrCol + 1) : new Point(CurrRow + 1, CurrCol + 1);
                 case 3:
                     return new Point(CurrRow + 1, CurrCol);
                 case 4:
-                    if (MathUtils.IsEven(CurrCol))
-                        return new Point(CurrRow, CurrCol - 1);
-                    else
-                        return new Point(CurrRow + 1, CurrCol - 1);
+                    return MathUtils.IsEven(CurrCol) ? new Point(CurrRow, CurrCol - 1) : new Point(CurrRow + 1, CurrCol - 1);
                 case 5:
-                    if (MathUtils.IsEven(CurrCol))
-                        return new Point(CurrRow - 1, CurrCol - 1);
-                    else
-                        return new Point(CurrRow, CurrCol - 1);
+                    return MathUtils.IsEven(CurrCol) ? new Point(CurrRow - 1, CurrCol - 1) : new Point(CurrRow, CurrCol - 1);
                 default:
                     throw new ArgumentException("Direction was not between 0 and 5 inclusive. Was " + Direction);
             }
