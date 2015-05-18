@@ -49,7 +49,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                     CurrentValue = PositiveEasingFunction(NewCompletionPct);
                     break;
                 case EdgeType.FallingEdge:
-                    CurrentValue = PositiveEasingFunction(NewCompletionPct);
+                    CurrentValue = NegativeEasingFunction(NewCompletionPct);
                     break;
                 default:
                     // TODO: Add param for default value

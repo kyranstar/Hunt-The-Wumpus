@@ -51,6 +51,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void RaisePropertyChangedForGroup(string GroupName)
         {
             string[] QuestionBindingProps = MemberGroupAttribute.GetMemberNamesByGroup(this, GroupName);
+
             foreach (string Prop in QuestionBindingProps)
                 RaisePropertyChanged(Prop);
         }
@@ -62,6 +63,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void Trivia_NewQuestion(object sender, EventArgs e)
         {
+            SelectedAnswerIndex = 0;
             RaisePropertyChangedForGroup(QuestionBindingGroup);
         }
 
@@ -137,7 +139,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                if (GameController.CurrentTrivia == null)
+                if (!IsTriviaInProgress)
                     return null;
                 return GameController.CurrentTrivia.CurrentQuestion.AnswerChoices.ToArray();
             }
@@ -165,6 +167,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        [MemberGroup(QuestionBindingGroup)]
         public int SelectedAnswerIndex
         {
             get;
