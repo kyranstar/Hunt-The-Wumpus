@@ -45,7 +45,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public readonly Wumpus Wumpus;
 
         private Cave _cave;
-        public MapInputHandler InputHandler;
         public int MoveCount;
 
         /// <summary>
@@ -64,8 +63,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Cave = MapGenerator.GenerateRandomCave();
             Wumpus = new Wumpus(this);
             Player = new Player();
-
-            InputHandler = new MapInputHandler(this);
 
             PlayerRoomLocation = new Point(0, 0);
 
@@ -120,7 +117,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         public void Update(GameTime gameTime)
         {
-            InputHandler.Update(gameTime);
+
         }
 
         /// <summary>

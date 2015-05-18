@@ -15,11 +15,14 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public TriviaSet CurrentTrivia;
         public TriviaQuestionState QuestionState;
         public TriviaSet.QuestionUpdateHandler NewQuestionHandler;
+
         public readonly Map Map;
+        public readonly MapInputHandler InputHandler;
 
         public GameController()
         {
             Map = new Map();
+            InputHandler = new MapInputHandler(this);
             Map.OnPlayerMoved += Map_PlayerMoved;
         }
 
@@ -51,6 +54,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             ResolveRunningTrivia();
 
+            InputHandler.Update(GameTime);
             Map.Update(GameTime);
             // TODO: Stop running input handler while trivia is active
         }
