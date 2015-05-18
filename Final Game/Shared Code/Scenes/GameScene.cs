@@ -25,7 +25,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
             GameController = new GameController();
 
 
-            MapRenderer = new MapRenderer(GameController.Map);
+            MapRenderer = new MapRenderer(GameController);
             MapRenderer.LoadContent(Content);
 
             HUD = new HudRenderer(MapRenderer, GameController);

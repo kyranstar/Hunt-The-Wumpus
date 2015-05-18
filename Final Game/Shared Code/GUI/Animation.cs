@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -56,7 +57,8 @@ namespace HuntTheWumpus.SharedCode.GUI
     public enum AnimationType
     {
         FadeIn,
-        FadeOut
+        FadeOut,
+        MoveToNewRoom
     }
 
     public class SpriteFadeAnimation : SpriteAnimation
@@ -127,6 +129,88 @@ namespace HuntTheWumpus.SharedCode.GUI
         public override SpriteAnimation Clone()
         {
             return new SpriteFadeAnimation(InitialOpacity, FinalOpacity, FadeDuration);
+        }
+    }
+
+    public class SpriteMoveAnimation : SpriteAnimation
+    {
+        Sprite2D Target;
+
+        protected Vector2? InitialPosition;
+        readonly int MoveDuration = 1000;
+
+        private Vector2? _TargetPosition;
+        public Vector2? TargetPosition
+        {
+            get
+            {
+                return _TargetPosition;
+            }
+
+            set
+            {
+                _TargetPosition = value;
+                InitialPosition = CurrentPosition.Clone();
+
+            }
+        }
+
+        Vector2 CurrentPosition;
+
+        public SpriteMoveAnimation(Vector2? InitialPosition, Vector2? FinalPosition, int MoveDuration)
+        {
+            this.InitialPosition = InitialPosition;
+            this.TargetPosition = FinalPosition;
+            this.MoveDuration = MoveDuration;
+        }
+
+        public SpriteMoveAnimation(Vector2? FinalPosition, int MoveDuration)
+            : this(null, FinalPosition, MoveDuration)
+        {
+            
+        }
+
+        public SpriteMoveAnimation(int MoveDuration)
+            : this(null, MoveDuration)
+        {
+
+        }
+
+        public override void Initialize(Sprite2D Target)
+        {
+            this.Target = Target;
+            if (!InitialPosition.HasValue)
+                InitialPosition = Target.Position;
+
+            if (!TargetPosition.HasValue)
+                TargetPosition = InitialPosition.Value.Clone();
+
+            CurrentPosition = InitialPosition.Value.Clone();
+        }
+
+        public override void Update(GameTime Time)
+        {
+            if (!CurrentPosition.EqualsIsh(TargetPosition.Value))
+            {
+                double xDist = (TargetPosition.Value.X - InitialPosition.Value.X) / MoveDuration * Time.ElapsedGameTime.TotalMilliseconds;
+                double yDist = (TargetPosition.Value.Y - InitialPosition.Value.Y) / MoveDuration * Time.ElapsedGameTime.TotalMilliseconds;
+
+                CurrentPosition += new Vector2((float)xDist, (float)yDist);
+                Target.Position = CurrentPosition;
+            }
+            // TODO: Limit position so that it can't go past target
+
+            // IsFinished = CurrentPosition.EqualsIsh(TargetPosition.Value);
+        }
+
+        public override void Reset()
+        {
+            CurrentPosition = InitialPosition.Value;
+        }
+
+        public override SpriteAnimation Clone()
+        {
+            return new SpriteMoveAnimation(InitialPosition, TargetPosition, MoveDuration);
         }
     }
 }

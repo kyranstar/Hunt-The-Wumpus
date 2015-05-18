@@ -13,34 +13,33 @@ namespace HuntTheWumpus.SharedCode.GameMap
     public class MapInputHandler
     {
         public const int PlayerVelocity = 600;
-        private readonly Map map;
-        private Keys[] PressedKeys = {};
+        private readonly GameController GameController;
 
-        public MapInputHandler(Map map)
+        private KeyboardState KeyState;
+        private bool IsFrozen
         {
-            this.map = map;
+            get
+            {
+                return GameController.CurrentTrivia != null;
+            }
+        }
+
+        public MapInputHandler(GameController gameController)
+        {
+            this.GameController = gameController;
         }
 
         public bool IsAiming
         {
             get
             {
-                return PressedKeys.Contains(Keys.LeftShift);
+                if(IsFrozen)
+                    return false;
+                return KeyState.IsKeyDown(Keys.LeftShift);
             }
         }
 
-        public Direction? NavDirection
-        {
-            get
-            {
-                // TODO: Clean up this logic
-                Direction? Dir;
-                foreach (Keys Key in PressedKeys)
-                    if ((Dir = MapKeyToDirection(Key)).HasValue)
-                        return Dir;
-                return null;
-            }
-        }
+        public Direction? NavDirection { get; protected set; }
 
         /// <summary>
         /// Handles all updates for the map this tick.
@@ -48,30 +47,26 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
-            Keys[] NewKeyState = Keyboard.GetState().GetPressedKeys();
-            foreach (Keys key in NewKeyState)
-            {
-                if (!PressedKeys.Contains(key))
-                {
-                    //new key is pressed
-                    Log.Info("Key pressed: " + key);
-                    KeyDown(key, time);
-                }
-                else
-                {
-                    HandleContinuedKeyPress(key, time);
-                }
-            }
+            KeyboardState NewKeyState = Keyboard.GetState();
+            Keys[] OldKeys = KeyState.GetPressedKeys();
+            Keys[] NewKeys = NewKeyState.GetPressedKeys();
 
-            foreach(Keys key in PressedKeys)
-            {
-                if(!NewKeyState.Contains(key))
-                {
-                    KeyUp(key, time);
-                }
-            }
-            
-            PressedKeys = Keyboard.GetState().GetPressedKeys();
+            // Find all keys that are still pressed
+            foreach (Keys Key in OldKeys.Intersect(NewKeys))
+                HandleContinuedKeyPress(Key, time);
+
+            // Find all keys that are no longer pressed
+            foreach (Keys Key in OldKeys.Except(NewKeys))
+                KeyUp(Key, time);
+
+            // Find all keys that have been newly pressed
+            foreach (Keys Key in NewKeys.Except(OldKeys))
+                KeyDown(Key, time);
+
+            // Update currently selected direction
+            NavDirection = NewKeys.Select(k => MapKeyToDirection(k)).FirstOrDefault();
+
+            KeyState = NewKeyState;
         }
 
         /// <summary>
@@ -80,11 +75,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="Key"></param>
         private void KeyDown(Keys Key, GameTime GameTime)
         {
-            Direction? MoveDirection = MapKeyToDirection(Key);
+            Direction? KeyDirection = MapKeyToDirection(Key);
 
-            if(!IsAiming && MoveDirection.HasValue)
-                map.MovePlayer(MoveDirection.Value);
-
+            if(!IsFrozen && !IsAiming && KeyDirection.HasValue)
+                GameController.Map.MovePlayer(KeyDirection.Value);
         }
 
         /// <summary>
@@ -93,9 +87,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="Key"></param>
         private void KeyUp(Keys Key, GameTime GameTime)
         {
-            Direction? ShootDir = MapKeyToDirection(Key);
-            if (ShootDir.HasValue && IsAiming)
-                map.TryShootTowards(ShootDir.Value);
+            Direction? KeyDirection = MapKeyToDirection(Key);
+            if (!IsFrozen && IsAiming && KeyDirection.HasValue)
+                GameController.Map.TryShootTowards(KeyDirection.Value);
         }
 
         /// <summary>
@@ -104,21 +98,25 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="key"></param>
         private void HandleContinuedKeyPress(Keys key, GameTime GameTime)
         {
-            int SpeedIncrement = (PlayerVelocity * GameTime.ElapsedGameTime.TotalSeconds).ToInt();
-            switch (key)
+            // TODO: Do we want this, or should we just abandon it?
+            if (!IsFrozen)
             {
-                case Keys.Up:
-                    map.PlayerLocation.Y -= SpeedIncrement;
-                    break;
-                case Keys.Down:
-                    map.PlayerLocation.Y += SpeedIncrement;
-                    break;
-                case Keys.Right:
-                    map.PlayerLocation.X += SpeedIncrement;
-                    break;
-                case Keys.Left:
-                    map.PlayerLocation.X -= SpeedIncrement;
-                    break;
+                int SpeedIncrement = (PlayerVelocity * GameTime.ElapsedGameTime.TotalSeconds).ToInt();
+                switch (key)
+                {
+                    case Keys.Up:
+                        GameController.Map.PlayerRoomLocation.Y -= SpeedIncrement;
+                        break;
+                    case Keys.Down:
+                        GameController.Map.PlayerRoomLocation.Y += SpeedIncrement;
+                        break;
+                    case Keys.Right:
+                        GameController.Map.PlayerRoomLocation.X += SpeedIncrement;
+                        break;
+                    case Keys.Left:
+                        GameController.Map.PlayerRoomLocation.X -= SpeedIncrement;
+                        break;
+                }
             }
         }
 

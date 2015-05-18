@@ -45,13 +45,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public readonly Wumpus Wumpus;
 
         private Cave _cave;
-        public MapInputHandler InputHandler;
         public int MoveCount;
 
         /// <summary>
         ///     Holds the location of the player within the current room. The origin is the center of this room.
         /// </summary>
-        public Point PlayerLocation;
+        public Point PlayerRoomLocation;
 
         public ISet<int> PlayerPath = new HashSet<int>();
 
@@ -65,9 +64,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Wumpus = new Wumpus(this);
             Player = new Player();
 
-            InputHandler = new MapInputHandler(this);
-
-            PlayerLocation = new Point(0, 0);
+            PlayerRoomLocation = new Point(0, 0);
 
             Wumpus.MoveToRandomRoom();
             CollectItemsFromRoom();
@@ -120,7 +117,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         public void Update(GameTime gameTime)
         {
-            InputHandler.Update(gameTime);
+
         }
 
         /// <summary>

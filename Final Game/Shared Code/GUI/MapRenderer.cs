@@ -20,6 +20,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private Vector2 VirtualViewSize;
 
         private Map Map;
+        private GameController GameController;
 
         // Textures
         private Texture2D PlayerTexture;
@@ -55,9 +56,11 @@ namespace HuntTheWumpus.SharedCode.GUI
         ParticleSystem.ParticleSystem backFogSystem;
         ParticleSystem.FogOfWar frontFogSystem;
 
-        public MapRenderer(Map Map)
+        public MapRenderer(GameController GameController)
         {
-            this.Map = Map;
+            this.GameController = GameController;
+            Map = GameController.Map;
+
             PlayerHeight = (Map.Cave.TargetRoomHeight * 0.7).ToInt();
         }
 
@@ -106,6 +109,9 @@ namespace HuntTheWumpus.SharedCode.GUI
                 RenderHeight = PlayerHeight
             };
 
+            Player.AddAnimation(AnimationType.MoveToNewRoom, new SpriteMoveAnimation(400));
+            Player.StartAnimation(AnimationType.MoveToNewRoom);
+
             Wumpus = new Sprite2D(WumpusTexture)
             {
                 RenderWidth = (WumpusHeight / (double)WumpusTexture.Height * WumpusTexture.Width).ToInt(),
@@ -149,8 +155,17 @@ namespace HuntTheWumpus.SharedCode.GUI
             BackgroundTiles.Update(time);
 
             // TODO: Clean up this math
-            Player.RenderX = (Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth).ToInt() + Map.PlayerLocation.X;
-            Player.RenderY = (Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight).ToInt() + Map.PlayerLocation.Y;
+            float PlayerTargetX = Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.X + (Map.Cave.TargetRoomWidth / 2f) - Player.HalfWidth + Map.PlayerRoomLocation.X;
+            float PlayerTargetY = Map.Cave.RoomLayout[Map.PlayerRoom].RoomPosition.Y + (Map.Cave.TargetRoomHeight / 2f) - Player.HalfHeight + Map.PlayerRoomLocation.Y;
+
+            SpriteMoveAnimation Animation = Player.GetAnimation(AnimationType.MoveToNewRoom) as SpriteMoveAnimation;
+            // Currently, setting the target position on this animation saves its current position as the new starting
+            // point. This means that as it gets closer to the target, the overall distance that the animation needs to
+            // travel decreases. This creates the "easing" that we see, but it isn't being done in an obvious way.
+            // TODO: Fix this and remove the above comment essay
+            Animation.TargetPosition = new Vector2(PlayerTargetX, PlayerTargetY);
+
+            Player.Update(time);
 
             UpdateCamera();
             UpdateWumpus();
@@ -273,12 +288,12 @@ namespace HuntTheWumpus.SharedCode.GUI
                     Color DrawColor = new Color(50, 50, 50, 5);
 
                     // Highlight this room if the user is aiming into it
-                    if (Map.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
+                    if (GameController.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
                         DrawColor = new Color(150, 150, 150, 10);
 
                     // Highlight this room w/ brighter color if the user has shot into it
-                    Direction? ShootDirection = Map.InputHandler.NavDirection;
-                    if (Map.InputHandler.IsAiming && ShootDirection.HasValue)
+                    Direction? ShootDirection = GameController.InputHandler.NavDirection;
+                    if (GameController.InputHandler.IsAiming && ShootDirection.HasValue)
                     {
                         int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
                         if (RoomAtShootDirection == LayoutMapping.Key)
