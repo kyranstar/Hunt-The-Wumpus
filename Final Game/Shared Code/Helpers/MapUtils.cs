@@ -68,8 +68,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                         Image = Random.Next(MapRenderer.NumRoomTextures),
                         PitImage = NextRoom.HasPit ? MiscUtils.RandomIndex(MapRenderer.NumPitTextures) : -1,
                         // TODO: Render gold quantity
-                        GoldImage = NextRoom.Gold > 0 ? MiscUtils.RandomIndex(MapRenderer.NumGoldTextures) : -1,
-                        BatImage = NextRoom.HasBats ? MiscUtils.RandomIndex(MapRenderer.NumBatTextures) : -1
+                        GoldImage = MiscUtils.RandomIndex(MapRenderer.NumGoldTextures),
+                        BatImage = MiscUtils.RandomIndex(MapRenderer.NumBatTextures)
                     };
 
                     // Get the point for the next room

@@ -142,19 +142,7 @@ namespace HuntTheWumpus.SharedCode
 
         private void UpdateImageState()
         {
-            foreach (Room Room in Rooms)
-            {
-                RoomLayoutMapping LayoutMapping = roomLayout[Room.RoomID];
-                if (Room.HasBats && LayoutMapping.BatImage == -1)
-                    LayoutMapping.BatImage = MiscUtils.RandomIndex(MapRenderer.NumBatTextures);
-                else if (!Room.HasBats && LayoutMapping.BatImage != -1)
-                    LayoutMapping.BatImage = -1;
 
-                if (Room.Gold > 0 && LayoutMapping.GoldImage == -1)
-                    LayoutMapping.GoldImage = MiscUtils.RandomIndex(MapRenderer.NumGoldTextures);
-                else if (Room.Gold <= 0)
-                    LayoutMapping.GoldImage = -1;
-            }
         }
 
         /// <summary>

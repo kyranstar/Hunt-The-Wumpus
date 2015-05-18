@@ -261,10 +261,10 @@ namespace HuntTheWumpus.SharedCode.GUI
                     if (LayoutMapping.Value.PitImage >= 0)
                         Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
 
-                    if (LayoutMapping.Value.GoldImage >= 0)
+                    if (Map.Cave[LayoutMapping.Key].Gold >= 0 && LayoutMapping.Value.GoldImage >= 0)
                         Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, Color.White);
 
-                    if (LayoutMapping.Value.BatImage >= 0)
+                    if (Map.Cave[LayoutMapping.Key].HasBats && LayoutMapping.Value.BatImage >= 0)
                         Target.Draw(BatTextures[LayoutMapping.Value.BatImage], RoomTargetArea, Color.White);
 
                     // Iterate over the (closed) door mappings for the current room
