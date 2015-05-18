@@ -44,7 +44,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         // Consts
         private const int VirtualViewHeight = 500;
         private readonly int PlayerHeight;
-        private const int WumpusHeight = 500;
+        private readonly int WumpusHeight;
 
         public const int NumCloudTextures = 1,
             NumDoorTextures = 1,
@@ -61,7 +61,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.GameController = GameController;
             Map = GameController.Map;
 
-            PlayerHeight = (Map.Cave.TargetRoomHeight * 0.7).ToInt();
+            PlayerHeight = (Map.Cave.TargetRoomHeight * 0.4).ToInt();
+            WumpusHeight = (Map.Cave.TargetRoomHeight * 0.4).ToInt();
         }
 
         /// <summary>
@@ -121,7 +122,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             Wumpus = new Sprite2D(WumpusTexture)
             {
                 RenderWidth = (WumpusHeight / (double)WumpusTexture.Height * WumpusTexture.Width).ToInt(),
-                RenderHeight = PlayerHeight
+                RenderHeight = WumpusHeight
             };
 
             Wumpus.Initialize();
