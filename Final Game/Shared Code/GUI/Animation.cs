@@ -151,7 +151,6 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 _TargetPosition = value;
                 InitialPosition = CurrentPosition.Clone();
-
             }
         }
 

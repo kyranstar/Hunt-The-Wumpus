@@ -32,8 +32,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
         void GraphicsManager_DeviceCreated(object sender, System.EventArgs e)
         {
             Log.Info("Graphics device created");
-            GraphicsManager.PreferredBackBufferWidth = 1920;
-            GraphicsManager.PreferredBackBufferHeight = 1080;
+            GraphicsManager.PreferredBackBufferWidth = 1366;
+            GraphicsManager.PreferredBackBufferHeight = 768;
             //GraphicsManager.PreferredBackBufferWidth = (int)(GraphicsManager.GraphicsDevice.Adapter.CurrentDisplayMode.Width * 0.6);
             //GraphicsManager.PreferredBackBufferHeight = (int)(GraphicsManager.GraphicsDevice.Adapter.CurrentDisplayMode.Height * 0.6);
             GraphicsManager.ApplyChanges();
