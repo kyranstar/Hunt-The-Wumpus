@@ -167,11 +167,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        int selectedAnswerIndex;
         [MemberGroup(QuestionBindingGroup)]
         public int SelectedAnswerIndex
         {
-            get;
-            set;
+            get { return selectedAnswerIndex >= 0 ? selectedAnswerIndex : 0; }
+            set { selectedAnswerIndex = value; }
         }
 
         [MemberGroup(QuestionBindingGroup)]
@@ -212,7 +213,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void SubmitAnswer(object o)
         {
-            GameController.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
+            GameController.CurrentTrivia.SubmitAnswer(CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
         }
 
         public void Update(GameTime GameTime)

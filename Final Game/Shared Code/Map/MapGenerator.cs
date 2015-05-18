@@ -126,18 +126,18 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             for (int i = 0; i < 2; i++)
             {
-                int room = FindValidHazardSpot(NewCave);
-                if (room >= 0)
-                    NewCave[room].HasPit = true;
+                var room = FindValidHazardSpot(NewCave);
+                if (room.HasValue)
+                    NewCave[room.Value].HasPit = true;
             }
             for (int i = 0; i < 2; i++)
             {
-                int room = FindValidHazardSpot(NewCave);
-                if (room >= 0)
-                    NewCave[room].HasBats = true;
+                var room = FindValidHazardSpot(NewCave);
+                if (room.HasValue)
+                    NewCave[room.Value].HasBats = true;
             }
         }
-        private static int FindValidHazardSpot(Cave cave)
+        private static int? FindValidHazardSpot(Cave cave)
         {
             var rand = new Random();
             // Random order so we don't get a bunch in the beginning of the map
@@ -152,7 +152,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     return room.RoomID;
                 }
             }
-            return -1;
+            return null;
         }
 
         private static string GetErrors(Cave cave)
