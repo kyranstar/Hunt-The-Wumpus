@@ -78,5 +78,10 @@ namespace HuntTheWumpus.SharedCode.Trivia
             if(OnNewQuestion != null)
                 OnNewQuestion(this, new EventArgs());
         }
+        public void Abort()
+        {
+            this._numberCorrect = QList.Count;
+            this._currentQuestionIndex = -1;
+        }
     }
 }
