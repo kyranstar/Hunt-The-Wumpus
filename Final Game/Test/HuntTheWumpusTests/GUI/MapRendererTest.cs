@@ -1,6 +1,7 @@
 ﻿using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.GUI;
 using HuntTheWumpus.SharedCode.Helpers;
+using HuntTheWumpus.SharedCode.GameControl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 using System;
@@ -17,39 +18,42 @@ namespace HuntTheWumpusTests.GUI
         [TestMethod]
         public void TestSquareMapLayout()
         {
-            Map Map = new Map();
-            // Test calculations using a square room
-            MapRenderer MapRenderer = new MapRenderer(Map);
+            // TODO: Find a better way to test the map renderer so that we don't need to create a full GameController
+            // Maybe we can create a mock implementation of GameController that doesn't include trivia for testing?
 
-            Map.Cave = TestUtil.SquareTestCave;
-            Map.Cave.RegenerateLayout();
+            GameController GameController = new GameController();
+            // Test calculations using a square room
+            MapRenderer MapRenderer = new MapRenderer(GameController);
+
+            GameController.Map.Cave = TestUtil.SquareTestCave;
+            GameController.Map.Cave.RegenerateLayout();
 
             // Make sure that there are the expected number of generated values 
-            Assert.AreEqual(TestUtil.SquareExpectedRoomPoints.Count, Map.Cave.RoomLayout.Count);
+            Assert.AreEqual(TestUtil.SquareExpectedRoomPoints.Count, GameController.Map.Cave.RoomLayout.Count);
             // Quick check to make sure that all the same room IDs were returned
-            Assert.IsTrue(TestUtil.SquareExpectedRoomPoints.Keys.SequenceEqual(Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
+            Assert.IsTrue(TestUtil.SquareExpectedRoomPoints.Keys.SequenceEqual(GameController.Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in TestUtil.SquareExpectedRoomPoints)
-                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].RoomPosition, 4);
+                TestUtil.AssertVector(Val.Value, GameController.Map.Cave.RoomLayout[Val.Key].RoomPosition, 4);
         }
 
         [TestMethod]
         public void TestHexMapLayout()
         {
-            Map Map = new Map();
+            GameController GameController = new GameController();
             // Test calculations using a square room
-            MapRenderer MapRenderer = new MapRenderer(Map);
+            MapRenderer MapRenderer = new MapRenderer(GameController);
 
-            Map.Cave = TestUtil.HexTestCave;
-            Map.Cave.RegenerateLayout();
+            GameController.Map.Cave = TestUtil.HexTestCave;
+            GameController.Map.Cave.RegenerateLayout();
 
             // Make sure that there are the expected number of generated values 
-            Assert.AreEqual(TestUtil.HexExpectedRoomPoints.Count, Map.Cave.RoomLayout.Count);
+            Assert.AreEqual(TestUtil.HexExpectedRoomPoints.Count, GameController.Map.Cave.RoomLayout.Count);
             // Quick check to make sure that all the same room IDs were returned
-            Assert.IsTrue(TestUtil.HexExpectedRoomPoints.Keys.SequenceEqual(Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
+            Assert.IsTrue(TestUtil.HexExpectedRoomPoints.Keys.SequenceEqual(GameController.Map.Cave.RoomLayout.Keys.OrderBy(i => i)));
             // Validate each individual vector
             foreach (var Val in TestUtil.HexExpectedRoomPoints)
-                TestUtil.AssertVector(Val.Value, Map.Cave.RoomLayout[Val.Key].RoomPosition);
+                TestUtil.AssertVector(Val.Value, GameController.Map.Cave.RoomLayout[Val.Key].RoomPosition);
         }
 
         [TestMethod]

@@ -64,19 +64,19 @@ namespace HuntTheWumpusTests
             Assert.IsTrue(originalPos == map.PlayerRoom != shouldMove);
         }
 
-        public static void AssertCannotMove(Map.Direction dir, Map map)
+        public static void AssertCannotMove(Direction dir, Map map)
         {
             AssertMovement(false, (int)dir, map);
         }
-        public static void AssertCannotMove(Map.SquareDirection dir, Map map)
+        public static void AssertCannotMove(SquareDirection dir, Map map)
         {
             AssertMovement(false, (int)dir, map);
         }
-        public static void AssertCanMove(Map.Direction dir, Map map)
+        public static void AssertCanMove(Direction dir, Map map)
         {
             AssertMovement(true, (int)dir, map);
         }
-        public static void AssertCanMove(Map.SquareDirection dir, Map map)
+        public static void AssertCanMove(SquareDirection dir, Map map)
         {
             AssertMovement(true, (int)dir, map);
         }
