@@ -63,7 +63,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void Trivia_NewQuestion(object sender, EventArgs e)
         {
-            SelectedAnswerIndex = 0;
+            SelectedAnswer = null;
             RaisePropertyChangedForGroup(QuestionBindingGroup);
         }
 
@@ -169,6 +169,13 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         [MemberGroup(QuestionBindingGroup)]
         public int SelectedAnswerIndex
+        {
+            get;
+            set;
+        }
+
+        [MemberGroup(QuestionBindingGroup)]
+        public ComboBoxItem SelectedAnswer
         {
             get;
             set;

@@ -230,6 +230,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.TriviaAnswerSelector.SetBinding(ComboBox.ItemsSourceProperty, binding_TriviaAnswerSelector_ItemsSource);
             Binding binding_TriviaAnswerSelector_SelectedIndex = new Binding("SelectedAnswerIndex");
             this.TriviaAnswerSelector.SetBinding(ComboBox.SelectedIndexProperty, binding_TriviaAnswerSelector_SelectedIndex);
+            Binding binding_TriviaAnswerSelector_SelectedItem = new Binding("SelectedAnswer");
+            this.TriviaAnswerSelector.SetBinding(ComboBox.SelectedItemProperty, binding_TriviaAnswerSelector_SelectedItem);
             // e_11 element
             this.e_11 = new Button();
             this.e_10.Children.Add(this.e_11);
