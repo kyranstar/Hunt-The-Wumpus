@@ -117,7 +117,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         public void Update(GameTime gameTime)
         {
-
+            Cave.Update(gameTime);
         }
 
         /// <summary>
@@ -158,13 +158,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Room currentRoom = Cave[PlayerRoom];
             if (currentRoom.HasBats)
             {
-                MoveToRandomRoom(currentRoom);
+                ReactToBatCollision(currentRoom);
+
             }
 
             OnPlayerMoved(this, new EventArgs());
         }
 
-        private void MoveToRandomRoom(Room currentRoom)
+        private void ReactToBatCollision(Room currentRoom)
         {
             Log.Info("Player hit bats and was moved!");
             // Move player to random room without a hazard

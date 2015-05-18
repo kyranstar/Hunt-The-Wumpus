@@ -228,7 +228,6 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             frontFogSystem.Draw(MapRenderTarget);
 
-
             Player.Draw(MapRenderTarget);
             Wumpus.Draw(MapRenderTarget);
 

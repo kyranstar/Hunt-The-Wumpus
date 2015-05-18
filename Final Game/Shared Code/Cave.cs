@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using HuntTheWumpus.SharedCode.GameMap;
+using HuntTheWumpus.SharedCode.GUI;
 using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus.SharedCode
 {
@@ -130,6 +132,29 @@ namespace HuntTheWumpus.SharedCode
         public void RegenerateLayout()
         {
             RoomLayout = MapUtils.GetRoomLayout(cave.Values.ToArray(), RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
+        }
+
+        public void Update(GameTime GameTime)
+        {
+            // TODO: Do this intelligently instead of every frame!
+            UpdateImageState();
+        }
+
+        private void UpdateImageState()
+        {
+            foreach (Room Room in Rooms)
+            {
+                RoomLayoutMapping LayoutMapping = roomLayout[Room.RoomID];
+                if (Room.HasBats && LayoutMapping.BatImage == -1)
+                    LayoutMapping.BatImage = MiscUtils.RandomIndex(MapRenderer.NumBatTextures);
+                else if (!Room.HasBats && LayoutMapping.BatImage != -1)
+                    LayoutMapping.BatImage = -1;
+
+                if (Room.Gold > 0 && LayoutMapping.GoldImage == -1)
+                    LayoutMapping.GoldImage = MiscUtils.RandomIndex(MapRenderer.NumGoldTextures);
+                else if (Room.Gold <= 0)
+                    LayoutMapping.GoldImage = -1;
+            }
         }
 
         /// <summary>
