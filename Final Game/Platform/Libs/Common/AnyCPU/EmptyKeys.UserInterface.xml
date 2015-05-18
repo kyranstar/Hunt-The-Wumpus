@@ -11454,6 +11454,31 @@
             </summary>
             <param name="familyName">Name of the family.</param>
         </member>
+        <member name="M:EmptyKeys.UserInterface.Media.FontFamily.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:EmptyKeys.UserInterface.Media.FontFamily.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:EmptyKeys.UserInterface.Media.FontFamily.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/>, is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="P:EmptyKeys.UserInterface.Media.FontFamily.Source">
             <summary>
             Gets the source.
@@ -12651,6 +12676,14 @@
             Initializes a new instance of the <see cref="T:EmptyKeys.UserInterface.ResourceReferenceExpression"/> class.
             </summary>
             <param name="resourceKey">The resource key.</param>
+        </member>
+        <member name="M:EmptyKeys.UserInterface.ResourceReferenceExpression.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
         </member>
         <member name="P:EmptyKeys.UserInterface.ResourceReferenceExpression.ResourceKey">
             <summary>
@@ -14642,6 +14675,13 @@
             </summary>
             <param name="target">The target.</param>
             <param name="dp">The Dependency Property.</param>
+            <returns></returns>
+        </member>
+        <member name="M:EmptyKeys.UserInterface.Data.BindingOperations.GetAllBindings(EmptyKeys.UserInterface.DependencyObject)">
+            <summary>
+            Gets all bindings.
+            </summary>
+            <param name="target">The target.</param>
             <returns></returns>
         </member>
         <member name="T:EmptyKeys.UserInterface.PropertyChangedCallback">
@@ -17232,6 +17272,14 @@
             Initializes a new instance of the <see cref="T:EmptyKeys.UserInterface.Media.SolidColorBrush"/> class.
             </summary>
             <param name="color">The color.</param>
+        </member>
+        <member name="M:EmptyKeys.UserInterface.Media.SolidColorBrush.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
         </member>
         <member name="M:EmptyKeys.UserInterface.Media.SolidColorBrush.Draw(EmptyKeys.UserInterface.Media.TextureBase,EmptyKeys.UserInterface.Renderers.Renderer,System.Double,EmptyKeys.UserInterface.PointF,EmptyKeys.UserInterface.Size,System.Single)">
             <summary>
