@@ -51,11 +51,19 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private Button e_8;
         
-        private Grid e_9;
+        private StackPanel e_9;
         
         private TextBlock e_10;
         
-        private ItemsControl e_11;
+        private TextBlock e_11;
+        
+        private TextBlock e_12;
+        
+        private Grid e_13;
+        
+        private TextBlock e_14;
+        
+        private ItemsControl e_15;
         
         public HUDOverlayView(int width, int height) : 
                 base(width, height) {
@@ -181,8 +189,11 @@ namespace EmptyKeys.UserInterface.Generated {
             row_TriviaDisplay_3.Height = new GridLength(40F, GridUnitType.Pixel);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_3);
             RowDefinition row_TriviaDisplay_4 = new RowDefinition();
-            row_TriviaDisplay_4.Height = new GridLength(1F, GridUnitType.Star);
+            row_TriviaDisplay_4.Height = new GridLength(40F, GridUnitType.Pixel);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_4);
+            RowDefinition row_TriviaDisplay_5 = new RowDefinition();
+            row_TriviaDisplay_5.Height = new GridLength(1F, GridUnitType.Star);
+            this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_5);
             Grid.SetColumnSpan(this.TriviaDisplay, 2);
             Binding binding_TriviaDisplay_Opacity = new Binding("TriviaModalOpacity");
             this.TriviaDisplay.SetBinding(Grid.OpacityProperty, binding_TriviaDisplay_Opacity);
@@ -231,58 +242,92 @@ namespace EmptyKeys.UserInterface.Generated {
             Binding binding_e_8_Command = new Binding("SubmitAnswerCommand");
             this.e_8.SetBinding(Button.CommandProperty, binding_e_8_Command);
             // e_9 element
-            this.e_9 = new Grid();
-            this.UIRoot.Children.Add(this.e_9);
+            this.e_9 = new StackPanel();
+            this.TriviaDisplay.Children.Add(this.e_9);
             this.e_9.Name = "e_9";
-            this.e_9.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.e_9.Background = new SolidColorBrush(new ColorW(51, 51, 51, 255));
-            RowDefinition row_e_9_0 = new RowDefinition();
-            row_e_9_0.Height = new GridLength(60F, GridUnitType.Pixel);
-            this.e_9.RowDefinitions.Add(row_e_9_0);
-            RowDefinition row_e_9_1 = new RowDefinition();
-            row_e_9_1.Height = new GridLength(1F, GridUnitType.Star);
-            this.e_9.RowDefinitions.Add(row_e_9_1);
-            RowDefinition row_e_9_2 = new RowDefinition();
-            row_e_9_2.Height = new GridLength(5F, GridUnitType.Star);
-            this.e_9.RowDefinitions.Add(row_e_9_2);
-            RowDefinition row_e_9_3 = new RowDefinition();
-            row_e_9_3.Height = new GridLength(1F, GridUnitType.Star);
-            this.e_9.RowDefinitions.Add(row_e_9_3);
-            Grid.SetColumn(this.e_9, 1);
+            this.e_9.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_9.VerticalAlignment = VerticalAlignment.Center;
+            this.e_9.Orientation = Orientation.Horizontal;
+            Grid.SetRow(this.e_9, 4);
             // e_10 element
             this.e_10 = new TextBlock();
             this.e_9.Children.Add(this.e_10);
             this.e_10.Name = "e_10";
-            this.e_10.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_10.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            this.e_10.Text = "Hints";
-            FontManager.Instance.AddFont("Segoe UI", 45F, FontStyle.Regular, "Segoe_UI_33.75_Regular");
-            this.e_10.FontSize = 45F;
+            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            this.e_10.FontSize = 20F;
+            Binding binding_e_10_Text = new Binding("NumTriviaQuestionsCorrect");
+            this.e_10.SetBinding(TextBlock.TextProperty, binding_e_10_Text);
             // e_11 element
-            this.e_11 = new ItemsControl();
+            this.e_11 = new TextBlock();
             this.e_9.Children.Add(this.e_11);
             this.e_11.Name = "e_11";
-            this.e_11.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.e_11.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
-            this.e_11.HorizontalContentAlignment = HorizontalAlignment.Center;
+            this.e_11.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_11.Text = "/";
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
             this.e_11.FontSize = 20F;
-            Func<UIElement, UIElement> e_11_iptFunc = e_11_iptMethod;
-            ControlTemplate e_11_ipt = new ControlTemplate(e_11_iptFunc);
-            this.e_11.ItemsPanel = e_11_ipt;
-            Grid.SetRow(this.e_11, 2);
-            Binding binding_e_11_ItemsSource = new Binding("UnlockedHints");
-            this.e_11.SetBinding(ItemsControl.ItemsSourceProperty, binding_e_11_ItemsSource);
+            // e_12 element
+            this.e_12 = new TextBlock();
+            this.e_9.Children.Add(this.e_12);
+            this.e_12.Name = "e_12";
+            this.e_12.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            this.e_12.FontSize = 20F;
+            Binding binding_e_12_Text = new Binding("NumTriviaQuestionsTotal");
+            this.e_12.SetBinding(TextBlock.TextProperty, binding_e_12_Text);
+            // e_13 element
+            this.e_13 = new Grid();
+            this.UIRoot.Children.Add(this.e_13);
+            this.e_13.Name = "e_13";
+            this.e_13.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_13.Background = new SolidColorBrush(new ColorW(51, 51, 51, 255));
+            RowDefinition row_e_13_0 = new RowDefinition();
+            row_e_13_0.Height = new GridLength(60F, GridUnitType.Pixel);
+            this.e_13.RowDefinitions.Add(row_e_13_0);
+            RowDefinition row_e_13_1 = new RowDefinition();
+            row_e_13_1.Height = new GridLength(1F, GridUnitType.Star);
+            this.e_13.RowDefinitions.Add(row_e_13_1);
+            RowDefinition row_e_13_2 = new RowDefinition();
+            row_e_13_2.Height = new GridLength(5F, GridUnitType.Star);
+            this.e_13.RowDefinitions.Add(row_e_13_2);
+            RowDefinition row_e_13_3 = new RowDefinition();
+            row_e_13_3.Height = new GridLength(1F, GridUnitType.Star);
+            this.e_13.RowDefinitions.Add(row_e_13_3);
+            Grid.SetColumn(this.e_13, 1);
+            // e_14 element
+            this.e_14 = new TextBlock();
+            this.e_13.Children.Add(this.e_14);
+            this.e_14.Name = "e_14";
+            this.e_14.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_14.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_14.Text = "Hints";
+            FontManager.Instance.AddFont("Segoe UI", 45F, FontStyle.Regular, "Segoe_UI_33.75_Regular");
+            this.e_14.FontSize = 45F;
+            // e_15 element
+            this.e_15 = new ItemsControl();
+            this.e_13.Children.Add(this.e_15);
+            this.e_15.Name = "e_15";
+            this.e_15.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_15.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            this.e_15.HorizontalContentAlignment = HorizontalAlignment.Center;
+            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            this.e_15.FontSize = 20F;
+            Func<UIElement, UIElement> e_15_iptFunc = e_15_iptMethod;
+            ControlTemplate e_15_ipt = new ControlTemplate(e_15_iptFunc);
+            this.e_15.ItemsPanel = e_15_ipt;
+            Grid.SetRow(this.e_15, 2);
+            Binding binding_e_15_ItemsSource = new Binding("UnlockedHints");
+            this.e_15.SetBinding(ItemsControl.ItemsSourceProperty, binding_e_15_ItemsSource);
         }
         
-        private static UIElement e_11_iptMethod(UIElement parent) {
-            // e_12 element
-            StackPanel e_12 = new StackPanel();
-            e_12.Parent = parent;
-            e_12.Name = "e_12";
-            e_12.HorizontalAlignment = HorizontalAlignment.Center;
-            e_12.IsItemsHost = true;
-            return e_12;
+        private static UIElement e_15_iptMethod(UIElement parent) {
+            // e_16 element
+            StackPanel e_16 = new StackPanel();
+            e_16.Parent = parent;
+            e_16.Name = "e_16";
+            e_16.HorizontalAlignment = HorizontalAlignment.Center;
+            e_16.IsItemsHost = true;
+            return e_16;
         }
     }
 }

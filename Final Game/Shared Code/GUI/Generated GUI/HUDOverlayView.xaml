@@ -42,12 +42,18 @@
                 <RowDefinition Height="70px"/>
                 <RowDefinition Height="5px"/>
                 <RowDefinition Height="40px"/>
+                <RowDefinition Height="40px"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Name="QuestionText" Text="{Binding CurrentTriviaQuestionText}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
             <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ComboBox Name="TriviaAnswerSelector" Width="250px" FontSize="20" ItemsSource="{Binding CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding SelectedAnswerIndex}"/>
                 <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding SubmitAnswerCommand}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding NumTriviaQuestionsCorrect}" Foreground="White" FontSize="20" />
+                <TextBlock Text="/" Foreground="White" FontSize="20" />
+                <TextBlock Text="{Binding NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" />
             </StackPanel>
         </Grid>
         <Grid Background="#333333" HorizontalAlignment="Stretch" Grid.Column="1">

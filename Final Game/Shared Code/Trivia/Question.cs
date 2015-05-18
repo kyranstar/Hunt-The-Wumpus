@@ -35,6 +35,7 @@ namespace HuntTheWumpus.SharedCode.Trivia
         
         public bool IsCorrect(string PlayerAnswer)
         {
+            // TODO: Store the correct answer as something other than a string (for resiliency)
             return _correctAnswer.Equals(PlayerAnswer, StringComparison.Ordinal);
         }
 

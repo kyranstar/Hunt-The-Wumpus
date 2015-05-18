@@ -174,6 +174,42 @@ namespace HuntTheWumpus.SharedCode.GUI
             set;
         }
 
+        [MemberGroup(QuestionBindingGroup)]
+        public int NumTriviaQuestionsCorrect
+        {
+            get
+            {
+                if (GameController.CurrentTrivia == null)
+                    return -1;
+
+                return GameController.CurrentTrivia.NumberCorrect;
+            }
+        }
+
+        [MemberGroup(QuestionBindingGroup)]
+        public int NumTriviaQuestionsCompleted
+        {
+            get
+            {
+                if (GameController.CurrentTrivia == null)
+                    return -1;
+
+                return GameController.CurrentTrivia.QuestionCounter;
+            }
+        }
+
+        [MemberGroup(QuestionBindingGroup)]
+        public int NumTriviaQuestionsTotal
+        {
+            get
+            {
+                if (GameController.CurrentTrivia == null)
+                    return -1;
+
+                return GameController.CurrentTrivia.QList.Count;
+            }
+        }
+
         private void SubmitAnswer(object o)
         {
             GameController.CurrentTrivia.SubmitAnswer(this.CurrentTriviaQuestionAnswers[SelectedAnswerIndex]);
