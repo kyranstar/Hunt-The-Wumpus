@@ -66,10 +66,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
             {
                 if (QuestionState == TriviaQuestionState.TrappedInPit)
                     ResolvePitTrivia();
-                else if (QuestionState == TriviaQuestionState.FightingWumpus)
-                {
-                    // TODO: Handle wumpus fight trivia as well
-                }
+                else if (QuestionState == TriviaQuestionState.HitWumpus)
+                    ResolveWumpusCollisionTrivia();
 
                 CloseTrivia();
             }
@@ -77,7 +75,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         private void ResolvePitTrivia()
         {
-            if (CurrentTrivia.NumberCorrect >= 2)
+            if (CurrentTrivia.NumberCorrect >= 3)
             {
                 Func<Room, bool> RoomValidator = r =>
                     !r.HasBats
@@ -109,15 +107,38 @@ namespace HuntTheWumpus.SharedCode.GameControl
             }
             else
             {
-                // TODO: End game?
+                EndGame();
             }
+        }
+
+        private void ResolveWumpusCollisionTrivia()
+        {
+            // TODO: Is 3 the proper number?
+            if (CurrentTrivia.NumberCorrect >= 3)
+            {
+                // TODO: End as win
+                EndGame();
+            }
+            else
+            {
+                // TODO: End as loss
+                EndGame();
+            }
+        }
+
+        private void EndGame()
+        {
+            // TODO: Accept a param that indicates whether they won or lost
+            // and save score if they won
+            SceneManager.LoadScene(SceneManager.GameOverScene);
         }
 
         public void Map_PlayerMoved(object sender, EventArgs e)
         {
+            // TODO: Add shooting trivia
             if (Map.PlayerRoom == Map.Wumpus.Location)
             {
-                LoadNewTrivia(TriviaQuestionState.FightingWumpus, 5);
+                LoadNewTrivia(TriviaQuestionState.HitWumpus, 5);
             }
             else if (Map.Cave[Map.PlayerRoom].HasPit)
             {

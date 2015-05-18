@@ -270,3 +270,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/Bat0.png
 
+#begin Segoe_UI_40_Bold.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Segoe_UI_40_Bold.spritefont
+
