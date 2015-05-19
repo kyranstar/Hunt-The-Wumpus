@@ -50,7 +50,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 Log.Error("Nonvalid cave was generated. Errors: " + GetErrors(NewCave));
             }
-            Log.Error("Num pits: " + NewCave.Rooms.Count(r => r.HasPit) + "\n Num bats: " + NewCave.Rooms.Count(r => r.HasBats));
+            Log.Info("Cave has " + NewCave.Rooms.Count(r => r.HasPit) + " pits and " + NewCave.Rooms.Count(r => r.HasBats) + " bats.");
             return NewCave;
         }
 
