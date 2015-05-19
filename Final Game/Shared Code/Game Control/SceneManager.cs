@@ -14,7 +14,6 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public static Scene MenuScene;
         public static Scene GameScene;
         public static Scene HighScoreScene;
-        public static Scene GameOverScene;
 
         private static Scene CurrentScene;
 
@@ -26,7 +25,6 @@ namespace HuntTheWumpus.SharedCode.GameControl
             SceneManager.MenuScene = new MainMenuScene();
             SceneManager.GameScene = new GameScene();
             SceneManager.HighScoreScene = new HighScoreScene();
-            SceneManager.GameOverScene = new GameOverScene();
 
             SceneManager.Content = Content;
             SceneManager.Graphics = Graphics;
@@ -67,8 +65,6 @@ namespace HuntTheWumpus.SharedCode.GameControl
             CurrentScene = null;
             MenuScene.UnloadContent();
             GameScene.UnloadContent();
-            HighScoreScene.UnloadContent();
-            GameOverScene.UnloadContent();
             HighScoreScene.UnloadContent();
         }
     }

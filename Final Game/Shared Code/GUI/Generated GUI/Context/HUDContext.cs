@@ -18,11 +18,16 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private StateAnimator TriviaModalFadeAnimation;
         private float PreviousNotifiedTriviaOpacity = 0;
-        
+
+        private StateAnimator GameOverModalFadeAnimation;
+        private float PreviousNotifiedGameOverOpacity = 0;
+
         GameController GameController;
 
         private const string QuestionBindingGroup = "QuestionBinding";
         private const string QuestionVisibilityGroup = "QuestionVisibility";
+        private const string GameOverBindingGroup = "GameOverBinding";
+        private const string GameOverVisibilityGroup = "GameOverVisibility";
 
         public HUDContext(GameController GameController)
         {
@@ -30,9 +35,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.Player = GameController.Map.Player;
 
             Player.PropertyChanged += Player_PropertyChanged;
-            GameController.NewQuestionHandler += Trivia_NewQuestion;
+            GameController.OnNewQuestion += Trivia_NewQuestion;
+            GameController.OnGameOver += GameController_OnGameOver;
 
             SubmitAnswerCommand = new RelayCommand(new Action<object>(SubmitAnswer));
+            ReturnToMenuCommand = new RelayCommand(new Action<object>(ReturnToMenu));
 
             TriviaModalFadeAnimation = new StateAnimator(
                 Pct =>
@@ -46,6 +53,25 @@ namespace HuntTheWumpus.SharedCode.GUI
                         return (float)-Math.Pow(Pct, 2) + 1;
                     },
                 1);
+
+
+            GameOverModalFadeAnimation = new StateAnimator(
+                Pct =>
+                {
+                    // TODO: Add math to do cubic Bezier curve:
+                    // (0.165, 0.84), (0.44, 1)
+                    return (float)Math.Pow(Pct, 2);
+                },
+                Pct =>
+                {
+                    return (float)-Math.Pow(Pct, 2) + 1;
+                },
+            1);
+        }
+
+        private void GameController_OnGameOver(object sender, EventArgs e)
+        {
+            RaisePropertyChangedForGroup(GameOverBindingGroup);
         }
 
         private void RaisePropertyChangedForGroup(string GroupName)
@@ -68,6 +94,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         }
 
         public ICommand SubmitAnswerCommand
+        {
+            get;
+            protected set;
+        }
+
+        public ICommand ReturnToMenuCommand
         {
             get;
             protected set;
@@ -96,12 +128,20 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return Player.Turns;
             }
         }
-        
+
         public bool IsTriviaInProgress
         {
             get
             {
                 return GameController.CurrentTrivia != null && GameController.CurrentTrivia.CurrentQuestion != null;
+            }
+        }
+
+        public bool IsGameOver
+        {
+            get
+            {
+                return GameController.GameOverState != null;
             }
         }
 
@@ -114,13 +154,31 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return TriviaModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
             }
         }
-        
+
+        [MemberGroup(GameOverVisibilityGroup)]
+        public Visibility GameOverModalVisibility
+        {
+            get
+            {
+                return GameOverModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         [MemberGroup(QuestionVisibilityGroup)]
         public float TriviaModalOpacity
         {
             get
             {
                 return MathHelper.Clamp(TriviaModalFadeAnimation.CurrentValue, 0, 1);
+            }
+        }
+
+        [MemberGroup(GameOverVisibilityGroup)]
+        public float GameOverModalOpacity
+        {
+            get
+            {
+                return MathHelper.Clamp(GameOverModalFadeAnimation.CurrentValue, 0, 1);
             }
         }
 
@@ -217,6 +275,30 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        [MemberGroup(GameOverBindingGroup)]
+        public string GameOverMessage
+        {
+            get
+            {
+                if (!IsGameOver)
+                    return null;
+
+                switch(GameController.GameOverState.Cause)
+                {
+                    case GameOverCause.FellInPit:
+                        return "You were trapped in a pit. You lose!";
+                    case GameOverCause.HitWumpus:
+                        return "You ran into the Wumpus and were killed. You lose!";
+                    case GameOverCause.NoArrows:
+                        return "You ran out of arrows. You lose!";
+                    case GameOverCause.ShotWumpus:
+                        return "You shot the Wumpus! You win!";
+                }
+
+                return null;
+            }
+        }
+
         private void SubmitAnswer(object o)
         {
             if (SelectedAnswerIndex >= 0)
@@ -226,14 +308,26 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return;
         }
 
+        private void ReturnToMenu(object o)
+        {
+            SceneManager.LoadScene(SceneManager.MenuScene);
+        }
+
         public void Update(GameTime GameTime)
         {
             TriviaModalFadeAnimation.Update(GameTime, IsTriviaInProgress);
-
             if (MathHelper.Distance(TriviaModalOpacity, PreviousNotifiedTriviaOpacity) > 0.01)
             {
                 RaisePropertyChangedForGroup(QuestionVisibilityGroup);
                 PreviousNotifiedTriviaOpacity = TriviaModalOpacity;
+            }
+
+
+            GameOverModalFadeAnimation.Update(GameTime, IsGameOver);
+            if (MathHelper.Distance(GameOverModalOpacity, PreviousNotifiedGameOverOpacity) > 0.01)
+            {
+                RaisePropertyChangedForGroup(GameOverVisibilityGroup);
+                PreviousNotifiedGameOverOpacity = GameOverModalOpacity;
             }
         }
     }

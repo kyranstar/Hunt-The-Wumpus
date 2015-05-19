@@ -72,6 +72,23 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Grid>
+        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverModalVisibility}" Opacity="{Binding GameOverModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" />
+            <TextBlock Text="{Binding GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
+            
+            <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding ReturnToMenuCommand}" Grid.Row="2" Grid.Column="1" />
+        </Grid>
     </Grid>
 </ek:UIRoot>
 

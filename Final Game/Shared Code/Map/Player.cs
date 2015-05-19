@@ -20,6 +20,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 PropertyChanged(this, new PropertyChangedEventArgs(PropName));
         }
 
+        public ScoreEntry ScoreEntry
+        {
+            get
+            {
+                return InternalScore;
+            }
+        }
+
         //Required fields and their getters
         public int Gold 
         {

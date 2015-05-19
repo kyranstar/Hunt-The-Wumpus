@@ -1,6 +1,7 @@
 ﻿using EmptyKeys.UserInterface;
 using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.Scenes;
+using HuntTheWumpus.SharedCode.Scores;
 using HuntTheWumpus.SharedCode.Trivia;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -12,9 +13,18 @@ namespace HuntTheWumpus.SharedCode.GameControl
 {
     public class GameController
     {
+        public delegate void GameOverHandler(object sender, EventArgs e);
+        public event GameOverHandler OnGameOver;
+
+        /// <summary>
+        /// Stores information about the game once it has concluded.
+        /// This will be <code>null</code> until the game ends.
+        /// </summary>
+        public GameOverState GameOverState = null;
+
         public TriviaSet CurrentTrivia;
         public TriviaQuestionState QuestionState;
-        public TriviaSet.QuestionUpdateHandler NewQuestionHandler;
+        public TriviaSet.QuestionUpdateHandler OnNewQuestion;
 
         public readonly Map Map;
         public readonly MapInputHandler InputHandler;
@@ -31,9 +41,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
             if (CurrentTrivia != null && !CurrentTrivia.IsComplete)
                 Log.Warn("New trivia set added before previous set was complete!");
 
-            CurrentTrivia = Trivia.Trivia.CreateTriviaSet(numTriviaQuestions, NewQuestionHandler);
+            CurrentTrivia = Trivia.Trivia.CreateTriviaSet(numTriviaQuestions, OnNewQuestion);
             QuestionState = triviaType;
-            NewQuestionHandler(CurrentTrivia, new EventArgs());
+            OnNewQuestion(CurrentTrivia, new EventArgs());
         }
 
         public void CloseTrivia()
@@ -107,30 +117,38 @@ namespace HuntTheWumpus.SharedCode.GameControl
             }
             else
             {
-                EndGame();
+                EndGame(GameOverCause.FellInPit);
             }
         }
 
         private void ResolveWumpusCollisionTrivia()
         {
-            // TODO: Is 3 the proper number?
             if (CurrentTrivia.NumberCorrect >= 3)
             {
-                // TODO: End as win
-                EndGame();
+                Map.Wumpus.HitPlayer();
             }
             else
             {
-                // TODO: End as loss
-                EndGame();
+                EndGame(GameOverCause.HitWumpus);
             }
         }
 
-        private void EndGame()
+        private void EndGame(GameOverCause Cause)
         {
-            // TODO: Accept a param that indicates whether they won or lost
-            // and save score if they won
-            SceneManager.LoadScene(SceneManager.GameOverScene);
+            GameOverState = new GameOverState()
+            {
+                Cause = Cause,
+                PlayerScore = Map.Player.ScoreEntry,
+                WonGame = Cause == GameOverCause.ShotWumpus
+            };
+
+            RaiseGameOver();
+        }
+
+        private void RaiseGameOver()
+        {
+            if(OnGameOver != null)
+                OnGameOver(this, new EventArgs());
         }
 
         public void Map_PlayerMoved(object sender, EventArgs e)

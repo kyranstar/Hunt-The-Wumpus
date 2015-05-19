@@ -101,7 +101,6 @@
     <None Include="XAML Output\MainMenuView.xaml.cs" />
     <None Include="Context\HighScoreContext.cs" />
     <None Include="Context\MainMenuContext.cs" />
-    <Compile Include="Context\GameOverContext.cs" />
     <Compile Include="Context\HUDContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -164,12 +163,6 @@
       <Project>{625a1ce9-4d92-42c8-86d3-3c98d1be9e44}</Project>
       <Name>Desktop</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="GameOverView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Content Include="XAML Assets\Gold.png" />

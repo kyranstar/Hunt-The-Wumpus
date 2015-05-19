@@ -20,7 +20,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             get
             {
-                return GameController.CurrentTrivia != null;
+                return GameController.CurrentTrivia != null || GameController.GameOverState != null;
             }
         }
 
