@@ -21,7 +21,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             List<string> MemberNameResults = new List<string>();
 
             Type TargetType = typeof(T);
-            foreach(MemberInfo Member in TargetType.GetMembers())
+            foreach(MemberInfo Member in TargetType.GetTypeInfo().DeclaredMembers)
             {
                 // Property getters/setters show up separately as methods
                 // as well as in their parent properties
@@ -36,5 +36,12 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
             return MemberNameResults.ToArray();
         }
+
+#if NETFX_CORE
+        private static Attribute[] GetCustomAttributes(MemberInfo Member, Type AttributeType)
+        {
+            return Member.GetCustomAttributes(AttributeType).ToArray();
+        }
+#endif
     }
 }
