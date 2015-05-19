@@ -8,6 +8,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 {
     static class MapGenerator
     {
+        private static readonly Random Rand = new Random();
         const int GridWidth = 6;
         const int GridHeight = 5;
 
@@ -38,17 +39,30 @@ namespace HuntTheWumpus.SharedCode.GameMap
         public static Cave GenerateRandomCave()
         {
             //TODO: Make less snakey, add hazards and make sure player can traverse map without hitting hazards
-            const int maxRoomCount = 30;
+            const int roomCount = 30;
             const int maxConnectionsToCreatePerRoom = 4;
 
-            Random rand = new Random();
-            Cave NewCave = new Cave();
+            Cave NewCave = CreateRooms(roomCount, maxConnectionsToCreatePerRoom);
+            AddHazards(NewCave);
+            AddGold(NewCave);
 
+            if (!NewCave.IsValid)
+            {
+                Log.Error("Nonvalid cave was generated. Errors: " + GetErrors(NewCave));
+            }
+            Log.Error("Num pits: " + NewCave.Rooms.Count(r => r.HasPit) + "\n Num bats: " + NewCave.Rooms.Count(r => r.HasBats));
+            return NewCave;
+        }
+
+        private static Cave CreateRooms(int roomsToCreate, int maxConnectionsToCreatePerRoom)
+        {
+            Cave NewCave = new Cave();
+            int numRoomsCreated = 0;
             int id = 0;
             int lastRoom = 0;
 
             // Must be at least maxRoomCount * 2. 3 to be safe
-            const int size = maxRoomCount * 3;
+            int size = roomsToCreate * 3;
 
             // Holds all the rooms that exist
             int[,] rooms = new int[size, size];
@@ -65,22 +79,26 @@ namespace HuntTheWumpus.SharedCode.GameMap
             NewCave.AddRoom(id, Enumerable.Repeat(-1, 6).ToArray());
             rooms[lastPos.X, lastPos.Y] = id;
             id++;
-
-            for (int i = maxRoomCount; i > 0; i--)
+            while (true)
             {
-                int numToCreate = rand.Next(maxConnectionsToCreatePerRoom);
+                int numToCreate = Rand.Next(maxConnectionsToCreatePerRoom);
                 for (int j = 0; j < numToCreate; j++)
                 {
-                    int direction = rand.Next(6);
+                    int direction = Rand.Next(6);
                     int inverseDirection = GetInverseDirection(direction);
 
                     Point newPoint = GetDifference(lastPos.X, lastPos.Y, direction);
 
                     if (rooms[newPoint.X, newPoint.Y] >= 0)
                     {
-                        //We ran into an old room. Create a connection between us and it.
-                        NewCave[lastRoom].AdjacentRooms[direction] = rooms[newPoint.X, newPoint.Y];
-                        NewCave[rooms[newPoint.X, newPoint.Y]].AdjacentRooms[GetInverseDirection(direction)] = lastRoom;
+                        // If we can add more connections
+                        if (NewCave[lastRoom].AdjacentRooms.Count(i => i != -1) < maxConnectionsToCreatePerRoom &&
+                            NewCave[rooms[newPoint.X, newPoint.Y]].AdjacentRooms.Count(i => i != -1) < maxConnectionsToCreatePerRoom)
+                        {
+                            //We ran into an old room. Create a connection between us and it.
+                            NewCave[lastRoom].AdjacentRooms[direction] = rooms[newPoint.X, newPoint.Y];
+                            NewCave[rooms[newPoint.X, newPoint.Y]].AdjacentRooms[GetInverseDirection(direction)] = lastRoom;
+                        }
 
                         if (j == numToCreate - 1)
                         {
@@ -98,6 +116,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
                         //Add room
                         NewCave.AddRoom(id, connections);
+                        numRoomsCreated++;
+                        // If we've created enough rooms
+                        if (numRoomsCreated >= roomsToCreate) return NewCave;
+
                         rooms[newPoint.X, newPoint.Y] = id;
                         if (j == numToCreate - 1)
                         {
@@ -110,13 +132,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     }
                 }
             }
-            AddHazards(NewCave);
-            if (!NewCave.IsValid)
+        }
+
+        private static void AddGold(Cave NewCave)
+        {
+            foreach (var room in NewCave.Rooms)
             {
-                Log.Error("Nonvalid cave was generated. Errors: " + GetErrors(NewCave));
+                room.Gold = 1;
             }
-            Log.Error("Num pits: " + NewCave.Rooms.Count(r => r.HasPit) + "\n Num bats: " + NewCave.Rooms.Count(r => r.HasBats));
-            return NewCave;
         }
         /// <summary>
         /// Adds 2 pits and 2 bats according to spec.
@@ -139,9 +162,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
         }
         private static int? FindValidHazardSpot(Cave cave)
         {
-            var rand = new Random();
             // Random order so we don't get a bunch in the beginning of the map
-            foreach (Room room in cave.RoomDict.Values.OrderBy(r => rand.Next()))
+            foreach (Room room in cave.RoomDict.Values.OrderBy(r => Rand.Next()))
             {
                 // Invalid if it already has a hazard, or if it is the player's starting position
                 if (room.HasBats || room.HasPit || room.RoomID == 0) continue;
@@ -205,7 +227,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 case 0:
                     return new Point(CurrRow - 1, CurrCol);
                 case 1:
-                    return MathUtils.IsEven(CurrCol) ? new Point(CurrRow - 1, CurrCol + 1) :  new Point(CurrRow, CurrCol + 1);
+                    return MathUtils.IsEven(CurrCol) ? new Point(CurrRow - 1, CurrCol + 1) : new Point(CurrRow, CurrCol + 1);
                 case 2:
                     return MathUtils.IsEven(CurrCol) ? new Point(CurrRow, CurrCol + 1) : new Point(CurrRow + 1, CurrCol + 1);
                 case 3:
