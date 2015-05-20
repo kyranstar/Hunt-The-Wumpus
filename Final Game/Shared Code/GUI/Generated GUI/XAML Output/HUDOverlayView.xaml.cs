@@ -218,9 +218,9 @@ namespace EmptyKeys.UserInterface.Generated {
             row_TriviaDisplay_5.Height = new GridLength(1F, GridUnitType.Star);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_5);
             Grid.SetColumnSpan(this.TriviaDisplay, 2);
-            Binding binding_TriviaDisplay_Opacity = new Binding("TriviaModalOpacity");
+            Binding binding_TriviaDisplay_Opacity = new Binding("TriviaContext.TriviaModalOpacity");
             this.TriviaDisplay.SetBinding(Grid.OpacityProperty, binding_TriviaDisplay_Opacity);
-            Binding binding_TriviaDisplay_Visibility = new Binding("TriviaModalVisibility");
+            Binding binding_TriviaDisplay_Visibility = new Binding("TriviaContext.TriviaModalVisibility");
             this.TriviaDisplay.SetBinding(Grid.VisibilityProperty, binding_TriviaDisplay_Visibility);
             // QuestionText element
             this.QuestionText = new TextBlock();
@@ -232,7 +232,7 @@ namespace EmptyKeys.UserInterface.Generated {
             FontManager.Instance.AddFont("Segoe UI", 40F, FontStyle.Regular, "Segoe_UI_30_Regular");
             this.QuestionText.FontSize = 40F;
             Grid.SetRow(this.QuestionText, 1);
-            Binding binding_QuestionText_Text = new Binding("CurrentTriviaQuestionText");
+            Binding binding_QuestionText_Text = new Binding("TriviaContext.CurrentTriviaQuestionText");
             this.QuestionText.SetBinding(TextBlock.TextProperty, binding_QuestionText_Text);
             // e_7 element
             this.e_7 = new StackPanel();
@@ -249,11 +249,11 @@ namespace EmptyKeys.UserInterface.Generated {
             this.TriviaAnswerSelector.Width = 250F;
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
             this.TriviaAnswerSelector.FontSize = 20F;
-            Binding binding_TriviaAnswerSelector_ItemsSource = new Binding("CurrentTriviaQuestionAnswersAsComboBoxItems");
+            Binding binding_TriviaAnswerSelector_ItemsSource = new Binding("TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems");
             this.TriviaAnswerSelector.SetBinding(ComboBox.ItemsSourceProperty, binding_TriviaAnswerSelector_ItemsSource);
-            Binding binding_TriviaAnswerSelector_SelectedIndex = new Binding("SelectedAnswerIndex");
+            Binding binding_TriviaAnswerSelector_SelectedIndex = new Binding("TriviaContext.SelectedAnswerIndex");
             this.TriviaAnswerSelector.SetBinding(ComboBox.SelectedIndexProperty, binding_TriviaAnswerSelector_SelectedIndex);
-            Binding binding_TriviaAnswerSelector_SelectedItem = new Binding("SelectedAnswer");
+            Binding binding_TriviaAnswerSelector_SelectedItem = new Binding("TriviaContext.SelectedAnswer");
             this.TriviaAnswerSelector.SetBinding(ComboBox.SelectedItemProperty, binding_TriviaAnswerSelector_SelectedItem);
             // e_8 element
             this.e_8 = new Button();
@@ -264,7 +264,7 @@ namespace EmptyKeys.UserInterface.Generated {
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
             this.e_8.Content = "Submit";
             Grid.SetRow(this.e_8, 3);
-            Binding binding_e_8_Command = new Binding("SubmitAnswerCommand");
+            Binding binding_e_8_Command = new Binding("TriviaContext.SubmitAnswerCommand");
             this.e_8.SetBinding(Button.CommandProperty, binding_e_8_Command);
             // e_9 element
             this.e_9 = new StackPanel();
@@ -281,7 +281,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_10.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
             this.e_10.FontSize = 20F;
-            Binding binding_e_10_Text = new Binding("NumTriviaQuestionsCorrect");
+            Binding binding_e_10_Text = new Binding("TriviaContext.NumTriviaQuestionsCorrect");
             this.e_10.SetBinding(TextBlock.TextProperty, binding_e_10_Text);
             // e_11 element
             this.e_11 = new TextBlock();
@@ -298,7 +298,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_12.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
             this.e_12.FontSize = 20F;
-            Binding binding_e_12_Text = new Binding("NumTriviaQuestionsTotal");
+            Binding binding_e_12_Text = new Binding("TriviaContext.NumTriviaQuestionsTotal");
             this.e_12.SetBinding(TextBlock.TextProperty, binding_e_12_Text);
             // e_13 element
             this.e_13 = new Grid();

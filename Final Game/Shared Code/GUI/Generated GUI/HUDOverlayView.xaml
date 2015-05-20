@@ -37,7 +37,7 @@
                 <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" />
             </StackPanel>
         </Grid>
-        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaModalVisibility}" Opacity="{Binding TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding Path=TriviaContext.TriviaModalVisibility}" Opacity="{Binding TriviaContext.TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="70px"/>
@@ -46,15 +46,15 @@
                 <RowDefinition Height="40px"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="QuestionText" Text="{Binding CurrentTriviaQuestionText}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
+            <TextBlock Name="QuestionText" Text="{Binding Path=TriviaContext.CurrentTriviaQuestionText}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
             <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ComboBox Name="TriviaAnswerSelector" Width="250px" FontSize="20" ItemsSource="{Binding CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding SelectedAnswerIndex}" SelectedItem="{Binding SelectedAnswer}"/>
-                <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding SubmitAnswerCommand}"/>
+                <ComboBox Name="TriviaAnswerSelector" Width="250px" FontSize="20" ItemsSource="{Binding Path=TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding TriviaContext.SelectedAnswerIndex}" SelectedItem="{Binding TriviaContext.SelectedAnswer}"/>
+                <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding Path=TriviaContext.SubmitAnswerCommand}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding NumTriviaQuestionsCorrect}" Foreground="White" FontSize="20" />
+                <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsCorrect}" Foreground="White" FontSize="20" />
                 <TextBlock Text="/" Foreground="White" FontSize="20" />
-                <TextBlock Text="{Binding NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" />
+                <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" />
             </StackPanel>
         </Grid>
         <Grid Background="#333333" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
