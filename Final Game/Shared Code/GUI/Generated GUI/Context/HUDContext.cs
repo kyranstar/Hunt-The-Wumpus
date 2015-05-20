@@ -27,6 +27,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         GameController GameController;
 
+        public ScoreHudContext ScoreContext { get; set; }
+
         private const string QuestionBindingGroup = "QuestionBinding";
         private const string QuestionVisibilityGroup = "QuestionVisibility";
         private const string GameOverBindingGroup = "GameOverBinding";
@@ -89,6 +91,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                         return 0;
                 },
             0.6);
+
+            ScoreContext = new ScoreHudContext(Player);
         }
 
         private void GameController_OnGameOver(object sender, EventArgs e)
@@ -98,7 +102,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void RaisePropertyChangedForGroup(string GroupName)
         {
-            string[] QuestionBindingProps = MemberGroupAttribute.GetMemberNamesByGroup(this, GroupName);
+            string[] QuestionBindingProps = PropertyGroupAttribute.GetPropertyNamesByGroup(this.GetType(), GroupName);
 
             foreach (string Prop in QuestionBindingProps)
                 RaisePropertyChanged(Prop);
@@ -133,30 +137,6 @@ namespace HuntTheWumpus.SharedCode.GUI
             protected set;
         }
 
-        public int Gold
-        {
-            get
-            {
-                return Player.Gold;
-            }
-        }
-
-        public int Arrows
-        {
-            get
-            {
-                return Player.Arrows;
-            }
-        }
-        
-        public int Turns
-        {
-            get
-            {
-                return Player.Turns;
-            }
-        }
-
         public bool IsTriviaInProgress
         {
             get
@@ -173,8 +153,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(QuestionVisibilityGroup)]
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionVisibilityGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public Visibility TriviaModalVisibility
         {
             get
@@ -183,7 +163,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(GameOverVisibilityGroup)]
+        [PropertyGroup(GameOverVisibilityGroup)]
         public Visibility GameOverModalVisibility
         {
             get
@@ -192,13 +172,13 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(HintVisibilityGroup)]
+        [PropertyGroup(HintVisibilityGroup)]
         public Visibility HintFlyoutVisibility
         {
             get; set;
         }
 
-        [MemberGroup(QuestionVisibilityGroup)]
+        [PropertyGroup(QuestionVisibilityGroup)]
         public float TriviaModalOpacity
         {
             get
@@ -207,7 +187,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(GameOverVisibilityGroup)]
+        [PropertyGroup(GameOverVisibilityGroup)]
         public float GameOverModalOpacity
         {
             get
@@ -216,7 +196,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(GameOverVisibilityGroup)]
+        [PropertyGroup(GameOverVisibilityGroup)]
         public Thickness GameOverModalMargin
         {
             get
@@ -225,7 +205,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public string CurrentTriviaQuestionText
         {
             get
@@ -246,7 +226,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public ComboBoxItem[] CurrentTriviaQuestionAnswersAsComboBoxItems
         {
             get
@@ -268,21 +248,21 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public int SelectedAnswerIndex
         {
             get;
             set;
         }
 
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public ComboBoxItem SelectedAnswer
         {
             get;
             set;
         }
 
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public int NumTriviaQuestionsCorrect
         {
             get
@@ -294,7 +274,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public int NumTriviaQuestionsCompleted
         {
             get
@@ -306,7 +286,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(QuestionBindingGroup)]
+        [PropertyGroup(QuestionBindingGroup)]
         public int NumTriviaQuestionsTotal
         {
             get
@@ -318,7 +298,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [MemberGroup(GameOverBindingGroup)]
+        [PropertyGroup(GameOverBindingGroup)]
         public string GameOverMessage
         {
             get

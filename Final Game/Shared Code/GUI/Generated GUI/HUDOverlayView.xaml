@@ -24,16 +24,16 @@
                         <BitmapImage UriSource="XAML Assets/Gold.png"/> 
                     </Image.Source> 
                 </Image>
-                <TextBlock Text="{Binding Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+                <TextBlock Text="{Binding Path=ScoreContext.Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
                 <Image Margin="5,5,5,5" Stretch="Uniform">
                     <Image.Source>
                         <BitmapImage UriSource="XAML Assets/Arrow.png"/>
                     </Image.Source>
                 </Image>
-                <TextBlock Text="{Binding Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+                <TextBlock Text="{Binding Path=ScoreContext.Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
-                <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
+                <TextBlock Text="{Binding Path=ScoreContext.Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
                 <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" />
             </StackPanel>
         </Grid>

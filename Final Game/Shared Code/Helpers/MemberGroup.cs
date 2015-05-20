@@ -7,34 +7,34 @@ using Microsoft.Xna.Framework;
 namespace HuntTheWumpus.SharedCode.Helpers
 {
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    public class MemberGroupAttribute : Attribute
+    public class PropertyGroupAttribute : Attribute
     {
         public string GroupName { get; set; }
 
-        public MemberGroupAttribute(string GroupName)
+        public PropertyGroupAttribute(string GroupName)
         {
             this.GroupName = GroupName;
         }
 
-        public static string[] GetMemberNamesByGroup<T>(T Target, string GroupName)
+        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName, bool Recurse = true)
         {
-            List<string> MemberNameResults = new List<string>();
+            List<string> PropertyNameResults = new List<string>();
 
-            Type TargetType = typeof(T);
-            foreach(MemberInfo Member in TargetType.GetTypeInfo().DeclaredMembers)
+            foreach(PropertyInfo Property in TargetType.GetTypeInfo().DeclaredProperties)
             {
-                // Property getters/setters show up separately as methods
-                // as well as in their parent properties
-                if (Member is MethodInfo && (Member.Name.StartsWith("get_") || Member.Name.StartsWith("set_")))
-                    continue;
-
-                Attribute[] GroupAttributes = GetCustomAttributes(Member, typeof(MemberGroupAttribute));
+                Attribute[] GroupAttributes = GetCustomAttributes(Property, typeof(PropertyGroupAttribute));
                 foreach(Attribute GroupAttribute in GroupAttributes)
-                    if(GroupAttribute is MemberGroupAttribute && (GroupAttribute as MemberGroupAttribute).GroupName == GroupName)
-                        MemberNameResults.Add(Member.Name);
+                    if(GroupAttribute is PropertyGroupAttribute && (GroupAttribute as PropertyGroupAttribute).GroupName == GroupName)
+                        PropertyNameResults.Add(Property.Name);
+
+                if (Recurse)
+                {
+                    string[] SubItems = GetPropertyNamesByGroup(Property.PropertyType, GroupName, false);
+                    PropertyNameResults.AddRange(SubItems.Select(name => Property.Name + "." + name));
+                }
             }
 
-            return MemberNameResults.ToArray();
+            return PropertyNameResults.ToArray();
         }
 
 #if NETFX_CORE

@@ -140,7 +140,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_2.FontFamily = new FontFamily("Segoe UI");
             this.e_2.FontSize = 20F;
             this.e_2.FontStyle = FontStyle.Bold;
-            Binding binding_e_2_Text = new Binding("Gold");
+            Binding binding_e_2_Text = new Binding("ScoreContext.Gold");
             this.e_2.SetBinding(TextBlock.TextProperty, binding_e_2_Text);
             // e_3 element
             this.e_3 = new Image();
@@ -162,7 +162,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_4.FontFamily = new FontFamily("Segoe UI");
             this.e_4.FontSize = 20F;
             this.e_4.FontStyle = FontStyle.Bold;
-            Binding binding_e_4_Text = new Binding("Arrows");
+            Binding binding_e_4_Text = new Binding("ScoreContext.Arrows");
             this.e_4.SetBinding(TextBlock.TextProperty, binding_e_4_Text);
             // e_5 element
             this.e_5 = new StackPanel();
@@ -182,7 +182,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_6.FontFamily = new FontFamily("Segoe UI");
             this.e_6.FontSize = 20F;
             this.e_6.FontStyle = FontStyle.Bold;
-            Binding binding_e_6_Text = new Binding("Turns");
+            Binding binding_e_6_Text = new Binding("ScoreContext.Turns");
             this.e_6.SetBinding(TextBlock.TextProperty, binding_e_6_Text);
             // HintButton element
             this.HintButton = new Button();
