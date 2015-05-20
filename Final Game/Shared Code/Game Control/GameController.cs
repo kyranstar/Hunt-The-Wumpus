@@ -163,5 +163,31 @@ namespace HuntTheWumpus.SharedCode.GameControl
                 LoadNewTrivia(TriviaQuestionState.TrappedInPit, 3);
             }
         }
+
+        public bool TryShootTowards(Direction direction)
+        {
+            // TODO: Animate shooting
+            // TODO: Verify arrow count (before and after)
+
+            Map.Player.Arrows--;
+
+            int targetRoom = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)direction];
+            if (Map.CanShootTo(targetRoom))
+            {
+                if (Map.Wumpus.Location == targetRoom)
+                {
+                    // TODO: end game
+                    Log.Info("Yay! You shot the wumpus!");
+                    EndGame(GameOverCause.ShotWumpus);
+                    return true;
+                }
+                // TODO: Present message (miss)
+                Log.Info("Your arrow missed the wumpus.");
+                return false;
+            }
+            // TODO: Present message (hit wall)
+            Log.Info("You managed to shoot a wall. Good job.");
+            return false;
+        }
     }
 }

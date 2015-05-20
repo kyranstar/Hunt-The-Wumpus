@@ -91,30 +91,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
         }
 
-        public bool TryShootTowards(Direction direction)
-        {
-            // TODO: Animate shooting
-
-            Player.Arrows--;
-
-            int targetRoom = Cave[PlayerRoom].AdjacentRooms[(int) direction];
-            if (CanShootTo(targetRoom))
-            {
-                if (Wumpus.Location == targetRoom)
-                {
-                    // TODO: end game
-                    Log.Info("Yay! You shot the wumpus!");
-                    return true;
-                }
-                // TODO: Present message (miss)
-                Log.Info("Your arrow missed the wumpus.");
-                return false;
-            }
-            // TODO: Present message (hit wall)
-            Log.Info("You managed to shoot a wall. Good job.");
-            return false;
-        }
-
         public void Update(GameTime gameTime)
         {
             Cave.Update(gameTime);
