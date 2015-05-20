@@ -353,6 +353,8 @@ namespace EmptyKeys.UserInterface.Generated {
             ColumnDefinition col_GameOverModalDialog_2 = new ColumnDefinition();
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_2);
             Grid.SetColumnSpan(this.GameOverModalDialog, 2);
+            Binding binding_GameOverModalDialog_Margin = new Binding("GameOverModalMargin");
+            this.GameOverModalDialog.SetBinding(Grid.MarginProperty, binding_GameOverModalDialog_Margin);
             Binding binding_GameOverModalDialog_Opacity = new Binding("GameOverModalOpacity");
             this.GameOverModalDialog.SetBinding(Grid.OpacityProperty, binding_GameOverModalDialog_Opacity);
             Binding binding_GameOverModalDialog_Visibility = new Binding("GameOverModalVisibility");

@@ -133,7 +133,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             }
         }
 
-        private void EndGame(GameOverCause Cause)
+        public void EndGame(GameOverCause Cause)
         {
             GameOverState = new GameOverState()
             {

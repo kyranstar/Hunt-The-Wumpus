@@ -19,7 +19,10 @@ namespace HuntTheWumpus.SharedCode.GUI
         private StateAnimator TriviaModalFadeAnimation;
         private float PreviousNotifiedTriviaOpacity = 0;
 
-        private StateAnimator GameOverModalFadeAnimation;
+        private StateAnimator GameOverModalMarginAnimation;
+        private float PreviousNotifiedGameOverMargin = 0;
+
+        private StateAnimator GameOverModalOpacityAnimation;
         private float PreviousNotifiedGameOverOpacity = 0;
 
         GameController GameController;
@@ -55,18 +58,33 @@ namespace HuntTheWumpus.SharedCode.GUI
                 1);
 
 
-            GameOverModalFadeAnimation = new StateAnimator(
+            GameOverModalMarginAnimation = new StateAnimator(
                 Pct =>
                 {
                     // TODO: Add math to do cubic Bezier curve:
                     // (0.165, 0.84), (0.44, 1)
-                    return (float)Math.Pow(Pct, 2);
+                    return (float)(Math.Pow(-Pct + 1, 2) * 200);
                 },
                 Pct =>
                 {
-                    return (float)-Math.Pow(Pct, 2) + 1;
+                    // Don't need to handle this -- should never fade out
+                    return 0;
                 },
             1);
+
+            GameOverModalOpacityAnimation = new StateAnimator(
+                Pct =>
+                {
+                        // TODO: Add math to do cubic Bezier curve:
+                        // (0.165, 0.84), (0.44, 1)
+                        return (float)Math.Pow(Pct, 2);
+                },
+                Pct =>
+                {
+                        // Don't need to handle this -- should never fade out
+                        return 0;
+                },
+            0.6);
         }
 
         private void GameController_OnGameOver(object sender, EventArgs e)
@@ -178,7 +196,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                return MathHelper.Clamp(GameOverModalFadeAnimation.CurrentValue, 0, 1);
+                return MathHelper.Clamp(GameOverModalOpacityAnimation.CurrentValue, 0, 1);
+            }
+        }
+
+        [MemberGroup(GameOverVisibilityGroup)]
+        public Thickness GameOverModalMargin
+        {
+            get
+            {
+                return new Thickness(GameOverModalMarginAnimation.CurrentValue, 0, -GameOverModalMarginAnimation.CurrentValue, 0);
             }
         }
 
@@ -323,11 +350,20 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
 
 
-            GameOverModalFadeAnimation.Update(GameTime, IsGameOver);
+            GameOverModalMarginAnimation.Update(GameTime, IsGameOver);
+            if (MathHelper.Distance(GameOverModalMargin.Left, PreviousNotifiedGameOverMargin) > 0.01)
+            {
+                RaisePropertyChangedForGroup(GameOverVisibilityGroup);
+                PreviousNotifiedGameOverMargin = GameOverModalMargin.Left;
+            }
+
+
+            GameOverModalOpacityAnimation.Update(GameTime, IsGameOver);
             if (MathHelper.Distance(GameOverModalOpacity, PreviousNotifiedGameOverOpacity) > 0.01)
             {
                 RaisePropertyChangedForGroup(GameOverVisibilityGroup);
                 PreviousNotifiedGameOverOpacity = GameOverModalOpacity;
+                Log.Info("Opacity: " + GameOverModalOpacityAnimation.CurrentValue);
             }
         }
     }

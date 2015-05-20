@@ -35,7 +35,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Root.RegisterCommand(new ListRoomsCommand(Map));
             Root.RegisterCommand(new SetViewCommand(MapRenderer));
             Root.RegisterCommand(new OutlineCommand(MapRenderer));
-            Root.RegisterCommand(new Display(Map));
+            Root.RegisterCommand(new Display(GameController));
 
             CommandEngine Engine = new CommandEngine(Root);
             Engine.Run(new string[0]);
@@ -64,6 +64,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
     {
         private const string HAZARDS = "hazards";
         private const string ROOMS = "rooms";
+        private const string GameOver = "gameover";
 
         private const string Help = 
 @"Graphically displays whatever is passed in as a parameter:
@@ -71,10 +72,10 @@ namespace HuntTheWumpus.SharedCode.GameControl
         - " + ROOMS + @": Sets all rooms as visible and removes fog of war.";
 
 
-        Map Map;
-        public Display(Map Map) : base("display", Help)
+        GameController GameController;
+        public Display(GameController GameController) : base("display", Help)
         {
-            this.Map = Map;
+            this.GameController = GameController;
         }
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
@@ -86,11 +87,14 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     //TODO display hazards
                     break;
                 case ROOMS:
-                    foreach (int room in Map.Cave.RoomDict.Keys)
+                    foreach (int room in GameController.Map.Cave.RoomDict.Keys)
                     {
-                        Map.PlayerPath.Add(room);
-                        Map.MoveCount++;
+                        GameController.Map.PlayerPath.Add(room);
+                        GameController.Map.MoveCount++;
                     }
+                    break;
+                case GameOver:
+                    GameController.EndGame(Scores.GameOverCause.HitWumpus);
                     break;
             }
             return true;

@@ -72,7 +72,7 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Grid>
-        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverModalVisibility}" Opacity="{Binding GameOverModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverModalVisibility}" Opacity="{Binding GameOverModalOpacity}" Margin="{Binding GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
