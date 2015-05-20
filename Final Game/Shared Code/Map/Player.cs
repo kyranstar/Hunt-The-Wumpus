@@ -1,5 +1,4 @@
-﻿
-using HuntTheWumpus.SharedCode.Helpers;
+﻿using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.Scores;
 using System.ComponentModel;
 

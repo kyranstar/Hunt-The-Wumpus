@@ -16,6 +16,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public delegate void GameOverHandler(object sender, EventArgs e);
         public event GameOverHandler OnGameOver;
 
+        public delegate void NewHintHandler(object sender, EventArgs e);
+        public event NewHintHandler OnNewHintAvailable;
+
         /// <summary>
         /// Stores information about the game once it has concluded.
         /// This will be <code>null</code> until the game ends.
@@ -78,9 +81,23 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     ResolvePitTrivia();
                 else if (QuestionState == TriviaQuestionState.HitWumpus)
                     ResolveWumpusCollisionTrivia();
+                else if (QuestionState == TriviaQuestionState.PurchasingHint)
+                    ResolveHintTrivia();
 
                 CloseTrivia();
             }
+        }
+
+        private void ResolveHintTrivia()
+        {
+            if (CurrentTrivia.NumberCorrect >= 2)
+            {
+                Trivia.Trivia.UnlockNewHint();
+                RaiseNewHint();
+            }
+            else
+                // TODO: Notify the user
+                Log.Info("No hint for you.");
         }
 
         private void ResolvePitTrivia()
@@ -149,6 +166,12 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             if(OnGameOver != null)
                 OnGameOver(this, new EventArgs());
+        }
+
+        private void RaiseNewHint()
+        {
+            if (OnNewHintAvailable != null)
+                OnNewHintAvailable(this, new EventArgs());
         }
 
         public void Map_PlayerMoved(object sender, EventArgs e)

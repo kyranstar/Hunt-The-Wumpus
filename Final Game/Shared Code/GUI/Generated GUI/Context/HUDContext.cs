@@ -9,6 +9,7 @@ using EmptyKeys.UserInterface.Controls;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using HuntTheWumpus.SharedCode.Helpers;
+using HuntTheWumpus.SharedCode.Trivia;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -29,7 +30,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private const string GameOverBindingGroup = "GameOverBinding";
         private const string GameOverVisibilityGroup = "GameOverVisibility";
-        private const string HintVisibilityGroup = "HintVisibility";
+        private const string HintGroup = "HintVisibility";
 
         public HUDContext(GameController GameController)
         {
@@ -39,9 +40,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             Player.PropertyChanged += Player_PropertyChanged;
             GameController.OnNewQuestion += Trivia_NewQuestion;
             GameController.OnGameOver += GameController_OnGameOver;
+            GameController.OnNewHintAvailable += GameController_OnNewHintAvailable;
 
             ReturnToMenuCommand = new RelayCommand(new Action<object>(ReturnToMenu));
             ShowHintsCommand = new RelayCommand(new Action<object>(ShowHints));
+            BuyHintsCommand = new RelayCommand(new Action<object>(BuyHints));
 
             HintFlyoutVisibility = Visibility.Hidden;
 
@@ -76,6 +79,11 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             ScoreContext = new ScoreHudContext(Player);
             TriviaContext = new TriviaHudContext(GameController, RaisePropertyChangedForGroup);
+        }
+
+        private void GameController_OnNewHintAvailable(object sender, EventArgs e)
+        {
+            RaisePropertyChangedForGroup(HintGroup);
         }
 
         private void GameController_OnGameOver(object sender, EventArgs e)
@@ -114,6 +122,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             protected set;
         }
 
+        public ICommand BuyHintsCommand
+        {
+            get;
+            protected set;
+        }
+
         public bool IsGameOver
         {
             get
@@ -122,7 +136,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
-        [PropertyGroup(HintVisibilityGroup)]
+        [PropertyGroup(HintGroup)]
         public Visibility HintFlyoutVisibility
         {
             get; set;
@@ -146,6 +160,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        [PropertyGroup(HintGroup)]
         public string[] UnlockedHints
         {
             get
@@ -199,7 +214,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             else
                 HintFlyoutVisibility = Visibility.Visible;
 
-            RaisePropertyChangedForGroup(HintVisibilityGroup);
+            RaisePropertyChangedForGroup(HintGroup);
+        }
+
+        public void BuyHints(object o)
+        {
+            GameController.LoadNewTrivia(TriviaQuestionState.PurchasingHint, 3);
         }
 
         public void Update(GameTime GameTime)
