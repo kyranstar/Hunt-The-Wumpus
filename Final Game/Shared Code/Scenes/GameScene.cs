@@ -36,7 +36,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
         public override void Initialize(GraphicsDevice GraphicsDevice)
         {
             this.Graphics = GraphicsDevice;
-
+            GameController.Reset();
 #if DESKTOP
             God = new GodManager(GameController, MapRenderer);
             // Run god console on separate thread

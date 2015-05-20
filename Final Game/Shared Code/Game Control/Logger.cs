@@ -8,7 +8,7 @@ using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {
-    static class Log
+    public static class Log
     {
 #if DESKTOP
         public static IConsole Console = new ClientConsole();

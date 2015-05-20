@@ -36,6 +36,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Map.OnPlayerMoved += Map_PlayerMoved;
         }
 
+
+        public void Reset()
+        {
+            Map.Reset();
+        }
+
+
         public void LoadNewTrivia(TriviaQuestionState triviaType, int numTriviaQuestions)
         {
             if (CurrentTrivia != null && !CurrentTrivia.IsComplete)
@@ -147,7 +154,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         private void RaiseGameOver()
         {
-            if(OnGameOver != null)
+            if (OnGameOver != null)
                 OnGameOver(this, new EventArgs());
         }
 
