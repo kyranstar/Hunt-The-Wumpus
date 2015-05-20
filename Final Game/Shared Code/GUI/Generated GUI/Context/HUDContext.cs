@@ -31,6 +31,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private const string QuestionVisibilityGroup = "QuestionVisibility";
         private const string GameOverBindingGroup = "GameOverBinding";
         private const string GameOverVisibilityGroup = "GameOverVisibility";
+        private const string HintVisibilityGroup = "HintVisibility";
 
         public HUDContext(GameController GameController)
         {
@@ -43,6 +44,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             SubmitAnswerCommand = new RelayCommand(new Action<object>(SubmitAnswer));
             ReturnToMenuCommand = new RelayCommand(new Action<object>(ReturnToMenu));
+            ShowHintsCommand = new RelayCommand(new Action<object>(ShowHints));
+
+            HintFlyoutVisibility = Visibility.Hidden;
 
             TriviaModalFadeAnimation = new StateAnimator(
                 Pct =>
@@ -123,6 +127,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             protected set;
         }
 
+        public ICommand ShowHintsCommand
+        {
+            get;
+            protected set;
+        }
+
         public int Gold
         {
             get
@@ -180,6 +190,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 return GameOverModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
             }
+        }
+
+        [MemberGroup(HintVisibilityGroup)]
+        public Visibility HintFlyoutVisibility
+        {
+            get; set;
         }
 
         [MemberGroup(QuestionVisibilityGroup)]
@@ -338,6 +354,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void ReturnToMenu(object o)
         {
             SceneManager.LoadScene(SceneManager.MenuScene);
+        }
+
+        public void ShowHints(object o)
+        {
+            if(HintFlyoutVisibility == Visibility.Visible)
+                HintFlyoutVisibility = Visibility.Hidden;
+            else
+                HintFlyoutVisibility = Visibility.Visible;
+
+            RaisePropertyChangedForGroup(HintVisibilityGroup);
         }
 
         public void Update(GameTime GameTime)

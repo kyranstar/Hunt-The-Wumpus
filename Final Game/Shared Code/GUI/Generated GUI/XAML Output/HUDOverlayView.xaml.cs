@@ -41,6 +41,8 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private TextBlock e_6;
         
+        private Button HintButton;
+        
         private Grid TriviaDisplay;
         
         private TextBlock QuestionText;
@@ -61,15 +63,19 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private Grid e_13;
         
-        private TextBlock e_14;
+        private StackPanel e_14;
         
-        private ItemsControl e_15;
+        private TextBlock e_15;
+        
+        private Button HintCloseButton;
+        
+        private ItemsControl e_16;
         
         private Grid GameOverModalDialog;
         
-        private TextBlock e_17;
-        
         private TextBlock e_18;
+        
+        private TextBlock e_19;
         
         private Button MenuButton;
         
@@ -178,6 +184,15 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_6.FontStyle = FontStyle.Bold;
             Binding binding_e_6_Text = new Binding("Turns");
             this.e_6.SetBinding(TextBlock.TextProperty, binding_e_6_Text);
+            // HintButton element
+            this.HintButton = new Button();
+            this.e_5.Children.Add(this.HintButton);
+            this.HintButton.Name = "HintButton";
+            this.HintButton.Margin = new Thickness(4F, 0F, 4F, 0F);
+            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.HintButton.Content = "Hints";
+            Binding binding_HintButton_Command = new Binding("ShowHintsCommand");
+            this.HintButton.SetBinding(Button.CommandProperty, binding_HintButton_Command);
             // TriviaDisplay element
             this.TriviaDisplay = new Grid();
             this.UIRoot.Children.Add(this.TriviaDisplay);
@@ -304,30 +319,48 @@ namespace EmptyKeys.UserInterface.Generated {
             row_e_13_3.Height = new GridLength(1F, GridUnitType.Star);
             this.e_13.RowDefinitions.Add(row_e_13_3);
             Grid.SetColumn(this.e_13, 1);
+            Binding binding_e_13_Visibility = new Binding("HintFlyoutVisibility");
+            this.e_13.SetBinding(Grid.VisibilityProperty, binding_e_13_Visibility);
             // e_14 element
-            this.e_14 = new TextBlock();
+            this.e_14 = new StackPanel();
             this.e_13.Children.Add(this.e_14);
             this.e_14.Name = "e_14";
-            this.e_14.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_14.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            this.e_14.Text = "Hints";
-            FontManager.Instance.AddFont("Segoe UI", 45F, FontStyle.Regular, "Segoe_UI_33.75_Regular");
-            this.e_14.FontSize = 45F;
+            this.e_14.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_14.Orientation = Orientation.Horizontal;
             // e_15 element
-            this.e_15 = new ItemsControl();
-            this.e_13.Children.Add(this.e_15);
+            this.e_15 = new TextBlock();
+            this.e_14.Children.Add(this.e_15);
             this.e_15.Name = "e_15";
-            this.e_15.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.e_15.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
-            this.e_15.HorizontalContentAlignment = HorizontalAlignment.Center;
+            this.e_15.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_15.Text = "Hints";
+            FontManager.Instance.AddFont("Segoe UI", 45F, FontStyle.Regular, "Segoe_UI_33.75_Regular");
+            this.e_15.FontSize = 45F;
+            // HintCloseButton element
+            this.HintCloseButton = new Button();
+            this.e_14.Children.Add(this.HintCloseButton);
+            this.HintCloseButton.Name = "HintCloseButton";
+            this.HintCloseButton.Height = 33F;
+            this.HintCloseButton.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            this.HintCloseButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.HintCloseButton.Content = "X";
+            Binding binding_HintCloseButton_Command = new Binding("ShowHintsCommand");
+            this.HintCloseButton.SetBinding(Button.CommandProperty, binding_HintCloseButton_Command);
+            // e_16 element
+            this.e_16 = new ItemsControl();
+            this.e_13.Children.Add(this.e_16);
+            this.e_16.Name = "e_16";
+            this.e_16.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_16.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            this.e_16.HorizontalContentAlignment = HorizontalAlignment.Center;
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
-            this.e_15.FontSize = 20F;
-            Func<UIElement, UIElement> e_15_iptFunc = e_15_iptMethod;
-            ControlTemplate e_15_ipt = new ControlTemplate(e_15_iptFunc);
-            this.e_15.ItemsPanel = e_15_ipt;
-            Grid.SetRow(this.e_15, 2);
-            Binding binding_e_15_ItemsSource = new Binding("UnlockedHints");
-            this.e_15.SetBinding(ItemsControl.ItemsSourceProperty, binding_e_15_ItemsSource);
+            this.e_16.FontSize = 20F;
+            Func<UIElement, UIElement> e_16_iptFunc = e_16_iptMethod;
+            ControlTemplate e_16_ipt = new ControlTemplate(e_16_iptFunc);
+            this.e_16.ItemsPanel = e_16_ipt;
+            Grid.SetRow(this.e_16, 2);
+            Binding binding_e_16_ItemsSource = new Binding("UnlockedHints");
+            this.e_16.SetBinding(ItemsControl.ItemsSourceProperty, binding_e_16_ItemsSource);
             // GameOverModalDialog element
             this.GameOverModalDialog = new Grid();
             this.UIRoot.Children.Add(this.GameOverModalDialog);
@@ -359,18 +392,6 @@ namespace EmptyKeys.UserInterface.Generated {
             this.GameOverModalDialog.SetBinding(Grid.OpacityProperty, binding_GameOverModalDialog_Opacity);
             Binding binding_GameOverModalDialog_Visibility = new Binding("GameOverModalVisibility");
             this.GameOverModalDialog.SetBinding(Grid.VisibilityProperty, binding_GameOverModalDialog_Visibility);
-            // e_17 element
-            this.e_17 = new TextBlock();
-            this.GameOverModalDialog.Children.Add(this.e_17);
-            this.e_17.Name = "e_17";
-            this.e_17.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_17.VerticalAlignment = VerticalAlignment.Center;
-            this.e_17.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            this.e_17.Text = "Hunt the Wumpus";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_17.FontFamily = new FontFamily("Segoe UI");
-            this.e_17.FontSize = 20F;
-            this.e_17.FontStyle = FontStyle.Bold;
             // e_18 element
             this.e_18 = new TextBlock();
             this.GameOverModalDialog.Children.Add(this.e_18);
@@ -378,14 +399,26 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_18.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_18.VerticalAlignment = VerticalAlignment.Center;
             this.e_18.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            FontManager.Instance.AddFont("Segoe UI", 53.33333F, FontStyle.Bold, "Segoe_UI_40_Bold");
+            this.e_18.Text = "Hunt the Wumpus";
+            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
             this.e_18.FontFamily = new FontFamily("Segoe UI");
-            this.e_18.FontSize = 53.33333F;
+            this.e_18.FontSize = 20F;
             this.e_18.FontStyle = FontStyle.Bold;
-            Grid.SetRow(this.e_18, 1);
-            Grid.SetColumnSpan(this.e_18, 3);
-            Binding binding_e_18_Text = new Binding("GameOverMessage");
-            this.e_18.SetBinding(TextBlock.TextProperty, binding_e_18_Text);
+            // e_19 element
+            this.e_19 = new TextBlock();
+            this.GameOverModalDialog.Children.Add(this.e_19);
+            this.e_19.Name = "e_19";
+            this.e_19.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_19.VerticalAlignment = VerticalAlignment.Center;
+            this.e_19.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            FontManager.Instance.AddFont("Segoe UI", 53.33333F, FontStyle.Bold, "Segoe_UI_40_Bold");
+            this.e_19.FontFamily = new FontFamily("Segoe UI");
+            this.e_19.FontSize = 53.33333F;
+            this.e_19.FontStyle = FontStyle.Bold;
+            Grid.SetRow(this.e_19, 1);
+            Grid.SetColumnSpan(this.e_19, 3);
+            Binding binding_e_19_Text = new Binding("GameOverMessage");
+            this.e_19.SetBinding(TextBlock.TextProperty, binding_e_19_Text);
             // MenuButton element
             this.MenuButton = new Button();
             this.GameOverModalDialog.Children.Add(this.MenuButton);
@@ -399,14 +432,14 @@ namespace EmptyKeys.UserInterface.Generated {
             this.MenuButton.SetBinding(Button.CommandProperty, binding_MenuButton_Command);
         }
         
-        private static UIElement e_15_iptMethod(UIElement parent) {
-            // e_16 element
-            StackPanel e_16 = new StackPanel();
-            e_16.Parent = parent;
-            e_16.Name = "e_16";
-            e_16.HorizontalAlignment = HorizontalAlignment.Center;
-            e_16.IsItemsHost = true;
-            return e_16;
+        private static UIElement e_16_iptMethod(UIElement parent) {
+            // e_17 element
+            StackPanel e_17 = new StackPanel();
+            e_17.Parent = parent;
+            e_17.Name = "e_17";
+            e_17.HorizontalAlignment = HorizontalAlignment.Center;
+            e_17.IsItemsHost = true;
+            return e_17;
         }
     }
 }

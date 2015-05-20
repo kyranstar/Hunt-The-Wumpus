@@ -34,6 +34,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
+                <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" />
             </StackPanel>
         </Grid>
         <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaModalVisibility}" Opacity="{Binding TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
@@ -56,14 +57,17 @@
                 <TextBlock Text="{Binding NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" />
             </StackPanel>
         </Grid>
-        <Grid Background="#333333" HorizontalAlignment="Stretch" Grid.Column="1">
+        <Grid Background="#333333" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="5*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Hints" FontSize="45" Foreground="White" HorizontalAlignment="Center"/>
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                <TextBlock Text="Hints" FontSize="45" Foreground="White"/>
+                <Button Name="HintCloseButton" Content="X" Background="Transparent" Height="33" Foreground="White" Command="{Binding ShowHintsCommand}" />
+            </StackPanel>
             <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
