@@ -113,11 +113,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 //set our current room to that room
                 PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[dir]).RoomID;
 
-                // Update player tracking
-                ProcessPlayerMove();
-
                 //Wumpus has to move after the player does
                 Wumpus.Move();
+
+                // Update player tracking
+                ProcessPlayerMove();
 
                 return true;
             }
