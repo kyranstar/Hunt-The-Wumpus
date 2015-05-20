@@ -38,9 +38,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <returns>A randomly generated cave that conforms to the spec.</returns>
         public static Cave GenerateRandomCave()
         {
-            //TODO: Make less snakey, add hazards and make sure player can traverse map without hitting hazards
             const int roomCount = 30;
-            const int maxConnectionsToCreatePerRoom = 4;
+            const int maxConnectionsToCreatePerRoom = 3;
 
             Cave NewCave = CreateRooms(roomCount, maxConnectionsToCreatePerRoom);
             AddHazards(NewCave);
@@ -118,7 +117,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
                         NewCave.AddRoom(id, connections);
                         numRoomsCreated++;
                         // If we've created enough rooms
-                        if (numRoomsCreated >= roomsToCreate) return NewCave;
+                        if (numRoomsCreated >= roomsToCreate)
+                        {
+                            // Create side connections and we're done
+                            AddSideConnections(NewCave, maxConnectionsToCreatePerRoom);
+                            return NewCave;
+                        }
 
                         rooms[newPoint.X, newPoint.Y] = id;
                         if (j == numToCreate - 1)
@@ -133,7 +137,19 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 }
             }
         }
-
+        /// <summary>
+        /// Adds connections from some rooms on the sides of the cave to the other side.
+        /// </summary>
+        /// <param name="cave">The cave</param>
+        /// <param name="maxRoomConnections">The max amount of connections per room</param>
+        private static void AddSideConnections(Cave cave, int maxRoomConnections)
+        {
+            // TODO: Implement this
+        }
+        /// <summary>
+        /// Populates a cave with gold
+        /// </summary>
+        /// <param name="NewCave"></param>
         private static void AddGold(Cave NewCave)
         {
             foreach (var room in NewCave.Rooms)
