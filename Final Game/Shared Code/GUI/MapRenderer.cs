@@ -152,11 +152,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             DebugOutlineTexture = Content.Load<Texture2D>("Images/Outline");
 
             MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
-            MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
-            MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content);
-            MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content);
-            MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "Gold", Content);
-            MapUtils.LoadTexturesIntoArray(out BatTextures, NumBatTextures, "Bat", Content);
+            MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "Gold", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out BatTextures, NumBatTextures, "Bat", Content, "Images/");
         }
 
         /// <summary>
