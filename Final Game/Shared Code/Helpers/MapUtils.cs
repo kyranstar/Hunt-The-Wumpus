@@ -206,12 +206,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="NumTextures">The number of textures to load.</param>
         /// <param name="NamePrefix">The prefix to use in the asset file name.</param>
         /// <param name="Content">The content manager to use.</param>
-        public static void LoadTexturesIntoArray(out Texture2D[] Textures, int NumTextures, string NamePrefix, ContentManager Content)
+        public static void LoadTexturesIntoArray(out Texture2D[] Textures, int NumTextures, string NamePrefix, ContentManager Content, string rootDir = "Images/")
         {
             Textures = new Texture2D[NumTextures];
             for(int i = 0; i < NumTextures; i++)
             {
-                Textures[i] = Content.Load<Texture2D>("Images/" + NamePrefix + i);
+                Textures[i] = Content.Load<Texture2D>(rootDir + NamePrefix + i);
             }
         }
     }
