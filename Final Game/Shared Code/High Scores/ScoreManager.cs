@@ -32,7 +32,10 @@ namespace HuntTheWumpus.SharedCode.Scores
 
         public void Save()
         {
-            Serializer.Serialize(FileUtils.GetFileStream(ScoreFile), _Scores.ToArray());
+            using (Stream Stream = FileUtils.GetFileStream(ScoreFile))
+            {
+                Serializer.Serialize(Stream, _Scores.ToArray());
+            }
         }
 
         private void ValidateScores()

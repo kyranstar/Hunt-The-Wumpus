@@ -15,20 +15,6 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             ScoreMan = new ScoreManager();
             ScoreMan.Load();
-
-            // TODO: REMOVE THIS
-            if (ScoreMan.Scores.Length <= 0)
-            {
-                ScoreMan.AddScore(new ScoreEntry()
-                {
-                    ArrowsRemaining = 90,
-                    GoldRemaining = 83,
-                    TurnsTaken = 5,
-                    LocalScoreDate = DateTime.Now,
-                    Username = "Fred"
-                });
-                ScoreMan.Save();
-            }
         }
         
         public ICommand BackCommand
