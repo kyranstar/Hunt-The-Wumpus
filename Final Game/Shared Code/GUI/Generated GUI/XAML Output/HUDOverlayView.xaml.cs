@@ -399,11 +399,11 @@ namespace EmptyKeys.UserInterface.Generated {
             ColumnDefinition col_GameOverModalDialog_2 = new ColumnDefinition();
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_2);
             Grid.SetColumnSpan(this.GameOverModalDialog, 2);
-            Binding binding_GameOverModalDialog_Margin = new Binding("GameOverModalMargin");
+            Binding binding_GameOverModalDialog_Margin = new Binding("GameOverContext.GameOverModalMargin");
             this.GameOverModalDialog.SetBinding(Grid.MarginProperty, binding_GameOverModalDialog_Margin);
-            Binding binding_GameOverModalDialog_Opacity = new Binding("GameOverModalOpacity");
+            Binding binding_GameOverModalDialog_Opacity = new Binding("GameOverContext.GameOverModalOpacity");
             this.GameOverModalDialog.SetBinding(Grid.OpacityProperty, binding_GameOverModalDialog_Opacity);
-            Binding binding_GameOverModalDialog_Visibility = new Binding("GameOverModalVisibility");
+            Binding binding_GameOverModalDialog_Visibility = new Binding("GameOverContext.GameOverModalVisibility");
             this.GameOverModalDialog.SetBinding(Grid.VisibilityProperty, binding_GameOverModalDialog_Visibility);
             // e_17 element
             this.e_17 = new TextBlock();
@@ -430,7 +430,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_18.FontStyle = FontStyle.Bold;
             Grid.SetRow(this.e_18, 1);
             Grid.SetColumnSpan(this.e_18, 3);
-            Binding binding_e_18_Text = new Binding("GameOverMessage");
+            Binding binding_e_18_Text = new Binding("GameOverContext.GameOverMessage");
             this.e_18.SetBinding(TextBlock.TextProperty, binding_e_18_Text);
             // MenuButton element
             this.MenuButton = new Button();
@@ -441,7 +441,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.MenuButton.Content = "Back to Main Menu";
             Grid.SetColumn(this.MenuButton, 1);
             Grid.SetRow(this.MenuButton, 2);
-            Binding binding_MenuButton_Command = new Binding("ReturnToMenuCommand");
+            Binding binding_MenuButton_Command = new Binding("GameOverContext.ReturnToMenuCommand");
             this.MenuButton.SetBinding(Button.CommandProperty, binding_MenuButton_Command);
         }
         
