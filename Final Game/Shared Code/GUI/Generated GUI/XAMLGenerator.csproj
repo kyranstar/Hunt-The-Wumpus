@@ -102,6 +102,7 @@
     <None Include="Context\HighScoreContext.cs" />
     <None Include="Context\MainMenuContext.cs" />
     <Compile Include="Context\HUDContext.cs" />
+    <Compile Include="Context\GameOverHudContext.cs" />
     <Compile Include="Context\TriviaHudContext.cs" />
     <Compile Include="Context\ScoreHudContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

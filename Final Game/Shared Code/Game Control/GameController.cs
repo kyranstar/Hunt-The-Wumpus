@@ -16,6 +16,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public delegate void GameOverHandler(object sender, EventArgs e);
         public event GameOverHandler OnGameOver;
 
+        public delegate void NewHintHandler(object sender, EventArgs e);
+        public event NewHintHandler OnNewHintAvailable;
+
         /// <summary>
         /// Stores information about the game once it has concluded.
         /// This will be <code>null</code> until the game ends.
@@ -35,6 +38,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
             InputHandler = new MapInputHandler(this);
             Map.OnPlayerMoved += Map_PlayerMoved;
         }
+
+
+        public void Reset()
+        {
+            Map.Reset();
+        }
+
 
         public void LoadNewTrivia(TriviaQuestionState triviaType, int numTriviaQuestions)
         {
@@ -78,9 +88,23 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     ResolvePitTrivia();
                 else if (QuestionState == TriviaQuestionState.HitWumpus)
                     ResolveWumpusCollisionTrivia();
+                else if (QuestionState == TriviaQuestionState.PurchasingHint)
+                    ResolveHintTrivia();
 
                 CloseTrivia();
             }
+        }
+
+        private void ResolveHintTrivia()
+        {
+            if (CurrentTrivia.NumberCorrect >= 2)
+            {
+                Trivia.Trivia.UnlockNewHint();
+                RaiseNewHint();
+            }
+            else
+                // TODO: Notify the user
+                Log.Info("No hint for you.");
         }
 
         private void ResolvePitTrivia()
@@ -147,8 +171,14 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         private void RaiseGameOver()
         {
-            if(OnGameOver != null)
+            if (OnGameOver != null)
                 OnGameOver(this, new EventArgs());
+        }
+
+        private void RaiseNewHint()
+        {
+            if (OnNewHintAvailable != null)
+                OnNewHintAvailable(this, new EventArgs());
         }
 
         public void Map_PlayerMoved(object sender, EventArgs e)
@@ -162,6 +192,32 @@ namespace HuntTheWumpus.SharedCode.GameControl
             {
                 LoadNewTrivia(TriviaQuestionState.TrappedInPit, 3);
             }
+        }
+
+        public bool TryShootTowards(Direction direction)
+        {
+            // TODO: Animate shooting
+            // TODO: Verify arrow count (before and after)
+
+            Map.Player.Arrows--;
+
+            int targetRoom = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)direction];
+            if (Map.CanShootTo(targetRoom))
+            {
+                if (Map.Wumpus.Location == targetRoom)
+                {
+                    // TODO: end game
+                    Log.Info("Yay! You shot the wumpus!");
+                    EndGame(GameOverCause.ShotWumpus);
+                    return true;
+                }
+                // TODO: Present message (miss)
+                Log.Info("Your arrow missed the wumpus.");
+                return false;
+            }
+            // TODO: Present message (hit wall)
+            Log.Info("You managed to shoot a wall. Good job.");
+            return false;
         }
     }
 }

@@ -56,7 +56,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
         {
-            int ID = int.Parse(GetParam(paramList, 0));
+            string param = GetParam(paramList, 0);
+            if (param.Equals("wumpus", StringComparison.OrdinalIgnoreCase))
+            {
+                return Map.MovePlayerTo(Map.Wumpus.Location);
+            }
+
+            int ID = int.Parse(param);
             return Map.MovePlayerTo(ID);
         }
     }
@@ -66,14 +72,15 @@ namespace HuntTheWumpus.SharedCode.GameControl
         private const string ROOMS = "rooms";
         private const string GameOver = "gameover";
 
-        private const string Help = 
+        private const string Help =
 @"Graphically displays whatever is passed in as a parameter:
         - " + HAZARDS + @": Displays pits, bats, and the wumpus in their location.
         - " + ROOMS + @": Sets all rooms as visible and removes fog of war.";
 
 
         GameController GameController;
-        public Display(GameController GameController) : base("display", Help)
+        public Display(GameController GameController)
+            : base("display", Help)
         {
             this.GameController = GameController;
         }
@@ -133,7 +140,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
         {
-            if(paramList == null || paramList.Length <= 0)
+            if (paramList == null || paramList.Length <= 0)
             {
                 MapRenderer.OverriddenCameraPosition = null;
                 return true;
@@ -164,13 +171,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
         {
-            if(paramList == null || paramList.Length <= 0 || paramList == "none")
+            if (paramList == null || paramList.Length <= 0 || paramList == "none")
             {
                 MapRenderer.DebugOutline = null;
                 return true;
             }
 
-            switch(paramList)
+            switch (paramList)
             {
                 case "viewport":
                     MapRenderer.DebugOutline = MapRenderer.MapCam.VirtualVisibleViewport.ToRect(-1, -1);
@@ -213,7 +220,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
             }
 
-            if(PropertyName != null && NewValue == null)
+            if (PropertyName != null && NewValue == null)
             {
                 // Get a value
                 OutputInformation(

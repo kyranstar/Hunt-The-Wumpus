@@ -57,7 +57,7 @@
                 <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" />
             </StackPanel>
         </Grid>
-        <Grid Background="#333333" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
+        <Grid Background="#333333" Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
@@ -67,6 +67,7 @@
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <TextBlock Text="Hints" FontSize="45" Foreground="White"/>
                 <Button Name="HintCloseButton" Content="X" Background="Transparent" Height="33" Foreground="White" Command="{Binding ShowHintsCommand}" />
+                <Button Name="HintPurchaseButton" Content="Purchase hint" Background="Transparent" Height="33" Foreground="White" Command="{Binding BuyHintsCommand}" />
             </StackPanel>
             <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20">
                 <ItemsControl.ItemsPanel>
@@ -76,7 +77,7 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Grid>
-        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverModalVisibility}" Opacity="{Binding GameOverModalOpacity}" Margin="{Binding GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverContext.GameOverModalVisibility}" Opacity="{Binding GameOverContext.GameOverModalOpacity}" Margin="{Binding GameOverContext.GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -89,9 +90,9 @@
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" />
-            <TextBlock Text="{Binding GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
+            <TextBlock Text="{Binding GameOverContext.GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
             
-            <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding ReturnToMenuCommand}" Grid.Row="2" Grid.Column="1" />
+            <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding GameOverContext.ReturnToMenuCommand}" Grid.Row="2" Grid.Column="1" />
         </Grid>
     </Grid>
 </ek:UIRoot>
