@@ -146,12 +146,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <param name="Content"></param>
         public void LoadContent(ContentManager Content)
         {
-            PlayerTexture = Content.Load<Texture2D>("Images/Character");
-            WumpusTexture = Content.Load<Texture2D>("Images/Wumpus");
-            BackgroundTexture = Content.Load<Texture2D>("Images/Background");
-            DebugOutlineTexture = Content.Load<Texture2D>("Images/Outline");
+            PlayerTexture = Content.Load<Texture2D>("Character");
+            WumpusTexture = Content.Load<Texture2D>("Wumpus");
+            BackgroundTexture = Content.Load<Texture2D>("Background");
+            DebugOutlineTexture = Content.Load<Texture2D>("Outline");
 
-            MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
+            MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content, "Images/");

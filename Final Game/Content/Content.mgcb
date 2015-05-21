@@ -375,3 +375,14 @@
 /processorParam:TextureFormat=Color
 /build:Images/80's shit/Outline.png
 
+#begin Images/80's shit/Cloud0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Images/80's shit/Cloud0.png
+
