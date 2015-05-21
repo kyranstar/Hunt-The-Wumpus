@@ -79,6 +79,10 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private TextBlock e_18;
         
+        private TextBox e_19;
+        
+        private Button NameSubmitButton;
+        
         private Button MenuButton;
         
         public HUDOverlayView(int width, int height) : 
@@ -387,17 +391,26 @@ namespace EmptyKeys.UserInterface.Generated {
             row_GameOverModalDialog_1.Height = new GridLength(2F, GridUnitType.Star);
             this.GameOverModalDialog.RowDefinitions.Add(row_GameOverModalDialog_1);
             RowDefinition row_GameOverModalDialog_2 = new RowDefinition();
-            row_GameOverModalDialog_2.Height = new GridLength(2F, GridUnitType.Star);
+            row_GameOverModalDialog_2.Height = new GridLength(1F, GridUnitType.Star);
             this.GameOverModalDialog.RowDefinitions.Add(row_GameOverModalDialog_2);
             RowDefinition row_GameOverModalDialog_3 = new RowDefinition();
-            row_GameOverModalDialog_3.Height = new GridLength(2F, GridUnitType.Star);
+            row_GameOverModalDialog_3.Height = new GridLength(1F, GridUnitType.Star);
             this.GameOverModalDialog.RowDefinitions.Add(row_GameOverModalDialog_3);
+            RowDefinition row_GameOverModalDialog_4 = new RowDefinition();
+            row_GameOverModalDialog_4.Height = new GridLength(2F, GridUnitType.Star);
+            this.GameOverModalDialog.RowDefinitions.Add(row_GameOverModalDialog_4);
             ColumnDefinition col_GameOverModalDialog_0 = new ColumnDefinition();
+            col_GameOverModalDialog_0.Width = new GridLength(8F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_0);
             ColumnDefinition col_GameOverModalDialog_1 = new ColumnDefinition();
+            col_GameOverModalDialog_1.Width = new GridLength(8F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_1);
             ColumnDefinition col_GameOverModalDialog_2 = new ColumnDefinition();
+            col_GameOverModalDialog_2.Width = new GridLength(3F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_2);
+            ColumnDefinition col_GameOverModalDialog_3 = new ColumnDefinition();
+            col_GameOverModalDialog_3.Width = new GridLength(8F, GridUnitType.Star);
+            this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_3);
             Grid.SetColumnSpan(this.GameOverModalDialog, 2);
             Binding binding_GameOverModalDialog_Margin = new Binding("GameOverContext.GameOverModalMargin");
             this.GameOverModalDialog.SetBinding(Grid.MarginProperty, binding_GameOverModalDialog_Margin);
@@ -432,15 +445,40 @@ namespace EmptyKeys.UserInterface.Generated {
             Grid.SetColumnSpan(this.e_18, 3);
             Binding binding_e_18_Text = new Binding("GameOverContext.GameOverMessage");
             this.e_18.SetBinding(TextBlock.TextProperty, binding_e_18_Text);
+            // e_19 element
+            this.e_19 = new TextBox();
+            this.GameOverModalDialog.Children.Add(this.e_19);
+            this.e_19.Name = "e_19";
+            this.e_19.Height = 33F;
+            this.e_19.Margin = new Thickness(4F, 4F, 4F, 4F);
+            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            Grid.SetColumn(this.e_19, 1);
+            Grid.SetRow(this.e_19, 2);
+            Binding binding_e_19_Text = new Binding("GameOverContext.GameOverUsernameText");
+            this.e_19.SetBinding(TextBox.TextProperty, binding_e_19_Text);
+            // NameSubmitButton element
+            this.NameSubmitButton = new Button();
+            this.GameOverModalDialog.Children.Add(this.NameSubmitButton);
+            this.NameSubmitButton.Name = "NameSubmitButton";
+            this.NameSubmitButton.Height = 33F;
+            this.NameSubmitButton.Margin = new Thickness(4F, 4F, 4F, 4F);
+            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.NameSubmitButton.Content = "Save score";
+            Grid.SetColumn(this.NameSubmitButton, 2);
+            Grid.SetRow(this.NameSubmitButton, 2);
+            Binding binding_NameSubmitButton_Command = new Binding("GameOverContext.SubmitNameCommand");
+            this.NameSubmitButton.SetBinding(Button.CommandProperty, binding_NameSubmitButton_Command);
             // MenuButton element
             this.MenuButton = new Button();
             this.GameOverModalDialog.Children.Add(this.MenuButton);
             this.MenuButton.Name = "MenuButton";
+            this.MenuButton.Height = 66F;
             this.MenuButton.Margin = new Thickness(5F, 5F, 5F, 5F);
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
             this.MenuButton.Content = "Back to Main Menu";
             Grid.SetColumn(this.MenuButton, 1);
-            Grid.SetRow(this.MenuButton, 2);
+            Grid.SetRow(this.MenuButton, 3);
+            Grid.SetColumnSpan(this.MenuButton, 2);
             Binding binding_MenuButton_Command = new Binding("GameOverContext.ReturnToMenuCommand");
             this.MenuButton.SetBinding(Button.CommandProperty, binding_MenuButton_Command);
         }

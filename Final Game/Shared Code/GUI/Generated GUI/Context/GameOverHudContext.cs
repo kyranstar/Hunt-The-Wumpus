@@ -36,6 +36,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             GameController.OnGameOver += GameController_OnGameOver;
 
             ReturnToMenuCommand = new RelayCommand(new Action<object>(ReturnToMenu));
+            SubmitNameCommand = new RelayCommand(new Action<object>(SubmitName));
 
             GameOverModalMarginAnimation = new StateAnimator(
                 Pct =>
@@ -77,6 +78,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             protected set;
         }
 
+        public ICommand SubmitNameCommand
+        {
+            get;
+            protected set;
+        }
+
         public bool IsGameOver
         {
             get
@@ -110,6 +117,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 return GameOverModalOpacity > 0.01 ? Visibility.Visible : Visibility.Collapsed;
             }
+        }
+
+        public string GameOverUsernameText
+        {
+            get; set;
         }
 
         [PropertyGroup(GameOverBindingGroup)]
@@ -159,6 +171,20 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void ReturnToMenu(object o)
         {
             SceneManager.LoadScene(SceneManager.MenuScene);
+        }
+
+        private void SubmitName(object o)
+        {
+            ScoreManager ScoreMan = new ScoreManager();
+            ScoreMan.Load();
+
+            ScoreEntry PlayerScore = GameController.Map.Player.ScoreEntry;
+            PlayerScore.Username = GameOverUsernameText;
+            PlayerScore.ScoreDate = DateTime.Now;
+
+            ScoreMan.AddScore(PlayerScore);
+
+            ScoreMan.Save();
         }
     }
 }
