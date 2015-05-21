@@ -2,6 +2,8 @@
 using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
@@ -144,7 +146,50 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="maxRoomConnections">The max amount of connections per room</param>
         private static void AddSideConnections(Cave cave, int maxRoomConnections)
         {
-            // TODO: Implement this
+            var layouts = cave.RoomLayout.Values;
+            // x => (lowestY, highestY, idLowest, idHighest)
+            var xToLowestAndHighestY = new Dictionary<int, Tuple<int, int, int, int>>();
+
+            // Set the dictionary to correct values
+            foreach (var layout in layouts)
+            {
+                int id = layout.Room.RoomID;
+                // Makes floats less likely to conflict when cast? Probably?
+                int x = (int) (layout.RoomPosition.X * 500);
+                int y = (int)(layout.RoomPosition.Y * 500);
+                if (!xToLowestAndHighestY.ContainsKey(x))
+                {
+                    xToLowestAndHighestY[x] = new Tuple<int, int, int, int>(y, y, id, id);
+                    continue;
+                }
+                if (y < xToLowestAndHighestY[x].Item1)
+                {
+                    xToLowestAndHighestY[x] = new Tuple<int, int, int, int>(y, xToLowestAndHighestY[x].Item2, id, xToLowestAndHighestY[x].Item4);
+                }
+                if (y > xToLowestAndHighestY[x].Item2)
+                {
+                    xToLowestAndHighestY[x] = new Tuple<int, int, int, int>(xToLowestAndHighestY[x].Item1, y, xToLowestAndHighestY[x].Item3, id);
+                }
+            }
+            foreach (var range in xToLowestAndHighestY)
+            {
+                int idMin = range.Value.Item3;
+                int idMax = range.Value.Item4;
+                if (cave[idMin].AdjacentRooms.Count(r => r != -1) >= maxRoomConnections ||
+                    cave[idMax].AdjacentRooms.Count(r => r != -1) >= maxRoomConnections)
+                {
+                    continue;
+                }
+                Debug.Assert(cave[idMin].AdjacentRooms[(int) Direction.North] == -1);
+                Debug.Assert(cave[idMax].AdjacentRooms[(int)Direction.South] == -1);
+
+                if (Rand.Next(100) < 50) continue;
+
+                // Make connection
+                cave[idMin].AdjacentRooms[(int) Direction.North] = idMax;
+                cave[idMax].AdjacentRooms[(int) Direction.South] = idMin;
+            }
+
         }
         /// <summary>
         /// Populates a cave with gold
