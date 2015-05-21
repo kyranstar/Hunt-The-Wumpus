@@ -91,7 +91,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             Direction? KeyDirection = MapKeyToDirection(Key);
             if (!IsFrozen && IsAiming && KeyDirection.HasValue)
-                GameController.Map.TryShootTowards(KeyDirection.Value);
+                GameController.TryShootTowards(KeyDirection.Value);
         }
 
         /// <summary>

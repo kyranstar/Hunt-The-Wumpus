@@ -1,9 +1,8 @@
-﻿using System;
+﻿using HuntTheWumpus.SharedCode.GameControl;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.Trivia;
-using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -37,12 +36,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <summary>
         ///     Holds a reference to the current player
         /// </summary>
-        public readonly Player Player;
+        public Player Player { private set; get; }
 
         /// <summary>
         ///     Holds a reference to the wumpus
         /// </summary>
-        public readonly Wumpus Wumpus;
+        public Wumpus Wumpus { private set; get; }
 
         private Cave _cave;
         public int MoveCount;
@@ -59,7 +58,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         public Map()
         {
-            Log.Info("Creating map...");
+            Reset();
+        }
+
+        public void Reset()
+        {
+            Log.Info("Generating map...");
             Cave = MapGenerator.GenerateRandomCave();
             Wumpus = new Wumpus(this);
             Player = new Player();
@@ -91,30 +95,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
         }
 
-        public bool TryShootTowards(Direction direction)
-        {
-            // TODO: Animate shooting
-
-            Player.Arrows--;
-
-            int targetRoom = Cave[PlayerRoom].AdjacentRooms[(int) direction];
-            if (CanShootTo(targetRoom))
-            {
-                if (Wumpus.Location == targetRoom)
-                {
-                    // TODO: end game
-                    Log.Info("Yay! You shot the wumpus!");
-                    return true;
-                }
-                // TODO: Present message (miss)
-                Log.Info("Your arrow missed the wumpus.");
-                return false;
-            }
-            // TODO: Present message (hit wall)
-            Log.Info("You managed to shoot a wall. Good job.");
-            return false;
-        }
-
         public void Update(GameTime gameTime)
         {
             Cave.Update(gameTime);
@@ -133,11 +113,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 //set our current room to that room
                 PlayerRoom = Cave.GetRoom(currentRoom.AdjacentRooms[dir]).RoomID;
 
-                // Update player tracking
-                ProcessPlayerMove();
-
                 //Wumpus has to move after the player does
                 Wumpus.Move();
+
+                // Update player tracking
+                ProcessPlayerMove();
 
                 return true;
             }
@@ -202,7 +182,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="dir"></param>
         public bool MovePlayer(Direction dir)
         {
-            return MovePlayer((int) dir);
+            return MovePlayer((int)dir);
         }
 
         /// <summary>
@@ -211,7 +191,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// <param name="dir"></param>
         public bool MovePlayer(SquareDirection dir)
         {
-            return MovePlayer((int) dir);
+            return MovePlayer((int)dir);
         }
 
         /// <summary>

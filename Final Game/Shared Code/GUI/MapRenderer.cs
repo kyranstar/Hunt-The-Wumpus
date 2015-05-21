@@ -56,6 +56,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         ParticleSystem.ParticleSystem backFogSystem;
         ParticleSystem.FogOfWar frontFogSystem;
 
+        byte AimColorHighlightAmount = 45;
+        byte AimAlphaHighlightAmount = 20;
+
         public MapRenderer(GameController GameController)
         {
             this.GameController = GameController;
@@ -148,12 +151,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             BackgroundTexture = Content.Load<Texture2D>("Images/Background");
             DebugOutlineTexture = Content.Load<Texture2D>("Images/Outline");
 
-            MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content);
-            MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content);
-            MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content);
-            MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content);
-            MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "Gold", Content);
-            MapUtils.LoadTexturesIntoArray(out BatTextures, NumBatTextures, "Bat", Content);
+            MapUtils.LoadTexturesIntoArray(out CloudTextures, NumCloudTextures, "Cloud", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "Gold", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out BatTextures, NumBatTextures, "Bat", Content, "Images/");
         }
 
         /// <summary>
@@ -248,15 +251,50 @@ namespace HuntTheWumpus.SharedCode.GUI
             // Iterate over each layout mapping
             foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in Map.Cave.RoomLayout)
             {
-                if (Map.PlayerPath.Contains(LayoutMapping.Key))
-                {
-                    // Get the position from the mapping (and round it)
-                    int XPos = LayoutMapping.Value.RoomPosition.X.ToInt();
-                    int YPos = LayoutMapping.Value.RoomPosition.Y.ToInt();
+                // Get the position from the mapping (and round it)
+                int XPos = LayoutMapping.Value.RoomPosition.X.ToInt();
+                int YPos = LayoutMapping.Value.RoomPosition.Y.ToInt();
 
-                    // Calculate the target room rectangle and draw the texture
-                    Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-                    Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, Color.White);
+                // Calculate the target room rectangle and draw the texture
+                Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
+
+                bool InDirectPath = Map.PlayerPath.Contains(LayoutMapping.Key);
+                bool InSecondaryPath = Map.PlayerPath.Select(i => Map.Cave[i]).Any(r => r.AdjacentRooms.Contains(LayoutMapping.Key));
+
+                Color BaseDrawColor = new Color(128, 128, 128);
+                if (!InDirectPath && InSecondaryPath)
+                    BaseDrawColor = new Color(50, 50, 50, 5);
+
+                // Highlight this room if the user is aiming into it
+                if (GameController.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
+                {
+                    BaseDrawColor.R += AimColorHighlightAmount;
+                    BaseDrawColor.G += AimColorHighlightAmount;
+                    BaseDrawColor.B += AimColorHighlightAmount;
+                    //BaseDrawColor.A += AimAlphaHighlightAmount;
+                }
+
+
+
+                // Highlight this room w/ brighter color if the user has shot into it
+                Direction? ShootDirection = GameController.InputHandler.NavDirection;
+                if (GameController.InputHandler.IsAiming && ShootDirection.HasValue)
+                {
+                    int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
+                    if (RoomAtShootDirection == LayoutMapping.Key)
+                    {
+                        if (RoomAtShootDirection == Map.Wumpus.Location)
+                        {
+                            BaseDrawColor.G += 20;
+                        }
+                        else
+                            BaseDrawColor.R += 20;
+                    }
+                }
+
+                if (InDirectPath)
+                {
+                    Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, BaseDrawColor);
 
                     if (LayoutMapping.Value.PitImage >= 0)
                         Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
@@ -288,38 +326,9 @@ namespace HuntTheWumpus.SharedCode.GUI
                             color: Color.White);
                     }
                 }
-                else if (Map.PlayerPath.Select(i => Map.Cave.GetRoom(i)).Any(r => r.AdjacentRooms.Contains(LayoutMapping.Key)))
+                else if (InSecondaryPath)
                 {
-                    // Get the position from the mapping (and round it)
-                    int XPos = LayoutMapping.Value.RoomPosition.X.ToInt();
-                    int YPos = LayoutMapping.Value.RoomPosition.Y.ToInt();
-
-                    // Calculate the target room rectangle and draw the texture
-                    Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
-
-                    Color DrawColor = new Color(50, 50, 50, 5);
-
-                    // Highlight this room if the user is aiming into it
-                    if (GameController.InputHandler.IsAiming && Map.Cave[Map.PlayerRoom].AdjacentRooms.Contains(LayoutMapping.Key))
-                        DrawColor = new Color(150, 150, 150, 10);
-
-                    // Highlight this room w/ brighter color if the user has shot into it
-                    Direction? ShootDirection = GameController.InputHandler.NavDirection;
-                    if (GameController.InputHandler.IsAiming && ShootDirection.HasValue)
-                    {
-                        int RoomAtShootDirection = Map.Cave[Map.PlayerRoom].AdjacentRooms[(int)ShootDirection.Value];
-                        if (RoomAtShootDirection == LayoutMapping.Key)
-                        {
-                            if (RoomAtShootDirection == Map.Wumpus.Location)
-                            {
-                                DrawColor = new Color(0, 255, 0, 60);
-                            }
-                            else
-                                DrawColor = new Color(255, 0, 0, 60);
-                        }
-                    }
-
-                    Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, DrawColor);
+                    Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, BaseDrawColor);
                 }
             }
         }

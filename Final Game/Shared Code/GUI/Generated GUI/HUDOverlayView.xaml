@@ -57,7 +57,7 @@
                 <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" />
             </StackPanel>
         </Grid>
-        <Grid Background="#333333" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
+        <Grid Background="#333333" Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
@@ -67,6 +67,7 @@
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <TextBlock Text="Hints" FontSize="45" Foreground="White"/>
                 <Button Name="HintCloseButton" Content="X" Background="Transparent" Height="33" Foreground="White" Command="{Binding ShowHintsCommand}" />
+                <Button Name="HintPurchaseButton" Content="Purchase hint" Background="Transparent" Height="33" Foreground="White" Command="{Binding BuyHintsCommand}" />
             </StackPanel>
             <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20">
                 <ItemsControl.ItemsPanel>
@@ -76,22 +77,26 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Grid>
-        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverModalVisibility}" Opacity="{Binding GameOverModalOpacity}" Margin="{Binding GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverContext.GameOverModalVisibility}" Opacity="{Binding GameOverContext.GameOverModalOpacity}" Margin="{Binding GameOverContext.GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" />
-            <TextBlock Text="{Binding GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
+            <TextBlock Text="{Binding GameOverContext.GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
+            <TextBox Grid.Column="1" Grid.Row="2" Height="33" Margin="4" Text="{Binding GameOverContext.GameOverUsernameText}"/>
+            <Button Name="NameSubmitButton" Content="Save score" Margin="4" Command="{Binding GameOverContext.SubmitNameCommand}" Grid.Row="2" Grid.Column="2" Height="33" />
             
-            <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding ReturnToMenuCommand}" Grid.Row="2" Grid.Column="1" />
+            <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding GameOverContext.ReturnToMenuCommand}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Height="66" />
         </Grid>
     </Grid>
 </ek:UIRoot>

@@ -1,6 +1,8 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
 using System;
 using System.Collections.Generic;
+using HuntTheWumpus.SharedCode.Helpers;
+using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.Trivia
 {
@@ -26,7 +28,12 @@ namespace HuntTheWumpus.SharedCode.Trivia
             LockedHints = new List<string>();
             AvailableHints = new List<string>();
 
-            AvailableHints.Add("Blue paint isn't orange.");
+            // TODO: Add system for getting contextual hint
+            LockedHints.Add("Blue paint isn't orange.");
+            LockedHints.Add("White paint isn't green.");
+            LockedHints.Add("Orange paint isn't white.");
+            LockedHints.Add("Insert hint here.");
+            LockedHints.Add("Insert another hint here.");
 
             _questionsToAsk.Add(new Question("What color is red paint?", new List<string> { "Red", "Blue", "Orange", "Rainbow" }, "Red"));
             _questionsToAsk.Add(new Question("What color is blue paint?", new List<string> { "Blue", "Orange", "Red", "It depends..." }, "Blue"));
@@ -57,6 +64,17 @@ namespace HuntTheWumpus.SharedCode.Trivia
 
             return new TriviaSet(inputList, NewQuestionHandler);
         }
-        
+
+        public static void UnlockNewHint()
+        {
+            // TODO: Move this out of a static context (maybe into a HintSet or similar)?
+            if (LockedHints.Count <= 0)
+                // TODO: Do something different here -- this will allow duplicate hints
+                LockedHints.AddRange(AvailableHints);
+
+            string Hint = LockedHints.GetRandom();
+            LockedHints.Remove(Hint);
+            AvailableHints.Add(Hint);
+        }
     }
 }

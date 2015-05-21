@@ -13,6 +13,7 @@ namespace HuntTheWumpus.SharedCode.Trivia
     {
         None,
         TrappedInPit,
-        HitWumpus
+        HitWumpus,
+        PurchasingHint
     }
 }
