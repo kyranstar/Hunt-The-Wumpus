@@ -39,5 +39,10 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return Player.Turns;
             }
         }
+
+        public void Reset()
+        {
+            Player.Reset();
+        }
     }
 }

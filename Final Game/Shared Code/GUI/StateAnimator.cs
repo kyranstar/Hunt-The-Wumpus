@@ -13,6 +13,8 @@ namespace HuntTheWumpus.SharedCode.GUI
     /// </summary>
     public class StateAnimator
     {
+        private const float DefaultValue = 0;
+
         private Func<double, float> PositiveEasingFunction, NegativeEasingFunction;
         private double AnimationDuration;
         private double StartTime;
@@ -57,6 +59,14 @@ namespace HuntTheWumpus.SharedCode.GUI
                     break;
 
             }
+        }
+
+        public void Reset()
+        {
+            StateLatch = new Latch();
+            CurrentValue = DefaultValue;
+            PreviousActiveEdge = EdgeType.None;
+            StartTime = 0;
         }
     }
 }

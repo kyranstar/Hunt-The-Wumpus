@@ -43,6 +43,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public void Reset()
         {
             Map.Reset();
+            GameOverState = null;
+            CloseTrivia();
         }
 
 
@@ -111,33 +113,16 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             if (CurrentTrivia.NumberCorrect >= 3)
             {
-                Func<Room, bool> RoomValidator = r =>
-                    !r.HasBats
-                    && !r.HasPit
-                    && Map.Wumpus.Location != r.RoomID
-                    && Map.PlayerRoom != r.RoomID;
+                Room FirstSafeRoom = Map.GetPlayerStartRoom();
 
-                // Place player in already visited location without hazards
-                Room FirstSafeRoomInPlayerPath = Map.PlayerPath.Select(i => Map.Cave[i])
-                    .FirstOrDefault(RoomValidator);
-
-                // If there are no non-hazardous locations that we've already visited
-                if (FirstSafeRoomInPlayerPath == null)
-                {
-                    // Check all possible rooms instead
-                    var FirstSafeRoom = Map.Cave.Rooms
-                        .FirstOrDefault(RoomValidator);
-
-                    // TODO: This will increment the player's turn
-                    // count by two when they hit a pit (once to fall
-                    // into the pit, once to move to their origin).
-                    // Is this what we want?
-                    if (FirstSafeRoom != null)
-                        Map.MovePlayerTo(FirstSafeRoom.RoomID);
-                }
+                // TODO: This will increment the player's turn
+                // count by two when they hit a pit (once to fall
+                // into the pit, once to move to their origin).
+                // Is this what we want?
+                if (FirstSafeRoom != null)
+                    Map.MovePlayerTo(FirstSafeRoom.RoomID);
                 else
-                    // TODO: Same as above
-                    Map.MovePlayerTo(FirstSafeRoomInPlayerPath.RoomID);
+                    Log.Error("Couldn't find valid room to move player to!");
             }
             else
             {

@@ -44,6 +44,14 @@ namespace HuntTheWumpus.SharedCode.GUI
             GameOverContext = new GameOverHudContext(GameController, RaisePropertyChangedForGroup);
         }
 
+        public void Reset()
+        {
+            HintFlyoutVisibility = Visibility.Hidden;
+            ScoreContext.Reset();
+            TriviaContext.Reset();
+            GameOverContext.Reset();
+        }
+
         private void GameController_OnNewHintAvailable(object sender, EventArgs e)
         {
             RaisePropertyChangedForGroup(HintGroup);

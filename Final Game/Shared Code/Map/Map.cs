@@ -70,8 +70,16 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             PlayerRoomLocation = new Point(0, 0);
 
+            Room FirstSafeRoom = GetPlayerStartRoom();
+
+            if (FirstSafeRoom != null)
+                PlayerRoom = FirstSafeRoom.RoomID ;
+            else
+                Log.Error("Couldn't find valid room to move player to!");
+
             Wumpus.MoveToRandomRoom();
             CollectItemsFromRoom();
+            PlayerPath.Clear();
             PlayerPath.Add(PlayerRoom);
         }
 
@@ -163,6 +171,28 @@ namespace HuntTheWumpus.SharedCode.GameMap
             ProcessPlayerMove();
         }
 
+        public Room GetPlayerStartRoom()
+        {
+            Func<Room, bool> RoomValidator = r =>
+                    !r.HasBats
+                    && !r.HasPit
+                    && Wumpus.Location != r.RoomID
+                    && PlayerRoom != r.RoomID;
+
+            // Place player in already visited location without hazards
+            Room FirstSafeRoomInPlayerPath = PlayerPath.Select(i => Cave[i])
+                .FirstOrDefault(RoomValidator);
+
+            // If there are no non-hazardous locations that we've already visited
+            if (FirstSafeRoomInPlayerPath == null)
+            {
+                // Check all possible rooms instead
+                return Cave.Rooms
+                    .FirstOrDefault(RoomValidator);
+            }
+            else
+                return FirstSafeRoomInPlayerPath;
+        }
 
         /// <summary>
         ///     The player collects items from his current room. Call this when the player enters a new room.
