@@ -93,8 +93,9 @@
             </Grid.RowDefinitions>
             <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" />
             <TextBlock Text="{Binding GameOverContext.GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
-            <TextBox Grid.Column="1" Grid.Row="2" Height="33" Margin="4" Text="{Binding GameOverContext.GameOverUsernameText}"/>
-            <Button Name="NameSubmitButton" Content="Save score" Margin="4" Command="{Binding GameOverContext.SubmitNameCommand}" Grid.Row="2" Grid.Column="2" Height="33" />
+
+            <TextBox Grid.Column="1" Grid.Row="2" Height="33" Margin="4" Text="{Binding GameOverContext.GameOverUsernameText}" Visibility="{Binding GameOverContext.UsernameBoxVisibility}"/>
+            <Button Name="NameSubmitButton" Content="Save score" Margin="4" Command="{Binding GameOverContext.SubmitNameCommand}" Grid.Row="2" Grid.Column="2" Height="33" Visibility="{Binding GameOverContext.UsernameBoxVisibility}"/>
             
             <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding GameOverContext.ReturnToMenuCommand}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Height="66" />
         </Grid>

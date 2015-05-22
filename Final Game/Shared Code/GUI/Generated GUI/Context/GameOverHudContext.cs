@@ -26,6 +26,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public const string GameOverBindingGroup = "GameOverBinding";
         public const string GameOverVisibilityGroup = "GameOverVisibility";
+        private const string UsernameGroup = "UsernameVisibility";
 
         Action<string> RaisePropertyChangedForGroup;
 
@@ -37,6 +38,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             ReturnToMenuCommand = new RelayCommand(new Action<object>(ReturnToMenu));
             SubmitNameCommand = new RelayCommand(new Action<object>(SubmitName));
+
+            UsernameBoxVisibility = Visibility.Visible;
 
             GameOverModalMarginAnimation = new StateAnimator(
                 Pct =>
@@ -74,6 +77,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             GameOverModalOpacityAnimation.Reset();
             PreviousNotifiedGameOverOpacity = 0;
+
+            UsernameBoxVisibility = Visibility.Visible;
         }
 
         private void GameController_OnGameOver(object sender, EventArgs e)
@@ -91,6 +96,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get;
             protected set;
+        }
+        
+        [PropertyGroup(UsernameGroup)]
+        public Visibility UsernameBoxVisibility
+        {
+            get; set;
         }
 
         public bool IsGameOver
@@ -194,6 +205,9 @@ namespace HuntTheWumpus.SharedCode.GUI
             ScoreMan.AddScore(PlayerScore);
 
             ScoreMan.Save();
+
+            UsernameBoxVisibility = Visibility.Hidden;
+            RaisePropertyChangedForGroup(UsernameGroup);
         }
     }
 }

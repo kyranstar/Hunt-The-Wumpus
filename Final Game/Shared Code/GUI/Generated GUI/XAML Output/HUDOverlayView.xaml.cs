@@ -454,6 +454,8 @@ namespace EmptyKeys.UserInterface.Generated {
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
             Grid.SetColumn(this.e_19, 1);
             Grid.SetRow(this.e_19, 2);
+            Binding binding_e_19_Visibility = new Binding("GameOverContext.UsernameBoxVisibility");
+            this.e_19.SetBinding(TextBox.VisibilityProperty, binding_e_19_Visibility);
             Binding binding_e_19_Text = new Binding("GameOverContext.GameOverUsernameText");
             this.e_19.SetBinding(TextBox.TextProperty, binding_e_19_Text);
             // NameSubmitButton element
@@ -466,6 +468,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.NameSubmitButton.Content = "Save score";
             Grid.SetColumn(this.NameSubmitButton, 2);
             Grid.SetRow(this.NameSubmitButton, 2);
+            Binding binding_NameSubmitButton_Visibility = new Binding("GameOverContext.UsernameBoxVisibility");
+            this.NameSubmitButton.SetBinding(Button.VisibilityProperty, binding_NameSubmitButton_Visibility);
             Binding binding_NameSubmitButton_Command = new Binding("GameOverContext.SubmitNameCommand");
             this.NameSubmitButton.SetBinding(Button.CommandProperty, binding_NameSubmitButton_Command);
             // MenuButton element
