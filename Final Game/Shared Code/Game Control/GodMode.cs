@@ -272,7 +272,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             switch (GetParam(paramList, 0))
             {
                 case Particles:
-                    MapRenderer.BackFogSystem = MapRenderer.FrontFogSystem = null;
+                    MapRenderer.ParticleSystemsEnabled = false;
                     break;
             }
             return true;
