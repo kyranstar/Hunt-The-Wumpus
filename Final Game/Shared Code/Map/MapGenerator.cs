@@ -153,10 +153,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
             // Set the dictionary to correct values
             foreach (var layout in layouts)
             {
+                int conflictNumber = 10000;
                 int id = layout.Room.RoomID;
                 // Makes floats less likely to conflict when cast? Probably?
-                int x = (int) (layout.RoomPosition.X * 500);
-                int y = (int)(layout.RoomPosition.Y * 500);
+                int x = (int)(layout.RoomPosition.X * conflictNumber);
+                int y = (int)(layout.RoomPosition.Y * conflictNumber);
                 if (!xToLowestAndHighestY.ContainsKey(x))
                 {
                     xToLowestAndHighestY[x] = new Tuple<int, int, int, int>(y, y, id, id);
@@ -180,14 +181,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 {
                     continue;
                 }
-                Debug.Assert(cave[idMin].AdjacentRooms[(int) Direction.North] == -1);
+                Debug.Assert(cave[idMin].AdjacentRooms[(int)Direction.North] == -1);
                 Debug.Assert(cave[idMax].AdjacentRooms[(int)Direction.South] == -1);
 
                 if (Rand.Next(100) < 50) continue;
 
                 // Make connection
-                cave[idMin].AdjacentRooms[(int) Direction.North] = idMax;
-                cave[idMax].AdjacentRooms[(int) Direction.South] = idMin;
+                cave[idMin].AdjacentRooms[(int)Direction.North] = idMax;
+                cave[idMax].AdjacentRooms[(int)Direction.South] = idMin;
             }
 
         }

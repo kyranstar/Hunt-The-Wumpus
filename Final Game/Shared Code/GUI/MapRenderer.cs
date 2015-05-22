@@ -52,9 +52,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             NumGoldTextures = 0,
             NumBatTextures = 1;
 
-        // If null, it isn't displayed
+
         public ParticleSystem.ParticleSystem BackFogSystem;
         public ParticleSystem.FogOfWar FrontFogSystem;
+
+        public bool ParticleSystemsEnabled = true;
 
         byte AimColorHighlightAmount = 45;
         byte AimAlphaHighlightAmount = 20;
@@ -178,7 +180,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             UpdateCamera();
             UpdateWumpus();
 
-            if (BackFogSystem != null && FrontFogSystem != null)
+            if (ParticleSystemsEnabled && BackFogSystem != null && FrontFogSystem != null)
             {
                 BackFogSystem.Update(time);
                 FrontFogSystem.Update(time);
@@ -229,12 +231,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform(), samplerState: SamplerState.LinearWrap);
 
             BackgroundTiles.Draw(MapRenderTarget);
-            if (BackFogSystem != null)
+            if (ParticleSystemsEnabled && BackFogSystem != null)
                 BackFogSystem.Draw(MapRenderTarget);
 
             DrawCaveBase(MapRenderTarget);
 
-            if (FrontFogSystem != null)
+            if (ParticleSystemsEnabled && FrontFogSystem != null)
                 FrontFogSystem.Draw(MapRenderTarget);
 
             Player.Draw(MapRenderTarget);
@@ -342,6 +344,5 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get { return (BackFogSystem == null ? 0 : BackFogSystem.NumberParticles) + (FrontFogSystem == null ? 0 : FrontFogSystem.NumberParticles); }
         }
-
     }
 }
