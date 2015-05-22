@@ -16,7 +16,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             this.GroupName = GroupName;
         }
 
-        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName, bool Recurse = true)
+        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName, int recurseDepth = 0)
         {
             List<string> PropertyNameResults = new List<string>();
 
@@ -27,9 +27,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
                     if(GroupAttribute is PropertyGroupAttribute && (GroupAttribute as PropertyGroupAttribute).GroupName == GroupName)
                         PropertyNameResults.Add(Property.Name);
 
-                if (Recurse)
+                if (recurseDepth > 0)
                 {
-                    string[] SubItems = GetPropertyNamesByGroup(Property.PropertyType, GroupName, false);
+                    string[] SubItems = GetPropertyNamesByGroup(Property.PropertyType, GroupName, recurseDepth - 1);
                     PropertyNameResults.AddRange(SubItems.Select(name => Property.Name + "." + name));
                 }
             }
