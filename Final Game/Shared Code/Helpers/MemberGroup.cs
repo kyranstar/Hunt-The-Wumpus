@@ -16,7 +16,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
             this.GroupName = GroupName;
         }
 
-        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName, int recurseDepth = 0)
+        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName, int recurseDepth = 1)
         {
             List<string> PropertyNameResults = new List<string>();
 
