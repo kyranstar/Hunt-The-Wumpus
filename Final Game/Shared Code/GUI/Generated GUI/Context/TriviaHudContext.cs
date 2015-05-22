@@ -54,6 +54,12 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return;
         }
 
+        public void Reset()
+        {
+            TriviaModalFadeAnimation.Reset();
+            PreviousNotifiedTriviaOpacity = 0;
+        }
+
         public bool IsTriviaInProgress
         {
             get

@@ -66,7 +66,16 @@ namespace HuntTheWumpus.SharedCode.GUI
                 },
             0.6);
         }
-        
+
+        public void Reset()
+        {
+            GameOverModalMarginAnimation.Reset();
+            PreviousNotifiedGameOverMargin = 0;
+
+            GameOverModalOpacityAnimation.Reset();
+            PreviousNotifiedGameOverOpacity = 0;
+        }
+
         private void GameController_OnGameOver(object sender, EventArgs e)
         {
             RaisePropertyChangedForGroup(GameOverBindingGroup);
