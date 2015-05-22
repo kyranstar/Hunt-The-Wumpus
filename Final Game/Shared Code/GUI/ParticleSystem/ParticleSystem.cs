@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
-    class ParticleSystem
+    public class ParticleSystem
     {
         protected static Random random = new Random();
 
@@ -49,7 +49,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
                 p.Update(time);
                 bool? FadeOutState = p.GetAnimationState(AnimationType.FadeOut);
 
-                if(!p.IsAlive && !p.IsTransparent && FadeOutState.HasValue)
+                if (!p.IsAlive && !p.IsTransparent && FadeOutState.HasValue)
                 {
                     if (FadeOutState == false)
                         p.StartAnimation(AnimationType.FadeOut);

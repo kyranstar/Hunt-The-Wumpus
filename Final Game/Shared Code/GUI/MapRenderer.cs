@@ -4,7 +4,6 @@ using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -53,8 +52,9 @@ namespace HuntTheWumpus.SharedCode.GUI
             NumGoldTextures = 0,
             NumBatTextures = 1;
 
-        ParticleSystem.ParticleSystem backFogSystem;
-        ParticleSystem.FogOfWar frontFogSystem;
+        // If null, it isn't displayed
+        public ParticleSystem.ParticleSystem BackFogSystem;
+        public ParticleSystem.FogOfWar FrontFogSystem;
 
         byte AimColorHighlightAmount = 45;
         byte AimAlphaHighlightAmount = 20;
@@ -132,12 +132,12 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             UpdateCamera();
 
-            backFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
-            frontFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
-            frontFogSystem.Opacity = 0f;
+            BackFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
+            FrontFogSystem = new ParticleSystem.FogOfWar(CloudTextures, MapCam);
+            FrontFogSystem.Opacity = 0f;
 
-            backFogSystem.Initialize();
-            frontFogSystem.Initialize();
+            BackFogSystem.Initialize();
+            FrontFogSystem.Initialize();
         }
 
         /// <summary>
@@ -178,8 +178,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             UpdateCamera();
             UpdateWumpus();
 
-            backFogSystem.Update(time);
-            frontFogSystem.Update(time);
+            if (BackFogSystem != null && FrontFogSystem != null)
+            {
+                BackFogSystem.Update(time);
+                FrontFogSystem.Update(time);
+            }
         }
 
         private void UpdateWumpus()
@@ -226,11 +229,13 @@ namespace HuntTheWumpus.SharedCode.GUI
             MapRenderTarget.Begin(transformMatrix: MapCam.GetTransform(), samplerState: SamplerState.LinearWrap);
 
             BackgroundTiles.Draw(MapRenderTarget);
-            backFogSystem.Draw(MapRenderTarget);
+            if (BackFogSystem != null)
+                BackFogSystem.Draw(MapRenderTarget);
 
             DrawCaveBase(MapRenderTarget);
 
-            frontFogSystem.Draw(MapRenderTarget);
+            if (FrontFogSystem != null)
+                FrontFogSystem.Draw(MapRenderTarget);
 
             Player.Draw(MapRenderTarget);
             Wumpus.Draw(MapRenderTarget);
@@ -335,7 +340,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public int FogParticleCount
         {
-            get { return backFogSystem.NumberParticles + frontFogSystem.NumberParticles; }
+            get { return (BackFogSystem == null ? 0 : BackFogSystem.NumberParticles) + (FrontFogSystem == null ? 0 : FrontFogSystem.NumberParticles); }
         }
 
     }

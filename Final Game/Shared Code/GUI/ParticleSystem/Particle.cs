@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
-    class Particle : Sprite2D
+    public class Particle : Sprite2D
     {
         public Vector2 Velocity;
         public Vector2 Acceleration;

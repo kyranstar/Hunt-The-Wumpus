@@ -5,7 +5,7 @@ using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 {
-    class FogOfWar : ParticleSystem
+    public class FogOfWar : ParticleSystem
     {
 
         const int PARTICLE_CAP = 150;

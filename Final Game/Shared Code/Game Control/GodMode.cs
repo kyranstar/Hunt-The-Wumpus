@@ -36,6 +36,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Root.RegisterCommand(new SetViewCommand(MapRenderer));
             Root.RegisterCommand(new OutlineCommand(MapRenderer));
             Root.RegisterCommand(new Display(GameController));
+            Root.RegisterCommand(new DisableCommand(MapRenderer));
 
             CommandEngine Engine = new CommandEngine(Root);
             Engine.Run(new string[0]);
@@ -68,14 +69,15 @@ namespace HuntTheWumpus.SharedCode.GameControl
     }
     class Display : ActionCommandBase
     {
-        private const string HAZARDS = "hazards";
-        private const string ROOMS = "rooms";
+        private const string Hazards = "hazards";
+        private const string Rooms = "rooms";
         private const string GameOver = "gameover";
 
         private const string Help =
 @"Graphically displays whatever is passed in as a parameter:
-        - " + HAZARDS + @": Displays pits, bats, and the wumpus in their location.
-        - " + ROOMS + @": Sets all rooms as visible and removes fog of war.";
+        - " + Hazards + @": Displays pits, bats, and the wumpus in their location.
+        - " + Rooms + @": Sets all rooms as visible and removes fog of war.
+        - " + GameOver + @": Displays the gameover screen.";
 
 
         GameController GameController;
@@ -90,10 +92,16 @@ namespace HuntTheWumpus.SharedCode.GameControl
             string toDisplay = GetParam(paramList, 0);
             switch (toDisplay)
             {
-                case HAZARDS:
-                    //TODO display hazards
+                case Hazards:
+                    foreach (int room in GameController.Map.Cave.RoomDict.
+                        Where(r => r.Value.HasPit || r.Value.HasBats).
+                        Select(r => r.Key))
+                    {
+                        GameController.Map.PlayerPath.Add(room);
+                        GameController.Map.MoveCount++;
+                    }
                     break;
-                case ROOMS:
+                case Rooms:
                     foreach (int room in GameController.Map.Cave.RoomDict.Keys)
                     {
                         GameController.Map.PlayerPath.Add(room);
@@ -240,6 +248,33 @@ namespace HuntTheWumpus.SharedCode.GameControl
                 OutputInformation("Room info: {0}", Map.Cave.GetRoom(Map.PlayerRoom));
             }
 
+            return true;
+        }
+    }
+    class DisableCommand : ActionCommandBase
+    {
+        private const string Particles = "particles";
+
+        private const string Help =
+@"Disables whatever is passed in as a parameter:
+        - " + Particles + @": Disables particle systems.";
+
+        MapRenderer MapRenderer;
+        public DisableCommand(MapRenderer MapRenderer)
+            : base("disable", Help)
+        {
+            this.MapRenderer = MapRenderer;
+
+        }
+
+        public override async System.Threading.Tasks.Task<bool> InvokeAsync(string paramList)
+        {
+            switch (GetParam(paramList, 0))
+            {
+                case Particles:
+                    MapRenderer.BackFogSystem = MapRenderer.FrontFogSystem = null;
+                    break;
+            }
             return true;
         }
     }
