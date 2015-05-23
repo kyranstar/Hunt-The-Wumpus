@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
@@ -29,6 +31,30 @@ namespace HuntTheWumpus.SharedCode.Helpers
 #endif
 
             return Path.Combine(DataDir, FileName);
+        }
+
+        public static string GetDataPath(string FileName)
+        {
+#if DESKTOP
+            string DataDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+#elif NETFX_CORE
+            // TODO: Depending on our implementation of the universal
+            // file API in the helpers above, we may need to change this
+            string DataDir = "";
+#endif
+
+            return Path.Combine(DataDir, FileName);
+        }
+
+        public static IEnumerable<string> ReadAllLines(this Stream stream)
+        {
+            using (var Stream = stream)
+            using (var Reader = new StreamReader(Stream))
+            {
+                string Line;
+                while ((Line = Reader.ReadLine()) != null)
+                    yield return Line;
+            }
         }
     }
 }

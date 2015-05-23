@@ -5,6 +5,9 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
@@ -87,6 +90,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
                     return true;
 
             return false;
+        }
+
+        public static T RunSynchronouslyWithReturn<T>(this Task<T> Target)
+        {
+            return Target.Result;
+        }
+
+        public static string[] SplitCommaWithGrouping(this string SourceString)
+        {
+            return Regex.Split(SourceString, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         }
     }
 

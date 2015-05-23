@@ -41,4 +41,29 @@ namespace HuntTheWumpus.SharedCode.Trivia
 
 
     }
+
+    public class BindableFlatQuestion
+    {
+        public string QuestionText { get; set; }
+
+        public string CorrectAnswer { get; set; }
+
+        public string AlternateAnswer1 { get; set; }
+        public string AlternateAnswer2 { get; set; }
+        public string AlternateAnswer3 { get; set; }
+
+        public Question ToQuestion()
+        {
+            return new Question(
+                QuestionText,
+                new List<string>()
+                {
+                    CorrectAnswer,
+                    AlternateAnswer1,
+                    AlternateAnswer2,
+                    AlternateAnswer3
+                },
+                CorrectAnswer);
+        }
+    }
 }
