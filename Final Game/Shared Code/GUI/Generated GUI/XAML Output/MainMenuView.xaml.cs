@@ -74,8 +74,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_21.VerticalAlignment = VerticalAlignment.Center;
             this.e_21.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
             this.e_21.Text = "Hunt the Wumpus";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_21.FontFamily = new FontFamily("Segoe UI");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
+            this.e_21.FontFamily = new FontFamily("Arcadepix");
             this.e_21.FontSize = 20F;
             this.e_21.FontStyle = FontStyle.Bold;
             // StartButton element
@@ -83,7 +83,9 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_20.Children.Add(this.StartButton);
             this.StartButton.Name = "StartButton";
             this.StartButton.Margin = new Thickness(5F, 5F, 5F, 5F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.StartButton.FontFamily = new FontFamily("Arcadepix");
+            this.StartButton.FontSize = 20F;
             this.StartButton.Content = "Start Game";
             Grid.SetColumn(this.StartButton, 1);
             Grid.SetRow(this.StartButton, 2);
@@ -94,7 +96,9 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_20.Children.Add(this.HighScoreButton);
             this.HighScoreButton.Name = "HighScoreButton";
             this.HighScoreButton.Margin = new Thickness(5F, 5F, 5F, 5F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.HighScoreButton.FontFamily = new FontFamily("Arcadepix");
+            this.HighScoreButton.FontSize = 20F;
             this.HighScoreButton.Content = "View Scores";
             Grid.SetColumn(this.HighScoreButton, 1);
             Grid.SetRow(this.HighScoreButton, 3);

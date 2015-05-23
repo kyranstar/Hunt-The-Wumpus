@@ -55,7 +55,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.BackButton.Width = 150F;
             this.BackButton.Margin = new Thickness(5F, 5F, 5F, 5F);
             this.BackButton.HorizontalAlignment = HorizontalAlignment.Left;
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.BackButton.FontFamily = new FontFamily("Arcadepix");
             this.BackButton.Content = "← Back to Main Menu";
             Grid.SetRow(this.BackButton, 0);
             Binding binding_BackButton_Command = new Binding("BackCommand");
@@ -64,7 +65,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.ScoreTable = new DataGrid();
             this.LayoutRoot.Children.Add(this.ScoreTable);
             this.ScoreTable.Name = "ScoreTable";
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.ScoreTable.FontFamily = new FontFamily("Arcadepix");
             Grid.SetRow(this.ScoreTable, 1);
             Binding binding_ScoreTable_ItemsSource = new Binding("HighScores");
             this.ScoreTable.SetBinding(DataGrid.ItemsSourceProperty, binding_ScoreTable_ItemsSource);

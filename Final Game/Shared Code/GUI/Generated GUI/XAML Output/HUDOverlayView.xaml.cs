@@ -141,9 +141,10 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_0.Children.Add(this.e_2);
             this.e_2.Name = "e_2";
             this.e_2.Margin = new Thickness(4F, 0F, 4F, 0F);
+            this.e_2.VerticalAlignment = VerticalAlignment.Center;
             this.e_2.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_2.FontFamily = new FontFamily("Segoe UI");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
+            this.e_2.FontFamily = new FontFamily("Arcadepix");
             this.e_2.FontSize = 20F;
             this.e_2.FontStyle = FontStyle.Bold;
             Binding binding_e_2_Text = new Binding("ScoreContext.Gold");
@@ -163,9 +164,10 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_0.Children.Add(this.e_4);
             this.e_4.Name = "e_4";
             this.e_4.Margin = new Thickness(4F, 0F, 4F, 0F);
+            this.e_4.VerticalAlignment = VerticalAlignment.Center;
             this.e_4.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_4.FontFamily = new FontFamily("Segoe UI");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
+            this.e_4.FontFamily = new FontFamily("Arcadepix");
             this.e_4.FontSize = 20F;
             this.e_4.FontStyle = FontStyle.Bold;
             Binding binding_e_4_Text = new Binding("ScoreContext.Arrows");
@@ -183,9 +185,10 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_5.Children.Add(this.e_6);
             this.e_6.Name = "e_6";
             this.e_6.Margin = new Thickness(4F, 0F, 4F, 0F);
+            this.e_6.VerticalAlignment = VerticalAlignment.Center;
             this.e_6.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_6.FontFamily = new FontFamily("Segoe UI");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
+            this.e_6.FontFamily = new FontFamily("Arcadepix");
             this.e_6.FontSize = 20F;
             this.e_6.FontStyle = FontStyle.Bold;
             Binding binding_e_6_Text = new Binding("ScoreContext.Turns");
@@ -195,7 +198,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_5.Children.Add(this.HintButton);
             this.HintButton.Name = "HintButton";
             this.HintButton.Margin = new Thickness(4F, 0F, 4F, 0F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.HintButton.FontFamily = new FontFamily("Arcadepix");
             this.HintButton.Content = "Hints";
             Binding binding_HintButton_Command = new Binding("ShowHintsCommand");
             this.HintButton.SetBinding(Button.CommandProperty, binding_HintButton_Command);
@@ -237,7 +241,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.QuestionText.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
             this.QuestionText.TextAlignment = TextAlignment.Center;
             this.QuestionText.TextWrapping = TextWrapping.Wrap;
-            FontManager.Instance.AddFont("Segoe UI", 40F, FontStyle.Regular, "Segoe_UI_30_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 40F, FontStyle.Regular, "Arcadepix_30_Regular");
+            this.QuestionText.FontFamily = new FontFamily("Arcadepix");
             this.QuestionText.FontSize = 40F;
             Grid.SetRow(this.QuestionText, 1);
             Binding binding_QuestionText_Text = new Binding("TriviaContext.CurrentTriviaQuestionText");
@@ -255,7 +260,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_7.Children.Add(this.TriviaAnswerSelector);
             this.TriviaAnswerSelector.Name = "TriviaAnswerSelector";
             this.TriviaAnswerSelector.Width = 350F;
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.TriviaAnswerSelector.FontFamily = new FontFamily("Arcadepix");
             this.TriviaAnswerSelector.FontSize = 20F;
             Binding binding_TriviaAnswerSelector_ItemsSource = new Binding("TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems");
             this.TriviaAnswerSelector.SetBinding(ComboBox.ItemsSourceProperty, binding_TriviaAnswerSelector_ItemsSource);
@@ -269,7 +275,9 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_8.Name = "e_8";
             this.e_8.Width = 70F;
             this.e_8.Margin = new Thickness(5F, 0F, 0F, 0F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 15F, FontStyle.Regular, "Arcadepix_11.25_Regular");
+            this.e_8.FontFamily = new FontFamily("Arcadepix");
+            this.e_8.FontSize = 15F;
             this.e_8.Content = "Submit";
             Grid.SetRow(this.e_8, 3);
             Binding binding_e_8_Command = new Binding("TriviaContext.SubmitAnswerCommand");
@@ -287,7 +295,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_9.Children.Add(this.e_10);
             this.e_10.Name = "e_10";
             this.e_10.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.e_10.FontFamily = new FontFamily("Arcadepix");
             this.e_10.FontSize = 20F;
             Binding binding_e_10_Text = new Binding("TriviaContext.NumTriviaQuestionsCorrect");
             this.e_10.SetBinding(TextBlock.TextProperty, binding_e_10_Text);
@@ -297,14 +306,16 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_11.Name = "e_11";
             this.e_11.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
             this.e_11.Text = "/";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.e_11.FontFamily = new FontFamily("Arcadepix");
             this.e_11.FontSize = 20F;
             // e_12 element
             this.e_12 = new TextBlock();
             this.e_9.Children.Add(this.e_12);
             this.e_12.Name = "e_12";
             this.e_12.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.e_12.FontFamily = new FontFamily("Arcadepix");
             this.e_12.FontSize = 20F;
             Binding binding_e_12_Text = new Binding("TriviaContext.NumTriviaQuestionsTotal");
             this.e_12.SetBinding(TextBlock.TextProperty, binding_e_12_Text);
@@ -341,7 +352,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_14.Name = "e_14";
             this.e_14.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
             this.e_14.Text = "Hints";
-            FontManager.Instance.AddFont("Segoe UI", 45F, FontStyle.Regular, "Segoe_UI_33.75_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 45F, FontStyle.Regular, "Arcadepix_33.75_Regular");
+            this.e_14.FontFamily = new FontFamily("Arcadepix");
             this.e_14.FontSize = 45F;
             // HintCloseButton element
             this.HintCloseButton = new Button();
@@ -350,7 +362,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.HintCloseButton.Height = 33F;
             this.HintCloseButton.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             this.HintCloseButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.HintCloseButton.FontFamily = new FontFamily("Arcadepix");
             this.HintCloseButton.Content = "X";
             Binding binding_HintCloseButton_Command = new Binding("ShowHintsCommand");
             this.HintCloseButton.SetBinding(Button.CommandProperty, binding_HintCloseButton_Command);
@@ -361,7 +374,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.HintPurchaseButton.Height = 33F;
             this.HintPurchaseButton.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             this.HintPurchaseButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.HintPurchaseButton.FontFamily = new FontFamily("Arcadepix");
             this.HintPurchaseButton.Content = "Purchase hint";
             Binding binding_HintPurchaseButton_Command = new Binding("BuyHintsCommand");
             this.HintPurchaseButton.SetBinding(Button.CommandProperty, binding_HintPurchaseButton_Command);
@@ -372,7 +386,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_15.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.e_15.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             this.e_15.HorizontalContentAlignment = HorizontalAlignment.Center;
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.e_15.FontFamily = new FontFamily("Arcadepix");
             this.e_15.FontSize = 20F;
             Func<UIElement, UIElement> e_15_iptFunc = e_15_iptMethod;
             ControlTemplate e_15_ipt = new ControlTemplate(e_15_iptFunc);
@@ -428,8 +443,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_17.VerticalAlignment = VerticalAlignment.Center;
             this.e_17.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
             this.e_17.Text = "Hunt the Wumpus";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_17.FontFamily = new FontFamily("Segoe UI");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
+            this.e_17.FontFamily = new FontFamily("Arcadepix");
             this.e_17.FontSize = 20F;
             this.e_17.FontStyle = FontStyle.Bold;
             // e_18 element
@@ -439,8 +454,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_18.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_18.VerticalAlignment = VerticalAlignment.Center;
             this.e_18.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            FontManager.Instance.AddFont("Segoe UI", 53.33333F, FontStyle.Bold, "Segoe_UI_40_Bold");
-            this.e_18.FontFamily = new FontFamily("Segoe UI");
+            FontManager.Instance.AddFont("Arcadepix", 53.33333F, FontStyle.Bold, "Arcadepix_40_Bold");
+            this.e_18.FontFamily = new FontFamily("Arcadepix");
             this.e_18.FontSize = 53.33333F;
             this.e_18.FontStyle = FontStyle.Bold;
             Grid.SetRow(this.e_18, 1);
@@ -453,7 +468,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_19.Name = "e_19";
             this.e_19.Height = 33F;
             this.e_19.Margin = new Thickness(4F, 4F, 4F, 4F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.e_19.FontFamily = new FontFamily("Arcadepix");
             Grid.SetColumn(this.e_19, 1);
             Grid.SetRow(this.e_19, 2);
             Binding binding_e_19_Visibility = new Binding("GameOverContext.UsernameBoxVisibility");
@@ -466,7 +482,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.NameSubmitButton.Name = "NameSubmitButton";
             this.NameSubmitButton.Height = 33F;
             this.NameSubmitButton.Margin = new Thickness(4F, 4F, 4F, 4F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.NameSubmitButton.FontFamily = new FontFamily("Arcadepix");
             this.NameSubmitButton.Content = "Save score";
             Grid.SetColumn(this.NameSubmitButton, 2);
             Grid.SetRow(this.NameSubmitButton, 2);
@@ -480,7 +497,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.MenuButton.Name = "MenuButton";
             this.MenuButton.Height = 66F;
             this.MenuButton.Margin = new Thickness(5F, 5F, 5F, 5F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.MenuButton.FontFamily = new FontFamily("Arcadepix");
             this.MenuButton.Content = "Back to Main Menu";
             Grid.SetColumn(this.MenuButton, 1);
             Grid.SetRow(this.MenuButton, 3);
