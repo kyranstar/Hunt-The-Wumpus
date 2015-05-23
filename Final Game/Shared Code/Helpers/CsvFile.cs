@@ -37,7 +37,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                     .Select(s => new Row(
                         ColumnHeaders,
                         s.SplitCommaWithGrouping()
-                        .Select(x => x.Trim())
+                        .Select(x => x.Trim().Trim('"').Trim().Replace("\"\"", "\""))
                         .ToArray()))
                     .ToArray();
             }

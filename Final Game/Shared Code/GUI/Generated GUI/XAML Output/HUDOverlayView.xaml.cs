@@ -209,7 +209,7 @@ namespace EmptyKeys.UserInterface.Generated {
             row_TriviaDisplay_0.Height = new GridLength(1F, GridUnitType.Star);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_0);
             RowDefinition row_TriviaDisplay_1 = new RowDefinition();
-            row_TriviaDisplay_1.Height = new GridLength(70F, GridUnitType.Pixel);
+            row_TriviaDisplay_1.Height = new GridLength(150F, GridUnitType.Pixel);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_1);
             RowDefinition row_TriviaDisplay_2 = new RowDefinition();
             row_TriviaDisplay_2.Height = new GridLength(5F, GridUnitType.Pixel);
@@ -235,6 +235,8 @@ namespace EmptyKeys.UserInterface.Generated {
             this.QuestionText.HorizontalAlignment = HorizontalAlignment.Center;
             this.QuestionText.VerticalAlignment = VerticalAlignment.Center;
             this.QuestionText.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.QuestionText.TextAlignment = TextAlignment.Center;
+            this.QuestionText.TextWrapping = TextWrapping.Wrap;
             FontManager.Instance.AddFont("Segoe UI", 40F, FontStyle.Regular, "Segoe_UI_30_Regular");
             this.QuestionText.FontSize = 40F;
             Grid.SetRow(this.QuestionText, 1);
@@ -252,7 +254,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.TriviaAnswerSelector = new ComboBox();
             this.e_7.Children.Add(this.TriviaAnswerSelector);
             this.TriviaAnswerSelector.Name = "TriviaAnswerSelector";
-            this.TriviaAnswerSelector.Width = 250F;
+            this.TriviaAnswerSelector.Width = 350F;
             FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Regular, "Segoe_UI_15_Regular");
             this.TriviaAnswerSelector.FontSize = 20F;
             Binding binding_TriviaAnswerSelector_ItemsSource = new Binding("TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems");
