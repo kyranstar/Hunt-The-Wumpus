@@ -122,7 +122,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
                         if (numRoomsCreated >= roomsToCreate)
                         {
                             // Create side connections and we're done
-                            AddSideConnections(NewCave, maxConnectionsToCreatePerRoom);
+                            // Algorithm is giving weird results right now
+                            // AddSideConnections(NewCave, maxConnectionsToCreatePerRoom);
                             return NewCave;
                         }
 
@@ -153,11 +154,13 @@ namespace HuntTheWumpus.SharedCode.GameMap
             // Set the dictionary to correct values
             foreach (var layout in layouts)
             {
-                int conflictNumber = 10000;
-                int id = layout.Room.RoomID;
                 // Makes floats less likely to conflict when cast? Probably?
+                int conflictNumber = 10000;
                 int x = (int)(layout.RoomPosition.X * conflictNumber);
                 int y = (int)(layout.RoomPosition.Y * conflictNumber);
+
+                int id = layout.Room.RoomID;
+
                 if (!xToLowestAndHighestY.ContainsKey(x))
                 {
                     xToLowestAndHighestY[x] = new Tuple<int, int, int, int>(y, y, id, id);
