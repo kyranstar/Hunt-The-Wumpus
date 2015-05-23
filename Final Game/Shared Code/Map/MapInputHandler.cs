@@ -79,7 +79,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             if(!IsFrozen && !IsAiming && KeyDirection.HasValue)
                 GameController.Map.MovePlayer(KeyDirection.Value);
-            if (Key == Keys.Delete)
+            if (Key == Keys.Delete && GameController.CurrentTrivia != null)
                 GameController.CurrentTrivia.Abort();
         }
 
