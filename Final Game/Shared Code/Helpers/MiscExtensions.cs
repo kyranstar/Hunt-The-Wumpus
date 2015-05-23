@@ -105,7 +105,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
     public static class ColorUtils
     {
-        public static Color FromAlpha(float Alpha = 255)
+        public static Color FromAlpha(float Alpha = 1)
         {
             return Color.White * Alpha;
         }

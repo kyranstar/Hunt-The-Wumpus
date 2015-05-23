@@ -4,6 +4,7 @@ using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,6 +41,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Rectangle? DebugOutline = null;
 
+        Dictionary<int, StateAnimator> GoldFadeAnimators,
+            BatFadeAnimators;
+
         // Consts
         private const int VirtualViewHeight = 500;
         private readonly int PlayerHeight;
@@ -49,7 +53,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             NumDoorTextures = 1,
             NumRoomTextures = 1,
             NumPitTextures = 1,
-            NumGoldTextures = 0,
+            NumGoldTextures = 1,
             NumBatTextures = 1;
 
 
@@ -99,6 +103,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             MapRenderTarget = new SpriteBatch(Graphics);
             this.Graphics = Graphics;
+
+            GoldFadeAnimators = new Dictionary<int, StateAnimator>();
+            BatFadeAnimators = new Dictionary<int, StateAnimator>();
 
             Viewport RenderViewport = Graphics.Viewport;
             VirtualViewSize = new Vector2(RenderViewport.AspectRatio * VirtualViewHeight, VirtualViewHeight);
@@ -157,7 +164,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             MapUtils.LoadTexturesIntoArray(out ClosedDoorTextures, NumDoorTextures, "ClosedDoor", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out RoomBaseTextures, NumRoomTextures, "RoomBase", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content, "Images/");
-            MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "Gold", Content, "Images/");
+            MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "RoomGoldOverlay", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out BatTextures, NumBatTextures, "Bat", Content, "Images/");
         }
 
@@ -184,6 +191,25 @@ namespace HuntTheWumpus.SharedCode.GUI
             {
                 BackFogSystem.Update(time);
                 FrontFogSystem.Update(time);
+            }
+
+            UpdateRoomAnimators(GoldFadeAnimators, time);
+            UpdateRoomAnimators(BatFadeAnimators, time);
+        }
+
+        public void UpdateRoomAnimators(Dictionary<int, StateAnimator> Animators, GameTime time)
+        {
+            foreach (Room Room in Map.Cave.Rooms)
+            {
+                if (Animators.ContainsKey(Room.RoomID))
+                    continue;
+
+                Animators.Add(Room.RoomID, new StateAnimator(Pct => (float)Pct, Pct => 1 - (float)Pct, 1));
+            }
+
+            foreach (var AnimatorMap in GoldFadeAnimators)
+            {
+                AnimatorMap.Value.Update(time, Map.Cave[AnimatorMap.Key].Gold > 0);
             }
         }
 
@@ -306,11 +332,11 @@ namespace HuntTheWumpus.SharedCode.GUI
                     if (LayoutMapping.Value.PitImage >= 0)
                         Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
 
-                    if (Map.Cave[LayoutMapping.Key].Gold >= 0 && LayoutMapping.Value.GoldImage >= 0)
-                        Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, Color.White);
+                    if (LayoutMapping.Value.GoldImage >= 0 && GoldFadeAnimators.ContainsKey(LayoutMapping.Key))
+                        Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, ColorUtils.FromAlpha(GoldFadeAnimators[LayoutMapping.Key].CurrentValue));
 
-                    if (Map.Cave[LayoutMapping.Key].HasBats && LayoutMapping.Value.BatImage >= 0)
-                        Target.Draw(BatTextures[LayoutMapping.Value.BatImage], RoomTargetArea, Color.White);
+                    if (LayoutMapping.Value.BatImage >= 0 && BatFadeAnimators.ContainsKey(LayoutMapping.Key))
+                        Target.Draw(BatTextures[LayoutMapping.Value.BatImage], RoomTargetArea, ColorUtils.FromAlpha(BatFadeAnimators[LayoutMapping.Key].CurrentValue));
 
                     // Iterate over the (closed) door mappings for the current room
                     foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)

@@ -129,6 +129,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
                 return true;
             }
+
             Wumpus.Move();
             return false;
         }

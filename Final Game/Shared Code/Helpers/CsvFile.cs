@@ -30,7 +30,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 ColumnHeaders = Header.SplitCommaWithGrouping()
                     .Select(s => s.Trim())
                     .ToArray();
-
+                
                 DataRows = FileContents
                     .Skip(1)
                     .Where(s => s.Trim().Length > 0)
