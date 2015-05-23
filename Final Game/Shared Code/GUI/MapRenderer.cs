@@ -193,11 +193,11 @@ namespace HuntTheWumpus.SharedCode.GUI
                 FrontFogSystem.Update(time);
             }
 
-            UpdateRoomAnimators(GoldFadeAnimators, time);
-            UpdateRoomAnimators(BatFadeAnimators, time);
+            UpdateRoomAnimators(GoldFadeAnimators, r => r.Gold > 0, time);
+            UpdateRoomAnimators(BatFadeAnimators, r => r.HasBats, time);
         }
 
-        public void UpdateRoomAnimators(Dictionary<int, StateAnimator> Animators, GameTime time)
+        public void UpdateRoomAnimators(Dictionary<int, StateAnimator> Animators, Func<Room, bool> ValueSelector, GameTime time)
         {
             foreach (Room Room in Map.Cave.Rooms)
             {
@@ -207,9 +207,9 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Animators.Add(Room.RoomID, new StateAnimator(Pct => (float)Pct, Pct => 1 - (float)Pct, 1));
             }
 
-            foreach (var AnimatorMap in GoldFadeAnimators)
+            foreach (var AnimatorMap in Animators)
             {
-                AnimatorMap.Value.Update(time, Map.Cave[AnimatorMap.Key].Gold > 0);
+                AnimatorMap.Value.Update(time, ValueSelector(Map.Cave[AnimatorMap.Key]));
             }
         }
 
