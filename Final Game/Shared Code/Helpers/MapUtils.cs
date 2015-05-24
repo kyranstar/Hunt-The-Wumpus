@@ -214,6 +214,27 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 Textures[i] = Content.Load<Texture2D>(rootDir + NamePrefix + i);
             }
         }
+        
+        /// <summary>
+        ///     Returns a string description of a warning
+        /// </summary>
+        /// <param name="warning"></param>
+        /// <returns></returns>
+        public static string GetDescription(this PlayerWarnings warning)
+        {
+            switch (warning)
+            {
+                case PlayerWarnings.Pit:
+                    return "I feel a draft.";
+                case PlayerWarnings.Bat:
+                    return "Bats nearby.";
+                case PlayerWarnings.Wumpus:
+                    return "I smell a Wumpus!";
+
+                default:
+                    return null;
+            }
+        }
     }
 
     /// <summary>

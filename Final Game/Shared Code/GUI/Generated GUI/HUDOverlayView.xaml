@@ -33,6 +33,7 @@
                 <TextBlock Text="{Binding Path=ScoreContext.Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding WarningText}" FontSize="15pt" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding Path=ScoreContext.Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
                 <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" />
             </StackPanel>

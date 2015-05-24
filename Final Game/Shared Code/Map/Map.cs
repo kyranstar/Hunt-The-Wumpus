@@ -267,41 +267,24 @@ namespace HuntTheWumpus.SharedCode.GameMap
         ///     </list>
         /// </summary>
         /// <returns>a list of warnings</returns>
-        public List<PlayerWarnings> GetPlayerWarnings()
+        public PlayerWarnings[] GetPlayerWarnings()
         {
-            List<PlayerWarnings> list = new List<PlayerWarnings>();
+            List<PlayerWarnings> Results = new List<PlayerWarnings>();
 
-            int[] adjacentRooms = Cave.GetRoom(PlayerRoom).AdjacentRooms;
-            foreach (int room in adjacentRooms)
+            int[] adjacentRooms = Cave[PlayerRoom].AdjacentRooms;
+            foreach (int room in adjacentRooms.Where(c => c >= 0))
             {
-                Room r = Cave.GetRoom(room);
-                if (r.HasBats) list.Add(PlayerWarnings.Bat);
-                if (r.HasPit) list.Add(PlayerWarnings.Pit);
+                Room r = Cave[room];
+                if (r.HasBats)
+                    Results.Add(PlayerWarnings.Bat);
+                if (r.HasPit)
+                    Results.Add(PlayerWarnings.Pit);
             }
-            if (adjacentRooms.Contains(Wumpus.Location)) list.Add(PlayerWarnings.Wumpus);
 
-            return list;
-        }
+            if (adjacentRooms.Contains(Wumpus.Location))
+                Results.Add(PlayerWarnings.Wumpus);
 
-        /// <summary>
-        ///     Returns a string description of a warning
-        /// </summary>
-        /// <param name="warning"></param>
-        /// <returns></returns>
-        public static string GetWarningDescription(PlayerWarnings warning)
-        {
-            switch (warning)
-            {
-                case PlayerWarnings.Pit:
-                    return "I feel a draft.";
-                case PlayerWarnings.Bat:
-                    return "Bats nearby.";
-                case PlayerWarnings.Wumpus:
-                    return "I smell a Wumpus!";
-
-                default:
-                    throw new Exception();
-            }
+            return Results.Distinct().ToArray();
         }
     }
 }
