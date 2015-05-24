@@ -50,7 +50,14 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             Console.ForegroundColor = Foreground;
             Console.BackgroundColor = Background;
-            Console.WriteLine(Message);
+            try
+            { 
+                Console.WriteLine(Message);
+            }
+            catch
+            {
+                
+            }
 
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = ConsoleColor.Black;
