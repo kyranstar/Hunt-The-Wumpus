@@ -32,9 +32,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public static void LoadAllSceneContent()
         {
-            MenuScene.LoadContent(Content);
-            GameScene.LoadContent(Content);
-            HighScoreScene.LoadContent(Content);
+            MenuScene.LoadContent(Content, Graphics);
+            GameScene.LoadContent(Content, Graphics);
+            HighScoreScene.LoadContent(Content, Graphics);
         }
 
         public static void LoadScene(Scene NewScene)

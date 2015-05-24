@@ -12,8 +12,9 @@ namespace HuntTheWumpus.SharedCode.Scenes
         SpriteBatch ChaseTarget;
         WumpusChaseAnimation ChaseAnimation;
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager Content, GraphicsDevice GraphicsDevice)
         {
+            ChaseAnimation = new WumpusChaseAnimation(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 60, 10, 0.1);
             ChaseAnimation.LoadContent(Content);
         }
 
@@ -23,7 +24,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
             MenuGUI.DataContext = new MainMenuContext();
 
             ChaseTarget = new SpriteBatch(GraphicsDevice);
-            ChaseAnimation = new WumpusChaseAnimation(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 60, 10, 0.1);
+            ChaseAnimation.Initialize();
         }
 
         public override void Update(GameTime GameTime)
