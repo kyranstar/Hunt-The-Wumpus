@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ek="clr-namespace:EmptyKeys.UserInterface.Designer;assembly=EmptyKeys.UserInterface.Designer"
              mc:Ignorable="d" 
-             d:DesignHeight="640" d:DesignWidth="800"
+             d:DesignHeight="768" d:DesignWidth="1366"
              Background="Transparent">
 
     <Grid Background="Transparent" Name="UIRoot">
@@ -38,7 +38,27 @@
                 <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" />
             </StackPanel>
         </Grid>
-        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding Path=TriviaContext.TriviaModalVisibility}" Opacity="{Binding TriviaContext.TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}" Margin="0, 0, 0, 30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Grid Background="#333333" Grid.RowSpan="3"/>
+            <TextBlock Text="Hints" FontSize="45" Foreground="White" FontFamily="Arcadepix" Margin="50, 20, 0, 0"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 20, 30, 0" Orientation="Horizontal">
+                <Button Name="HintPurchaseButton" Content="Purchase" Background="Transparent" Height="33" Foreground="White" Command="{Binding BuyHintsCommand}" FontFamily="Arcadepix" Margin="0, 0, 8, 0"/>
+                <Button Name="HintCloseButton" Content="X" Height="25" Foreground="White" FontWeight="ExtraLight" Background="#444444" Width="25" Padding="0, 3, 0, 0" VerticalContentAlignment="Center" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" FontSize="20"/>
+            </StackPanel>
+            <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
+        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding Path=TriviaContext.TriviaModalVisibility, FallbackValue=Collapsed}" Opacity="{Binding TriviaContext.TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="150px"/>
@@ -58,27 +78,7 @@
                 <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" FontFamily="Arcadepix"/>
             </StackPanel>
         </Grid>
-        <Grid Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}" Margin="0, 0, 0, 30">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5*"/>
-            </Grid.RowDefinitions>
-            <Grid Background="#333333" Grid.RowSpan="3"/>
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <TextBlock Text="Hints" FontSize="45" Foreground="White" FontFamily="Arcadepix"/>
-                <Button Name="HintCloseButton" Content="X" Background="Transparent" Height="33" Foreground="White" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix"/>
-                <Button Name="HintPurchaseButton" Content="Purchase hint" Background="Transparent" Height="33" Foreground="White" Command="{Binding BuyHintsCommand}" FontFamily="Arcadepix"/>
-            </StackPanel>
-            <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel HorizontalAlignment="Center"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </Grid>
-        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverContext.GameOverModalVisibility}" Opacity="{Binding GameOverContext.GameOverModalOpacity}" Margin="{Binding GameOverContext.GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverContext.GameOverModalVisibility, FallbackValue=Collapsed}" Opacity="{Binding GameOverContext.GameOverModalOpacity}" Margin="{Binding GameOverContext.GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="8*"/>
