@@ -34,68 +34,90 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public void LoadContent(ContentManager Content)
         {
+            // Create the sprites for the Wumpus and character
             PlayerCharacter = new Sprite2D(Content.Load<Texture2D>("Images/Wumpus"), Scale: 0.1f);
             Wumpus = new Sprite2D(Content.Load<Texture2D>("Images/Character"), Scale: 0.1f);
 
+            // Add the movement animations to make it less abrupt
             PlayerCharacter.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(100));
             Wumpus.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(100));
 
+            // Initialize the animations
             PlayerCharacter.Initialize();
             Wumpus.Initialize();
 
+            // Start the animations
             PlayerCharacter.StartAnimation(AnimationType.MoveToNewMenuTile);
             Wumpus.StartAnimation(AnimationType.MoveToNewMenuTile);
 
+            // Load the dot texture
             DotTexture = Content.Load<Texture2D>("Images/Dot");
         }
 
         public void Update(GameTime time)
         {
+            // Only update periodically (not every frame)
             if(time.TotalGameTime.TotalSeconds - LastMoveTime > SecondsPerMove)
             {
+                // Update the last updated time
                 LastMoveTime = time.TotalGameTime.TotalSeconds;
 
+                // Add the new position
                 PickNextPosition();
 
+                // Set the new animation targets
                 (Wumpus.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.EarliestPoint;
                 (PlayerCharacter.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.LatestPoint;
             }
 
+            // Update the animations every frame
             Wumpus.Update(time);
             PlayerCharacter.Update(time);
         }
 
         public void Draw(SpriteBatch target)
         {
+            // Draw the sprites
             PlayerCharacter.Draw(target);
             Wumpus.Draw(target);
 
+            // Draw the dots
             foreach(Vector2 Point in Path.Points.Skip(1).DropLast())
-            {
                 target.Draw(DotTexture, position: Point, scale: new Vector2(15));
-            }
         }
 
         private void PickNextPosition()
         {
+            // Start with the current point as a default
             Vector2 CurrentPoint = Path.LatestPoint;
+
+            // Create a list to store the valid moves
             List<Vector2> ValidMoves = new List<Vector2>();
 
+            // Try each direction
             for(int Direction = 0; Direction < 4; Direction++)
             {
+                // Calculate the target point after the move
                 Vector2 NewPoint = GetPointAtDirection(CurrentPoint, Direction);
+                // Add it to the list if it is valid
                 if (ValidateNewPoint(NewPoint))
                     ValidMoves.Add(NewPoint);
             }
-
+            
+            // If there aren't any valid moves (we have trapped ourselves)
+            // restart at a random position
             if (ValidMoves.Count <= 0)
                 Path = new SnakePath(Path.Length, GetRandomPoint());
             else
             {
+                // Get the mouse position
                 Vector2 MousePos = Mouse.GetState().Position.ToVector2();
 
+                // If it isn't in our game window, just move randomly
                 if (IsOutOfBounds(MousePos))
                     Path.AddPoint(ValidMoves.GetRandom());
+                // If the mouse is in the window, find the closest valid move and
+                // add it to the snake path
                 else
                     Path.AddPoint(ValidMoves.OrderBy(p => p.Distance(MousePos)).First());
             }
@@ -128,17 +150,23 @@ namespace HuntTheWumpus.SharedCode.GUI
             // Check if we are out-of-bounds
             bool OutOfBounds = IsOutOfBounds(NewPoint);
 
+            // Get the list of points that we would have if we
+            // added the test point
             List<Vector2> NewPoints = Path.Points.ToList();
             NewPoints.Add(NewPoint);
 
+            // Count the destinct points
             int NumDistinctPoints = NewPoints.Distinct().Count();
+            // Count the duplicate (non-destinct) points
             int NumDuplicatePoints = NewPoints.Count - NumDistinctPoints;
 
+            // Decide if we've met the conditions
             return !OutOfBounds && NumDuplicatePoints == 0;
         }
 
         private bool IsOutOfBounds(Vector2 Point)
         {
+            // Check if the point is within our target area
             return Point.X < 0 || Point.X > Width || Point.Y < 0 || Point.Y > Height;
         }
     }
