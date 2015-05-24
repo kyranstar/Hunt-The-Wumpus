@@ -35,6 +35,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             PlayerCharacter = new Sprite2D(Content.Load<Texture2D>("Images/Wumpus"), Scale: 0.1f);
             Wumpus = new Sprite2D(Content.Load<Texture2D>("Images/Character"), Scale: 0.1f);
+
+            PlayerCharacter.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(100));
+            Wumpus.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(100));
+
+            PlayerCharacter.Initialize();
+            Wumpus.Initialize();
+
+            PlayerCharacter.StartAnimation(AnimationType.MoveToNewMenuTile);
+            Wumpus.StartAnimation(AnimationType.MoveToNewMenuTile);
+
             DotTexture = Content.Load<Texture2D>("Images/Dot");
         }
 
@@ -46,9 +56,12 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 PickNextPosition();
 
-                Wumpus.Position = Path.EarliestPoint;
-                PlayerCharacter.Position = Path.LatestPoint;
+                (Wumpus.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.EarliestPoint;
+                (PlayerCharacter.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.LatestPoint;
             }
+
+            Wumpus.Update(time);
+            PlayerCharacter.Update(time);
         }
 
         public void Draw(SpriteBatch target)

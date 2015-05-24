@@ -58,7 +58,8 @@ namespace HuntTheWumpus.SharedCode.GUI
     {
         FadeIn,
         FadeOut,
-        MoveToNewRoom
+        MoveToNewRoom,
+        MoveToNewMenuTile
     }
 
     public class SpriteFadeAnimation : SpriteAnimation
@@ -181,7 +182,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             this.Target = Target;
             if (!InitialPosition.HasValue)
-                InitialPosition = Target.Position;
+                InitialPosition = Target.Position.Clone();
 
             if (!TargetPosition.HasValue)
                 TargetPosition = InitialPosition.Value.Clone();
