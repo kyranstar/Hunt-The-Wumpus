@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using HuntTheWumpus.SharedCode.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -12,8 +13,29 @@ namespace HuntTheWumpus.SharedCode.GUI
     {
         public const float OpacityThreshold = 0.00001f;
 
-        public int RenderWidth { get; set; }
-        public int RenderHeight { get; set; }
+        public int RenderWidth
+        {
+            get
+            {
+                return (Texture.Width * ScaleX).ToInt();
+            }
+            set
+            {
+                ScaleX = value / (float)Texture.Width;
+            }
+        }
+
+        public int RenderHeight
+        {
+            get
+            {
+                return (Texture.Height * ScaleY).ToInt();
+            }
+            set
+            {
+                ScaleY = value / (float)Texture.Height;
+            }
+        }
 
         public float HalfWidth { get { return RenderWidth / 2f; } }
         public float HalfHeight { get { return RenderHeight / 2f; } }
@@ -23,7 +45,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         public int RenderY { get { return (int)Position.Y; } set { Position.Y = value; } }
 
         public float Rotation { get; set; }
-        public float Scale { get; set; }
+
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
 
         public Texture2D Texture { get; set; }
         public float Opacity { get; set; }
@@ -33,25 +57,6 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Vector2 Position;
 
-        public Rectangle? TargetArea
-        {
-            get
-            {
-                return new Rectangle(RenderX, RenderY, RenderWidth, RenderHeight);
-            }
-
-            set
-            {
-                if (value.HasValue)
-                {
-                    RenderWidth = value.Value.Width;
-                    RenderHeight = value.Value.Height;
-                    RenderX = value.Value.X;
-                    RenderY = value.Value.Y;
-                }
-            }
-        }
-
         public bool IsTransparent
         {
             get { return Opacity < OpacityThreshold; }
@@ -59,7 +64,6 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Sprite2D(
             Texture2D Texture,
-            Rectangle? Target = null,
             int X = 0, int Y = 0,
             int? Width = null, int? Height = null,
             float Rotation = 0,
@@ -68,29 +72,26 @@ namespace HuntTheWumpus.SharedCode.GUI
             Color? DrawColor = null,
             Dictionary<AnimationType, SpriteAnimation> Animations = null)
         {
-            if (Target.HasValue)
-                this.TargetArea = TargetArea;
+            this.Texture = Texture;
+
+            this.RenderX = X;
+            this.RenderY = Y;
+
+            if (Width.HasValue)
+                this.RenderWidth = Width.Value;
             else
-            {
-                this.RenderX = X;
-                this.RenderY = Y;
+                this.RenderWidth = Texture.Width;
 
-                if (Width.HasValue)
-                    this.RenderWidth = Width.Value;
-                else
-                    this.RenderWidth = Texture.Width;
-
-                if (Height.HasValue)
-                    this.RenderHeight = Height.Value;
-                else
-                    this.RenderHeight = Texture.Height;
-            }
+            if (Height.HasValue)
+                this.RenderHeight = Height.Value;
+            else
+                this.RenderHeight = Texture.Height;
 
             this.Rotation = Rotation;
-            this.Scale = Scale;
+            this.ScaleX = Scale;
+            this.ScaleY = Scale;
 
             this.Opacity = Opacity;
-            this.Texture = Texture;
             this.DrawColor = DrawColor ?? Color.White;
 
             this.Animations = Animations ?? new Dictionary<AnimationType, SpriteAnimation>();
@@ -111,7 +112,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Draw(SpriteBatch Target)
         {
             if (Texture != null)
-                Target.Draw(Texture, destinationRectangle: TargetArea, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(Scale));
+                Target.Draw(Texture, position: Position, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(ScaleX, ScaleY));
         }
 
         public void Update(GameTime Time)

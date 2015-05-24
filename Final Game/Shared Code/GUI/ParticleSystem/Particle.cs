@@ -15,7 +15,6 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         public Particle(
             Texture2D Texture,
-            Rectangle? Target = null,
             int X = 0, int Y = 0,
             int? Width = null, int? Height = null,
             float Rotation = 0,
@@ -27,7 +26,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
             Vector2? Velocity = null,
             float AngularVelocity = 0,
             int LifetimeMillis = 0)
-            : base(Texture, Target, X, Y, Width, Height, Rotation, Scale, Opacity, DrawColor, Animations)
+            : base(Texture, X, Y, Width, Height, Rotation, Scale, Opacity, DrawColor, Animations)
         {
             this.Acceleration = Acceleration ?? Vector2.Zero;
             this.Velocity = Velocity ?? Vector2.Zero;
