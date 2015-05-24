@@ -92,7 +92,7 @@
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" Foreground="LightGray" FontFamily="Arcadepix" />
-            <TextBlock Text="{Binding GameOverContext.GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
+            <TextBlock Text="{Binding GameOverContext.GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="4" TextWrapping="Wrap" />
 
             <TextBox Grid.Column="1" Grid.Row="2" Height="33" Margin="4" Text="{Binding GameOverContext.GameOverUsernameText}" Visibility="{Binding GameOverContext.UsernameBoxVisibility}" FontFamily="Arcadepix"/>
             <Button Name="NameSubmitButton" Content="Save score" Margin="4" Command="{Binding GameOverContext.SubmitNameCommand}" Grid.Row="2" Grid.Column="2" Height="33" Visibility="{Binding GameOverContext.UsernameBoxVisibility}" FontFamily="Arcadepix"/>

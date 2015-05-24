@@ -454,12 +454,13 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_18.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_18.VerticalAlignment = VerticalAlignment.Center;
             this.e_18.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            this.e_18.TextWrapping = TextWrapping.Wrap;
             FontManager.Instance.AddFont("Arcadepix", 53.33333F, FontStyle.Bold, "Arcadepix_40_Bold");
             this.e_18.FontFamily = new FontFamily("Arcadepix");
             this.e_18.FontSize = 53.33333F;
             this.e_18.FontStyle = FontStyle.Bold;
             Grid.SetRow(this.e_18, 1);
-            Grid.SetColumnSpan(this.e_18, 3);
+            Grid.SetColumnSpan(this.e_18, 4);
             Binding binding_e_18_Text = new Binding("GameOverContext.GameOverMessage");
             this.e_18.SetBinding(TextBlock.TextProperty, binding_e_18_Text);
             // e_19 element
