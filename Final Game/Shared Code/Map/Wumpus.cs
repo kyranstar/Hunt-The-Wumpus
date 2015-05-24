@@ -136,8 +136,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
                 Location = pair.Key;
             }
-
-            Debug.Assert(oldLocation != Location);
+            if (oldLocation == Location)
+            {
+                Log.Error("Wumpus was not able to move in MoveToRandomRoom()");
+            }
         }
 
         private interface WumpusBehavior
