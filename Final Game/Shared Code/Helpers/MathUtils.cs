@@ -114,5 +114,15 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             return (float)Math.Ceiling(Threshold / Divisor) * Divisor;
         }
+
+        public static double Difference(this Vector2 Me, Vector2 Other)
+        {
+            return Math.Sqrt(Math.Pow(Other.X - Me.X, 2) + Math.Pow(Other.Y - Me.Y, 2));
+        }
+
+        public static double Distance(this Vector2 Me, Vector2 Other)
+        {
+            return Math.Abs(Me.Difference(Other));
+        }
     }
 }

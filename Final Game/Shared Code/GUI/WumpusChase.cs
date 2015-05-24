@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,7 +91,14 @@ namespace HuntTheWumpus.SharedCode.GUI
             if (ValidMoves.Count <= 0)
                 Path = new SnakePath(Path.Length, GetRandomPoint());
             else
-                Path.AddPoint(ValidMoves.GetRandom());
+            {
+                Vector2 MousePos = Mouse.GetState().Position.ToVector2();
+
+                if (IsOutOfBounds(MousePos))
+                    Path.AddPoint(ValidMoves.GetRandom());
+                else
+                    Path.AddPoint(ValidMoves.OrderBy(p => p.Distance(MousePos)).First());
+            }
         }
 
         private Vector2 GetRandomPoint()
@@ -118,7 +126,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private bool ValidateNewPoint(Vector2 NewPoint)
         {
             // Check if we are out-of-bounds
-            bool OutOfBounds = NewPoint.X < 0 || NewPoint.X > Width || NewPoint.Y < 0 || NewPoint.Y > Height;
+            bool OutOfBounds = IsOutOfBounds(NewPoint);
 
             List<Vector2> NewPoints = Path.Points.ToList();
             NewPoints.Add(NewPoint);
@@ -127,6 +135,11 @@ namespace HuntTheWumpus.SharedCode.GUI
             int NumDuplicatePoints = NewPoints.Count - NumDistinctPoints;
 
             return !OutOfBounds && NumDuplicatePoints == 0;
+        }
+
+        private bool IsOutOfBounds(Vector2 Point)
+        {
+            return Point.X < 0 || Point.X > Width || Point.Y < 0 || Point.Y > Height;
         }
     }
 }

@@ -23,6 +23,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
             GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
+            Mouse.WindowHandle = Window.Handle;
 
 #if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
