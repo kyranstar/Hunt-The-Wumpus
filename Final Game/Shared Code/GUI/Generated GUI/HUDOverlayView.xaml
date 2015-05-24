@@ -18,7 +18,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="30px"></RowDefinition>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="#333333">
                 <Image Margin="5,5,5,5" Stretch="Uniform"> 
                     <Image.Source> 
                         <BitmapImage UriSource="XAML Assets/Gold.png"/> 
@@ -32,7 +32,7 @@
                 </Image>
                 <TextBlock Text="{Binding Path=ScoreContext.Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="#333333" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding WarningText}" FontSize="15pt" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding Path=ScoreContext.Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
                 <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" />
@@ -58,13 +58,13 @@
                 <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" FontFamily="Arcadepix"/>
             </StackPanel>
         </Grid>
-        <Grid Background="#333333" Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
+        <Grid Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}" Margin="0, 0, 0, 30">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="5*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Grid Background="#333333" Grid.RowSpan="3"/>
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <TextBlock Text="Hints" FontSize="45" Foreground="White" FontFamily="Arcadepix"/>
                 <Button Name="HintCloseButton" Content="X" Background="Transparent" Height="33" Foreground="White" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix"/>
