@@ -57,6 +57,11 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Vector2 Position;
 
+        /// <summary>
+        /// The center of rotatio, in texture coordinates
+        /// </summary>
+        public Vector2 Origin;
+
         public bool IsTransparent
         {
             get { return Opacity < OpacityThreshold; }
@@ -112,7 +117,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Draw(SpriteBatch Target)
         {
             if (Texture != null)
-                Target.Draw(Texture, position: Position, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(ScaleX, ScaleY));
+                Target.Draw(Texture, position: Position, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(ScaleX, ScaleY), origin: Origin);
         }
 
         public void Update(GameTime Time)
@@ -143,6 +148,11 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Animation.Value.Reset();
                 Animation.Value.IsStarted = false;
             }
+        }
+
+        public void CenterOrigin()
+        {
+            Origin = new Vector2(Texture.Width / 2f, Texture.Height / 2f);
         }
 
         public bool StartAnimation(AnimationType Type)

@@ -20,6 +20,10 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private int PreviousSnakeDirection = 0;
 
+        private const float DotScale = 15;
+        private readonly Vector2 DotScaleVector = new Vector2(DotScale);
+        private Vector2 DotOffset;
+
         private Random Random = new Random();
 
         public WumpusChaseAnimation(int width, int height, int gridSize, int pathLength, double secondsPerMove)
@@ -29,7 +33,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             GridSize = gridSize;
             SecondsPerMove = secondsPerMove;
 
-            Path = new SnakePath(pathLength);
+            Path = new SnakePath(pathLength, GetPointOfInterest());
         }
 
         public void LoadContent(ContentManager Content)
@@ -38,6 +42,9 @@ namespace HuntTheWumpus.SharedCode.GUI
             DotTexture = Content.Load<Texture2D>("Images/Dot");
             WumpusTexture = Content.Load<Texture2D>("Images/Wumpus");
             PlayerTexture = Content.Load<Texture2D>("Images/Character");
+
+            DotOffset.X = DotTexture.Width / 2f * DotScale;
+            DotOffset.Y = DotTexture.Height / 2f * DotScale;
         }
 
         public void Initialize()
@@ -45,6 +52,9 @@ namespace HuntTheWumpus.SharedCode.GUI
             // Create the sprites for the Wumpus and character
             PlayerCharacter = new Sprite2D(PlayerTexture, Scale: 0.1f);
             Wumpus = new Sprite2D(WumpusTexture, Scale: 0.1f);
+
+            PlayerCharacter.CenterOrigin();
+            Wumpus.CenterOrigin();
 
             // Add the movement animations to make it less abrupt
             PlayerCharacter.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(100));
@@ -84,11 +94,28 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             // Draw the dots
             foreach (Vector2 Point in Path.Points.Skip(1).DropLast())
-                target.Draw(DotTexture, position: Point, scale: new Vector2(15));
+                target.Draw(DotTexture, position: Point - DotOffset, scale: DotScaleVector);
 
             // Draw the sprites
             PlayerCharacter.Draw(target);
             Wumpus.Draw(target);
+        }
+
+        /// <summary>
+        /// Gets a new point of interest. The POI is the mouse position
+        /// if it is inside the window, or a random point otherwise.
+        /// </summary>
+        /// <returns>The new target</returns>
+        private Vector2 GetPointOfInterest()
+        {
+            Vector2 MousePos = Mouse.GetState().Position.ToVector2();
+
+            // If the mouse is out of the window, just pick a random point
+            if (IsOutOfBounds(MousePos))
+                return GetRandomPoint();
+            // Otherwise, return the mouse's position
+            else
+                return MousePos;
         }
 
         private void PickNextPosition()
@@ -112,7 +139,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             // If there aren't any valid moves (we have trapped ourselves)
             // restart at a random position
             if (ValidMoves.Count <= 0)
-                Path = new SnakePath(Path.Length, GetRandomPoint());
+                Path = new SnakePath(Path.Length, GetPointOfInterest());
             else
             {
                 // Get the mouse position
