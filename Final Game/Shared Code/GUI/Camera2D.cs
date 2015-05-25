@@ -5,6 +5,11 @@ using System;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
+    /// <summary>
+    /// A viewport camera to be used to
+    /// calculate the transformation matrix
+    /// to be passed into <code>SpriteBatch.Draw()</code>
+    /// </summary>
     public class Camera2D
     {
         /// <summary>
