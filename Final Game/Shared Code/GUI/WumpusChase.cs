@@ -20,7 +20,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private int PreviousSnakeDirection = 0;
 
-        private const float DotScale = 15;
+        private const float DotScale = 0.03f;
         private readonly Vector2 DotScaleVector = new Vector2(DotScale);
         private Vector2 DotOffset;
 
