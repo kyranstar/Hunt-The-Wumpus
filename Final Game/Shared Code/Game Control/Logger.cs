@@ -8,12 +8,21 @@ using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {
+    /// <summary>
+    /// Provides easy access to write colorized
+    /// output to the console and debug stream.
+    /// </summary>
     public static class Log
     {
 #if DESKTOP
         public static IConsole Console = new ClientConsole();
 #endif
 
+        /// <summary>
+        /// Prints an informational string of text to the
+        /// console and debug out.
+        /// </summary>
+        /// <param name="Message">The message to print</param>
         public static void Info(string Message)
         {
 #if DESKTOP
@@ -24,6 +33,15 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Debug.WriteLine("INFO: " + Message);
         }
 
+        /// <summary>
+        /// Prints a warning to the console and
+        /// debug out stream. Should only be used
+        /// for text that indicates a non-optimal
+        /// state or a problem with functionality
+        /// that does not prevent the game from
+        /// operating.
+        /// </summary>
+        /// <param name="Message">The message to print</param>
         public static void Warn(string Message)
         {
 #if DESKTOP
@@ -34,6 +52,15 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Debug.WriteLine("WARN: " + Message);
         }
 
+        /// <summary>
+        /// Prints an error message to the console
+        /// and debug out stream. Should only be
+        /// used for text that indicates a faliure
+        /// to complete a task that limits game
+        /// functionality or prevents it from
+        /// operating correctly.
+        /// </summary>
+        /// <param name="Message"></param>
         public static void Error(string Message)
         {
 #if DESKTOP
@@ -77,7 +104,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             string ClassName = ReflectionUtils.GetCallerClass(framesUp: 2).Name;
             string MethodName = ReflectionUtils.GetCallerMethod(framesUp: 2).Name;
-            WriteLineToConsole(ClassName + ":" + MethodName + " - ", ConsoleColor.White, ConsoleColor.DarkRed);
+            WriteLineToConsole(ClassName + ":" + MethodName + " - ", ConsoleColor.White, ConsoleColor.DarkGray);
         }
 #endif
     }
