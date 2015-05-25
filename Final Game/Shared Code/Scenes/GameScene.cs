@@ -20,7 +20,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
         GodManager God;
 #endif
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager Content, GraphicsDevice GraphicsDevice)
         {
             GameController = new GameController();
 
@@ -30,7 +30,6 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
             HUD = new HudRenderer(MapRenderer, GameController);
             HUD.LoadContent(Content);
-
         }
 
         public override void Initialize(GraphicsDevice GraphicsDevice)

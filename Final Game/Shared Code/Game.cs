@@ -23,6 +23,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
             GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
+            Mouse.WindowHandle = Window.Handle;
 
 #if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
@@ -49,10 +50,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             Log.Info("Initializing game...");
             SceneManager.InitializeSceneManager(this.Content, this.GraphicsDevice);
-            SceneManager.LoadScene(SceneManager.MenuScene);
             base.Initialize();
         }
 
@@ -67,9 +66,9 @@ namespace HuntTheWumpus.SharedCode.GameCore
             SoundManager.Instance.LoadSounds(Content);
             SpriteFont Font = Content.Load<SpriteFont>("Segoe_UI_9_Regular");
             FontManager.DefaultFont = Engine.Instance.Renderer.CreateFont(Font);
-
-            // TODO: use this.Content to load your game content here
+            
             SceneManager.LoadAllSceneContent();
+            SceneManager.LoadScene(SceneManager.MenuScene);
 
             FontManager.Instance.LoadFonts(Content);
         }
@@ -81,7 +80,6 @@ namespace HuntTheWumpus.SharedCode.GameCore
         protected override void UnloadContent()
         {
             Log.Info("Unloading game content...");
-            // TODO: Unload any non ContentManager content here
             SceneManager.UnloadAllSceneContent();
         }
 
@@ -101,8 +99,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
                 Log.Warn("Game running slowly! Time since last update: " + GameTime.ElapsedGameTime);
             else if (SlowLatchEvent == EdgeType.FallingEdge)
                 Log.Info("Game no longer running slowly.");
-
-            // TODO: Add your update logic here
+            
             SceneManager.Update(GameTime);
 
             base.Update(GameTime);

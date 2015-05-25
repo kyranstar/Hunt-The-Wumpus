@@ -19,8 +19,8 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
 
         public float Opacity = 0.5f;
 
-        const float MIN_SIZE = 1.5f;
-        const float MAX_SIZE = 5.5f;
+        const float MIN_SIZE = 0.8f;
+        const float MAX_SIZE = 2;
 
         private Camera2D Camera;
 

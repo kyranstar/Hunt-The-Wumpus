@@ -13,7 +13,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
         /// Will be called once per game execution, when the program is started. This is where you load
         /// media assets.
         /// </summary>
-        public abstract void LoadContent(ContentManager Content);
+        public abstract void LoadContent(ContentManager Content, GraphicsDevice GraphicsDevice);
 
         /// <summary>
         /// Called every time that the scene is loaded. This will be called before Update() or Draw().

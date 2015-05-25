@@ -128,7 +128,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Player.Initialize();
 
-            Player.AddAnimation(AnimationType.MoveToNewRoom, new SpriteMoveAnimation(Player.Position, Player.Position, 400));
+            Player.AddAnimation(AnimationType.MoveToNewRoom, new SpriteMoveAnimation(dist => dist / 300f));
             Player.StartAnimation(AnimationType.MoveToNewRoom);
 
             Wumpus = new Sprite2D(WumpusTexture)

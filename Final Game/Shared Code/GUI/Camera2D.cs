@@ -5,18 +5,45 @@ using System;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
+    /// <summary>
+    /// A viewport camera to be used to
+    /// calculate the transformation matrix
+    /// to be passed into <code>SpriteBatch.Draw()</code>
+    /// </summary>
     public class Camera2D
     {
+        /// <summary>
+        /// The camera's zoom. Higher zoom
+        /// means larger objects.
+        /// </summary>
         public float Zoom { get; set; }
+
+        /// <summary>
+        /// The position of the camera.
+        /// </summary>
         public Vector2 Position { get; set; }
+
+        /// <summary>
+        /// The rotation of the camera.
+        /// </summary>
         public float Rotation { get; set; }
+
+        /// <summary>
+        /// The origin point of the camera
+        /// (for rotation and positioning)
+        /// </summary>
         public Vector2 Origin { get; set; }
 
         /// <summary>
-        /// The camera's (virtual) viewport size
+        /// The camera's (virtual) viewport size,
+        /// before rotation and zoom
         /// </summary>
         public Vector2? VirtualRawViewSize { get; set; }
 
+        /// <summary>
+        /// The section of virtual space that can
+        /// be seen by this camera.
+        /// </summary>
         public Viewport VirtualVisibleViewport
         {
             get
@@ -62,16 +89,22 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public Matrix GetTransform()
         {
+            // Calculate each individual transformation matrix
+            // (one per property)
             Matrix TranslationMatrix = Matrix.CreateTranslation(new Vector3(Position.X, Position.Y, 0));
             Matrix RotationMatrix = Matrix.CreateRotationZ(Rotation);
             Matrix ZoomMatrix = Matrix.CreateScale(new Vector3(Zoom, Zoom, 1));
             Matrix OriginMatrix = Matrix.CreateTranslation(new Vector3(Origin.X, Origin.Y, 0));
 
+            // Multiply together each matrix to get the final transformation
             Matrix VirtualTransform = TranslationMatrix * RotationMatrix * ZoomMatrix * OriginMatrix;
 
+            // If we don't have enough info to account for
+            // DPI, just return what we have.
             if (!RenderViewport.HasValue || !VirtualRawViewSize.HasValue)
                 return VirtualTransform;
 
+            // Add another scale matrix to account for DPI and scaling
             Matrix RenderScaleMatrix = Matrix.CreateScale(new Vector3(
                 RenderViewport.Value.Width / VirtualRawViewSize.Value.X,
                 RenderViewport.Value.Height / VirtualRawViewSize.Value.Y,

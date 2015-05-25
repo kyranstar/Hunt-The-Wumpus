@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
   <Asset Type="Graphics:FontDescription">
-    <FontName>Segoe UI</FontName>
-    <Size>20</Size>
+    <!-- Value replaced by generator -->
+    <FontName>Arcadepix</FontName>
+    <!-- Value replaced by generator -->
+    <Size>40</Size>
     <Spacing>0</Spacing>
     <UseKerning>true</UseKerning>
-    <Style>Regular</Style>
+    <!-- Value replaced by generator -->
+    <Style>Bold</Style>
     <DefaultCharacter>*</DefaultCharacter>
     <CharacterRegions>
       <CharacterRegion>

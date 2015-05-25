@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ek="clr-namespace:EmptyKeys.UserInterface.Designer;assembly=EmptyKeys.UserInterface.Designer"
              mc:Ignorable="d" 
-             d:DesignHeight="640" d:DesignWidth="800"
+             d:DesignHeight="768" d:DesignWidth="1366"
              Background="Transparent">
 
     <Grid Background="Transparent" Name="UIRoot">
@@ -18,26 +18,47 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="30px"></RowDefinition>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray">
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="#333333">
                 <Image Margin="5,5,5,5" Stretch="Uniform"> 
                     <Image.Source> 
                         <BitmapImage UriSource="XAML Assets/Gold.png"/> 
                     </Image.Source> 
                 </Image>
-                <TextBlock Text="{Binding Path=ScoreContext.Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+                <TextBlock Text="{Binding Path=ScoreContext.Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
                 <Image Margin="5,5,5,5" Stretch="Uniform">
                     <Image.Source>
                         <BitmapImage UriSource="XAML Assets/Arrow.png"/>
                     </Image.Source>
                 </Image>
-                <TextBlock Text="{Binding Path=ScoreContext.Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0" />
+                <TextBlock Text="{Binding Path=ScoreContext.Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="DarkGray" HorizontalAlignment="Right">
-                <TextBlock Text="{Binding Path=ScoreContext.Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Margin="4, 0, 4, 0"/>
-                <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" />
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Background="#333333" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding WarningText}" FontSize="15pt" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Path=ScoreContext.Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
+                <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" />
             </StackPanel>
         </Grid>
-        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding Path=TriviaContext.TriviaModalVisibility}" Opacity="{Binding TriviaContext.TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}" Margin="0, 0, 0, 30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Grid Background="#333333" Grid.RowSpan="3"/>
+            <TextBlock Text="Hints" FontSize="45" Foreground="White" FontFamily="Arcadepix" Margin="50, 20, 0, 0"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 20, 30, 0" Orientation="Horizontal">
+                <Button Name="HintPurchaseButton" Content="Purchase" Background="Transparent" Height="33" Foreground="White" Command="{Binding BuyHintsCommand}" FontFamily="Arcadepix" Margin="0, 0, 8, 0"/>
+                <Button Name="HintCloseButton" Content="X" Height="25" Foreground="White" FontWeight="ExtraLight" Background="#444444" Width="25" Padding="0, 3, 0, 0" VerticalContentAlignment="Center" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" FontSize="20"/>
+            </StackPanel>
+            <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
+        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding Path=TriviaContext.TriviaModalVisibility, FallbackValue=Collapsed}" Opacity="{Binding TriviaContext.TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="150px"/>
@@ -46,38 +67,18 @@
                 <RowDefinition Height="40px"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="QuestionText" Text="{Binding Path=TriviaContext.CurrentTriviaQuestionText}" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"/>
+            <TextBlock Name="QuestionText" Text="{Binding Path=TriviaContext.CurrentTriviaQuestionText}" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"  FontFamily="Arcadepix"/>
             <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ComboBox Name="TriviaAnswerSelector" Width="350px" FontSize="20" ItemsSource="{Binding Path=TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding TriviaContext.SelectedAnswerIndex}" SelectedItem="{Binding TriviaContext.SelectedAnswer}"/>
-                <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding Path=TriviaContext.SubmitAnswerCommand}"/>
+                <ComboBox Name="TriviaAnswerSelector" Width="450px" FontSize="20" ItemsSource="{Binding Path=TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding TriviaContext.SelectedAnswerIndex}" SelectedItem="{Binding TriviaContext.SelectedAnswer}" FontFamily="Arcadepix"/>
+                <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding Path=TriviaContext.SubmitAnswerCommand}" FontFamily="Arcadepix" FontSize="15"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsCorrect}" Foreground="White" FontSize="20" />
-                <TextBlock Text="/" Foreground="White" FontSize="20" />
-                <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" />
+                <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsCorrect}" Foreground="White" FontSize="20" FontFamily="Arcadepix"/>
+                <TextBlock Text="/" Foreground="White" FontSize="20" FontFamily="Arcadepix"/>
+                <TextBlock Text="{Binding Path=TriviaContext.NumTriviaQuestionsTotal}" Foreground="White" FontSize="20" FontFamily="Arcadepix"/>
             </StackPanel>
         </Grid>
-        <Grid Background="#333333" Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <TextBlock Text="Hints" FontSize="45" Foreground="White"/>
-                <Button Name="HintCloseButton" Content="X" Background="Transparent" Height="33" Foreground="White" Command="{Binding ShowHintsCommand}" />
-                <Button Name="HintPurchaseButton" Content="Purchase hint" Background="Transparent" Height="33" Foreground="White" Command="{Binding BuyHintsCommand}" />
-            </StackPanel>
-            <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel HorizontalAlignment="Center"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </Grid>
-        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverContext.GameOverModalVisibility}" Opacity="{Binding GameOverContext.GameOverModalOpacity}" Margin="{Binding GameOverContext.GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#99333333" Name="GameOverModalDialog" Visibility="{Binding GameOverContext.GameOverModalVisibility, FallbackValue=Collapsed}" Opacity="{Binding GameOverContext.GameOverModalOpacity}" Margin="{Binding GameOverContext.GameOverModalMargin}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="8*"/>
@@ -91,13 +92,13 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" />
-            <TextBlock Text="{Binding GameOverContext.GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Segoe UI" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="3" />
+            <TextBlock Text="Hunt the Wumpus" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15pt" FontWeight="Bold" Foreground="LightGray" FontFamily="Arcadepix" />
+            <TextBlock Text="{Binding GameOverContext.GameOverMessage}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Grid.Row="1" Grid.ColumnSpan="4" TextWrapping="Wrap" />
 
-            <TextBox Grid.Column="1" Grid.Row="2" Height="33" Margin="4" Text="{Binding GameOverContext.GameOverUsernameText}" Visibility="{Binding GameOverContext.UsernameBoxVisibility}"/>
-            <Button Name="NameSubmitButton" Content="Save score" Margin="4" Command="{Binding GameOverContext.SubmitNameCommand}" Grid.Row="2" Grid.Column="2" Height="33" Visibility="{Binding GameOverContext.UsernameBoxVisibility}"/>
-            
-            <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding GameOverContext.ReturnToMenuCommand}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Height="66" />
+            <TextBox Grid.Column="1" Grid.Row="2" Height="33" Margin="4" Text="{Binding GameOverContext.GameOverUsernameText}" Visibility="{Binding GameOverContext.UsernameBoxVisibility}" FontFamily="Arcadepix"/>
+            <Button Name="NameSubmitButton" Content="Save score" Margin="4" Command="{Binding GameOverContext.SubmitNameCommand}" Grid.Row="2" Grid.Column="2" Height="33" Visibility="{Binding GameOverContext.UsernameBoxVisibility}" FontFamily="Arcadepix"/>
+
+            <Button Name="MenuButton" Content="Back to Main Menu" Margin="5" Command="{Binding GameOverContext.ReturnToMenuCommand}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Height="66" FontFamily="Arcadepix"/>
         </Grid>
     </Grid>
 </ek:UIRoot>

@@ -184,14 +184,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 {
                     continue;
                 }
-                Debug.Assert(cave[idMin].AdjacentRooms[(int)Direction.North] == -1);
-                Debug.Assert(cave[idMax].AdjacentRooms[(int)Direction.South] == -1);
+                if (cave[idMin].AdjacentRooms[(int)Direction.North] == -1 && cave[idMax].AdjacentRooms[(int)Direction.South] == -1)
+                {
+                    if (Rand.Next(100) < 50) continue;
 
-                if (Rand.Next(100) < 50) continue;
-
-                // Make connection
-                cave[idMin].AdjacentRooms[(int)Direction.North] = idMax;
-                cave[idMax].AdjacentRooms[(int)Direction.South] = idMin;
+                    // Make connection
+                    cave[idMin].AdjacentRooms[(int)Direction.North] = idMax;
+                    cave[idMax].AdjacentRooms[(int)Direction.South] = idMin;
+                }
             }
 
         }

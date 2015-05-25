@@ -24,6 +24,9 @@ namespace HuntTheWumpus.SharedCode.GUI
         public GameOverHudContext GameOverContext { get; set; }
 
         private const string HintGroup = "HintVisibility";
+        private const string WarningGroup = "WarningText";
+
+        private PlayerWarnings[] PreviousWarnings = new PlayerWarnings[0];
 
         public HUDContext(GameController GameController)
         {
@@ -103,6 +106,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        [PropertyGroup(WarningGroup)]
+        public string WarningText
+        {
+            get; protected set;
+        }
+
         public void ShowHints(object o)
         {
             if(HintFlyoutVisibility == Visibility.Visible)
@@ -122,6 +131,18 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             TriviaContext.Update(GameTime);
             GameOverContext.Update(GameTime);
+
+            PlayerWarnings[] NewWarnings = GameController.Map.GetPlayerWarnings().ToArray();
+            if (NewWarnings.Length > 0)
+                WarningText = NewWarnings.First().GetDescription();
+            else
+                WarningText = null;
+
+            int NumChanged = NewWarnings.Except(PreviousWarnings).Union(PreviousWarnings.Except(NewWarnings)).Count();
+            if (NumChanged > 0)
+                RaisePropertyChangedForGroup(WarningGroup);
+
+            PreviousWarnings = NewWarnings;
         }
     }
 }

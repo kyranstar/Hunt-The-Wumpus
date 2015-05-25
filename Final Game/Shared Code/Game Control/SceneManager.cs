@@ -20,28 +20,49 @@ namespace HuntTheWumpus.SharedCode.GameControl
         private static ContentManager Content;
         private static GraphicsDevice Graphics;
 
+        /// <summary>
+        /// Initializez the scene manager to prepare
+        /// all state
+        /// </summary>
+        /// <param name="Content">The game's ContentManager</param>
+        /// <param name="Graphics">The game's GraphicsDevice</param>
         public static void InitializeSceneManager(ContentManager Content, GraphicsDevice Graphics)
         {
-            SceneManager.MenuScene = new MainMenuScene();
-            SceneManager.GameScene = new GameScene();
-            SceneManager.HighScoreScene = new HighScoreScene();
+            // Initialize each scene
+            MenuScene = new MainMenuScene();
+            GameScene = new GameScene();
+            HighScoreScene = new HighScoreScene();
 
+            // Store the graphics and content for future use
             SceneManager.Content = Content;
             SceneManager.Graphics = Graphics;
         }
-
+        
+        /// <summary>
+        /// Loads the content of all scenes
+        /// </summary>
         public static void LoadAllSceneContent()
         {
-            MenuScene.LoadContent(Content);
-            GameScene.LoadContent(Content);
-            HighScoreScene.LoadContent(Content);
+            // Load content for each scene
+            MenuScene.LoadContent(Content, Graphics);
+            GameScene.LoadContent(Content, Graphics);
+            HighScoreScene.LoadContent(Content, Graphics);
         }
 
+        /// <summary>
+        /// Unloads the current scene and switches
+        /// to the specified new one. All Update
+        /// and Draw cycles will be fed to this
+        /// new scene.
+        /// </summary>
+        /// <param name="NewScene">The new scene to load</param>
         public static void LoadScene(Scene NewScene)
         {
+            // Uninitialize the current scene
             if(CurrentScene != null)
                 CurrentScene.Uninitialize();
 
+            // Initialize the new scene and set it as the current scene
             NewScene.Initialize(Graphics);
             CurrentScene = NewScene;
 
@@ -60,6 +81,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
             CurrentScene.Draw(GameTime);
         }
 
+        /// <summary>
+        /// Unloads the content of all scenes
+        /// </summary>
         public static void UnloadAllSceneContent()
         {
             CurrentScene = null;

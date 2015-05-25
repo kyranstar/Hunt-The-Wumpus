@@ -10,7 +10,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
     {
         HighScoreView ScoreGUI;
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager Content, GraphicsDevice GraphicsDevice)
         {
 
         }

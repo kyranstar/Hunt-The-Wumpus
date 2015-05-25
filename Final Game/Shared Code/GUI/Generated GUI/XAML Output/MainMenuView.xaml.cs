@@ -23,9 +23,9 @@ namespace EmptyKeys.UserInterface.Generated {
     [GeneratedCodeAttribute("Empty Keys UI Generator", "1.6.5.0")]
     public partial class MainMenuView : UIRoot {
         
-        private Grid e_20;
+        private Grid e_22;
         
-        private TextBlock e_21;
+        private TextBlock e_23;
         
         private Button StartButton;
         
@@ -41,49 +41,51 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private void InitializeComponent() {
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
-            // e_20 element
-            this.e_20 = new Grid();
-            this.Content = this.e_20;
-            this.e_20.Name = "e_20";
-            RowDefinition row_e_20_0 = new RowDefinition();
-            row_e_20_0.Height = new GridLength(1F, GridUnitType.Star);
-            this.e_20.RowDefinitions.Add(row_e_20_0);
-            RowDefinition row_e_20_1 = new RowDefinition();
-            row_e_20_1.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_20.RowDefinitions.Add(row_e_20_1);
-            RowDefinition row_e_20_2 = new RowDefinition();
-            row_e_20_2.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_20.RowDefinitions.Add(row_e_20_2);
-            RowDefinition row_e_20_3 = new RowDefinition();
-            row_e_20_3.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_20.RowDefinitions.Add(row_e_20_3);
-            RowDefinition row_e_20_4 = new RowDefinition();
-            row_e_20_4.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_20.RowDefinitions.Add(row_e_20_4);
-            ColumnDefinition col_e_20_0 = new ColumnDefinition();
-            this.e_20.ColumnDefinitions.Add(col_e_20_0);
-            ColumnDefinition col_e_20_1 = new ColumnDefinition();
-            this.e_20.ColumnDefinitions.Add(col_e_20_1);
-            ColumnDefinition col_e_20_2 = new ColumnDefinition();
-            this.e_20.ColumnDefinitions.Add(col_e_20_2);
-            // e_21 element
-            this.e_21 = new TextBlock();
-            this.e_20.Children.Add(this.e_21);
-            this.e_21.Name = "e_21";
-            this.e_21.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_21.VerticalAlignment = VerticalAlignment.Center;
-            this.e_21.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            this.e_21.Text = "Hunt the Wumpus";
-            FontManager.Instance.AddFont("Segoe UI", 20F, FontStyle.Bold, "Segoe_UI_15_Bold");
-            this.e_21.FontFamily = new FontFamily("Segoe UI");
-            this.e_21.FontSize = 20F;
-            this.e_21.FontStyle = FontStyle.Bold;
+            // e_22 element
+            this.e_22 = new Grid();
+            this.Content = this.e_22;
+            this.e_22.Name = "e_22";
+            RowDefinition row_e_22_0 = new RowDefinition();
+            row_e_22_0.Height = new GridLength(1F, GridUnitType.Star);
+            this.e_22.RowDefinitions.Add(row_e_22_0);
+            RowDefinition row_e_22_1 = new RowDefinition();
+            row_e_22_1.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_22.RowDefinitions.Add(row_e_22_1);
+            RowDefinition row_e_22_2 = new RowDefinition();
+            row_e_22_2.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_22.RowDefinitions.Add(row_e_22_2);
+            RowDefinition row_e_22_3 = new RowDefinition();
+            row_e_22_3.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_22.RowDefinitions.Add(row_e_22_3);
+            RowDefinition row_e_22_4 = new RowDefinition();
+            row_e_22_4.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_22.RowDefinitions.Add(row_e_22_4);
+            ColumnDefinition col_e_22_0 = new ColumnDefinition();
+            this.e_22.ColumnDefinitions.Add(col_e_22_0);
+            ColumnDefinition col_e_22_1 = new ColumnDefinition();
+            this.e_22.ColumnDefinitions.Add(col_e_22_1);
+            ColumnDefinition col_e_22_2 = new ColumnDefinition();
+            this.e_22.ColumnDefinitions.Add(col_e_22_2);
+            // e_23 element
+            this.e_23 = new TextBlock();
+            this.e_22.Children.Add(this.e_23);
+            this.e_23.Name = "e_23";
+            this.e_23.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_23.VerticalAlignment = VerticalAlignment.Center;
+            this.e_23.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            this.e_23.Text = "Hunt the Wumpus";
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
+            this.e_23.FontFamily = new FontFamily("Arcadepix");
+            this.e_23.FontSize = 20F;
+            this.e_23.FontStyle = FontStyle.Bold;
             // StartButton element
             this.StartButton = new Button();
-            this.e_20.Children.Add(this.StartButton);
+            this.e_22.Children.Add(this.StartButton);
             this.StartButton.Name = "StartButton";
             this.StartButton.Margin = new Thickness(5F, 5F, 5F, 5F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.StartButton.FontFamily = new FontFamily("Arcadepix");
+            this.StartButton.FontSize = 20F;
             this.StartButton.Content = "Start Game";
             Grid.SetColumn(this.StartButton, 1);
             Grid.SetRow(this.StartButton, 2);
@@ -91,10 +93,12 @@ namespace EmptyKeys.UserInterface.Generated {
             this.StartButton.SetBinding(Button.CommandProperty, binding_StartButton_Command);
             // HighScoreButton element
             this.HighScoreButton = new Button();
-            this.e_20.Children.Add(this.HighScoreButton);
+            this.e_22.Children.Add(this.HighScoreButton);
             this.HighScoreButton.Name = "HighScoreButton";
             this.HighScoreButton.Margin = new Thickness(5F, 5F, 5F, 5F);
-            FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.HighScoreButton.FontFamily = new FontFamily("Arcadepix");
+            this.HighScoreButton.FontSize = 20F;
             this.HighScoreButton.Content = "View Scores";
             Grid.SetColumn(this.HighScoreButton, 1);
             Grid.SetRow(this.HighScoreButton, 3);

@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Segoe_UI_9_Regular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_9_Regular.spritefont
-
-#begin Segoe_UI_15_Bold.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_15_Bold.spritefont
-
 #begin Images/RoomBase0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -157,12 +145,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/HUD/GrayFill.png
 
-#begin Segoe_UI_20_Regular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_20_Regular.spritefont
-
 #begin Images/Pit0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -218,24 +200,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/ClosedDoor4.png
 
-#begin Segoe_UI_15_Regular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_15_Regular.spritefont
-
-#begin Segoe_UI_30_Regular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_30_Regular.spritefont
-
-#begin Segoe_UI_300_Regular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_300_Regular.spritefont
-
 #begin XAML Assets/Arrow.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -247,18 +211,6 @@
 /processorParam:TextureFormat=Color
 /build:XAML Assets/Arrow.png
 
-#begin Segoe_UI_45_Regular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_45_Regular.spritefont
-
-#begin Segoe_UI_33.75_Regular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_33.75_Regular.spritefont
-
 #begin Images/Bat0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -269,12 +221,6 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
 /build:Images/Bat0.png
-
-#begin Segoe_UI_40_Bold.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:Segoe_UI_40_Bold.spritefont
 
 #begin Images/80's shit/Background.png
 /importer:TextureImporter
@@ -396,4 +342,69 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:TextureFormat=Color
 /build:Images/RoomGoldOverlay0.png
+
+#begin ArcadeFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:ArcadeFont.spritefont
+
+#begin Arcadepix_9_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_9_Regular.spritefont
+
+#begin Arcadepix_15_Bold.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_15_Bold.spritefont
+
+#begin Arcadepix_15_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_15_Regular.spritefont
+
+#begin Arcadepix_11.25_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_11.25_Regular.spritefont
+
+#begin Arcadepix_30_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_30_Regular.spritefont
+
+#begin Arcadepix_33.75_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_33.75_Regular.spritefont
+
+#begin Arcadepix_40_Bold.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_40_Bold.spritefont
+
+#begin Segoe_UI_9_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Segoe_UI_9_Regular.spritefont
+
+#begin Images/Dot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:Images/Dot.png
 
