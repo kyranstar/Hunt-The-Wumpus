@@ -30,7 +30,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         public void Reset()
         {
-            InternalScore = new ScoreEntry();
+            InternalScore = new ScoreEntry
+            {
+                ArrowsRemaining = 3
+            };
         }
 
 
@@ -75,8 +78,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         public Player()
         {
-            // TODO: Add default score params
-            InternalScore = new ScoreEntry();
+            Reset();
         }
     }
 }
