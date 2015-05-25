@@ -69,7 +69,7 @@
             </Grid.RowDefinitions>
             <TextBlock Name="QuestionText" Text="{Binding Path=TriviaContext.CurrentTriviaQuestionText}" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="White" FontSize="40"  FontFamily="Arcadepix"/>
             <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ComboBox Name="TriviaAnswerSelector" Width="350px" FontSize="20" ItemsSource="{Binding Path=TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding TriviaContext.SelectedAnswerIndex}" SelectedItem="{Binding TriviaContext.SelectedAnswer}" FontFamily="Arcadepix"/>
+                <ComboBox Name="TriviaAnswerSelector" Width="450px" FontSize="20" ItemsSource="{Binding Path=TriviaContext.CurrentTriviaQuestionAnswersAsComboBoxItems}" SelectedIndex="{Binding TriviaContext.SelectedAnswerIndex}" SelectedItem="{Binding TriviaContext.SelectedAnswer}" FontFamily="Arcadepix"/>
                 <Button Grid.Row="3" Width="70px" Margin="5,0,0,0" Content="Submit" Command="{Binding Path=TriviaContext.SubmitAnswerCommand}" FontFamily="Arcadepix" FontSize="15"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">

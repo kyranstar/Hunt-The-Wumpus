@@ -364,7 +364,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.TriviaAnswerSelector = new ComboBox();
             this.e_13.Children.Add(this.TriviaAnswerSelector);
             this.TriviaAnswerSelector.Name = "TriviaAnswerSelector";
-            this.TriviaAnswerSelector.Width = 350F;
+            this.TriviaAnswerSelector.Width = 450F;
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
             this.TriviaAnswerSelector.FontFamily = new FontFamily("Arcadepix");
             this.TriviaAnswerSelector.FontSize = 20F;
