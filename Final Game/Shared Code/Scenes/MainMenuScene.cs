@@ -14,7 +14,7 @@ namespace HuntTheWumpus.SharedCode.Scenes
 
         public override void LoadContent(ContentManager Content, GraphicsDevice GraphicsDevice)
         {
-            ChaseAnimation = new WumpusChaseAnimation(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 60, 10, 0.1);
+            ChaseAnimation = new WumpusChaseAnimation(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 60, 10, 0.15);
             ChaseAnimation.LoadContent(Content);
         }
 

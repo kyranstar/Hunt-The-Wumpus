@@ -57,8 +57,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             Wumpus.CenterOrigin();
 
             // Add the movement animations to make it less abrupt
-            PlayerCharacter.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(100));
-            Wumpus.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(100));
+            PlayerCharacter.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(dist => dist / 75f));
+            Wumpus.AddAnimation(AnimationType.MoveToNewMenuTile, new SpriteMoveAnimation(dist => dist / 75f));
 
             // Initialize the animations
             PlayerCharacter.Initialize();

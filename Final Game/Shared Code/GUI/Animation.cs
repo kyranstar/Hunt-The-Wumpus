@@ -136,44 +136,31 @@ namespace HuntTheWumpus.SharedCode.GUI
     public class SpriteMoveAnimation : SpriteAnimation
     {
         Sprite2D Target;
-
-        protected Vector2? InitialPosition;
-        readonly int MoveDuration = 1000;
-
-        private Vector2? _TargetPosition;
-        public Vector2? TargetPosition
-        {
-            get
-            {
-                return _TargetPosition;
-            }
-
-            set
-            {
-                _TargetPosition = value;
-                if(CurrentPosition.HasValue)
-                    InitialPosition = CurrentPosition.Value.Clone();
-
-            }
-        }
-
+        
+        public Vector2? TargetPosition;
         Vector2? CurrentPosition = null;
+        Func<float, float> EasingRateMs;
 
-        public SpriteMoveAnimation(Vector2? InitialPosition, Vector2? FinalPosition, int MoveDuration)
+        public SpriteMoveAnimation(Vector2? FinalPosition, Func<float, float> EasingRateMs)
         {
-            this.InitialPosition = InitialPosition;
             this.TargetPosition = FinalPosition;
-            this.MoveDuration = MoveDuration;
+            this.EasingRateMs = EasingRateMs;
         }
 
-        public SpriteMoveAnimation(Vector2? FinalPosition, int MoveDuration)
-            : this(null, FinalPosition, MoveDuration)
+        public SpriteMoveAnimation(Vector2? FinalPosition, float RateMs)
+            : this(FinalPosition, dist => RateMs)
         {
-            
+
         }
 
-        public SpriteMoveAnimation(int MoveDuration)
-            : this(null, MoveDuration)
+        public SpriteMoveAnimation(float RateMs)
+            : this(null, RateMs)
+        {
+
+        }
+
+        public SpriteMoveAnimation(Func<float, float> EasingRateMs)
+            : this(null, EasingRateMs)
         {
 
         }
@@ -181,38 +168,42 @@ namespace HuntTheWumpus.SharedCode.GUI
         public override void Initialize(Sprite2D Target)
         {
             this.Target = Target;
-            if (!InitialPosition.HasValue)
-                InitialPosition = Target.Position.Clone();
 
-            if (!TargetPosition.HasValue)
-                TargetPosition = InitialPosition.Value.Clone();
-
-            CurrentPosition = InitialPosition.Value.Clone();
+            CurrentPosition = Target.Position.Clone();
         }
 
         public override void Update(GameTime Time)
         {
-            if (!CurrentPosition.Value.EqualsIsh(TargetPosition.Value))
+            if (TargetPosition.HasValue && !CurrentPosition.Value.EqualsIsh(TargetPosition.Value))
             {
-                double xDist = (TargetPosition.Value.X - InitialPosition.Value.X) / MoveDuration * Time.ElapsedGameTime.TotalMilliseconds;
-                double yDist = (TargetPosition.Value.Y - InitialPosition.Value.Y) / MoveDuration * Time.ElapsedGameTime.TotalMilliseconds;
+                Vector2 TargetOffset = new Vector2(
+                    TargetPosition.Value.X -  CurrentPosition.Value.X,
+                    TargetPosition.Value.Y - CurrentPosition.Value.Y);
 
-                CurrentPosition += new Vector2((float)xDist, (float)yDist);
+                float TargetDistance = (float)TargetOffset.Distance(Vector2.Zero);
+
+                float RateDistance = EasingRateMs(TargetDistance) * (float)Time.ElapsedGameTime.TotalMilliseconds;
+
+                Vector2 DistanceToTravel = new Vector2(
+                    TargetOffset.X / TargetDistance * RateDistance,
+                    TargetOffset.Y / TargetDistance * RateDistance);
+
+                CurrentPosition += DistanceToTravel;
                 Target.Position = CurrentPosition.Value;
             }
-            // TODO: Limit position so that it can't go past target
+            // TODO: Limit position so that it can't go past target (instead of relying on easing)
 
             // IsFinished = CurrentPosition.EqualsIsh(TargetPosition.Value);
         }
 
         public override void Reset()
         {
-            CurrentPosition = InitialPosition.Value;
+
         }
 
         public override SpriteAnimation Clone()
         {
-            return new SpriteMoveAnimation(InitialPosition, TargetPosition, MoveDuration);
+            return new SpriteMoveAnimation(TargetPosition, EasingRateMs);
         }
     }
 }
