@@ -28,10 +28,12 @@ namespace HuntTheWumpus.SharedCode.Scores
                     _Scores = ((ScoreEntry[])Serializer.Deserialize(Stream)).ToList();
                 else _Scores = new List<ScoreEntry>();
             }
+            SortScores();
         }
 
         public void Save()
         {
+            SortScores();
             using (Stream Stream = FileUtils.GetFileStream(ScoreFile))
             {
                 Serializer.Serialize(Stream, _Scores.ToArray());
@@ -44,12 +46,18 @@ namespace HuntTheWumpus.SharedCode.Scores
                 throw new Exception("This operation cannot be performed until scores have been loaded.");
         }
 
+        private void SortScores()
+        {
+            if(_Scores != null)
+                _Scores.Sort((a, b) => b.Score.CompareTo(a.Score));
+        }
+
         public void AddScore(ScoreEntry Score)
         {
             ValidateScores();
 
             _Scores.Add(Score);
-            _Scores.Sort((a, b) => a.Score.CompareTo(b.Score));
+            SortScores();
         }
 
         public ScoreEntry[] GetAllScores()
