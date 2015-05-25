@@ -2,6 +2,9 @@
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
+    /// <summary>
+    /// An exception thrown when a room is invalid.
+    /// </summary>
     class InvalidRoomException : Exception
     {
         public InvalidRoomException()

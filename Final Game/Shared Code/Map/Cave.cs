@@ -62,7 +62,11 @@ namespace HuntTheWumpus.SharedCode
                 return cave.Values.ToArray();
             }
         }
-
+        /// <summary>
+        /// Returns Rooms[RoomID]
+        /// </summary>
+        /// <param name="RoomID"></param>
+        /// <returns></returns>
         public Room this[int RoomID]
         {
             get
@@ -86,7 +90,9 @@ namespace HuntTheWumpus.SharedCode
                 return cave;
             }
         }
-
+        /// <summary>
+        /// Returns whether CaveUtils.CheckIfValid() returns None
+        /// </summary>
         public bool IsValid
         {
             get
@@ -133,7 +139,10 @@ namespace HuntTheWumpus.SharedCode
         {
             RoomLayout = MapUtils.GetRoomLayout(cave.Values.ToArray(), RoomBaseApothem, RoomNumSides, TargetRoomWidth, TargetRoomHeight);
         }
-
+        /// <summary>
+        /// Updates the cave. Called every frame
+        /// </summary>
+        /// <param name="GameTime"></param>
         public void Update(GameTime GameTime)
         {
             // TODO: Do this intelligently instead of every frame!

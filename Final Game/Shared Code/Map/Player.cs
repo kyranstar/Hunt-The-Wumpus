@@ -1,7 +1,5 @@
-﻿using HuntTheWumpus.SharedCode.Helpers;
-using HuntTheWumpus.SharedCode.Scores;
+﻿using HuntTheWumpus.SharedCode.Scores;
 using System.ComponentModel;
-using System;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -16,10 +14,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         private void RaisePropertyChanged(string PropName)
         {
-            if(PropertyChanged != null)
+            if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(PropName));
         }
-
+        /// <summary>
+        /// The player's stats
+        /// </summary>
         public ScoreEntry ScoreEntry
         {
             get
@@ -27,7 +27,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 return InternalScore;
             }
         }
-
+        /// <summary>
+        /// Resets the player's stats
+        /// </summary>
         public void Reset()
         {
             InternalScore = new ScoreEntry
@@ -38,7 +40,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
 
         //Required fields and their getters
-        public int Gold 
+        public int Gold
         {
             get { return InternalScore.GoldRemaining; }
             set
@@ -47,7 +49,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 RaisePropertyChanged("Gold");
             }
         }
-        
+
         public int Arrows
         {
             get { return InternalScore.ArrowsRemaining; }

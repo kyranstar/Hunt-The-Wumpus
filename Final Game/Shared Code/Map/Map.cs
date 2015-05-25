@@ -73,7 +73,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Room FirstSafeRoom = GetPlayerStartRoom();
 
             if (FirstSafeRoom != null)
-                PlayerRoom = FirstSafeRoom.RoomID ;
+                PlayerRoom = FirstSafeRoom.RoomID;
             else
                 Log.Error("Couldn't find valid room to move player to!");
 
@@ -102,7 +102,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     throw new ArgumentException("The given cave was invalid.");
             }
         }
-
+        /// <summary>
+        /// Updates the game. Called every frame
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             Cave.Update(gameTime);
@@ -153,7 +156,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             OnPlayerMoved(this, new EventArgs());
         }
-
+        /// <summary>
+        /// Call this when a bat collision occurs. Moves the player and bat to a nearby position as according to spec.
+        /// </summary>
+        /// <param name="currentRoom"></param>
         private void ReactToBatCollision(Room currentRoom)
         {
             Log.Info("Player hit bats and was moved!");
@@ -171,7 +177,10 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             ProcessPlayerMove();
         }
-
+        /// <summary>
+        /// Returns a valid starting room for the player.
+        /// </summary>
+        /// <returns></returns>
         public Room GetPlayerStartRoom()
         {
             Func<Room, bool> RoomValidator = r =>

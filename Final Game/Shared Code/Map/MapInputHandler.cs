@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using HuntTheWumpus.SharedCode.GameControl;
+﻿using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
 {
@@ -28,12 +27,14 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             this.GameController = gameController;
         }
-
+        /// <summary>
+        /// Returns whether the user is aiming an arrow.
+        /// </summary>
         public bool IsAiming
         {
             get
             {
-                if(IsFrozen)
+                if (IsFrozen)
                     return false;
                 return KeyState.IsKeyDown(Keys.LeftShift);
             }
@@ -77,7 +78,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             Direction? KeyDirection = MapKeyToDirection(Key);
 
-            if(!IsFrozen && !IsAiming && KeyDirection.HasValue)
+            if (!IsFrozen && !IsAiming && KeyDirection.HasValue)
                 GameController.Map.MovePlayer(KeyDirection.Value);
             if (Key == Keys.Delete && GameController.CurrentTrivia != null)
                 GameController.CurrentTrivia.Abort();

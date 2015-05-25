@@ -49,7 +49,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
             set;
             get;
         }
-
+        /// <summary>
+        /// Returns whether the behavior the wumpus is using is the active or passive behavior.
+        /// </summary>
         public bool Active
         {
             get
@@ -225,17 +227,20 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             private void BasicMove()
             {
+                // A function to determine whether a roomID corresponds to an empty valid room.
+                Func<int, bool> IsEmptyRoom = a =>
+                            a != -1
+                            && !Map.Cave[a].HasPit
+                            && !Map.Cave[a].HasBats
+                            && Map.PlayerRoom != a
+                            && Wumpus.Location != a;
+
                 // Every turn, there is a 5% chance the Wumpus will immediately teleport to a new, random location.
                 if (Rand.Next(100) < 5)
                 {
                     var validRooms = Map.Cave.Rooms
                         .Select(r => r.RoomID)
-                        .Where(a =>
-                            a != -1
-                            && !Map.Cave[a].HasPit
-                            && !Map.Cave[a].HasBats
-                            && Map.PlayerRoom != a
-                            && Wumpus.Location != a)
+                        .Where(IsEmptyRoom)
                         .ToList();
 
                     if (validRooms.Count == 0)
@@ -252,12 +257,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 if (TurnsMoving > 0 || TurnsUntilMove <= 0)
                 {
                     var validNeighbors = Map.Cave[Wumpus.Location].AdjacentRooms
-                        .Where(a =>
-                            a != -1
-                            && Map.Cave.RoomDict.ContainsKey(a)
-                            && !Map.Cave[a].HasPit
-                            && !Map.Cave[a].HasBats
-                            && Map.PlayerRoom != a)
+                        .Where(IsEmptyRoom)
                         .ToList();
 
                     if (validNeighbors.Count == 0)

@@ -3,7 +3,6 @@ using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameMap
@@ -16,33 +15,17 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
         const int MinRoomConnections = 1, MaxRoomConnections = 3;
 
-        public static void GenerateMap(Map map)
-        {
-            //for now just makes a preset map
-            map.Cave = new Cave();
-
-            map.Cave.AddRoom(0, new int[] { -1, 1, 5, -1, -1, -1 });
-            map.Cave.AddRoom(1, new int[] { -1, 2, -1, -1, 0, -1 }, bats: true);
-            map.Cave.AddRoom(2, new int[] { -1, -1, 3, -1, 1, -1 }, pit: true);
-            map.Cave.AddRoom(3, new int[] { -1, -1, 4, -1, 6, 2 }, gold: 5);
-            map.Cave.AddRoom(4, new int[] { -1, -1, -1, -1, 7, 3 }, arrows: 5);
-            map.Cave.AddRoom(5, new int[] { -1, 6, -1, -1, -1, 0 });
-            map.Cave.AddRoom(6, new int[] { -1, 3, 7, -1, 5, -1 });
-            map.Cave.AddRoom(7, new int[] { -1, 4, -1, -1, 8, 6 });
-            map.Cave.AddRoom(8, new int[] { -1, 7, -1, -1, -1, -1 });
-
-            map.Wumpus.Location = 4;
-        }
-
         /// <summary>
         /// Generates a random cave layout.
         /// </summary>
         /// <returns>A randomly generated cave that conforms to the spec.</returns>
         public static Cave GenerateRandomCave()
         {
+            // Generation parameters
             const int roomCount = 30;
             const int maxConnectionsToCreatePerRoom = 3;
 
+            // Generate the cave
             Cave NewCave = CreateRooms(roomCount, maxConnectionsToCreatePerRoom);
             AddHazards(NewCave);
             AddGold(NewCave);
@@ -55,6 +38,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
             return NewCave;
         }
 
+        /// <summary>
+        /// Creates a cave without hazards and gold.
+        /// </summary>
+        /// <param name="roomsToCreate"></param>
+        /// <param name="maxConnectionsToCreatePerRoom"></param>
+        /// <returns></returns>
         private static Cave CreateRooms(int roomsToCreate, int maxConnectionsToCreatePerRoom)
         {
             Cave NewCave = new Cave();
@@ -65,7 +54,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             // Must be at least maxRoomCount * 2. 3 to be safe
             int size = roomsToCreate * 3;
 
-            // Holds all the rooms that exist
+            // Holds all the rooms that exist, -1 if no room
             int[,] rooms = new int[size, size];
             for (int i = 0; i < size; i++)
             {
@@ -80,6 +69,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             NewCave.AddRoom(id, Enumerable.Repeat(-1, 6).ToArray());
             rooms[lastPos.X, lastPos.Y] = id;
             id++;
+            // Iterate while we still need to make more rooms
             while (true)
             {
                 int numToCreate = Rand.Next(maxConnectionsToCreatePerRoom);
@@ -155,7 +145,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             foreach (var layout in layouts)
             {
                 // Makes floats less likely to conflict when cast? Probably?
-                int conflictNumber = 10000;
+                const int conflictNumber = 10000;
                 int x = (int)(layout.RoomPosition.X * conflictNumber);
                 int y = (int)(layout.RoomPosition.Y * conflictNumber);
 
@@ -225,6 +215,11 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     NewCave[room.Value].HasBats = true;
             }
         }
+        /// <summary>
+        /// Finds a valid spot for a hazard where it will not impede in gameplay.
+        /// </summary>
+        /// <param name="cave"></param>
+        /// <returns>A room ID</returns>
         private static int? FindValidHazardSpot(Cave cave)
         {
             // Random order so we don't get a bunch in the beginning of the map
