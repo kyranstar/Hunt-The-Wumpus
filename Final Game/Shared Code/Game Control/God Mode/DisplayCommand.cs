@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {
-    class Display : ActionCommandBase
+    class DisplayCommand : ActionCommandBase
     {
         private const string Hazards = "hazards";
         private const string Rooms = "rooms";
@@ -27,7 +27,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
 
         GameController GameController;
-        public Display(GameController GameController)
+        public DisplayCommand(GameController GameController)
             : base("display", Help)
         {
             this.GameController = GameController;

@@ -35,7 +35,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             Root.RegisterCommand(new ListRoomsCommand(Map));
             Root.RegisterCommand(new SetViewCommand(MapRenderer));
             Root.RegisterCommand(new OutlineCommand(MapRenderer));
-            Root.RegisterCommand(new Display(GameController));
+            Root.RegisterCommand(new DisplayCommand(GameController));
             Root.RegisterCommand(new DisableCommand(MapRenderer));
 
             CommandEngine Engine = new CommandEngine(Root);
