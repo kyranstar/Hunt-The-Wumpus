@@ -1,8 +1,6 @@
 ﻿using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -12,6 +10,9 @@ namespace HuntTheWumpus.SharedCode.GUI
     /// </summary>
     public class TiledTexture
     {
+        /// <summary>
+        /// Any opacity less than this is considered 0.
+        /// </summary>
         public const float OpacityThreshold = 0.00001f;
 
         public float Scale { get; set; }
@@ -20,12 +21,15 @@ namespace HuntTheWumpus.SharedCode.GUI
         public float Opacity { get; set; }
         public Color DrawColor { get; set; }
 
+        /// <summary>
+        /// Returns whether the texture is fully transparent
+        /// </summary>
         public bool IsTransparent
         {
             get { return Opacity < OpacityThreshold; }
         }
 
-        private Camera2D Camera;
+        private readonly Camera2D Camera;
 
         public TiledTexture(
             Texture2D Texture,
@@ -58,7 +62,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             int ViewportX = -Camera.VirtualVisibleViewport.X;
             int ViewportY = -Camera.VirtualVisibleViewport.Y;
 
-            Rectangle TextureSource = new Rectangle()
+            Rectangle TextureSource = new Rectangle
             {
                 Width = ViewportWidth,
                 Height = ViewportHeight,
@@ -66,7 +70,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Y = (ViewportY % TextureHeight).ToInt()
             };
 
-            Rectangle TextureDest = new Rectangle()
+            Rectangle TextureDest = new Rectangle
             {
                 X = ViewportX,
                 Y = ViewportY,

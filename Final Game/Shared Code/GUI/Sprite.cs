@@ -1,7 +1,7 @@
-﻿using HuntTheWumpus.SharedCode.Helpers;
+﻿using System.Collections.Generic;
+using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -11,8 +11,14 @@ namespace HuntTheWumpus.SharedCode.GUI
     /// </summary>
     public class Sprite2D
     {
+        /// <summary>
+        /// The amount of opacity where it is just assumed to be 0 to avoid floating point errors / cpu usage for no purpose.
+        /// </summary>
         public const float OpacityThreshold = 0.00001f;
 
+        /// <summary>
+        /// The width of the render rectangle
+        /// </summary>
         public int RenderWidth
         {
             get
@@ -25,6 +31,9 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
         }
 
+        /// <summary>
+        /// The height of the render rectangle
+        /// </summary>
         public int RenderHeight
         {
             get
@@ -79,22 +88,15 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             this.Texture = Texture;
 
-            this.RenderX = X;
-            this.RenderY = Y;
+            RenderX = X;
+            RenderY = Y;
 
-            if (Width.HasValue)
-                this.RenderWidth = Width.Value;
-            else
-                this.RenderWidth = Texture.Width;
-
-            if (Height.HasValue)
-                this.RenderHeight = Height.Value;
-            else
-                this.RenderHeight = Texture.Height;
+            RenderWidth = Width ?? Texture.Width;
+            RenderHeight = Height ?? Texture.Height;
 
             this.Rotation = Rotation;
-            this.ScaleX = Scale;
-            this.ScaleY = Scale;
+            ScaleX = Scale;
+            ScaleY = Scale;
 
             this.Opacity = Opacity;
             this.DrawColor = DrawColor ?? Color.White;
@@ -104,20 +106,20 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public virtual void Initialize()
         {
-            foreach (var Animation in this.Animations)
+            foreach (var Animation in Animations)
                 Animation.Value.Initialize(this);
         }
 
         public void AddAnimation(AnimationType Type, SpriteAnimation Animation)
         {
-            this.Animations.Add(Type, Animation);
+            Animations.Add(Type, Animation);
             Animation.Initialize(this);
         }
 
         public void Draw(SpriteBatch Target)
         {
             if (Texture != null)
-                Target.Draw(Texture, position: Position, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(ScaleX, ScaleY), origin: Origin);
+                Target.Draw(Texture, Position, rotation: Rotation, color: DrawColor * Opacity, scale: new Vector2(ScaleX, ScaleY), origin: Origin);
         }
 
         public void Update(GameTime Time)
@@ -175,7 +177,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             if (Animations.ContainsKey(Type))
                 return Animations[Type].IsFinished;
-            else return null;
+            return null;
         }
 
         public SpriteAnimation GetAnimation(AnimationType Type)
