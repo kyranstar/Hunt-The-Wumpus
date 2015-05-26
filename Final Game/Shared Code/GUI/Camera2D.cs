@@ -1,7 +1,6 @@
 ﻿using HuntTheWumpus.SharedCode.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -48,7 +47,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                Viewport Result = new Viewport()
+                Viewport Result = new Viewport
                 {
                     X = Position.X.ToInt(),
                     Y = Position.Y.ToInt()
@@ -78,7 +77,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             Origin = Vector2.Zero;
             Position = Vector2.Zero;
 
-            this.VirtualRawViewSize = VirtualViewSize;
+            VirtualRawViewSize = VirtualViewSize;
             this.RenderViewport = RenderViewport;
         }
 

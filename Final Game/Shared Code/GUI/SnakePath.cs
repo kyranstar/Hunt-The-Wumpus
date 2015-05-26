@@ -1,67 +1,73 @@
-﻿using HuntTheWumpus.SharedCode.Helpers;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
-    public class SnakePath
+    /// <summary>
+    /// A FIFO queue with a limit on how many elements it can hold.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class BoundedQueue<T>
     {
-        private Queue<Vector2> _Points;
-        private int SnakeLength;
+        private readonly Queue<T> _values;
+        private readonly int _length;
 
-        public SnakePath(int snakeLength, Vector2 startPoint)
+        public BoundedQueue(int length, T startPoint) : this(length)
         {
-            SnakeLength = snakeLength;
-
-            _Points = new Queue<Vector2>();
-            _Points.Enqueue(startPoint);
+            _values.Enqueue(startPoint);
         }
-
-        public SnakePath(int snakeLength)
-            : this(snakeLength, new Vector2())
+        public BoundedQueue(int length)
         {
-
+            _length = length;
+            _values = new Queue<T>();
         }
-        
-        public void AddPoint(Vector2 NewPoint)
+        /// <summary>
+        /// Enqueues and dequeues if there are too many values
+        /// </summary>
+        /// <param name="newValue"></param>
+        public void Enqueue(T newValue)
         {
-            _Points.Enqueue(NewPoint);
+            _values.Enqueue(newValue);
 
-            if(_Points.Count > SnakeLength)
-                _Points.Dequeue();
+            if(_values.Count > _length)
+                _values.Dequeue();
         }
-
-        public Vector2[] Points
+        /// <summary>
+        /// Values as an array
+        /// </summary>
+        public T[] Values
         {
             get
             {
-                return _Points.ToArray();
+                return _values.ToArray();
             }
         }
 
-        public Vector2 this[int index]
+        public T this[int index]
         {
             get
             {
-                return Points[index];
+                return Values[index];
             }
         }
-
-        public Vector2 EarliestPoint
+        /// <summary>
+        /// Returns the first value in the queue
+        /// </summary>
+        public T EarliestValue
         {
             get
             {
-                return _Points.Peek();
+                return _values.Peek();
             }
         }
-
-        public Vector2 LatestPoint
+        /// <summary>
+        /// Returns the last value in the queue
+        /// </summary>
+        public T LatestValue
         {
             get
             {
-                return this[_Points.Count - 1];
+                return this[_values.Count - 1];
             }
         }
 
@@ -69,8 +75,15 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                return SnakeLength;
+                return _length;
             }
         }
+    }
+    /// <summary>
+    /// A path representing a bounded queue of points
+    /// </summary>
+    public class SnakePath : BoundedQueue<Vector2>()
+    {
+        
     }
 }

@@ -81,8 +81,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 PickNextPosition();
 
                 // Set the new animation targets
-                (Wumpus.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.LatestPoint;
-                (PlayerCharacter.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.EarliestPoint;
+                (Wumpus.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.LatestValue;
+                (PlayerCharacter.GetAnimation(AnimationType.MoveToNewMenuTile) as SpriteMoveAnimation).TargetPosition = Path.EarliestValue;
             }
 
             // Update the animations every frame
@@ -93,7 +93,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void Draw(SpriteBatch target)
         {
             // Draw the dots
-            foreach (Vector2 Point in Path.Points.Skip(1).DropLast())
+            foreach (Vector2 Point in Path.Values.Skip(1).DropLast())
                 target.Draw(DotTexture, position: Point - DotOffset, scale: DotScaleVector);
 
             // Draw the sprites
@@ -121,7 +121,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private void PickNextPosition()
         {
             // Start with the current point as a default
-            Vector2 CurrentPoint = Path.LatestPoint;
+            Vector2 CurrentPoint = Path.LatestValue;
 
             // Create a list to store the valid moves
             List<Vector2> ValidMoves = new List<Vector2>();
@@ -147,11 +147,11 @@ namespace HuntTheWumpus.SharedCode.GUI
 
                 // If it isn't in our game window, just move randomly
                 if (IsOutOfBounds(MousePos))
-                    Path.AddPoint(ValidMoves.GetRandom());
+                    Path.Enqueue(ValidMoves.GetRandom());
                 // If the mouse is in the window, find the closest valid move and
                 // add it to the snake path
                 else
-                    Path.AddPoint(ValidMoves.OrderBy(p => p.Distance(MousePos)).First());
+                    Path.Enqueue(ValidMoves.OrderBy(p => p.Distance(MousePos)).First());
             }
         }
 
@@ -183,7 +183,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             // Get the list of points that we would have if we
             // added the test point
-            List<Vector2> NewPoints = Path.Points.ToList();
+            List<Vector2> NewPoints = Path.Values.ToList();
             NewPoints.Add(NewPoint);
 
             // Count the destinct points
