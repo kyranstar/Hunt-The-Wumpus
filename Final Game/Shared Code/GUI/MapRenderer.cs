@@ -63,7 +63,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public bool ParticleSystemsEnabled = true;
 
         byte AimColorHighlightAmount = 120;
-        byte AimAlphaHighlightAmount = 20;
+        byte AimAlphaHighlightAmount = 120;
 
         public MapRenderer(GameController GameController)
         {

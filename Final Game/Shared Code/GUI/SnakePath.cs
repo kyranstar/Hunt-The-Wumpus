@@ -82,8 +82,11 @@ namespace HuntTheWumpus.SharedCode.GUI
     /// <summary>
     /// A path representing a bounded queue of points
     /// </summary>
-    public class SnakePath : BoundedQueue<Vector2>()
+    public class SnakePath : BoundedQueue<Vector2>
     {
+        public SnakePath(int pathLength, Vector2 vector2) : base(pathLength, vector2)
+        {
+        }
         
     }
 }
