@@ -62,7 +62,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public bool ParticleSystemsEnabled = true;
 
-        byte AimColorHighlightAmount = 45;
+        byte AimColorHighlightAmount = 120;
         byte AimAlphaHighlightAmount = 20;
 
         public MapRenderer(GameController GameController)
@@ -318,10 +318,10 @@ namespace HuntTheWumpus.SharedCode.GUI
                     {
                         if (RoomAtShootDirection == Map.Wumpus.Location)
                         {
-                            BaseDrawColor.G += 20;
+                            BaseDrawColor.R += 150;
                         }
                         else
-                            BaseDrawColor.R += 20;
+                            BaseDrawColor.G += 250;
                     }
                 }
 
