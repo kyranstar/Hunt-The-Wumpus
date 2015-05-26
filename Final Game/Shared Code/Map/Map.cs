@@ -151,9 +151,9 @@ namespace HuntTheWumpus.SharedCode.GameMap
             if (currentRoom.HasBats)
             {
                 ReactToBatCollision(currentRoom);
-
             }
 
+            Trivia.Trivia.UnlockNewHint();
             OnPlayerMoved(this, new EventArgs());
         }
         /// <summary>

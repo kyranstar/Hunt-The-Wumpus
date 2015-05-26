@@ -14,6 +14,7 @@ namespace HuntTheWumpus.SharedCode.Trivia
         None,
         TrappedInPit,
         HitWumpus,
-        PurchasingHint
+        PurchasingHint,
+        PurchasingArrow
     }
 }

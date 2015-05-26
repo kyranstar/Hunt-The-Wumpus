@@ -92,6 +92,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     ResolveWumpusCollisionTrivia();
                 else if (QuestionState == TriviaQuestionState.PurchasingHint)
                     ResolveHintTrivia();
+                else if (QuestionState == TriviaQuestionState.PurchasingArrow)
+                    ResolveArrowTrivia();
 
                 CloseTrivia();
             }
@@ -99,6 +101,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         private void ResolveHintTrivia()
         {
+            // TODO: This should be "secret" -- you can't purchase hints
             if (CurrentTrivia.NumberCorrect >= 2)
             {
                 Trivia.Trivia.UnlockNewHint();
@@ -108,6 +111,18 @@ namespace HuntTheWumpus.SharedCode.GameControl
                 // TODO: Notify the user
                 Log.Info("No hint for you.");
         }
+        
+        private void ResolveArrowTrivia()
+        {
+            if (CurrentTrivia.NumberCorrect >= 2)
+            {
+                Map.Player.Arrows++;
+            }
+            else
+                // TODO: Notify the user
+                Log.Info("No arrow for you.");
+        }
+
 
         private void ResolvePitTrivia()
         {
@@ -168,7 +183,6 @@ namespace HuntTheWumpus.SharedCode.GameControl
 
         public void Map_PlayerMoved(object sender, EventArgs e)
         {
-            // TODO: Add shooting trivia
             if (Map.PlayerRoom == Map.Wumpus.Location)
             {
                 LoadNewTrivia(TriviaQuestionState.HitWumpus, 5);
