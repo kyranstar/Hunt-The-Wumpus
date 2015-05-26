@@ -170,7 +170,6 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return CurrentPoint + new Vector2(GridSize, 0);
             case 2:
                 return CurrentPoint + new Vector2(0, GridSize);
-                break;
             case 3:
                 return CurrentPoint - new Vector2(GridSize, 0);
         }

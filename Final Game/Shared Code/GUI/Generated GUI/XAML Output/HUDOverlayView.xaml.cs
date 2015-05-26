@@ -369,11 +369,12 @@ namespace EmptyKeys.UserInterface.Generated {
             row_TriviaDisplay_5.Height = new GridLength(1F, GridUnitType.Star);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_5);
             Grid.SetColumnSpan(this.TriviaDisplay, 2);
-            Binding binding_TriviaDisplay_Opacity = new Binding("TriviaContext.TriviaModalOpacity");
+            Binding binding_TriviaDisplay_Opacity = new Binding("TriviaContext.TriviaModalFadeAnimation.CurrentValue");
             this.TriviaDisplay.SetBinding(Grid.OpacityProperty, binding_TriviaDisplay_Opacity);
-            Binding binding_TriviaDisplay_Visibility = new Binding("TriviaContext.TriviaModalVisibility");
+            binding_TriviaDisplay_Opacity.FallbackValue = "0";
+            Binding binding_TriviaDisplay_Visibility = new Binding("TriviaContext.TriviaModalFadeAnimation.Visibility");
             this.TriviaDisplay.SetBinding(Grid.VisibilityProperty, binding_TriviaDisplay_Visibility);
-            binding_TriviaDisplay_Visibility.FallbackValue = "Collapsed";
+            binding_TriviaDisplay_Visibility.FallbackValue = "Hidden";
             // QuestionText element
             this.QuestionText = new TextBlock();
             this.TriviaDisplay.Children.Add(this.QuestionText);

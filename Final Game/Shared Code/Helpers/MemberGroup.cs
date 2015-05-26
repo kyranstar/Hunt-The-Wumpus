@@ -9,14 +9,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     public class PropertyGroupAttribute : Attribute
     {
-        public string GroupName { get; set; }
+        public string PrimaryGroupName { get; set; }
+        public string SecondaryGroupName { get; set; }
 
-        public PropertyGroupAttribute(string GroupName)
+        public PropertyGroupAttribute(string PrimaryGroupName, string SecondaryGroupName = null)
         {
-            this.GroupName = GroupName;
+            this.PrimaryGroupName = PrimaryGroupName;
+            this.SecondaryGroupName = SecondaryGroupName;
         }
 
-        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName)
+        public static string[] GetPropertyNamesByGroup(Type TargetType, string PrimaryGroupName, string SecondaryGroupName = null)
         {
             List<string> PropertyNameResults = new List<string>();
 
@@ -26,13 +28,16 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 var AttributesInGroup = GroupAttributes
                     .Where(GroupAttribute => GroupAttribute is PropertyGroupAttribute)
                     .Select(GroupAttribute => GroupAttribute as PropertyGroupAttribute)
-                    .Where(GroupAttribute => GroupAttribute.GroupName == GroupName);
+                    .Where(GroupAttribute => GroupAttribute.PrimaryGroupName == PrimaryGroupName
+                        && (SecondaryGroupName == null
+                            || GroupAttribute.SecondaryGroupName == null
+                            || GroupAttribute.SecondaryGroupName == SecondaryGroupName));
 
                 if (AttributesInGroup.Count() > 0)
                 {
                     PropertyNameResults.Add(Property.Name);
 
-                    string[] SubItems = GetPropertyNamesByGroup(Property.PropertyType, GroupName);
+                    string[] SubItems = GetPropertyNamesByGroup(Property.PropertyType, PrimaryGroupName, SecondaryGroupName);
                     PropertyNameResults.AddRange(SubItems.Select(name => Property.Name + "." + name));
                 }
             }

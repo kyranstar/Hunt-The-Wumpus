@@ -70,7 +70,7 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Grid>
-        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding Path=TriviaContext.TriviaModalVisibility, FallbackValue=Collapsed}" Opacity="{Binding TriviaContext.TriviaModalOpacity}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaContext.TriviaModalFadeAnimation.Visibility, FallbackValue=Hidden}" Opacity="{Binding TriviaContext.TriviaModalFadeAnimation.CurrentValue, FallbackValue=0}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="150px"/>

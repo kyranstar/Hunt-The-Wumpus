@@ -22,7 +22,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         public ScoreHudContext ScoreContext { get; set; }
 
         [PropertyGroup(TriviaHudContext.QuestionBindingGroup)]
-        [PropertyGroup(TriviaHudContext.QuestionVisibilityGroup)]
+        [PropertyGroup(XamlBoundAnimation.XamlAnimationGroupName)]
         public TriviaHudContext TriviaContext { get; set; }
 
         [PropertyGroup(GameOverHudContext.GameOverBindingGroup)]
@@ -67,12 +67,17 @@ namespace HuntTheWumpus.SharedCode.GUI
             RaisePropertyChangedForGroup(HintGroup);
         }
 
-        private void RaisePropertyChangedForGroup(string GroupName)
+        private void RaisePropertyChangedForGroup(string PrimaryGroupName, string SecondaryGroupName)
         {
-            string[] QuestionBindingProps = PropertyGroupAttribute.GetPropertyNamesByGroup(this.GetType(), GroupName);
+            string[] QuestionBindingProps = PropertyGroupAttribute.GetPropertyNamesByGroup(this.GetType(), PrimaryGroupName, SecondaryGroupName);
 
             foreach (string Prop in QuestionBindingProps)
                 RaisePropertyChanged(Prop);
+        }
+
+        private void RaisePropertyChangedForGroup(string PrimaryGroupName)
+        {
+            RaisePropertyChangedForGroup(PrimaryGroupName, null);
         }
 
         private void Player_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
