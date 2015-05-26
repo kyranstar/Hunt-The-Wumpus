@@ -15,7 +15,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 {
     class WarningHudContext
     {
-        private const string WarningGroup = "WarningText";
+        public const string WarningGroup = "WarningText";
 
         private GameController GameController;
 

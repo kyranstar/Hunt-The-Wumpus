@@ -16,20 +16,23 @@ namespace HuntTheWumpus.SharedCode.Helpers
             this.GroupName = GroupName;
         }
 
-        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName, int recurseDepth = 1)
+        public static string[] GetPropertyNamesByGroup(Type TargetType, string GroupName)
         {
             List<string> PropertyNameResults = new List<string>();
 
             foreach(PropertyInfo Property in TargetType.GetTypeInfo().DeclaredProperties)
             {
                 Attribute[] GroupAttributes = GetCustomAttributes(Property, typeof(PropertyGroupAttribute));
-                foreach(Attribute GroupAttribute in GroupAttributes)
-                    if(GroupAttribute is PropertyGroupAttribute && (GroupAttribute as PropertyGroupAttribute).GroupName == GroupName)
-                        PropertyNameResults.Add(Property.Name);
+                var AttributesInGroup = GroupAttributes
+                    .Where(GroupAttribute => GroupAttribute is PropertyGroupAttribute)
+                    .Select(GroupAttribute => GroupAttribute as PropertyGroupAttribute)
+                    .Where(GroupAttribute => GroupAttribute.GroupName == GroupName);
 
-                if (recurseDepth > 0)
+                if (AttributesInGroup.Count() > 0)
                 {
-                    string[] SubItems = GetPropertyNamesByGroup(Property.PropertyType, GroupName, recurseDepth - 1);
+                    PropertyNameResults.Add(Property.Name);
+
+                    string[] SubItems = GetPropertyNamesByGroup(Property.PropertyType, GroupName);
                     PropertyNameResults.AddRange(SubItems.Select(name => Property.Name + "." + name));
                 }
             }
@@ -44,4 +47,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
         }
 #endif
     }
+
+
 }

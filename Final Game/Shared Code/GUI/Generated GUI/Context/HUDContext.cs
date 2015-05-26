@@ -20,8 +20,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         GameController GameController;
 
         public ScoreHudContext ScoreContext { get; set; }
+
+        [PropertyGroup(TriviaHudContext.QuestionBindingGroup)]
+        [PropertyGroup(TriviaHudContext.QuestionVisibilityGroup)]
         public TriviaHudContext TriviaContext { get; set; }
+
+        [PropertyGroup(GameOverHudContext.GameOverBindingGroup)]
+        [PropertyGroup(GameOverHudContext.GameOverVisibilityGroup)]
         public GameOverHudContext GameOverContext { get; set; }
+
+        [PropertyGroup(WarningHudContext.WarningGroup)]
         public WarningHudContext WarningContext { get; set; }
 
         private const string HintGroup = "HintVisibility";
