@@ -65,6 +65,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             Target.Begin();
 
+            /*Target.Draw(MiddleFrameTexture, destinationRectangle: new Rectangle()
+            {
+                Width = Graphics.Viewport.Width,
+                Height = Graphics.Viewport.Height
+            });*/
+
             Target.Draw(LeftFrameTexture, destinationRectangle: new Rectangle()
                 {
                     Width = (LeftFrameScale * Graphics.Viewport.Height).ToInt(),
