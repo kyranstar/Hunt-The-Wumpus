@@ -130,7 +130,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public void BuyHints(object o)
         {
-            GameController.LoadNewTrivia(TriviaQuestionState.PurchasingHint, 3);
+            GameController.LoadNewTrivia(TriviaQuestionState.PurchasingSecret, 3);
         }
 
         public void Update(GameTime GameTime)

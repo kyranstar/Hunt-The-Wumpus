@@ -69,6 +69,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Player = new Player();
 
             PlayerRoomLocation = new Point(0, 0);
+            MoveCount = 0;
 
             Room FirstSafeRoom = GetPlayerStartRoom();
 
@@ -144,8 +145,8 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             CollectItemsFromRoom();
             PlayerPath.Add(PlayerRoom);
-            MoveCount++;
-            Player.Turns = MoveCount;
+
+            Player.Turns = ++MoveCount;
 
             Room currentRoom = Cave[PlayerRoom];
             if (currentRoom.HasBats)

@@ -19,6 +19,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public delegate void NewHintHandler(object sender, EventArgs e);
         public event NewHintHandler OnNewHintAvailable;
 
+        public delegate void NewSecretHandler(object sender, EventArgs e);
+        public event NewSecretHandler OnNewSecretAvailable;
+
         /// <summary>
         /// Stores information about the game once it has concluded.
         /// This will be <code>null</code> until the game ends.
@@ -32,10 +35,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public readonly Map Map;
         public readonly MapInputHandler InputHandler;
 
+        private SecretManager SecretMan;
+
         public GameController()
         {
             Map = new Map();
             InputHandler = new MapInputHandler(this);
+            SecretMan = new SecretManager(this);
             Map.OnPlayerMoved += Map_PlayerMoved;
         }
 
@@ -90,8 +96,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     ResolvePitTrivia();
                 else if (QuestionState == TriviaQuestionState.HitWumpus)
                     ResolveWumpusCollisionTrivia();
-                else if (QuestionState == TriviaQuestionState.PurchasingHint)
-                    ResolveHintTrivia();
+                else if (QuestionState == TriviaQuestionState.PurchasingSecret)
+                    ResolveSecretTrivia();
                 else if (QuestionState == TriviaQuestionState.PurchasingArrow)
                     ResolveArrowTrivia();
 
@@ -99,17 +105,16 @@ namespace HuntTheWumpus.SharedCode.GameControl
             }
         }
 
-        private void ResolveHintTrivia()
+        private void ResolveSecretTrivia()
         {
-            // TODO: This should be "secret" -- you can't purchase hints
             if (CurrentTrivia.NumberCorrect >= 2)
             {
-                Trivia.Trivia.UnlockNewHint();
-                RaiseNewHint();
+                SecretMan.UnlockNewSecret();
+                RaiseNewSecret();
             }
             else
                 // TODO: Notify the user
-                Log.Info("No hint for you.");
+                Log.Info("No secret for you.");
         }
         
         private void ResolveArrowTrivia()
@@ -179,6 +184,12 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             if (OnNewHintAvailable != null)
                 OnNewHintAvailable(this, new EventArgs());
+        }
+
+        private void RaiseNewSecret()
+        {
+            if (OnNewSecretAvailable != null)
+                OnNewSecretAvailable(this, new EventArgs());
         }
 
         public void Map_PlayerMoved(object sender, EventArgs e)
