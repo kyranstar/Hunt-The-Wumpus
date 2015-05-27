@@ -1,13 +1,8 @@
-﻿using EmptyKeys.UserInterface;
-using HuntTheWumpus.SharedCode.GameMap;
-using HuntTheWumpus.SharedCode.Scenes;
+﻿using HuntTheWumpus.SharedCode.GameMap;
 using HuntTheWumpus.SharedCode.Scores;
 using HuntTheWumpus.SharedCode.Trivia;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GameControl
 {
@@ -116,7 +111,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
                 // TODO: Notify the user
                 Log.Info("No secret for you.");
         }
-        
+
         private void ResolveArrowTrivia()
         {
             if (CurrentTrivia.NumberCorrect >= 2)
@@ -225,10 +220,18 @@ namespace HuntTheWumpus.SharedCode.GameControl
                 }
                 // TODO: Present message (miss)
                 Log.Info("Your arrow missed the wumpus.");
+                if (Map.Player.Arrows <= 0)
+                {
+                    EndGame(GameOverCause.NoArrows);
+                }
                 return false;
             }
             // TODO: Present message (hit wall)
             Log.Info("You managed to shoot a wall. Good job.");
+            if (Map.Player.Arrows <= 0)
+            {
+                EndGame(GameOverCause.NoArrows);
+            }
             return false;
         }
     }

@@ -144,6 +144,12 @@ namespace HuntTheWumpus.SharedCode.GameMap
         private void ProcessPlayerMove()
         {
             CollectItemsFromRoom();
+
+            if (!PlayerPath.Contains(PlayerRoom))
+            {
+                Trivia.Trivia.UnlockNewHint();
+            }
+
             PlayerPath.Add(PlayerRoom);
 
             Player.Turns = ++MoveCount;
@@ -153,8 +159,6 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 ReactToBatCollision(currentRoom);
             }
-
-            Trivia.Trivia.UnlockNewHint();
             OnPlayerMoved(this, new EventArgs());
         }
         /// <summary>
