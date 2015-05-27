@@ -87,6 +87,12 @@ namespace HuntTheWumpus.SharedCode.GameControl
             if (CurrentTrivia != null
                 && CurrentTrivia.IsComplete)
             {
+                Map.Player.Gold -= CurrentTrivia.QList.Count;
+                if (Map.Player.Gold <= 0)
+                {
+                    EndGame(GameOverCause.NoGold);
+                }
+
                 if (QuestionState == TriviaQuestionState.TrappedInPit)
                     ResolvePitTrivia();
                 else if (QuestionState == TriviaQuestionState.HitWumpus)

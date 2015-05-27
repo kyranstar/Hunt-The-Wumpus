@@ -1,16 +1,10 @@
 ﻿using EmptyKeys.UserInterface;
-using HuntTheWumpus.SharedCode.GameControl;
-using HuntTheWumpus.SharedCode.GameMap;
-using HuntTheWumpus.SharedCode.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using EmptyKeys.UserInterface.Input;
-using EmptyKeys.UserInterface.Controls;
+using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.Scores;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -97,11 +91,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             get;
             protected set;
         }
-        
+
         [PropertyGroup(UsernameGroup)]
         public Visibility UsernameBoxVisibility
         {
-            get; set;
+            get;
+            set;
         }
 
         public bool IsGameOver
@@ -141,7 +136,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public string GameOverUsernameText
         {
-            get; set;
+            get;
+            set;
         }
 
         [PropertyGroup(GameOverBindingGroup)]
@@ -162,6 +158,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                         return "You ran out of arrows. You lose!";
                     case GameOverCause.ShotWumpus:
                         return "You shot the Wumpus! You win!";
+                    case GameOverCause.NoGold:
+                        return "You ran out of gold. You lose!";
                 }
 
                 return null;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
-
+﻿
 namespace HuntTheWumpus.SharedCode.Scores
 {
     public class GameOverState
@@ -15,7 +13,7 @@ namespace HuntTheWumpus.SharedCode.Scores
         FellInPit,
         HitWumpus,
         ShotWumpus,
-        NoArrows
-        // TODO: What other situations end the game? Running out of gold?
+        NoArrows,
+        NoGold,
     }
 }
