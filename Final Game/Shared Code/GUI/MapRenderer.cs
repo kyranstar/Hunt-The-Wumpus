@@ -49,7 +49,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         private readonly int PlayerHeight;
         private readonly int WumpusHeight;
 
-        public const int NumCloudTextures = 1,
+        public const int NumCloudTextures = 2,
             NumDoorTextures = 1,
             NumRoomTextures = 1,
             NumPitTextures = 1,
