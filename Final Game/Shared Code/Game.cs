@@ -2,6 +2,7 @@
 using EmptyKeys.UserInterface.Media;
 using HuntTheWumpus.SharedCode.GameControl;
 using HuntTheWumpus.SharedCode.Helpers;
+using HuntTheWumpus.SharedCode.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,6 +17,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
         private GraphicsDeviceManager GraphicsManager;
         private Latch SlowLatch = new Latch();
 
+        private ArcadeFrame ArcadeFrame;
+
         public GameHost()
             : base()
         {
@@ -27,6 +30,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
 
 #if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
+
+            ArcadeFrame = new ArcadeFrame();
 #endif
         }
 
@@ -52,6 +57,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
         {
             Log.Info("Initializing game...");
             SceneManager.InitializeSceneManager(this.Content, this.GraphicsDevice);
+            ArcadeFrame.Initialize(this.GraphicsDevice);
             base.Initialize();
         }
 
@@ -71,6 +77,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
             SceneManager.LoadScene(SceneManager.MenuScene);
 
             FontManager.Instance.LoadFonts(Content);
+
+            ArcadeFrame.LoadContent(Content);
         }
 
         /// <summary>
@@ -101,7 +109,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
                 Log.Info("Game no longer running slowly.");
             
             SceneManager.Update(GameTime);
-
+            ArcadeFrame.Update(GameTime);
             base.Update(GameTime);
         }
 
@@ -113,6 +121,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
         {
             GraphicsDevice.Clear(Color.DimGray);
             SceneManager.Draw(gameTime);
+            ArcadeFrame.Draw();
             base.Draw(gameTime);
         }
     }
