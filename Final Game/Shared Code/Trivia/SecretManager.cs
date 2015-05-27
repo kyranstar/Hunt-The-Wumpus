@@ -1,15 +1,14 @@
-﻿using System;
+﻿using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HuntTheWumpus.SharedCode.GameControl;
 
 namespace HuntTheWumpus.SharedCode.Trivia
 {
     public class SecretManager
     {
+        private Random Rand = new Random();
         private GameController GameController;
         private List<Secret> _UnlockedSecrets;
 
@@ -29,16 +28,47 @@ namespace HuntTheWumpus.SharedCode.Trivia
 
         public Secret UnlockNewSecret()
         {
+
             Secret NewSecret = new Secret
             {
                 TimeCreated = GameController.Map.MoveCount,
-                SecretText = "INSERT SECRET INFO HERE"
+                SecretText = GetRandomSecret()
             };
-
-            // TODO: Return a secret that gives some sort of contextual help
 
             _UnlockedSecrets.Add(NewSecret);
             return NewSecret;
+        }
+        /// <summary>
+        /// Gives a random secret in string form
+        /// </summary>
+        /// <returns></returns>
+        private string GetRandomSecret()
+        {
+            Cave cave = GameController.Map.Cave;
+
+            switch (Rand.Next(4))
+            {
+                case 0: // How many tiles away the nearest bats are
+                    return String.Format("The nearest bats are {0} tiles away",
+                        cave.Rooms.
+                            Where(r => r.HasBats).
+                            OrderBy(r => Pathfinding.FindPath(r, cave[GameController.Map.PlayerRoom], cave, false).Count).
+                            First());
+                case 1: // How many tiles away the nearest pit is
+                    return String.Format("The nearest pit is {0} tiles away",
+                        cave.Rooms.
+                            Where(r => r.HasPit).
+                            OrderBy(r => Pathfinding.FindPath(r, cave[GameController.Map.PlayerRoom], cave, false).Count).
+                            First());
+                case 2: // The room number of the wumpus
+                    return String.Format("The wumpus' room number is {0}",
+                        GameController.Map.Wumpus.Location);
+                case 3: // Current player room number
+                    return String.Format("The player's room number is {0}",
+                        GameController.Map.PlayerRoom);
+
+                default: throw new Exception();
+            }
         }
     }
 
