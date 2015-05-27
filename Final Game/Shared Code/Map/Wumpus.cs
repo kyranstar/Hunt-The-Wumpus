@@ -21,7 +21,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         private readonly ActiveWumpusBehavior ACTIVE_BEHAVIOR;
         private readonly PassiveWumpusBehavior PASSIVE_BEHAVIOR;
 
-        private WumpusBehavior currentBehavior;
+        public WumpusBehavior CurrentBehavior;
 
         private readonly Cave cave;
         private readonly Map map;
@@ -38,7 +38,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             ACTIVE_BEHAVIOR = new ActiveWumpusBehavior(this, map);
             PASSIVE_BEHAVIOR = new PassiveWumpusBehavior(this, map);
 
-            currentBehavior = ACTIVE_BEHAVIOR;
+            CurrentBehavior = ACTIVE_BEHAVIOR;
         }
 
         /// <summary>
@@ -56,17 +56,17 @@ namespace HuntTheWumpus.SharedCode.GameMap
         {
             get
             {
-                return currentBehavior == ACTIVE_BEHAVIOR;
+                return CurrentBehavior == ACTIVE_BEHAVIOR;
             }
             set
             {
                 if (value)
                 {
-                    currentBehavior = ACTIVE_BEHAVIOR;
+                    CurrentBehavior = ACTIVE_BEHAVIOR;
                 }
                 else
                 {
-                    currentBehavior = PASSIVE_BEHAVIOR;
+                    CurrentBehavior = PASSIVE_BEHAVIOR;
                 }
             }
 
@@ -77,7 +77,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         public void Move()
         {
-            currentBehavior.Move();
+            CurrentBehavior.Move();
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     break;
                 }
             }
-            currentBehavior = ACTIVE_BEHAVIOR;
+            CurrentBehavior = ACTIVE_BEHAVIOR;
 
             Debug.Assert(oldLocation != Location);
         }
@@ -144,7 +144,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             }
         }
 
-        private interface WumpusBehavior
+        public interface WumpusBehavior
         {
             /// <summary>
             /// Moves the wumpus to a new location. 
