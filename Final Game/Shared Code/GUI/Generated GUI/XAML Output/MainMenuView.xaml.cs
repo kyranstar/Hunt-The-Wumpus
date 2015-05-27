@@ -23,9 +23,9 @@ namespace EmptyKeys.UserInterface.Generated {
     [GeneratedCodeAttribute("Empty Keys UI Generator", "1.6.5.0")]
     public partial class MainMenuView : UIRoot {
         
-        private Grid e_32;
+        private Grid e_34;
         
-        private TextBlock e_33;
+        private TextBlock e_35;
         
         private Button StartButton;
         
@@ -41,46 +41,46 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private void InitializeComponent() {
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
-            // e_32 element
-            this.e_32 = new Grid();
-            this.Content = this.e_32;
-            this.e_32.Name = "e_32";
-            RowDefinition row_e_32_0 = new RowDefinition();
-            row_e_32_0.Height = new GridLength(1F, GridUnitType.Star);
-            this.e_32.RowDefinitions.Add(row_e_32_0);
-            RowDefinition row_e_32_1 = new RowDefinition();
-            row_e_32_1.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_32.RowDefinitions.Add(row_e_32_1);
-            RowDefinition row_e_32_2 = new RowDefinition();
-            row_e_32_2.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_32.RowDefinitions.Add(row_e_32_2);
-            RowDefinition row_e_32_3 = new RowDefinition();
-            row_e_32_3.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_32.RowDefinitions.Add(row_e_32_3);
-            RowDefinition row_e_32_4 = new RowDefinition();
-            row_e_32_4.Height = new GridLength(2F, GridUnitType.Star);
-            this.e_32.RowDefinitions.Add(row_e_32_4);
-            ColumnDefinition col_e_32_0 = new ColumnDefinition();
-            this.e_32.ColumnDefinitions.Add(col_e_32_0);
-            ColumnDefinition col_e_32_1 = new ColumnDefinition();
-            this.e_32.ColumnDefinitions.Add(col_e_32_1);
-            ColumnDefinition col_e_32_2 = new ColumnDefinition();
-            this.e_32.ColumnDefinitions.Add(col_e_32_2);
-            // e_33 element
-            this.e_33 = new TextBlock();
-            this.e_32.Children.Add(this.e_33);
-            this.e_33.Name = "e_33";
-            this.e_33.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_33.VerticalAlignment = VerticalAlignment.Center;
-            this.e_33.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            this.e_33.Text = "Hunt the Wumpus";
+            // e_34 element
+            this.e_34 = new Grid();
+            this.Content = this.e_34;
+            this.e_34.Name = "e_34";
+            RowDefinition row_e_34_0 = new RowDefinition();
+            row_e_34_0.Height = new GridLength(1F, GridUnitType.Star);
+            this.e_34.RowDefinitions.Add(row_e_34_0);
+            RowDefinition row_e_34_1 = new RowDefinition();
+            row_e_34_1.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_34.RowDefinitions.Add(row_e_34_1);
+            RowDefinition row_e_34_2 = new RowDefinition();
+            row_e_34_2.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_34.RowDefinitions.Add(row_e_34_2);
+            RowDefinition row_e_34_3 = new RowDefinition();
+            row_e_34_3.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_34.RowDefinitions.Add(row_e_34_3);
+            RowDefinition row_e_34_4 = new RowDefinition();
+            row_e_34_4.Height = new GridLength(2F, GridUnitType.Star);
+            this.e_34.RowDefinitions.Add(row_e_34_4);
+            ColumnDefinition col_e_34_0 = new ColumnDefinition();
+            this.e_34.ColumnDefinitions.Add(col_e_34_0);
+            ColumnDefinition col_e_34_1 = new ColumnDefinition();
+            this.e_34.ColumnDefinitions.Add(col_e_34_1);
+            ColumnDefinition col_e_34_2 = new ColumnDefinition();
+            this.e_34.ColumnDefinitions.Add(col_e_34_2);
+            // e_35 element
+            this.e_35 = new TextBlock();
+            this.e_34.Children.Add(this.e_35);
+            this.e_35.Name = "e_35";
+            this.e_35.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_35.VerticalAlignment = VerticalAlignment.Center;
+            this.e_35.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            this.e_35.Text = "Hunt the Wumpus";
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
-            this.e_33.FontFamily = new FontFamily("Arcadepix");
-            this.e_33.FontSize = 20F;
-            this.e_33.FontStyle = FontStyle.Bold;
+            this.e_35.FontFamily = new FontFamily("Arcadepix");
+            this.e_35.FontSize = 20F;
+            this.e_35.FontStyle = FontStyle.Bold;
             // StartButton element
             this.StartButton = new Button();
-            this.e_32.Children.Add(this.StartButton);
+            this.e_34.Children.Add(this.StartButton);
             this.StartButton.Name = "StartButton";
             this.StartButton.Margin = new Thickness(5F, 5F, 5F, 5F);
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
@@ -93,7 +93,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.StartButton.SetBinding(Button.CommandProperty, binding_StartButton_Command);
             // HighScoreButton element
             this.HighScoreButton = new Button();
-            this.e_32.Children.Add(this.HighScoreButton);
+            this.e_34.Children.Add(this.HighScoreButton);
             this.HighScoreButton.Name = "HighScoreButton";
             this.HighScoreButton.Margin = new Thickness(5F, 5F, 5F, 5F);
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
