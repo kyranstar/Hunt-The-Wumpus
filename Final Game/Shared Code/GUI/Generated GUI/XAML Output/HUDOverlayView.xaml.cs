@@ -133,32 +133,39 @@ namespace EmptyKeys.UserInterface.Generated {
             col_UIRoot_0.Width = new GridLength(3F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_0);
             ColumnDefinition col_UIRoot_1 = new ColumnDefinition();
-            col_UIRoot_1.Width = new GridLength(1F, GridUnitType.Star);
+            col_UIRoot_1.Width = new GridLength(15F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_1);
+            ColumnDefinition col_UIRoot_2 = new ColumnDefinition();
+            col_UIRoot_2.Width = new GridLength(6F, GridUnitType.Star);
+            this.UIRoot.ColumnDefinitions.Add(col_UIRoot_2);
+            ColumnDefinition col_UIRoot_3 = new ColumnDefinition();
+            col_UIRoot_3.Width = new GridLength(3F, GridUnitType.Star);
+            this.UIRoot.ColumnDefinitions.Add(col_UIRoot_3);
             // GameHUD element
             this.GameHUD = new Grid();
             this.UIRoot.Children.Add(this.GameHUD);
             this.GameHUD.Name = "GameHUD";
             this.GameHUD.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             RowDefinition row_GameHUD_0 = new RowDefinition();
-            row_GameHUD_0.Height = new GridLength(1F, GridUnitType.Star);
+            row_GameHUD_0.Height = new GridLength(90.48F, GridUnitType.Star);
             this.GameHUD.RowDefinitions.Add(row_GameHUD_0);
             RowDefinition row_GameHUD_1 = new RowDefinition();
-            row_GameHUD_1.Height = new GridLength(30F, GridUnitType.Pixel);
+            row_GameHUD_1.Height = new GridLength(9.52F, GridUnitType.Star);
             this.GameHUD.RowDefinitions.Add(row_GameHUD_1);
+            Grid.SetColumn(this.GameHUD, 1);
             Grid.SetColumnSpan(this.GameHUD, 2);
             // e_0 element
             this.e_0 = new StackPanel();
             this.GameHUD.Children.Add(this.e_0);
             this.e_0.Name = "e_0";
-            this.e_0.Background = new SolidColorBrush(new ColorW(51, 51, 51, 255));
+            this.e_0.Background = new SolidColorBrush(new ColorW(91, 91, 91, 255));
             this.e_0.Orientation = Orientation.Horizontal;
             Grid.SetRow(this.e_0, 1);
             // e_1 element
             this.e_1 = new Image();
             this.e_0.Children.Add(this.e_1);
             this.e_1.Name = "e_1";
-            this.e_1.Margin = new Thickness(5F, 5F, 5F, 5F);
+            this.e_1.Margin = new Thickness(20F, 20F, 20F, 20F);
             BitmapImage e_1_bm = new BitmapImage();
             e_1_bm.TextureAsset = "XAML Assets/Gold";
             ImageManager.Instance.AddImage("XAML Assets/Gold");
@@ -181,7 +188,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_3 = new Image();
             this.e_0.Children.Add(this.e_3);
             this.e_3.Name = "e_3";
-            this.e_3.Margin = new Thickness(5F, 5F, 5F, 5F);
+            this.e_3.Margin = new Thickness(20F, 20F, 20F, 20F);
             BitmapImage e_3_bm = new BitmapImage();
             e_3_bm.TextureAsset = "XAML Assets/Arrow";
             ImageManager.Instance.AddImage("XAML Assets/Arrow");
@@ -205,7 +212,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.GameHUD.Children.Add(this.e_5);
             this.e_5.Name = "e_5";
             this.e_5.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_5.Background = new SolidColorBrush(new ColorW(51, 51, 51, 255));
+            this.e_5.Background = new SolidColorBrush(new ColorW(91, 91, 91, 255));
             this.e_5.Orientation = Orientation.Horizontal;
             Grid.SetRow(this.e_5, 1);
             Binding binding_e_5_Visibility = new Binding("WarningContext.WarningVisibility");
@@ -214,7 +221,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_6 = new Image();
             this.e_5.Children.Add(this.e_6);
             this.e_6.Name = "e_6";
-            this.e_6.Margin = new Thickness(5F, 5F, 5F, 5F);
+            this.e_6.Margin = new Thickness(20F, 20F, 20F, 20F);
             BitmapImage e_6_bm = new BitmapImage();
             e_6_bm.TextureAsset = "XAML Assets/Warning";
             ImageManager.Instance.AddImage("XAML Assets/Warning");
@@ -238,14 +245,14 @@ namespace EmptyKeys.UserInterface.Generated {
             this.GameHUD.Children.Add(this.e_8);
             this.e_8.Name = "e_8";
             this.e_8.HorizontalAlignment = HorizontalAlignment.Right;
-            this.e_8.Background = new SolidColorBrush(new ColorW(51, 51, 51, 255));
+            this.e_8.Background = new SolidColorBrush(new ColorW(91, 91, 91, 255));
             this.e_8.Orientation = Orientation.Horizontal;
             Grid.SetRow(this.e_8, 1);
             // e_9 element
             this.e_9 = new Image();
             this.e_8.Children.Add(this.e_9);
             this.e_9.Name = "e_9";
-            this.e_9.Margin = new Thickness(5F, 5F, 5F, 5F);
+            this.e_9.Margin = new Thickness(20F, 20F, 20F, 20F);
             BitmapImage e_9_bm = new BitmapImage();
             e_9_bm.TextureAsset = "XAML Assets/TurnIcon";
             ImageManager.Instance.AddImage("XAML Assets/TurnIcon");
@@ -255,7 +262,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_10 = new TextBlock();
             this.e_8.Children.Add(this.e_10);
             this.e_10.Name = "e_10";
-            this.e_10.Margin = new Thickness(4F, 0F, 4F, 0F);
+            this.e_10.Margin = new Thickness(4F, 0F, 20F, 0F);
             this.e_10.VerticalAlignment = VerticalAlignment.Center;
             this.e_10.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
@@ -308,7 +315,7 @@ namespace EmptyKeys.UserInterface.Generated {
             RowDefinition row_DataFlyout_8 = new RowDefinition();
             row_DataFlyout_8.Height = new GridLength(2F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_8);
-            Grid.SetColumn(this.DataFlyout, 1);
+            Grid.SetColumn(this.DataFlyout, 2);
             Binding binding_DataFlyout_Visibility = new Binding("FlyoutContext.FlyoutVisibility");
             this.DataFlyout.SetBinding(Grid.VisibilityProperty, binding_DataFlyout_Visibility);
             // e_11 element
@@ -489,6 +496,7 @@ namespace EmptyKeys.UserInterface.Generated {
             RowDefinition row_TriviaDisplay_5 = new RowDefinition();
             row_TriviaDisplay_5.Height = new GridLength(1F, GridUnitType.Star);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_5);
+            Grid.SetColumn(this.TriviaDisplay, 1);
             Grid.SetColumnSpan(this.TriviaDisplay, 2);
             Binding binding_TriviaDisplay_Opacity = new Binding("TriviaContext.TriviaModalFadeAnimation.CurrentValue");
             this.TriviaDisplay.SetBinding(Grid.OpacityProperty, binding_TriviaDisplay_Opacity);
@@ -616,6 +624,7 @@ namespace EmptyKeys.UserInterface.Generated {
             ColumnDefinition col_GameOverModalDialog_3 = new ColumnDefinition();
             col_GameOverModalDialog_3.Width = new GridLength(8F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_3);
+            Grid.SetColumn(this.GameOverModalDialog, 1);
             Grid.SetColumnSpan(this.GameOverModalDialog, 2);
             Binding binding_GameOverModalDialog_Margin = new Binding("GameOverContext.GameOverModalMargin");
             this.GameOverModalDialog.SetBinding(Grid.MarginProperty, binding_GameOverModalDialog_Margin);
