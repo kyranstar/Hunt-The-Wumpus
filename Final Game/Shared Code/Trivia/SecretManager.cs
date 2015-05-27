@@ -52,13 +52,15 @@ namespace HuntTheWumpus.SharedCode.Trivia
                     return String.Format("The nearest bats are {0} tiles away",
                         cave.Rooms.
                             Where(r => r.HasBats).
-                            OrderBy(r => Pathfinding.FindPath(r, cave[GameController.Map.PlayerRoom], cave, false).Count).
+                            Select(r => Pathfinding.FindPath(r, cave[GameController.Map.PlayerRoom], cave, false).Count).
+                            OrderBy(r => r).
                             First());
                 case 1: // How many tiles away the nearest pit is
                     return String.Format("The nearest pit is {0} tiles away",
                         cave.Rooms.
                             Where(r => r.HasPit).
-                            OrderBy(r => Pathfinding.FindPath(r, cave[GameController.Map.PlayerRoom], cave, false).Count).
+                            Select(r => Pathfinding.FindPath(r, cave[GameController.Map.PlayerRoom], cave, false).Count).
+                            OrderBy(r => r).
                             First());
                 case 2: // The room number of the wumpus
                     return String.Format("The wumpus' room number is {0}",
