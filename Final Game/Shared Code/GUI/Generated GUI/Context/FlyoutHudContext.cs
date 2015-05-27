@@ -34,6 +34,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             ShowFlyoutCommand = new RelayCommand(new Action<object>(ShowFlyout));
             BuySecretCommand = new RelayCommand(new Action<object>(BuySecret));
+            BuyArrowCommand = new RelayCommand(new Action<object>(BuyArrow));
 
             FlyoutVisibility = Visibility.Hidden;
         }
@@ -60,6 +61,12 @@ namespace HuntTheWumpus.SharedCode.GUI
             protected set;
         }
 
+        public ICommand BuyArrowCommand
+        {
+            get;
+            protected set;
+        }
+
         public void ShowFlyout(object o)
         {
             if (FlyoutVisibility == Visibility.Visible)
@@ -73,6 +80,11 @@ namespace HuntTheWumpus.SharedCode.GUI
         public void BuySecret(object o)
         {
             GameController.LoadNewTrivia(TriviaQuestionState.PurchasingSecret, 3);
+        }
+
+        public void BuyArrow(object o)
+        {
+            GameController.LoadNewTrivia(TriviaQuestionState.PurchasingArrow, 3);
         }
 
 

@@ -101,6 +101,7 @@
     <None Include="XAML Output\MainMenuView.xaml.cs" />
     <None Include="Context\HighScoreContext.cs" />
     <None Include="Context\MainMenuContext.cs" />
+    <Compile Include="Context\FlyoutHudContext.cs" />
     <Compile Include="Context\HUDContext.cs" />
     <Compile Include="Context\GameOverHudContext.cs" />
     <Compile Include="Context\TriviaHudContext.cs" />
