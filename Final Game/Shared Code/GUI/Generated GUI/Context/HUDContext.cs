@@ -25,14 +25,17 @@ namespace HuntTheWumpus.SharedCode.GUI
         [PropertyGroup(XamlBoundAnimation.XamlAnimationGroupName)]
         public TriviaHudContext TriviaContext { get; set; }
 
+        [PropertyGroup(FlyoutHudContext.FlyoutDataGroup)]
+        [PropertyGroup(FlyoutHudContext.FlyoutVisibilityGroup)]
+        [PropertyGroup(XamlBoundAnimation.XamlAnimationGroupName)]
+        public FlyoutHudContext FlyoutContext { get; set; }
+
         [PropertyGroup(GameOverHudContext.GameOverBindingGroup)]
         [PropertyGroup(GameOverHudContext.GameOverVisibilityGroup)]
         public GameOverHudContext GameOverContext { get; set; }
 
         [PropertyGroup(WarningHudContext.WarningGroup)]
         public WarningHudContext WarningContext { get; set; }
-
-        private const string HintGroup = "HintVisibility";
 
         public HUDContext(GameController GameController)
         {
@@ -41,30 +44,19 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             Player.PropertyChanged += Player_PropertyChanged;
             GameController.OnNewQuestion += Trivia_NewQuestion;
-            GameController.OnNewHintAvailable += GameController_OnNewHintAvailable;
-
-            ShowHintsCommand = new RelayCommand(new Action<object>(ShowHints));
-            BuyHintsCommand = new RelayCommand(new Action<object>(BuyHints));
-
-            HintFlyoutVisibility = Visibility.Hidden;
 
             ScoreContext = new ScoreHudContext(Player);
             TriviaContext = new TriviaHudContext(GameController, RaisePropertyChangedForGroup);
             GameOverContext = new GameOverHudContext(GameController, RaisePropertyChangedForGroup);
             WarningContext = new WarningHudContext(GameController, RaisePropertyChangedForGroup);
+            FlyoutContext = new FlyoutHudContext(GameController, RaisePropertyChangedForGroup);
         }
 
         public void Reset()
         {
-            HintFlyoutVisibility = Visibility.Hidden;
             ScoreContext.Reset();
             TriviaContext.Reset();
             GameOverContext.Reset();
-        }
-
-        private void GameController_OnNewHintAvailable(object sender, EventArgs e)
-        {
-            RaisePropertyChangedForGroup(HintGroup);
         }
 
         private void RaisePropertyChangedForGroup(string PrimaryGroupName, string SecondaryGroupName)
@@ -89,48 +81,6 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             TriviaContext.SelectedAnswer = null;
             RaisePropertyChangedForGroup(TriviaHudContext.QuestionBindingGroup);
-        }
-
-        public ICommand ShowHintsCommand
-        {
-            get;
-            protected set;
-        }
-
-        public ICommand BuyHintsCommand
-        {
-            get;
-            protected set;
-        }
-
-        [PropertyGroup(HintGroup)]
-        public Visibility HintFlyoutVisibility
-        {
-            get; set;
-        }
-
-        [PropertyGroup(HintGroup)]
-        public string[] UnlockedHints
-        {
-            get
-            {
-                return Trivia.Trivia.AvailableHints.ToArray();
-            }
-        }
-
-        public void ShowHints(object o)
-        {
-            if(HintFlyoutVisibility == Visibility.Visible)
-                HintFlyoutVisibility = Visibility.Hidden;
-            else
-                HintFlyoutVisibility = Visibility.Visible;
-
-            RaisePropertyChangedForGroup(HintGroup);
-        }
-
-        public void BuyHints(object o)
-        {
-            GameController.LoadNewTrivia(TriviaQuestionState.PurchasingSecret, 3);
         }
 
         public void Update(GameTime GameTime)

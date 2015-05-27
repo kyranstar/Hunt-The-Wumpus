@@ -35,7 +35,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public readonly Map Map;
         public readonly MapInputHandler InputHandler;
 
-        private SecretManager SecretMan;
+        public SecretManager SecretMan;
 
         public GameController()
         {
@@ -202,6 +202,8 @@ namespace HuntTheWumpus.SharedCode.GameControl
             {
                 LoadNewTrivia(TriviaQuestionState.TrappedInPit, 3);
             }
+
+            RaiseNewHint();
         }
 
         public bool TryShootTowards(Direction direction)

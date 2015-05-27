@@ -47,28 +47,53 @@
                     </Image.Source>
                 </Image>
                 <TextBlock Text="{Binding Path=ScoreContext.Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
-                <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" />
+                <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding FlyoutContext.ShowFlyoutCommand}" FontFamily="Arcadepix" />
             </StackPanel>
         </Grid>
-        <Grid Name="HintFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding HintFlyoutVisibility}" Margin="0, 0, 0, 30">
+        <Grid Name="DataFlyout" HorizontalAlignment="Stretch" Grid.Column="1" Visibility="{Binding FlyoutContext.FlyoutVisibility}" Margin="0, 0, 0, 30">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Grid Background="#333333" Grid.RowSpan="3"/>
-            <TextBlock Text="Hints" FontSize="45" Foreground="White" FontFamily="Arcadepix" Margin="50, 20, 0, 0"/>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 20, 30, 0" Orientation="Horizontal">
-                <Button Name="HintPurchaseButton" Content="Purchase" Background="Transparent" Height="33" Foreground="White" Command="{Binding BuyHintsCommand}" FontFamily="Arcadepix" Margin="0, 0, 8, 0"/>
-                <Button Name="HintCloseButton" Content="X" Height="25" Foreground="White" FontWeight="ExtraLight" Background="#444444" Width="25" Padding="0, 3, 0, 0" VerticalContentAlignment="Center" Command="{Binding ShowHintsCommand}" FontFamily="Arcadepix" FontSize="20"/>
+
+            <Grid Background="#333333" Grid.RowSpan="9"/>
+            <Grid Background="#222222" Grid.Row="1"/>
+            <Grid Background="#222222" Grid.Row="5"/>
+            <Grid Background="#222222" Grid.Row="8"/>
+
+            <TextBlock Text="Hints" FontSize="45" Foreground="White" FontFamily="Arcadepix" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 0, 30, 0" Orientation="Horizontal" Grid.Row="1">
+                <Button Name="CloseFlyoutButton" Content="X" Height="25" Foreground="White" FontWeight="ExtraLight" Background="#444444" Width="25" Padding="0, 3, 0, 0" VerticalContentAlignment="Center" Command="{Binding FlyoutContext.ShowFlyoutCommand}" FontFamily="Arcadepix" FontSize="20"/>
             </StackPanel>
-            <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="2" ItemsSource="{Binding UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
+            <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="3" ItemsSource="{Binding FlyoutContext.UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel HorizontalAlignment="Center"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
+
+
+            <TextBlock Text="Secrets" FontSize="45" Foreground="White" FontFamily="Arcadepix" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"/>
+            <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" Grid.Row="7" ItemsSource="{Binding FlyoutContext.UnlockedSecrets}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="8">
+                <Button Name="SecretPurchaseButton" Content="Buy Secret" Background="Transparent" Height="33" Foreground="White" Command="{Binding FlyoutContext.BuySecretCommand}" FontFamily="Arcadepix" Margin="0, 0, 10, 0"/>
+                <Button Name="ArrowPurchaseButton" Content="Buy Arrow" Background="Transparent" Height="33" Foreground="White" Command="{Binding FlyoutContext.BuyArrowCommand}" FontFamily="Arcadepix" Margin="10, 0, 0, 0"/>
+            </StackPanel>
         </Grid>
         <Grid Background="#cc333333" Name="TriviaDisplay" Visibility="{Binding TriviaContext.TriviaModalFadeAnimation.Visibility, FallbackValue=Hidden}" Opacity="{Binding TriviaContext.TriviaModalFadeAnimation.CurrentValue, FallbackValue=0}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>

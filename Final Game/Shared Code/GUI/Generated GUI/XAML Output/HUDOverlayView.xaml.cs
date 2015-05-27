@@ -51,45 +51,59 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private Button HintButton;
         
-        private Grid HintFlyout;
+        private Grid DataFlyout;
         
         private Grid e_11;
         
-        private TextBlock e_12;
+        private Grid e_12;
         
-        private StackPanel e_13;
+        private Grid e_13;
         
-        private Button HintPurchaseButton;
+        private Grid e_14;
         
-        private Button HintCloseButton;
+        private TextBlock e_15;
         
-        private ItemsControl e_14;
+        private StackPanel e_16;
+        
+        private Button CloseFlyoutButton;
+        
+        private ItemsControl e_17;
+        
+        private TextBlock e_19;
+        
+        private ItemsControl e_20;
+        
+        private StackPanel e_22;
+        
+        private Button SecretPurchaseButton;
+        
+        private Button ArrowPurchaseButton;
         
         private Grid TriviaDisplay;
         
         private TextBlock QuestionText;
         
-        private StackPanel e_16;
+        private StackPanel e_23;
         
         private ComboBox TriviaAnswerSelector;
         
-        private Button e_17;
+        private Button e_24;
         
-        private StackPanel e_18;
+        private StackPanel e_25;
         
-        private TextBlock e_19;
+        private TextBlock e_26;
         
-        private TextBlock e_20;
+        private TextBlock e_27;
         
-        private TextBlock e_21;
+        private TextBlock e_28;
         
         private Grid GameOverModalDialog;
         
-        private TextBlock e_22;
+        private TextBlock e_29;
         
-        private TextBlock e_23;
+        private TextBlock e_30;
         
-        private TextBox e_24;
+        private TextBox e_31;
         
         private Button NameSubmitButton;
         
@@ -254,96 +268,184 @@ namespace EmptyKeys.UserInterface.Generated {
             FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
             this.HintButton.FontFamily = new FontFamily("Arcadepix");
             this.HintButton.Content = "Hints";
-            Binding binding_HintButton_Command = new Binding("ShowHintsCommand");
+            Binding binding_HintButton_Command = new Binding("FlyoutContext.ShowFlyoutCommand");
             this.HintButton.SetBinding(Button.CommandProperty, binding_HintButton_Command);
-            // HintFlyout element
-            this.HintFlyout = new Grid();
-            this.UIRoot.Children.Add(this.HintFlyout);
-            this.HintFlyout.Name = "HintFlyout";
-            this.HintFlyout.Margin = new Thickness(0F, 0F, 0F, 30F);
-            this.HintFlyout.HorizontalAlignment = HorizontalAlignment.Stretch;
-            RowDefinition row_HintFlyout_0 = new RowDefinition();
-            row_HintFlyout_0.Height = new GridLength(60F, GridUnitType.Pixel);
-            this.HintFlyout.RowDefinitions.Add(row_HintFlyout_0);
-            RowDefinition row_HintFlyout_1 = new RowDefinition();
-            row_HintFlyout_1.Height = new GridLength(1F, GridUnitType.Star);
-            this.HintFlyout.RowDefinitions.Add(row_HintFlyout_1);
-            RowDefinition row_HintFlyout_2 = new RowDefinition();
-            row_HintFlyout_2.Height = new GridLength(5F, GridUnitType.Star);
-            this.HintFlyout.RowDefinitions.Add(row_HintFlyout_2);
-            Grid.SetColumn(this.HintFlyout, 1);
-            Binding binding_HintFlyout_Visibility = new Binding("HintFlyoutVisibility");
-            this.HintFlyout.SetBinding(Grid.VisibilityProperty, binding_HintFlyout_Visibility);
+            // DataFlyout element
+            this.DataFlyout = new Grid();
+            this.UIRoot.Children.Add(this.DataFlyout);
+            this.DataFlyout.Name = "DataFlyout";
+            this.DataFlyout.Margin = new Thickness(0F, 0F, 0F, 30F);
+            this.DataFlyout.HorizontalAlignment = HorizontalAlignment.Stretch;
+            RowDefinition row_DataFlyout_0 = new RowDefinition();
+            row_DataFlyout_0.Height = new GridLength(1F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_0);
+            RowDefinition row_DataFlyout_1 = new RowDefinition();
+            row_DataFlyout_1.Height = new GridLength(2F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_1);
+            RowDefinition row_DataFlyout_2 = new RowDefinition();
+            row_DataFlyout_2.Height = new GridLength(1F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_2);
+            RowDefinition row_DataFlyout_3 = new RowDefinition();
+            row_DataFlyout_3.Height = new GridLength(10F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_3);
+            RowDefinition row_DataFlyout_4 = new RowDefinition();
+            row_DataFlyout_4.Height = new GridLength(1F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_4);
+            RowDefinition row_DataFlyout_5 = new RowDefinition();
+            row_DataFlyout_5.Height = new GridLength(2F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_5);
+            RowDefinition row_DataFlyout_6 = new RowDefinition();
+            row_DataFlyout_6.Height = new GridLength(1F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_6);
+            RowDefinition row_DataFlyout_7 = new RowDefinition();
+            row_DataFlyout_7.Height = new GridLength(10F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_7);
+            RowDefinition row_DataFlyout_8 = new RowDefinition();
+            row_DataFlyout_8.Height = new GridLength(2F, GridUnitType.Star);
+            this.DataFlyout.RowDefinitions.Add(row_DataFlyout_8);
+            Grid.SetColumn(this.DataFlyout, 1);
+            Binding binding_DataFlyout_Visibility = new Binding("FlyoutContext.FlyoutVisibility");
+            this.DataFlyout.SetBinding(Grid.VisibilityProperty, binding_DataFlyout_Visibility);
             // e_11 element
             this.e_11 = new Grid();
-            this.HintFlyout.Children.Add(this.e_11);
+            this.DataFlyout.Children.Add(this.e_11);
             this.e_11.Name = "e_11";
             this.e_11.Background = new SolidColorBrush(new ColorW(51, 51, 51, 255));
-            Grid.SetRowSpan(this.e_11, 3);
+            Grid.SetRowSpan(this.e_11, 9);
             // e_12 element
-            this.e_12 = new TextBlock();
-            this.HintFlyout.Children.Add(this.e_12);
+            this.e_12 = new Grid();
+            this.DataFlyout.Children.Add(this.e_12);
             this.e_12.Name = "e_12";
-            this.e_12.Margin = new Thickness(50F, 20F, 0F, 0F);
-            this.e_12.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            this.e_12.Text = "Hints";
-            FontManager.Instance.AddFont("Arcadepix", 45F, FontStyle.Regular, "Arcadepix_33.75_Regular");
-            this.e_12.FontFamily = new FontFamily("Arcadepix");
-            this.e_12.FontSize = 45F;
+            this.e_12.Background = new SolidColorBrush(new ColorW(34, 34, 34, 255));
+            Grid.SetRow(this.e_12, 1);
             // e_13 element
-            this.e_13 = new StackPanel();
-            this.HintFlyout.Children.Add(this.e_13);
+            this.e_13 = new Grid();
+            this.DataFlyout.Children.Add(this.e_13);
             this.e_13.Name = "e_13";
-            this.e_13.Margin = new Thickness(0F, 20F, 30F, 0F);
-            this.e_13.HorizontalAlignment = HorizontalAlignment.Right;
-            this.e_13.VerticalAlignment = VerticalAlignment.Center;
-            this.e_13.Orientation = Orientation.Horizontal;
-            // HintPurchaseButton element
-            this.HintPurchaseButton = new Button();
-            this.e_13.Children.Add(this.HintPurchaseButton);
-            this.HintPurchaseButton.Name = "HintPurchaseButton";
-            this.HintPurchaseButton.Height = 33F;
-            this.HintPurchaseButton.Margin = new Thickness(0F, 0F, 8F, 0F);
-            this.HintPurchaseButton.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
-            this.HintPurchaseButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
-            this.HintPurchaseButton.FontFamily = new FontFamily("Arcadepix");
-            this.HintPurchaseButton.Content = "Purchase";
-            Binding binding_HintPurchaseButton_Command = new Binding("BuyHintsCommand");
-            this.HintPurchaseButton.SetBinding(Button.CommandProperty, binding_HintPurchaseButton_Command);
-            // HintCloseButton element
-            this.HintCloseButton = new Button();
-            this.e_13.Children.Add(this.HintCloseButton);
-            this.HintCloseButton.Name = "HintCloseButton";
-            this.HintCloseButton.Height = 25F;
-            this.HintCloseButton.Width = 25F;
-            this.HintCloseButton.Background = new SolidColorBrush(new ColorW(68, 68, 68, 255));
-            this.HintCloseButton.Padding = new Thickness(0F, 3F, 0F, 0F);
-            this.HintCloseButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            this.HintCloseButton.VerticalContentAlignment = VerticalAlignment.Center;
-            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
-            this.HintCloseButton.FontFamily = new FontFamily("Arcadepix");
-            this.HintCloseButton.FontSize = 20F;
-            this.HintCloseButton.FontStyle = FontStyle.Regular;
-            this.HintCloseButton.Content = "X";
-            Binding binding_HintCloseButton_Command = new Binding("ShowHintsCommand");
-            this.HintCloseButton.SetBinding(Button.CommandProperty, binding_HintCloseButton_Command);
+            this.e_13.Background = new SolidColorBrush(new ColorW(34, 34, 34, 255));
+            Grid.SetRow(this.e_13, 5);
             // e_14 element
-            this.e_14 = new ItemsControl();
-            this.HintFlyout.Children.Add(this.e_14);
+            this.e_14 = new Grid();
+            this.DataFlyout.Children.Add(this.e_14);
             this.e_14.Name = "e_14";
-            this.e_14.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.e_14.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
-            this.e_14.HorizontalContentAlignment = HorizontalAlignment.Center;
+            this.e_14.Background = new SolidColorBrush(new ColorW(34, 34, 34, 255));
+            Grid.SetRow(this.e_14, 8);
+            // e_15 element
+            this.e_15 = new TextBlock();
+            this.DataFlyout.Children.Add(this.e_15);
+            this.e_15.Name = "e_15";
+            this.e_15.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_15.VerticalAlignment = VerticalAlignment.Center;
+            this.e_15.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_15.Text = "Hints";
+            FontManager.Instance.AddFont("Arcadepix", 45F, FontStyle.Regular, "Arcadepix_33.75_Regular");
+            this.e_15.FontFamily = new FontFamily("Arcadepix");
+            this.e_15.FontSize = 45F;
+            Grid.SetRow(this.e_15, 1);
+            // e_16 element
+            this.e_16 = new StackPanel();
+            this.DataFlyout.Children.Add(this.e_16);
+            this.e_16.Name = "e_16";
+            this.e_16.Margin = new Thickness(0F, 0F, 30F, 0F);
+            this.e_16.HorizontalAlignment = HorizontalAlignment.Right;
+            this.e_16.VerticalAlignment = VerticalAlignment.Center;
+            this.e_16.Orientation = Orientation.Horizontal;
+            Grid.SetRow(this.e_16, 1);
+            // CloseFlyoutButton element
+            this.CloseFlyoutButton = new Button();
+            this.e_16.Children.Add(this.CloseFlyoutButton);
+            this.CloseFlyoutButton.Name = "CloseFlyoutButton";
+            this.CloseFlyoutButton.Height = 25F;
+            this.CloseFlyoutButton.Width = 25F;
+            this.CloseFlyoutButton.Background = new SolidColorBrush(new ColorW(68, 68, 68, 255));
+            this.CloseFlyoutButton.Padding = new Thickness(0F, 3F, 0F, 0F);
+            this.CloseFlyoutButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.CloseFlyoutButton.VerticalContentAlignment = VerticalAlignment.Center;
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
-            this.e_14.FontFamily = new FontFamily("Arcadepix");
-            this.e_14.FontSize = 20F;
-            Func<UIElement, UIElement> e_14_iptFunc = e_14_iptMethod;
-            ControlTemplate e_14_ipt = new ControlTemplate(e_14_iptFunc);
-            this.e_14.ItemsPanel = e_14_ipt;
-            Grid.SetRow(this.e_14, 2);
-            Binding binding_e_14_ItemsSource = new Binding("UnlockedHints");
-            this.e_14.SetBinding(ItemsControl.ItemsSourceProperty, binding_e_14_ItemsSource);
+            this.CloseFlyoutButton.FontFamily = new FontFamily("Arcadepix");
+            this.CloseFlyoutButton.FontSize = 20F;
+            this.CloseFlyoutButton.FontStyle = FontStyle.Regular;
+            this.CloseFlyoutButton.Content = "X";
+            Binding binding_CloseFlyoutButton_Command = new Binding("FlyoutContext.ShowFlyoutCommand");
+            this.CloseFlyoutButton.SetBinding(Button.CommandProperty, binding_CloseFlyoutButton_Command);
+            // e_17 element
+            this.e_17 = new ItemsControl();
+            this.DataFlyout.Children.Add(this.e_17);
+            this.e_17.Name = "e_17";
+            this.e_17.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_17.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            this.e_17.HorizontalContentAlignment = HorizontalAlignment.Center;
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.e_17.FontFamily = new FontFamily("Arcadepix");
+            this.e_17.FontSize = 20F;
+            Func<UIElement, UIElement> e_17_iptFunc = e_17_iptMethod;
+            ControlTemplate e_17_ipt = new ControlTemplate(e_17_iptFunc);
+            this.e_17.ItemsPanel = e_17_ipt;
+            Grid.SetRow(this.e_17, 3);
+            Binding binding_e_17_ItemsSource = new Binding("FlyoutContext.UnlockedHints");
+            this.e_17.SetBinding(ItemsControl.ItemsSourceProperty, binding_e_17_ItemsSource);
+            // e_19 element
+            this.e_19 = new TextBlock();
+            this.DataFlyout.Children.Add(this.e_19);
+            this.e_19.Name = "e_19";
+            this.e_19.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_19.VerticalAlignment = VerticalAlignment.Center;
+            this.e_19.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_19.Text = "Secrets";
+            FontManager.Instance.AddFont("Arcadepix", 45F, FontStyle.Regular, "Arcadepix_33.75_Regular");
+            this.e_19.FontFamily = new FontFamily("Arcadepix");
+            this.e_19.FontSize = 45F;
+            Grid.SetRow(this.e_19, 5);
+            // e_20 element
+            this.e_20 = new ItemsControl();
+            this.DataFlyout.Children.Add(this.e_20);
+            this.e_20.Name = "e_20";
+            this.e_20.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_20.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            this.e_20.HorizontalContentAlignment = HorizontalAlignment.Center;
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            this.e_20.FontFamily = new FontFamily("Arcadepix");
+            this.e_20.FontSize = 20F;
+            Func<UIElement, UIElement> e_20_iptFunc = e_20_iptMethod;
+            ControlTemplate e_20_ipt = new ControlTemplate(e_20_iptFunc);
+            this.e_20.ItemsPanel = e_20_ipt;
+            Grid.SetRow(this.e_20, 7);
+            Binding binding_e_20_ItemsSource = new Binding("FlyoutContext.UnlockedSecrets");
+            this.e_20.SetBinding(ItemsControl.ItemsSourceProperty, binding_e_20_ItemsSource);
+            // e_22 element
+            this.e_22 = new StackPanel();
+            this.DataFlyout.Children.Add(this.e_22);
+            this.e_22.Name = "e_22";
+            this.e_22.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_22.VerticalAlignment = VerticalAlignment.Center;
+            this.e_22.Orientation = Orientation.Horizontal;
+            Grid.SetRow(this.e_22, 8);
+            // SecretPurchaseButton element
+            this.SecretPurchaseButton = new Button();
+            this.e_22.Children.Add(this.SecretPurchaseButton);
+            this.SecretPurchaseButton.Name = "SecretPurchaseButton";
+            this.SecretPurchaseButton.Height = 33F;
+            this.SecretPurchaseButton.Margin = new Thickness(0F, 0F, 10F, 0F);
+            this.SecretPurchaseButton.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            this.SecretPurchaseButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.SecretPurchaseButton.FontFamily = new FontFamily("Arcadepix");
+            this.SecretPurchaseButton.Content = "Buy Secret";
+            Binding binding_SecretPurchaseButton_Command = new Binding("FlyoutContext.BuySecretCommand");
+            this.SecretPurchaseButton.SetBinding(Button.CommandProperty, binding_SecretPurchaseButton_Command);
+            // ArrowPurchaseButton element
+            this.ArrowPurchaseButton = new Button();
+            this.e_22.Children.Add(this.ArrowPurchaseButton);
+            this.ArrowPurchaseButton.Name = "ArrowPurchaseButton";
+            this.ArrowPurchaseButton.Height = 33F;
+            this.ArrowPurchaseButton.Margin = new Thickness(10F, 0F, 0F, 0F);
+            this.ArrowPurchaseButton.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            this.ArrowPurchaseButton.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            this.ArrowPurchaseButton.FontFamily = new FontFamily("Arcadepix");
+            this.ArrowPurchaseButton.Content = "Buy Arrow";
+            Binding binding_ArrowPurchaseButton_Command = new Binding("FlyoutContext.BuyArrowCommand");
+            this.ArrowPurchaseButton.SetBinding(Button.CommandProperty, binding_ArrowPurchaseButton_Command);
             // TriviaDisplay element
             this.TriviaDisplay = new Grid();
             this.UIRoot.Children.Add(this.TriviaDisplay);
@@ -390,17 +492,17 @@ namespace EmptyKeys.UserInterface.Generated {
             Grid.SetRow(this.QuestionText, 1);
             Binding binding_QuestionText_Text = new Binding("TriviaContext.CurrentTriviaQuestionText");
             this.QuestionText.SetBinding(TextBlock.TextProperty, binding_QuestionText_Text);
-            // e_16 element
-            this.e_16 = new StackPanel();
-            this.TriviaDisplay.Children.Add(this.e_16);
-            this.e_16.Name = "e_16";
-            this.e_16.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_16.VerticalAlignment = VerticalAlignment.Center;
-            this.e_16.Orientation = Orientation.Horizontal;
-            Grid.SetRow(this.e_16, 3);
+            // e_23 element
+            this.e_23 = new StackPanel();
+            this.TriviaDisplay.Children.Add(this.e_23);
+            this.e_23.Name = "e_23";
+            this.e_23.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_23.VerticalAlignment = VerticalAlignment.Center;
+            this.e_23.Orientation = Orientation.Horizontal;
+            Grid.SetRow(this.e_23, 3);
             // TriviaAnswerSelector element
             this.TriviaAnswerSelector = new ComboBox();
-            this.e_16.Children.Add(this.TriviaAnswerSelector);
+            this.e_23.Children.Add(this.TriviaAnswerSelector);
             this.TriviaAnswerSelector.Name = "TriviaAnswerSelector";
             this.TriviaAnswerSelector.Width = 450F;
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
@@ -412,56 +514,56 @@ namespace EmptyKeys.UserInterface.Generated {
             this.TriviaAnswerSelector.SetBinding(ComboBox.SelectedIndexProperty, binding_TriviaAnswerSelector_SelectedIndex);
             Binding binding_TriviaAnswerSelector_SelectedItem = new Binding("TriviaContext.SelectedAnswer");
             this.TriviaAnswerSelector.SetBinding(ComboBox.SelectedItemProperty, binding_TriviaAnswerSelector_SelectedItem);
-            // e_17 element
-            this.e_17 = new Button();
-            this.e_16.Children.Add(this.e_17);
-            this.e_17.Name = "e_17";
-            this.e_17.Width = 70F;
-            this.e_17.Margin = new Thickness(5F, 0F, 0F, 0F);
+            // e_24 element
+            this.e_24 = new Button();
+            this.e_23.Children.Add(this.e_24);
+            this.e_24.Name = "e_24";
+            this.e_24.Width = 70F;
+            this.e_24.Margin = new Thickness(5F, 0F, 0F, 0F);
             FontManager.Instance.AddFont("Arcadepix", 15F, FontStyle.Regular, "Arcadepix_11.25_Regular");
-            this.e_17.FontFamily = new FontFamily("Arcadepix");
-            this.e_17.FontSize = 15F;
-            this.e_17.Content = "Submit";
-            Grid.SetRow(this.e_17, 3);
-            Binding binding_e_17_Command = new Binding("TriviaContext.SubmitAnswerCommand");
-            this.e_17.SetBinding(Button.CommandProperty, binding_e_17_Command);
-            // e_18 element
-            this.e_18 = new StackPanel();
-            this.TriviaDisplay.Children.Add(this.e_18);
-            this.e_18.Name = "e_18";
-            this.e_18.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_18.VerticalAlignment = VerticalAlignment.Center;
-            this.e_18.Orientation = Orientation.Horizontal;
-            Grid.SetRow(this.e_18, 4);
-            // e_19 element
-            this.e_19 = new TextBlock();
-            this.e_18.Children.Add(this.e_19);
-            this.e_19.Name = "e_19";
-            this.e_19.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_24.FontFamily = new FontFamily("Arcadepix");
+            this.e_24.FontSize = 15F;
+            this.e_24.Content = "Submit";
+            Grid.SetRow(this.e_24, 3);
+            Binding binding_e_24_Command = new Binding("TriviaContext.SubmitAnswerCommand");
+            this.e_24.SetBinding(Button.CommandProperty, binding_e_24_Command);
+            // e_25 element
+            this.e_25 = new StackPanel();
+            this.TriviaDisplay.Children.Add(this.e_25);
+            this.e_25.Name = "e_25";
+            this.e_25.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_25.VerticalAlignment = VerticalAlignment.Center;
+            this.e_25.Orientation = Orientation.Horizontal;
+            Grid.SetRow(this.e_25, 4);
+            // e_26 element
+            this.e_26 = new TextBlock();
+            this.e_25.Children.Add(this.e_26);
+            this.e_26.Name = "e_26";
+            this.e_26.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
-            this.e_19.FontFamily = new FontFamily("Arcadepix");
-            this.e_19.FontSize = 20F;
-            Binding binding_e_19_Text = new Binding("TriviaContext.NumTriviaQuestionsCorrect");
-            this.e_19.SetBinding(TextBlock.TextProperty, binding_e_19_Text);
-            // e_20 element
-            this.e_20 = new TextBlock();
-            this.e_18.Children.Add(this.e_20);
-            this.e_20.Name = "e_20";
-            this.e_20.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
-            this.e_20.Text = "/";
+            this.e_26.FontFamily = new FontFamily("Arcadepix");
+            this.e_26.FontSize = 20F;
+            Binding binding_e_26_Text = new Binding("TriviaContext.NumTriviaQuestionsCorrect");
+            this.e_26.SetBinding(TextBlock.TextProperty, binding_e_26_Text);
+            // e_27 element
+            this.e_27 = new TextBlock();
+            this.e_25.Children.Add(this.e_27);
+            this.e_27.Name = "e_27";
+            this.e_27.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_27.Text = "/";
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
-            this.e_20.FontFamily = new FontFamily("Arcadepix");
-            this.e_20.FontSize = 20F;
-            // e_21 element
-            this.e_21 = new TextBlock();
-            this.e_18.Children.Add(this.e_21);
-            this.e_21.Name = "e_21";
-            this.e_21.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
+            this.e_27.FontFamily = new FontFamily("Arcadepix");
+            this.e_27.FontSize = 20F;
+            // e_28 element
+            this.e_28 = new TextBlock();
+            this.e_25.Children.Add(this.e_28);
+            this.e_28.Name = "e_28";
+            this.e_28.Foreground = new SolidColorBrush(new ColorW(255, 255, 255, 255));
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
-            this.e_21.FontFamily = new FontFamily("Arcadepix");
-            this.e_21.FontSize = 20F;
-            Binding binding_e_21_Text = new Binding("TriviaContext.NumTriviaQuestionsTotal");
-            this.e_21.SetBinding(TextBlock.TextProperty, binding_e_21_Text);
+            this.e_28.FontFamily = new FontFamily("Arcadepix");
+            this.e_28.FontSize = 20F;
+            Binding binding_e_28_Text = new Binding("TriviaContext.NumTriviaQuestionsTotal");
+            this.e_28.SetBinding(TextBlock.TextProperty, binding_e_28_Text);
             // GameOverModalDialog element
             this.GameOverModalDialog = new Grid();
             this.UIRoot.Children.Add(this.GameOverModalDialog);
@@ -503,48 +605,48 @@ namespace EmptyKeys.UserInterface.Generated {
             Binding binding_GameOverModalDialog_Visibility = new Binding("GameOverContext.GameOverModalVisibility");
             this.GameOverModalDialog.SetBinding(Grid.VisibilityProperty, binding_GameOverModalDialog_Visibility);
             binding_GameOverModalDialog_Visibility.FallbackValue = "Collapsed";
-            // e_22 element
-            this.e_22 = new TextBlock();
-            this.GameOverModalDialog.Children.Add(this.e_22);
-            this.e_22.Name = "e_22";
-            this.e_22.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_22.VerticalAlignment = VerticalAlignment.Center;
-            this.e_22.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            this.e_22.Text = "Hunt the Wumpus";
+            // e_29 element
+            this.e_29 = new TextBlock();
+            this.GameOverModalDialog.Children.Add(this.e_29);
+            this.e_29.Name = "e_29";
+            this.e_29.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_29.VerticalAlignment = VerticalAlignment.Center;
+            this.e_29.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            this.e_29.Text = "Hunt the Wumpus";
             FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
-            this.e_22.FontFamily = new FontFamily("Arcadepix");
-            this.e_22.FontSize = 20F;
-            this.e_22.FontStyle = FontStyle.Bold;
-            // e_23 element
-            this.e_23 = new TextBlock();
-            this.GameOverModalDialog.Children.Add(this.e_23);
-            this.e_23.Name = "e_23";
-            this.e_23.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_23.VerticalAlignment = VerticalAlignment.Center;
-            this.e_23.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            this.e_23.TextWrapping = TextWrapping.Wrap;
+            this.e_29.FontFamily = new FontFamily("Arcadepix");
+            this.e_29.FontSize = 20F;
+            this.e_29.FontStyle = FontStyle.Bold;
+            // e_30 element
+            this.e_30 = new TextBlock();
+            this.GameOverModalDialog.Children.Add(this.e_30);
+            this.e_30.Name = "e_30";
+            this.e_30.HorizontalAlignment = HorizontalAlignment.Center;
+            this.e_30.VerticalAlignment = VerticalAlignment.Center;
+            this.e_30.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
+            this.e_30.TextWrapping = TextWrapping.Wrap;
             FontManager.Instance.AddFont("Arcadepix", 53.33333F, FontStyle.Bold, "Arcadepix_40_Bold");
-            this.e_23.FontFamily = new FontFamily("Arcadepix");
-            this.e_23.FontSize = 53.33333F;
-            this.e_23.FontStyle = FontStyle.Bold;
-            Grid.SetRow(this.e_23, 1);
-            Grid.SetColumnSpan(this.e_23, 4);
-            Binding binding_e_23_Text = new Binding("GameOverContext.GameOverMessage");
-            this.e_23.SetBinding(TextBlock.TextProperty, binding_e_23_Text);
-            // e_24 element
-            this.e_24 = new TextBox();
-            this.GameOverModalDialog.Children.Add(this.e_24);
-            this.e_24.Name = "e_24";
-            this.e_24.Height = 33F;
-            this.e_24.Margin = new Thickness(4F, 4F, 4F, 4F);
+            this.e_30.FontFamily = new FontFamily("Arcadepix");
+            this.e_30.FontSize = 53.33333F;
+            this.e_30.FontStyle = FontStyle.Bold;
+            Grid.SetRow(this.e_30, 1);
+            Grid.SetColumnSpan(this.e_30, 4);
+            Binding binding_e_30_Text = new Binding("GameOverContext.GameOverMessage");
+            this.e_30.SetBinding(TextBlock.TextProperty, binding_e_30_Text);
+            // e_31 element
+            this.e_31 = new TextBox();
+            this.GameOverModalDialog.Children.Add(this.e_31);
+            this.e_31.Name = "e_31";
+            this.e_31.Height = 33F;
+            this.e_31.Margin = new Thickness(4F, 4F, 4F, 4F);
             FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
-            this.e_24.FontFamily = new FontFamily("Arcadepix");
-            Grid.SetColumn(this.e_24, 1);
-            Grid.SetRow(this.e_24, 2);
-            Binding binding_e_24_Visibility = new Binding("GameOverContext.UsernameBoxVisibility");
-            this.e_24.SetBinding(TextBox.VisibilityProperty, binding_e_24_Visibility);
-            Binding binding_e_24_Text = new Binding("GameOverContext.GameOverUsernameText");
-            this.e_24.SetBinding(TextBox.TextProperty, binding_e_24_Text);
+            this.e_31.FontFamily = new FontFamily("Arcadepix");
+            Grid.SetColumn(this.e_31, 1);
+            Grid.SetRow(this.e_31, 2);
+            Binding binding_e_31_Visibility = new Binding("GameOverContext.UsernameBoxVisibility");
+            this.e_31.SetBinding(TextBox.VisibilityProperty, binding_e_31_Visibility);
+            Binding binding_e_31_Text = new Binding("GameOverContext.GameOverUsernameText");
+            this.e_31.SetBinding(TextBox.TextProperty, binding_e_31_Text);
             // NameSubmitButton element
             this.NameSubmitButton = new Button();
             this.GameOverModalDialog.Children.Add(this.NameSubmitButton);
@@ -576,14 +678,24 @@ namespace EmptyKeys.UserInterface.Generated {
             this.MenuButton.SetBinding(Button.CommandProperty, binding_MenuButton_Command);
         }
         
-        private static UIElement e_14_iptMethod(UIElement parent) {
-            // e_15 element
-            StackPanel e_15 = new StackPanel();
-            e_15.Parent = parent;
-            e_15.Name = "e_15";
-            e_15.HorizontalAlignment = HorizontalAlignment.Center;
-            e_15.IsItemsHost = true;
-            return e_15;
+        private static UIElement e_17_iptMethod(UIElement parent) {
+            // e_18 element
+            StackPanel e_18 = new StackPanel();
+            e_18.Parent = parent;
+            e_18.Name = "e_18";
+            e_18.HorizontalAlignment = HorizontalAlignment.Center;
+            e_18.IsItemsHost = true;
+            return e_18;
+        }
+        
+        private static UIElement e_20_iptMethod(UIElement parent) {
+            // e_21 element
+            StackPanel e_21 = new StackPanel();
+            e_21.Parent = parent;
+            e_21.Name = "e_21";
+            e_21.HorizontalAlignment = HorizontalAlignment.Center;
+            e_21.IsItemsHost = true;
+            return e_21;
         }
     }
 }
