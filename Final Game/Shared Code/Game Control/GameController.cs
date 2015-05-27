@@ -155,6 +155,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
         {
             if (CurrentTrivia.NumberCorrect >= 3)
             {
+                Map.Wumpus.CurrentBehavior.DefeatedInTrivia();
                 Map.Wumpus.HitPlayer();
             }
             else
@@ -219,21 +220,22 @@ namespace HuntTheWumpus.SharedCode.GameControl
             {
                 if (Map.Wumpus.Location == targetRoom)
                 {
-                    // TODO: end game
                     Log.Info("Yay! You shot the wumpus!");
                     EndGame(GameOverCause.ShotWumpus);
                     return true;
                 }
-                // TODO: Present message (miss)
-                Log.Info("Your arrow missed the wumpus.");
-                if (Map.Player.Arrows <= 0)
+                else
                 {
-                    EndGame(GameOverCause.NoArrows);
+                    // TODO: Present message (miss)
+                    Log.Info("Your arrow missed the wumpus.");
                 }
-                return false;
             }
-            // TODO: Present message (hit wall)
-            Log.Info("You managed to shoot a wall. Good job.");
+            else
+            {
+                // TODO: Present message (hit wall)
+                Log.Info("You managed to shoot a wall. Good job.");
+            }
+            Map.Wumpus.CurrentBehavior.ArrowMissed();
             if (Map.Player.Arrows <= 0)
             {
                 EndGame(GameOverCause.NoArrows);
