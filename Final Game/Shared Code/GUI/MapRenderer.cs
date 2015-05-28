@@ -87,18 +87,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <summary>
         /// Gets or sets the manually-set camera zoom (for debugging)
         /// </summary>
-        public float CameraZoom
-        {
-            get
-            {
-                return MapCam.Zoom;
-            }
-
-            set
-            {
-                MapCam.Zoom = value;
-            }
-        }
+        public float? OverriddenCameraZoom { get; set; }
 
         /// <summary>
         /// Initializes the renderer for a new game.
@@ -115,6 +104,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 pct => (float)pct.Scale(0, 1, DefaultCamZoom, TrappedInPitCamZoom),
                 pct => (float)pct.Scale(0, 1, TrappedInPitCamZoom, DefaultCamZoom),
                 1.2);
+            OverriddenCameraZoom = null;
 
             Viewport RenderViewport = Graphics.Viewport;
             VirtualViewSize = new Vector2(RenderViewport.AspectRatio * VirtualViewHeight, VirtualViewHeight);
@@ -206,7 +196,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             UpdateRoomAnimators(BatFadeAnimators, r => r.HasBats, time);
 
             CamZoomAnimator.Update(time, Map.Cave[Map.PlayerRoom].HasPit);
-            MapCam.Zoom = CamZoomAnimator.CurrentValue;
+            MapCam.Zoom = OverriddenCameraZoom ?? CamZoomAnimator.CurrentValue;
         }
 
         public void UpdateRoomAnimators(Dictionary<int, StateAnimator> Animators, Func<Room, bool> ValueSelector, GameTime time)
