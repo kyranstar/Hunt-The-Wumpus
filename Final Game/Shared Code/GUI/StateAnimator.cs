@@ -32,6 +32,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             this.AnimationDuration = AnimationDuration;
 
             StateLatch = new Latch();
+            CurrentValue = PositiveEasingFunction(0);
         }
 
         public void Update(GameTime Time, bool NewValue)
@@ -52,10 +53,6 @@ namespace HuntTheWumpus.SharedCode.GUI
                     break;
                 case EdgeType.FallingEdge:
                     CurrentValue = NegativeEasingFunction(NewCompletionPct);
-                    break;
-                default:
-                    // TODO: Add param for default value
-                    CurrentValue = 0;
                     break;
 
             }

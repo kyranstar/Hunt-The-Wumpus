@@ -124,5 +124,13 @@ namespace HuntTheWumpus.SharedCode.Helpers
         {
             return Math.Abs(Me.Difference(Other));
         }
+
+        public static double Scale(this double CurrentValue, double OldMin, double OldMax, double NewMin, double NewMax)
+        {
+            CurrentValue -= OldMin;
+            CurrentValue /= OldMax - OldMin;
+            CurrentValue *= NewMax - NewMin;
+            return CurrentValue + NewMin;
+        }
     }
 }

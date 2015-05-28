@@ -65,6 +65,11 @@ namespace HuntTheWumpus.SharedCode.GUI
         byte AimColorHighlightAmount = 120;
         byte AimAlphaHighlightAmount = 120;
 
+        const float DefaultCamZoom = 0.3f;
+        const float TrappedInPitCamZoom = 0.65f;
+
+        private StateAnimator CamZoomAnimator;
+
         public MapRenderer(GameController GameController)
         {
             this.GameController = GameController;
@@ -106,12 +111,16 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             GoldFadeAnimators = new Dictionary<int, StateAnimator>();
             BatFadeAnimators = new Dictionary<int, StateAnimator>();
+            CamZoomAnimator = new StateAnimator(
+                pct => (float)pct.Scale(0, 1, DefaultCamZoom, TrappedInPitCamZoom),
+                pct => (float)pct.Scale(0, 1, TrappedInPitCamZoom, DefaultCamZoom),
+                1.2);
 
             Viewport RenderViewport = Graphics.Viewport;
             VirtualViewSize = new Vector2(RenderViewport.AspectRatio * VirtualViewHeight, VirtualViewHeight);
             this.MapCam = new Camera2D(this.VirtualViewSize, RenderViewport)
             {
-                Zoom = 0.3f
+                Zoom = DefaultCamZoom
             };
 
             BackgroundTiles = new TiledTexture(BackgroundTexture, MapCam);
@@ -195,6 +204,9 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             UpdateRoomAnimators(GoldFadeAnimators, r => r.Gold > 0, time);
             UpdateRoomAnimators(BatFadeAnimators, r => r.HasBats, time);
+
+            CamZoomAnimator.Update(time, Map.Cave[Map.PlayerRoom].HasPit);
+            MapCam.Zoom = CamZoomAnimator.CurrentValue;
         }
 
         public void UpdateRoomAnimators(Dictionary<int, StateAnimator> Animators, Func<Room, bool> ValueSelector, GameTime time)
