@@ -176,13 +176,13 @@ namespace HuntTheWumpus.SharedCode.GUI
 
             backFogSystem.Draw(MapRenderTarget);
 
-            DrawCaveBase(MapRenderTarget);
+            //DrawCaveBase(MapRenderTarget);
 
             frontFogSystem.Draw(MapRenderTarget);
 
 
-            Player.Draw(MapRenderTarget);
-            Wumpus.Draw(MapRenderTarget);
+            //Player.Draw(MapRenderTarget);
+            //Wumpus.Draw(MapRenderTarget);
 
             MapRenderTarget.End();
         }

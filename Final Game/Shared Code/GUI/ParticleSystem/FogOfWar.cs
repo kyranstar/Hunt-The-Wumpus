@@ -7,7 +7,7 @@ namespace HuntTheWumpus.SharedCode.GUI.ParticleSystem
     class FogOfWar : ParticleSystem
     {
 
-        const int PARTICLE_CAP = 150;
+        const int PARTICLE_CAP = 600;
 
         const float CLOUD_SPEED = .01f;
         const int CLOUD_LIGHTNESS_MIN = 50;

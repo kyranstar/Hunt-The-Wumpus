@@ -20,8 +20,8 @@ namespace HuntTheWumpus.SharedCode.GameCore
             : base()
         {
             GraphicsManager = new GraphicsDeviceManager(this);
-            GraphicsManager.PreferredBackBufferWidth = 1000;
-            GraphicsManager.PreferredBackBufferHeight = 500;
+            GraphicsManager.PreferredBackBufferWidth = 2000;
+            GraphicsManager.PreferredBackBufferHeight = 1000;
             Content.RootDirectory = "Content";
             Window.Title = "Hunt the Wumpus";
 
