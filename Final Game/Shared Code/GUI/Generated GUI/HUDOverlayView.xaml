@@ -9,25 +9,27 @@
 
     <Grid Background="Transparent" Name="UIRoot">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="6*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1.65*"/>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1.65*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="90.48*"></RowDefinition>
-            <RowDefinition Height="9.52*"></RowDefinition>
+            <RowDefinition Height="90*"></RowDefinition>
+            <RowDefinition Height="1.8*"></RowDefinition>
+            <RowDefinition Height="6.3*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid Background="Transparent" Name="GameHUD" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1">
+        <Grid Background="Transparent" Name="GameHUD" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2">
             <StackPanel Orientation="Horizontal" Background="#5b5b5b">
-                <Image Margin="20,20,20,20" Stretch="Uniform">
+                <Image Margin="4,4,4,4" Stretch="Uniform">
                     <Image.Source>
                         <BitmapImage UriSource="XAML Assets/Gold.png"/>
                     </Image.Source>
                 </Image>
                 <TextBlock Text="{Binding Path=ScoreContext.Gold}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
-                <Image Margin="20,20,20,20" Stretch="Uniform">
+                <Image Margin="4,4,4,4" Stretch="Uniform">
                     <Image.Source>
                         <BitmapImage UriSource="XAML Assets/Arrow.png"/>
                     </Image.Source>
@@ -35,7 +37,7 @@
                 <TextBlock Text="{Binding Path=ScoreContext.Arrows}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Background="#5b5b5b" HorizontalAlignment="Center" Visibility="{Binding WarningContext.WarningVisibility}">
-                <Image Margin="20,20,20,20" Stretch="Uniform" Grid.Row="1">
+                <Image Margin="6" Stretch="Uniform" Grid.Row="1">
                     <Image.Source>
                         <BitmapImage UriSource="XAML Assets/Warning.png"/>
                     </Image.Source>
@@ -43,13 +45,13 @@
                 <TextBlock Text="{Binding WarningContext.WarningText}" FontSize="15pt" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 4, 0" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Background="#5b5b5b" HorizontalAlignment="Right">
-                <Image Margin="20,20,20,20" Stretch="Uniform">
+                <Image Margin="5" Stretch="Uniform">
                     <Image.Source>
                         <BitmapImage UriSource="XAML Assets/TurnIcon.png" />
                     </Image.Source>
                 </Image>
                 <TextBlock Text="{Binding Path=ScoreContext.Turns}" FontSize="15pt" FontWeight="Bold" FontFamily="Arcadepix" Foreground="LightGray" Margin="4, 0, 20, 0" VerticalAlignment="Center"/>
-                <Button Name="HintButton" Content="Hints" Margin="4, 0, 4, 0" Command="{Binding FlyoutContext.ShowFlyoutCommand}" FontFamily="Arcadepix" />
+                <Button Name="FlyoutButton" Content="Info" Margin="4, 0, 4, 0" Command="{Binding FlyoutContext.ShowFlyoutCommand}" FontFamily="Arcadepix" />
             </StackPanel>
         </Grid>
         <Grid Name="DataFlyout" HorizontalAlignment="Stretch" Grid.Column="2" Grid.ColumnSpan="2" Visibility="{Binding FlyoutContext.FlyoutVisibility}" Margin="0, 0, 75, 0" VerticalAlignment="Stretch">
@@ -71,7 +73,7 @@
                 <!--7 List content-->
                 <RowDefinition Height="10*"/>
                 <!--8 Buttons-->
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2.5*"/>
             </Grid.RowDefinitions>
 
             <Grid Background="#333333" Grid.RowSpan="9"/>

@@ -49,7 +49,7 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private TextBlock e_10;
         
-        private Button HintButton;
+        private Button FlyoutButton;
         
         private Grid DataFlyout;
         
@@ -128,22 +128,28 @@ namespace EmptyKeys.UserInterface.Generated {
             this.UIRoot.Name = "UIRoot";
             this.UIRoot.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             RowDefinition row_UIRoot_0 = new RowDefinition();
-            row_UIRoot_0.Height = new GridLength(90.48F, GridUnitType.Star);
+            row_UIRoot_0.Height = new GridLength(90F, GridUnitType.Star);
             this.UIRoot.RowDefinitions.Add(row_UIRoot_0);
             RowDefinition row_UIRoot_1 = new RowDefinition();
-            row_UIRoot_1.Height = new GridLength(9.52F, GridUnitType.Star);
+            row_UIRoot_1.Height = new GridLength(1.8F, GridUnitType.Star);
             this.UIRoot.RowDefinitions.Add(row_UIRoot_1);
+            RowDefinition row_UIRoot_2 = new RowDefinition();
+            row_UIRoot_2.Height = new GridLength(6.3F, GridUnitType.Star);
+            this.UIRoot.RowDefinitions.Add(row_UIRoot_2);
+            RowDefinition row_UIRoot_3 = new RowDefinition();
+            row_UIRoot_3.Height = new GridLength(1.5F, GridUnitType.Star);
+            this.UIRoot.RowDefinitions.Add(row_UIRoot_3);
             ColumnDefinition col_UIRoot_0 = new ColumnDefinition();
-            col_UIRoot_0.Width = new GridLength(3F, GridUnitType.Star);
+            col_UIRoot_0.Width = new GridLength(1.65F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_0);
             ColumnDefinition col_UIRoot_1 = new ColumnDefinition();
-            col_UIRoot_1.Width = new GridLength(15F, GridUnitType.Star);
+            col_UIRoot_1.Width = new GridLength(17F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_1);
             ColumnDefinition col_UIRoot_2 = new ColumnDefinition();
-            col_UIRoot_2.Width = new GridLength(6F, GridUnitType.Star);
+            col_UIRoot_2.Width = new GridLength(7F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_2);
             ColumnDefinition col_UIRoot_3 = new ColumnDefinition();
-            col_UIRoot_3.Width = new GridLength(3F, GridUnitType.Star);
+            col_UIRoot_3.Width = new GridLength(1.65F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_3);
             // GameHUD element
             this.GameHUD = new Grid();
@@ -151,7 +157,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.GameHUD.Name = "GameHUD";
             this.GameHUD.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             Grid.SetColumn(this.GameHUD, 1);
-            Grid.SetRow(this.GameHUD, 1);
+            Grid.SetRow(this.GameHUD, 2);
             Grid.SetColumnSpan(this.GameHUD, 2);
             // e_0 element
             this.e_0 = new StackPanel();
@@ -163,7 +169,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_1 = new Image();
             this.e_0.Children.Add(this.e_1);
             this.e_1.Name = "e_1";
-            this.e_1.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_1.Margin = new Thickness(4F, 4F, 4F, 4F);
             BitmapImage e_1_bm = new BitmapImage();
             e_1_bm.TextureAsset = "XAML Assets/Gold";
             ImageManager.Instance.AddImage("XAML Assets/Gold");
@@ -186,7 +192,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_3 = new Image();
             this.e_0.Children.Add(this.e_3);
             this.e_3.Name = "e_3";
-            this.e_3.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_3.Margin = new Thickness(4F, 4F, 4F, 4F);
             BitmapImage e_3_bm = new BitmapImage();
             e_3_bm.TextureAsset = "XAML Assets/Arrow";
             ImageManager.Instance.AddImage("XAML Assets/Arrow");
@@ -218,7 +224,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_6 = new Image();
             this.e_5.Children.Add(this.e_6);
             this.e_6.Name = "e_6";
-            this.e_6.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_6.Margin = new Thickness(6F, 6F, 6F, 6F);
             BitmapImage e_6_bm = new BitmapImage();
             e_6_bm.TextureAsset = "XAML Assets/Warning";
             ImageManager.Instance.AddImage("XAML Assets/Warning");
@@ -248,7 +254,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_9 = new Image();
             this.e_8.Children.Add(this.e_9);
             this.e_9.Name = "e_9";
-            this.e_9.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_9.Margin = new Thickness(5F, 5F, 5F, 5F);
             BitmapImage e_9_bm = new BitmapImage();
             e_9_bm.TextureAsset = "XAML Assets/TurnIcon";
             ImageManager.Instance.AddImage("XAML Assets/TurnIcon");
@@ -267,16 +273,16 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_10.FontStyle = FontStyle.Bold;
             Binding binding_e_10_Text = new Binding("ScoreContext.Turns");
             this.e_10.SetBinding(TextBlock.TextProperty, binding_e_10_Text);
-            // HintButton element
-            this.HintButton = new Button();
-            this.e_8.Children.Add(this.HintButton);
-            this.HintButton.Name = "HintButton";
-            this.HintButton.Margin = new Thickness(4F, 0F, 4F, 0F);
+            // FlyoutButton element
+            this.FlyoutButton = new Button();
+            this.e_8.Children.Add(this.FlyoutButton);
+            this.FlyoutButton.Name = "FlyoutButton";
+            this.FlyoutButton.Margin = new Thickness(4F, 0F, 4F, 0F);
             FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
-            this.HintButton.FontFamily = new FontFamily("Arcadepix");
-            this.HintButton.Content = "Hints";
-            Binding binding_HintButton_Command = new Binding("FlyoutContext.ShowFlyoutCommand");
-            this.HintButton.SetBinding(Button.CommandProperty, binding_HintButton_Command);
+            this.FlyoutButton.FontFamily = new FontFamily("Arcadepix");
+            this.FlyoutButton.Content = "Info";
+            Binding binding_FlyoutButton_Command = new Binding("FlyoutContext.ShowFlyoutCommand");
+            this.FlyoutButton.SetBinding(Button.CommandProperty, binding_FlyoutButton_Command);
             // DataFlyout element
             this.DataFlyout = new Grid();
             this.UIRoot.Children.Add(this.DataFlyout);
@@ -309,7 +315,7 @@ namespace EmptyKeys.UserInterface.Generated {
             row_DataFlyout_7.Height = new GridLength(10F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_7);
             RowDefinition row_DataFlyout_8 = new RowDefinition();
-            row_DataFlyout_8.Height = new GridLength(2F, GridUnitType.Star);
+            row_DataFlyout_8.Height = new GridLength(2.5F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_8);
             Grid.SetColumn(this.DataFlyout, 2);
             Grid.SetColumnSpan(this.DataFlyout, 2);
