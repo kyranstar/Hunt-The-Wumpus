@@ -342,7 +342,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                             BaseDrawColor.R += 150;
                         }
                         else
-                            BaseDrawColor.G += 250;
+                            BaseDrawColor.G += 150;
                     }
                 }
 
