@@ -92,7 +92,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             // (one per property)
             Matrix TranslationMatrix = Matrix.CreateTranslation(new Vector3(Position.X, Position.Y, 0));
             Matrix RotationMatrix = Matrix.CreateRotationZ(Rotation);
-            Matrix ZoomMatrix = Matrix.CreateScale(new Vector3(Zoom, Zoom, 1));
+            Matrix ZoomMatrix = Matrix.CreateScale(new Vector3(Zoom, Zoom, 1f));
             Matrix OriginMatrix = Matrix.CreateTranslation(new Vector3(Origin.X, Origin.Y, 0));
 
             // Multiply together each matrix to get the final transformation

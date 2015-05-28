@@ -111,7 +111,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             VirtualViewSize = new Vector2(RenderViewport.AspectRatio * VirtualViewHeight, VirtualViewHeight);
             this.MapCam = new Camera2D(this.VirtualViewSize, RenderViewport)
             {
-                Zoom = 0.16f
+                Zoom = 0.3f
             };
 
             BackgroundTiles = new TiledTexture(BackgroundTexture, MapCam);

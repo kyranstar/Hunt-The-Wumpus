@@ -49,7 +49,7 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private TextBlock e_10;
         
-        private Button HintButton;
+        private Button FlyoutButton;
         
         private Grid DataFlyout;
         
@@ -105,9 +105,7 @@ namespace EmptyKeys.UserInterface.Generated {
         
         private TextBlock e_31;
         
-        private TextBlock e_32;
-        
-        private TextBox e_33;
+        private TextBox e_32;
         
         private Button NameSubmitButton;
         
@@ -129,30 +127,37 @@ namespace EmptyKeys.UserInterface.Generated {
             this.Content = this.UIRoot;
             this.UIRoot.Name = "UIRoot";
             this.UIRoot.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
+            RowDefinition row_UIRoot_0 = new RowDefinition();
+            row_UIRoot_0.Height = new GridLength(90F, GridUnitType.Star);
+            this.UIRoot.RowDefinitions.Add(row_UIRoot_0);
+            RowDefinition row_UIRoot_1 = new RowDefinition();
+            row_UIRoot_1.Height = new GridLength(1.8F, GridUnitType.Star);
+            this.UIRoot.RowDefinitions.Add(row_UIRoot_1);
+            RowDefinition row_UIRoot_2 = new RowDefinition();
+            row_UIRoot_2.Height = new GridLength(6.3F, GridUnitType.Star);
+            this.UIRoot.RowDefinitions.Add(row_UIRoot_2);
+            RowDefinition row_UIRoot_3 = new RowDefinition();
+            row_UIRoot_3.Height = new GridLength(1.5F, GridUnitType.Star);
+            this.UIRoot.RowDefinitions.Add(row_UIRoot_3);
             ColumnDefinition col_UIRoot_0 = new ColumnDefinition();
-            col_UIRoot_0.Width = new GridLength(3F, GridUnitType.Star);
+            col_UIRoot_0.Width = new GridLength(1.65F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_0);
             ColumnDefinition col_UIRoot_1 = new ColumnDefinition();
-            col_UIRoot_1.Width = new GridLength(15F, GridUnitType.Star);
+            col_UIRoot_1.Width = new GridLength(17F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_1);
             ColumnDefinition col_UIRoot_2 = new ColumnDefinition();
-            col_UIRoot_2.Width = new GridLength(6F, GridUnitType.Star);
+            col_UIRoot_2.Width = new GridLength(7F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_2);
             ColumnDefinition col_UIRoot_3 = new ColumnDefinition();
-            col_UIRoot_3.Width = new GridLength(3F, GridUnitType.Star);
+            col_UIRoot_3.Width = new GridLength(1.65F, GridUnitType.Star);
             this.UIRoot.ColumnDefinitions.Add(col_UIRoot_3);
             // GameHUD element
             this.GameHUD = new Grid();
             this.UIRoot.Children.Add(this.GameHUD);
             this.GameHUD.Name = "GameHUD";
             this.GameHUD.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
-            RowDefinition row_GameHUD_0 = new RowDefinition();
-            row_GameHUD_0.Height = new GridLength(90.48F, GridUnitType.Star);
-            this.GameHUD.RowDefinitions.Add(row_GameHUD_0);
-            RowDefinition row_GameHUD_1 = new RowDefinition();
-            row_GameHUD_1.Height = new GridLength(9.52F, GridUnitType.Star);
-            this.GameHUD.RowDefinitions.Add(row_GameHUD_1);
             Grid.SetColumn(this.GameHUD, 1);
+            Grid.SetRow(this.GameHUD, 2);
             Grid.SetColumnSpan(this.GameHUD, 2);
             // e_0 element
             this.e_0 = new StackPanel();
@@ -160,12 +165,11 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_0.Name = "e_0";
             this.e_0.Background = new SolidColorBrush(new ColorW(91, 91, 91, 255));
             this.e_0.Orientation = Orientation.Horizontal;
-            Grid.SetRow(this.e_0, 1);
             // e_1 element
             this.e_1 = new Image();
             this.e_0.Children.Add(this.e_1);
             this.e_1.Name = "e_1";
-            this.e_1.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_1.Margin = new Thickness(4F, 4F, 4F, 4F);
             BitmapImage e_1_bm = new BitmapImage();
             e_1_bm.TextureAsset = "XAML Assets/Gold";
             ImageManager.Instance.AddImage("XAML Assets/Gold");
@@ -188,7 +192,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_3 = new Image();
             this.e_0.Children.Add(this.e_3);
             this.e_3.Name = "e_3";
-            this.e_3.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_3.Margin = new Thickness(4F, 4F, 4F, 4F);
             BitmapImage e_3_bm = new BitmapImage();
             e_3_bm.TextureAsset = "XAML Assets/Arrow";
             ImageManager.Instance.AddImage("XAML Assets/Arrow");
@@ -214,14 +218,13 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_5.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_5.Background = new SolidColorBrush(new ColorW(91, 91, 91, 255));
             this.e_5.Orientation = Orientation.Horizontal;
-            Grid.SetRow(this.e_5, 1);
             Binding binding_e_5_Visibility = new Binding("WarningContext.WarningVisibility");
             this.e_5.SetBinding(StackPanel.VisibilityProperty, binding_e_5_Visibility);
             // e_6 element
             this.e_6 = new Image();
             this.e_5.Children.Add(this.e_6);
             this.e_6.Name = "e_6";
-            this.e_6.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_6.Margin = new Thickness(6F, 6F, 6F, 6F);
             BitmapImage e_6_bm = new BitmapImage();
             e_6_bm.TextureAsset = "XAML Assets/Warning";
             ImageManager.Instance.AddImage("XAML Assets/Warning");
@@ -247,12 +250,11 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_8.HorizontalAlignment = HorizontalAlignment.Right;
             this.e_8.Background = new SolidColorBrush(new ColorW(91, 91, 91, 255));
             this.e_8.Orientation = Orientation.Horizontal;
-            Grid.SetRow(this.e_8, 1);
             // e_9 element
             this.e_9 = new Image();
             this.e_8.Children.Add(this.e_9);
             this.e_9.Name = "e_9";
-            this.e_9.Margin = new Thickness(20F, 20F, 20F, 20F);
+            this.e_9.Margin = new Thickness(5F, 5F, 5F, 5F);
             BitmapImage e_9_bm = new BitmapImage();
             e_9_bm.TextureAsset = "XAML Assets/TurnIcon";
             ImageManager.Instance.AddImage("XAML Assets/TurnIcon");
@@ -271,28 +273,28 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_10.FontStyle = FontStyle.Bold;
             Binding binding_e_10_Text = new Binding("ScoreContext.Turns");
             this.e_10.SetBinding(TextBlock.TextProperty, binding_e_10_Text);
-            // HintButton element
-            this.HintButton = new Button();
-            this.e_8.Children.Add(this.HintButton);
-            this.HintButton.Name = "HintButton";
-            this.HintButton.Margin = new Thickness(4F, 0F, 4F, 0F);
+            // FlyoutButton element
+            this.FlyoutButton = new Button();
+            this.e_8.Children.Add(this.FlyoutButton);
+            this.FlyoutButton.Name = "FlyoutButton";
+            this.FlyoutButton.Margin = new Thickness(4F, 0F, 4F, 0F);
             FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
-            this.HintButton.FontFamily = new FontFamily("Arcadepix");
-            this.HintButton.Content = "Hints";
-            Binding binding_HintButton_Command = new Binding("FlyoutContext.ShowFlyoutCommand");
-            this.HintButton.SetBinding(Button.CommandProperty, binding_HintButton_Command);
+            this.FlyoutButton.FontFamily = new FontFamily("Arcadepix");
+            this.FlyoutButton.Content = "Info";
+            Binding binding_FlyoutButton_Command = new Binding("FlyoutContext.ShowFlyoutCommand");
+            this.FlyoutButton.SetBinding(Button.CommandProperty, binding_FlyoutButton_Command);
             // DataFlyout element
             this.DataFlyout = new Grid();
             this.UIRoot.Children.Add(this.DataFlyout);
             this.DataFlyout.Name = "DataFlyout";
-            this.DataFlyout.Margin = new Thickness(0F, 0F, 0F, 30F);
+            this.DataFlyout.Margin = new Thickness(0F, 0F, 75F, 0F);
             this.DataFlyout.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.DataFlyout.VerticalAlignment = VerticalAlignment.Stretch;
             RowDefinition row_DataFlyout_0 = new RowDefinition();
-            row_DataFlyout_0.Height = new GridLength(1F, GridUnitType.Star);
+            row_DataFlyout_0.Height = new GridLength(4F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_0);
             RowDefinition row_DataFlyout_1 = new RowDefinition();
-            row_DataFlyout_1.Height = new GridLength(2F, GridUnitType.Star);
+            row_DataFlyout_1.Height = new GridLength(3F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_1);
             RowDefinition row_DataFlyout_2 = new RowDefinition();
             row_DataFlyout_2.Height = new GridLength(1F, GridUnitType.Star);
@@ -304,7 +306,7 @@ namespace EmptyKeys.UserInterface.Generated {
             row_DataFlyout_4.Height = new GridLength(1F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_4);
             RowDefinition row_DataFlyout_5 = new RowDefinition();
-            row_DataFlyout_5.Height = new GridLength(2F, GridUnitType.Star);
+            row_DataFlyout_5.Height = new GridLength(3F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_5);
             RowDefinition row_DataFlyout_6 = new RowDefinition();
             row_DataFlyout_6.Height = new GridLength(1F, GridUnitType.Star);
@@ -313,9 +315,10 @@ namespace EmptyKeys.UserInterface.Generated {
             row_DataFlyout_7.Height = new GridLength(10F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_7);
             RowDefinition row_DataFlyout_8 = new RowDefinition();
-            row_DataFlyout_8.Height = new GridLength(2F, GridUnitType.Star);
+            row_DataFlyout_8.Height = new GridLength(2.5F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_8);
             Grid.SetColumn(this.DataFlyout, 2);
+            Grid.SetColumnSpan(this.DataFlyout, 2);
             Binding binding_DataFlyout_Visibility = new Binding("FlyoutContext.FlyoutVisibility");
             this.DataFlyout.SetBinding(Grid.VisibilityProperty, binding_DataFlyout_Visibility);
             // e_11 element
@@ -385,6 +388,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.DataFlyout.Children.Add(this.e_17);
             this.e_17.Name = "e_17";
             this.e_17.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_17.VerticalAlignment = VerticalAlignment.Stretch;
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
             this.e_17.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
             Grid.SetRow(this.e_17, 3);
@@ -496,8 +500,17 @@ namespace EmptyKeys.UserInterface.Generated {
             RowDefinition row_TriviaDisplay_5 = new RowDefinition();
             row_TriviaDisplay_5.Height = new GridLength(1F, GridUnitType.Star);
             this.TriviaDisplay.RowDefinitions.Add(row_TriviaDisplay_5);
-            Grid.SetColumn(this.TriviaDisplay, 1);
-            Grid.SetColumnSpan(this.TriviaDisplay, 2);
+            ColumnDefinition col_TriviaDisplay_0 = new ColumnDefinition();
+            col_TriviaDisplay_0.Width = new GridLength(1F, GridUnitType.Star);
+            this.TriviaDisplay.ColumnDefinitions.Add(col_TriviaDisplay_0);
+            ColumnDefinition col_TriviaDisplay_1 = new ColumnDefinition();
+            col_TriviaDisplay_1.Width = new GridLength(8F, GridUnitType.Star);
+            this.TriviaDisplay.ColumnDefinitions.Add(col_TriviaDisplay_1);
+            ColumnDefinition col_TriviaDisplay_2 = new ColumnDefinition();
+            col_TriviaDisplay_2.Width = new GridLength(1F, GridUnitType.Star);
+            this.TriviaDisplay.ColumnDefinitions.Add(col_TriviaDisplay_2);
+            Grid.SetColumn(this.TriviaDisplay, 0);
+            Grid.SetColumnSpan(this.TriviaDisplay, 4);
             Binding binding_TriviaDisplay_Opacity = new Binding("TriviaContext.TriviaModalFadeAnimation.CurrentValue");
             this.TriviaDisplay.SetBinding(Grid.OpacityProperty, binding_TriviaDisplay_Opacity);
             binding_TriviaDisplay_Opacity.FallbackValue = "0";
@@ -516,6 +529,7 @@ namespace EmptyKeys.UserInterface.Generated {
             FontManager.Instance.AddFont("Arcadepix", 40F, FontStyle.Regular, "Arcadepix_30_Regular");
             this.QuestionText.FontFamily = new FontFamily("Arcadepix");
             this.QuestionText.FontSize = 40F;
+            Grid.SetColumn(this.QuestionText, 1);
             Grid.SetRow(this.QuestionText, 1);
             Binding binding_QuestionText_Text = new Binding("TriviaContext.CurrentTriviaQuestionText");
             this.QuestionText.SetBinding(TextBlock.TextProperty, binding_QuestionText_Text);
@@ -526,6 +540,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_25.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_25.VerticalAlignment = VerticalAlignment.Center;
             this.e_25.Orientation = Orientation.Horizontal;
+            Grid.SetColumn(this.e_25, 1);
             Grid.SetRow(this.e_25, 3);
             // TriviaAnswerSelector element
             this.TriviaAnswerSelector = new ComboBox();
@@ -561,6 +576,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_27.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_27.VerticalAlignment = VerticalAlignment.Center;
             this.e_27.Orientation = Orientation.Horizontal;
+            Grid.SetColumn(this.e_27, 1);
             Grid.SetRow(this.e_27, 4);
             // e_28 element
             this.e_28 = new TextBlock();
@@ -596,7 +612,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.UIRoot.Children.Add(this.GameOverModalDialog);
             this.GameOverModalDialog.Name = "GameOverModalDialog";
             this.GameOverModalDialog.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.GameOverModalDialog.Background = new SolidColorBrush(new ColorW(51, 51, 51, 153));
+            this.GameOverModalDialog.Background = new SolidColorBrush(new ColorW(51, 51, 51, 187));
             RowDefinition row_GameOverModalDialog_0 = new RowDefinition();
             row_GameOverModalDialog_0.Height = new GridLength(1F, GridUnitType.Star);
             this.GameOverModalDialog.RowDefinitions.Add(row_GameOverModalDialog_0);
@@ -613,19 +629,19 @@ namespace EmptyKeys.UserInterface.Generated {
             row_GameOverModalDialog_4.Height = new GridLength(2F, GridUnitType.Star);
             this.GameOverModalDialog.RowDefinitions.Add(row_GameOverModalDialog_4);
             ColumnDefinition col_GameOverModalDialog_0 = new ColumnDefinition();
-            col_GameOverModalDialog_0.Width = new GridLength(8F, GridUnitType.Star);
+            col_GameOverModalDialog_0.Width = new GridLength(4F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_0);
             ColumnDefinition col_GameOverModalDialog_1 = new ColumnDefinition();
-            col_GameOverModalDialog_1.Width = new GridLength(8F, GridUnitType.Star);
+            col_GameOverModalDialog_1.Width = new GridLength(6F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_1);
             ColumnDefinition col_GameOverModalDialog_2 = new ColumnDefinition();
-            col_GameOverModalDialog_2.Width = new GridLength(3F, GridUnitType.Star);
+            col_GameOverModalDialog_2.Width = new GridLength(2F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_2);
             ColumnDefinition col_GameOverModalDialog_3 = new ColumnDefinition();
-            col_GameOverModalDialog_3.Width = new GridLength(8F, GridUnitType.Star);
+            col_GameOverModalDialog_3.Width = new GridLength(4F, GridUnitType.Star);
             this.GameOverModalDialog.ColumnDefinitions.Add(col_GameOverModalDialog_3);
-            Grid.SetColumn(this.GameOverModalDialog, 1);
-            Grid.SetColumnSpan(this.GameOverModalDialog, 2);
+            Grid.SetColumn(this.GameOverModalDialog, 0);
+            Grid.SetColumnSpan(this.GameOverModalDialog, 4);
             Binding binding_GameOverModalDialog_Margin = new Binding("GameOverContext.GameOverModalMargin");
             this.GameOverModalDialog.SetBinding(Grid.MarginProperty, binding_GameOverModalDialog_Margin);
             Binding binding_GameOverModalDialog_Opacity = new Binding("GameOverContext.GameOverModalOpacity");
@@ -640,49 +656,40 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_31.HorizontalAlignment = HorizontalAlignment.Center;
             this.e_31.VerticalAlignment = VerticalAlignment.Center;
             this.e_31.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            this.e_31.Text = "Hunt the Wumpus";
-            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Bold, "Arcadepix_15_Bold");
+            this.e_31.TextWrapping = TextWrapping.Wrap;
+            FontManager.Instance.AddFont("Arcadepix", 53.33333F, FontStyle.Bold, "Arcadepix_40_Bold");
             this.e_31.FontFamily = new FontFamily("Arcadepix");
-            this.e_31.FontSize = 20F;
+            this.e_31.FontSize = 53.33333F;
             this.e_31.FontStyle = FontStyle.Bold;
+            Grid.SetColumn(this.e_31, 1);
+            Grid.SetRow(this.e_31, 1);
+            Grid.SetColumnSpan(this.e_31, 2);
+            Binding binding_e_31_Text = new Binding("GameOverContext.GameOverMessage");
+            this.e_31.SetBinding(TextBlock.TextProperty, binding_e_31_Text);
             // e_32 element
-            this.e_32 = new TextBlock();
+            this.e_32 = new TextBox();
             this.GameOverModalDialog.Children.Add(this.e_32);
             this.e_32.Name = "e_32";
-            this.e_32.HorizontalAlignment = HorizontalAlignment.Center;
-            this.e_32.VerticalAlignment = VerticalAlignment.Center;
-            this.e_32.Foreground = new SolidColorBrush(new ColorW(211, 211, 211, 255));
-            this.e_32.TextWrapping = TextWrapping.Wrap;
-            FontManager.Instance.AddFont("Arcadepix", 53.33333F, FontStyle.Bold, "Arcadepix_40_Bold");
+            this.e_32.Height = 33F;
+            this.e_32.Margin = new Thickness(4F, 4F, 4F, 4F);
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
             this.e_32.FontFamily = new FontFamily("Arcadepix");
-            this.e_32.FontSize = 53.33333F;
-            this.e_32.FontStyle = FontStyle.Bold;
-            Grid.SetRow(this.e_32, 1);
-            Grid.SetColumnSpan(this.e_32, 4);
-            Binding binding_e_32_Text = new Binding("GameOverContext.GameOverMessage");
-            this.e_32.SetBinding(TextBlock.TextProperty, binding_e_32_Text);
-            // e_33 element
-            this.e_33 = new TextBox();
-            this.GameOverModalDialog.Children.Add(this.e_33);
-            this.e_33.Name = "e_33";
-            this.e_33.Height = 33F;
-            this.e_33.Margin = new Thickness(4F, 4F, 4F, 4F);
-            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
-            this.e_33.FontFamily = new FontFamily("Arcadepix");
-            Grid.SetColumn(this.e_33, 1);
-            Grid.SetRow(this.e_33, 2);
-            Binding binding_e_33_Visibility = new Binding("GameOverContext.UsernameBoxVisibility");
-            this.e_33.SetBinding(TextBox.VisibilityProperty, binding_e_33_Visibility);
-            Binding binding_e_33_Text = new Binding("GameOverContext.GameOverUsernameText");
-            this.e_33.SetBinding(TextBox.TextProperty, binding_e_33_Text);
+            this.e_32.FontSize = 20F;
+            Grid.SetColumn(this.e_32, 1);
+            Grid.SetRow(this.e_32, 2);
+            Binding binding_e_32_Visibility = new Binding("GameOverContext.UsernameBoxVisibility");
+            this.e_32.SetBinding(TextBox.VisibilityProperty, binding_e_32_Visibility);
+            Binding binding_e_32_Text = new Binding("GameOverContext.GameOverUsernameText");
+            this.e_32.SetBinding(TextBox.TextProperty, binding_e_32_Text);
             // NameSubmitButton element
             this.NameSubmitButton = new Button();
             this.GameOverModalDialog.Children.Add(this.NameSubmitButton);
             this.NameSubmitButton.Name = "NameSubmitButton";
             this.NameSubmitButton.Height = 33F;
             this.NameSubmitButton.Margin = new Thickness(4F, 4F, 4F, 4F);
-            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 15F, FontStyle.Regular, "Arcadepix_11.25_Regular");
             this.NameSubmitButton.FontFamily = new FontFamily("Arcadepix");
+            this.NameSubmitButton.FontSize = 15F;
             this.NameSubmitButton.Content = "Save score";
             Grid.SetColumn(this.NameSubmitButton, 2);
             Grid.SetRow(this.NameSubmitButton, 2);
@@ -696,8 +703,9 @@ namespace EmptyKeys.UserInterface.Generated {
             this.MenuButton.Name = "MenuButton";
             this.MenuButton.Height = 66F;
             this.MenuButton.Margin = new Thickness(5F, 5F, 5F, 5F);
-            FontManager.Instance.AddFont("Arcadepix", 12F, FontStyle.Regular, "Arcadepix_9_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
             this.MenuButton.FontFamily = new FontFamily("Arcadepix");
+            this.MenuButton.FontSize = 20F;
             this.MenuButton.Content = "Back to Main Menu";
             Grid.SetColumn(this.MenuButton, 1);
             Grid.SetRow(this.MenuButton, 3);
