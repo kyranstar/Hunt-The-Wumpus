@@ -20,6 +20,8 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <returns>A list of rooms making a path, or null if there is not path. Does not contain the start point, but contains the end point. </returns>
         public static List<Room> FindPath(Room start, Room end, Cave cave, bool avoidHazards)
         {
+            if (start.RoomID == end.RoomID) return null;
+
             // Maximum possible path goes through all rooms, so set the size to that
             IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(cave.Rooms.Length);
             IList<AStarNode> closedNodes = new List<AStarNode>();
