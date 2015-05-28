@@ -78,7 +78,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             else
                 Log.Error("Couldn't find valid room to move player to!");
 
-            Wumpus.MoveToRandomRoom();
+            Wumpus.SetInitialPosition();
             CollectItemsFromRoom();
             PlayerPath.Clear();
             PlayerPath.Add(PlayerRoom);
