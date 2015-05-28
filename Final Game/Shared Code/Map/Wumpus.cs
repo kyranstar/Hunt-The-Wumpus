@@ -123,25 +123,19 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         /// <param name="lowerBound"></param>
         /// <param name="upperBound"></param>
-        public void MoveToRandomRoom()
+        public void SetInitialPosition()
         {
-            int oldLocation = Location;
-
-            Random r = new Random();
-            //Order rooms randomly
-            foreach (int i in Enumerable.Range(0, cave.RoomDict.Count).OrderBy(x => r.Next()))
-            {
-                KeyValuePair<int, Room> pair = cave.RoomDict.ElementAt(i);
-
-                //Don't move the wumpus to a room with hazards
-                if (pair.Value.HasBats || pair.Value.HasPit || pair.Key == map.PlayerRoom) continue;
-
-                Location = pair.Key;
-            }
-            if (oldLocation == Location)
-            {
-                Log.Error("Wumpus was not able to move in MoveToRandomRoom()");
-            }
+            Location = cave.Rooms.
+                // non hazardous
+                Where(r => !(r.HasBats || r.HasPit)).
+                // order by distance to player
+                OrderBy(r =>
+                {
+                    var path = Pathfinding.FindPath(cave[map.PlayerRoom], r, cave, false);
+                    return path == null ? -1 : path.Count;
+                }).
+                // Farthest away room
+                Last().RoomID;
         }
 
         public interface WumpusBehavior
