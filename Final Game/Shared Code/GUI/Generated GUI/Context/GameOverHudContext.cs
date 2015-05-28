@@ -183,7 +183,6 @@ namespace HuntTheWumpus.SharedCode.GUI
                 PreviousNotifiedGameOverOpacity = GameOverModalOpacity;
                 Log.Info("Opacity: " + GameOverModalOpacityAnimation.CurrentValue);
             }
-
         }
 
         private void ReturnToMenu(object o)
