@@ -7,12 +7,19 @@
   mc:Ignorable="d" d:DesignHeight="640" d:DesignWidth="800">
   <Grid Name="LayoutRoot">
     <Grid.RowDefinitions>
-        <RowDefinition Height="40"/>
-        <RowDefinition />
-    </Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
 
-    <Button Name="BackButton"  Content="← Back to Main Menu" Margin="5" Width="150" Command="{Binding BackCommand}" Grid.Row="0" HorizontalAlignment="Left" FontFamily="Arcadepix" />
-    <DataGrid Name="ScoreTable" ItemsSource="{Binding HighScores}" Grid.Row="1" FontFamily="Arcadepix">
+    <Button Name="BackButton"  Content="Back to Main Menu" Margin="5" Width="150" Command="{Binding BackCommand}" Grid.Row="1" HorizontalAlignment="Center" FontFamily="Arcadepix" Grid.Column="1"/>
+        <DataGrid Name="ScoreTable" ItemsSource="{Binding HighScores}" Grid.Row="2" FontFamily="Arcadepix" Grid.Column="1" HorizontalContentAlignment="Center" FontSize="30">
       <!--AutoGenerateColumns="False">
     <DataGrid.Columns>
       <DataGridTemplateColumn Header="Username" Width="SizeToCells" IsReadOnly="True">

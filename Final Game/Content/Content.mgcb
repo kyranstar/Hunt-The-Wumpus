@@ -474,3 +474,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/Arcade right.png
 
+#begin Arcadepix_22.5_Regular.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Arcadepix_22.5_Regular.spritefont
+

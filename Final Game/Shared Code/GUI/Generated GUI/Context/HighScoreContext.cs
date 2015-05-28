@@ -1,8 +1,10 @@
 ﻿using EmptyKeys.UserInterface.Input;
 using EmptyKeys.UserInterface.Mvvm;
 using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.Helpers;
 using HuntTheWumpus.SharedCode.Scores;
 using System;
+using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.GUI
 {
@@ -23,11 +25,17 @@ namespace HuntTheWumpus.SharedCode.GUI
             protected set;
         }
 
-        public ScoreEntry[] HighScores
+        public RenderableScoreEntry[] HighScores
         {
             get
             {
-                return ScoreMan.Scores;
+                return ScoreMan.Scores.Select(s => new RenderableScoreEntry()
+                    {
+                        Date = s.LocalScoreDate.ToShortDateString(),
+                        Score = s.Score,
+                        // Limit name length
+                        Username = s.Username.Truncate(10)
+                    }).ToArray();
             }
         }
 
@@ -35,5 +43,12 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             SceneManager.LoadScene(SceneManager.MenuScene);
         }
+    }
+
+    public class RenderableScoreEntry
+    {
+        public int Score { get; set; }
+        public string Username { get; set; }
+        public string Date { get; set; }
     }
 }
