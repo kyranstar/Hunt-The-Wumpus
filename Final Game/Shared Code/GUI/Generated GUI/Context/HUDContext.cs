@@ -32,6 +32,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         [PropertyGroup(GameOverHudContext.GameOverBindingGroup)]
         [PropertyGroup(GameOverHudContext.GameOverVisibilityGroup)]
+        [PropertyGroup(GameOverHudContext.UsernameGroup)]
         public GameOverHudContext GameOverContext { get; set; }
 
         [PropertyGroup(WarningHudContext.WarningGroup)]

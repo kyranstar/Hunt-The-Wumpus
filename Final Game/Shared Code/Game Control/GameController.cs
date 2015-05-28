@@ -242,5 +242,25 @@ namespace HuntTheWumpus.SharedCode.GameControl
             }
             return false;
         }
+
+        public bool IsGameOver
+        {
+            get
+            {
+                return GameOverState != null;
+            }
+        }
+
+        /// <summary>
+        /// Specifies if this game has ended in a loss.
+        /// Returns "false" if the game has not finished.
+        /// </summary>
+        public bool IsLoss
+        {
+            get
+            {
+                return IsGameOver && !GameOverState.WonGame;
+            }
+        }
     }
 }

@@ -25,6 +25,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
             foreach(PropertyInfo Property in TargetType.GetTypeInfo().DeclaredProperties)
             {
                 Attribute[] GroupAttributes = GetCustomAttributes(Property, typeof(PropertyGroupAttribute));
+                var x = GroupAttributes
+                    .Where(GroupAttribute => GroupAttribute is PropertyGroupAttribute)
+                    .Select(GroupAttribute => GroupAttribute as PropertyGroupAttribute);
                 var AttributesInGroup = GroupAttributes
                     .Where(GroupAttribute => GroupAttribute is PropertyGroupAttribute)
                     .Select(GroupAttribute => GroupAttribute as PropertyGroupAttribute)

@@ -20,7 +20,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public const string GameOverBindingGroup = "GameOverBinding";
         public const string GameOverVisibilityGroup = "GameOverVisibility";
-        private const string UsernameGroup = "UsernameVisibility";
+        public const string UsernameGroup = "UsernameVisibility";
 
         Action<string> RaisePropertyChangedForGroup;
 
@@ -77,6 +77,8 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         private void GameController_OnGameOver(object sender, EventArgs e)
         {
+            UsernameBoxVisibility = GameController.IsLoss ? Visibility.Hidden : Visibility.Visible;
+            RaisePropertyChangedForGroup(UsernameGroup);
             RaisePropertyChangedForGroup(GameOverBindingGroup);
         }
 
@@ -97,14 +99,6 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get;
             set;
-        }
-
-        public bool IsGameOver
-        {
-            get
-            {
-                return GameController.GameOverState != null;
-            }
         }
 
         [PropertyGroup(GameOverVisibilityGroup)]
@@ -145,7 +139,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             get
             {
-                if (!IsGameOver)
+                if (!GameController.IsGameOver)
                     return null;
 
                 switch (GameController.GameOverState.Cause)
@@ -168,7 +162,7 @@ namespace HuntTheWumpus.SharedCode.GUI
 
         public void Update(GameTime gameTime)
         {
-            GameOverModalMarginAnimation.Update(gameTime, IsGameOver);
+            GameOverModalMarginAnimation.Update(gameTime, GameController.IsGameOver);
             if (MathHelper.Distance(GameOverModalMargin.Left, PreviousNotifiedGameOverMargin) > 0.01)
             {
                 RaisePropertyChangedForGroup(GameOverVisibilityGroup);
@@ -176,7 +170,7 @@ namespace HuntTheWumpus.SharedCode.GUI
             }
 
 
-            GameOverModalOpacityAnimation.Update(gameTime, IsGameOver);
+            GameOverModalOpacityAnimation.Update(gameTime, GameController.IsGameOver);
             if (MathHelper.Distance(GameOverModalOpacity, PreviousNotifiedGameOverOpacity) > 0.01)
             {
                 RaisePropertyChangedForGroup(GameOverVisibilityGroup);
