@@ -261,6 +261,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 BackFogSystem.Draw(MapRenderTarget);
 
             DrawCaveBase(MapRenderTarget);
+            DrawHazards(MapRenderTarget);
 
             if (ParticleSystemsEnabled && FrontFogSystem != null)
                 FrontFogSystem.Draw(MapRenderTarget);
@@ -272,6 +273,28 @@ namespace HuntTheWumpus.SharedCode.GUI
                 MapRenderTarget.Draw(DebugOutlineTexture, DebugOutline.Value, Color.White);
 
             MapRenderTarget.End();
+        }
+        private void DrawHazards(SpriteBatch Target)
+        {
+
+            foreach (KeyValuePair<int, RoomLayoutMapping> LayoutMapping in Map.Cave.RoomLayout.Where(r => Map.PlayerPath.Contains(r.Key)))
+            {
+                // Get the position from the mapping (and round it)
+                int XPos = LayoutMapping.Value.RoomPosition.X.ToInt();
+                int YPos = LayoutMapping.Value.RoomPosition.Y.ToInt();
+
+                // Calculate the target room rectangle and draw the texture
+                Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
+
+                if (LayoutMapping.Value.PitImage >= 0)
+                    Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
+
+                if (LayoutMapping.Value.GoldImage >= 0 && GoldFadeAnimators.ContainsKey(LayoutMapping.Key))
+                    Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, ColorUtils.FromAlpha(GoldFadeAnimators[LayoutMapping.Key].CurrentValue));
+
+                if (LayoutMapping.Value.BatImage >= 0 && BatFadeAnimators.ContainsKey(LayoutMapping.Key))
+                    Target.Draw(BatTextures[LayoutMapping.Value.BatImage], RoomTargetArea, ColorUtils.FromAlpha(BatFadeAnimators[LayoutMapping.Key].CurrentValue));
+            }
         }
 
         private void DrawCaveBase(SpriteBatch Target)
@@ -307,8 +330,6 @@ namespace HuntTheWumpus.SharedCode.GUI
                     //BaseDrawColor.A += AimAlphaHighlightAmount;
                 }
 
-
-
                 // Highlight this room w/ brighter color if the user has shot into it
                 Direction? ShootDirection = GameController.InputHandler.NavDirection;
                 if (GameController.InputHandler.IsAiming && ShootDirection.HasValue)
@@ -328,15 +349,6 @@ namespace HuntTheWumpus.SharedCode.GUI
                 if (InDirectPath)
                 {
                     Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, BaseDrawColor);
-
-                    if (LayoutMapping.Value.PitImage >= 0)
-                        Target.Draw(PitTextures[LayoutMapping.Value.PitImage], RoomTargetArea, Color.White);
-
-                    if (LayoutMapping.Value.GoldImage >= 0 && GoldFadeAnimators.ContainsKey(LayoutMapping.Key))
-                        Target.Draw(GoldTextures[LayoutMapping.Value.GoldImage], RoomTargetArea, ColorUtils.FromAlpha(GoldFadeAnimators[LayoutMapping.Key].CurrentValue));
-
-                    if (LayoutMapping.Value.BatImage >= 0 && BatFadeAnimators.ContainsKey(LayoutMapping.Key))
-                        Target.Draw(BatTextures[LayoutMapping.Value.BatImage], RoomTargetArea, ColorUtils.FromAlpha(BatFadeAnimators[LayoutMapping.Key].CurrentValue));
 
                     // Iterate over the (closed) door mappings for the current room
                     foreach (DoorLayoutMapping DoorMapping in LayoutMapping.Value.ClosedDoorMappings)
