@@ -132,6 +132,19 @@ namespace HuntTheWumpus.SharedCode.Helpers
             if (string.IsNullOrEmpty(value)) return value;
             return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 0)
+            {
+                n--;
+                int k = Random.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
     }
 
     public static class ColorUtils

@@ -1,6 +1,8 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
 using System;
+using System.Linq;
 using System.Collections.Generic;
+using HuntTheWumpus.SharedCode.Helpers;
 
 namespace HuntTheWumpus.SharedCode.Trivia
 {
@@ -35,11 +37,13 @@ namespace HuntTheWumpus.SharedCode.Trivia
         
         public bool IsCorrect(string PlayerAnswer)
         {
-            // TODO: Store the correct answer as something other than a string (for resiliency)
             return _correctAnswer.Equals(PlayerAnswer, StringComparison.Ordinal);
         }
 
-
+        public void RandomizeAnswerOrder()
+        {
+            AnswerChoices.Shuffle();
+        }
     }
 
     public class BindableFlatQuestion
@@ -54,15 +58,17 @@ namespace HuntTheWumpus.SharedCode.Trivia
 
         public Question ToQuestion()
         {
-            return new Question(
-                QuestionText,
-                new List<string>()
+            var AvailableAnswers = new List<string>()
                 {
                     CorrectAnswer,
                     AlternateAnswer1,
                     AlternateAnswer2,
                     AlternateAnswer3
-                },
+                };
+            AvailableAnswers.Where(s => !string.IsNullOrEmpty(s));
+            return new Question(
+                QuestionText,
+                AvailableAnswers,
                 CorrectAnswer);
         }
     }
