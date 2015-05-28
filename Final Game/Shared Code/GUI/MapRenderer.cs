@@ -65,7 +65,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         byte AimColorHighlightAmount = 120;
         byte AimAlphaHighlightAmount = 120;
 
-        const float DefaultCamZoom = 0.3f;
+        const float DefaultCamZoom = 0.2f;
         const float TrappedInPitCamZoom = 0.65f;
 
         private StateAnimator CamZoomAnimator;
