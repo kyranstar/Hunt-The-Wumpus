@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace HuntTheWumpus.SharedCode.Helpers
 {
+
+    /// <summary>
+    /// A class that holds methods of pathfinding from one room to another
+    /// </summary>
     public class Pathfinding
     {
         /// <summary>
@@ -13,11 +17,11 @@ namespace HuntTheWumpus.SharedCode.Helpers
         /// <param name="start">The starting point</param>
         /// <param name="end">The end point</param>
         /// <param name="algorithm">The algorithm to find a path with</param>
-        /// <returns>A list of rooms making a path, or null if there is not path.</returns>
+        /// <returns>A list of rooms making a path, or null if there is not path. Does not contain the start point, but contains the end point. </returns>
         public static List<Room> FindPath(Room start, Room end, Cave cave, bool avoidHazards)
         {
-            int MAX_TRAVERSED_ROOMS = cave.Rooms.Length;
-            IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(MAX_TRAVERSED_ROOMS);
+            // Maximum possible path goes through all rooms, so set the size to that
+            IPriorityQueue<AStarNode> openNodes = new HeapPriorityQueue<AStarNode>(cave.Rooms.Length);
             IList<AStarNode> closedNodes = new List<AStarNode>();
 
             // Add the start node with an F cost of 0
@@ -31,7 +35,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
 
                 foreach (AStarNode neighbor in getNeighbors(current, cave))
                 {
-                    // if we already processed this node
+                    // if we already processed this node, skip it
                     if (closedNodes.Contains<AStarNode>(neighbor)) continue;
 
                     int fCost = GetEstimatedScore(neighbor.node, end, cave) + neighbor.ParentCount;
@@ -52,6 +56,7 @@ namespace HuntTheWumpus.SharedCode.Helpers
                             openNodes.UpdatePriority(neighbor, fCost);
                         }
                     }
+                    // if we are not avoiding the hazard in this room
                     else if (!(avoidHazards && (neighbor.node.HasBats || neighbor.node.HasPit)))
                     {
                         openNodes.Enqueue(neighbor, fCost);
@@ -74,7 +79,13 @@ namespace HuntTheWumpus.SharedCode.Helpers
             // path not found
             return null;
         }
-
+        /// <summary>
+        /// Gives the estimated f-cost between two rooms. Uses the manhattan distance.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="cave"></param>
+        /// <returns></returns>
         private static int GetEstimatedScore(Room start, Room end, Cave cave)
         {
             Vector2 startPos = cave.RoomLayout[start.RoomID].RoomPosition;
@@ -82,12 +93,19 @@ namespace HuntTheWumpus.SharedCode.Helpers
             // Manhattan distance
             return (Math.Abs(startPos.X - endPos.X) + Math.Abs(startPos.Y - endPos.Y)).ToInt();
         }
-
+        /// <summary>
+        /// Returns the neighbor rooms of a room.
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="cave"></param>
+        /// <returns></returns>
         private static IEnumerable<AStarNode> getNeighbors(AStarNode center, Cave cave)
         {
             return center.node.AdjacentRooms.Where(i => i != -1).Select(roomIndex => new AStarNode(cave.GetRoom(roomIndex), center));
         }
-
+        /// <summary>
+        /// A node for the AStar algorithm. Holds all parents.
+        /// </summary>
         private class AStarNode : PriorityQueueNode
         {
             public readonly Room node;
@@ -104,7 +122,9 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 this.node = node;
                 this.parent = parent;
             }
-
+            /// <summary>
+            /// The number of parents this node has.
+            /// </summary>
             public int ParentCount
             {
                 get
@@ -114,7 +134,6 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 }
             }
 
-            //Should this method compare both the nodes and the parents or just the nodes?
             public override bool Equals(object other)
             {
                 if (other == null)
