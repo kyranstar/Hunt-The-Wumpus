@@ -43,5 +43,11 @@ namespace HuntTheWumpus.SharedCode.Scenes
         /// save special content, etc.
         /// </summary>
         public abstract void UnloadContent();
+
+        /// <summary>
+        /// Specifies whether the scene wants access to the bottom frame area. If false, the renderer will
+        /// automatically fill the hole.
+        /// </summary>
+        public abstract bool HasFrameContent { get; }
     }
 }

@@ -122,7 +122,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
         {
             GraphicsDevice.Clear(Color.DimGray);
             SceneManager.Draw(gameTime);
-            ArcadeFrame.Draw();
+            ArcadeFrame.Draw(SceneManager.OverrideFrame);
             base.Draw(gameTime);
         }
     }

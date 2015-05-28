@@ -91,5 +91,13 @@ namespace HuntTheWumpus.SharedCode.GameControl
             GameScene.UnloadContent();
             HighScoreScene.UnloadContent();
         }
+
+        public static bool OverrideFrame
+        {
+            get
+            {
+                return CurrentScene.HasFrameContent;
+            }
+        }
     }
 }

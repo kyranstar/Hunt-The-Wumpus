@@ -52,5 +52,10 @@ namespace HuntTheWumpus.SharedCode.Scenes
         {
 
         }
+
+        public override bool HasFrameContent
+        {
+            get { return false; }
+        }
     }
 }

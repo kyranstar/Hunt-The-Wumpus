@@ -61,15 +61,16 @@ namespace HuntTheWumpus.SharedCode.GUI
         /// <summary>
         /// Draws the arcade frame.
         /// </summary>
-        public void Draw()
+        public void Draw(bool FrameOverriden)
         {
             Target.Begin();
 
-            /*Target.Draw(MiddleFrameTexture, destinationRectangle: new Rectangle()
-            {
-                Width = Graphics.Viewport.Width,
-                Height = Graphics.Viewport.Height
-            });*/
+            if(!FrameOverriden)
+                Target.Draw(MiddleFrameTexture, destinationRectangle: new Rectangle()
+                {
+                    Width = Graphics.Viewport.Width,
+                    Height = Graphics.Viewport.Height
+                });
 
             Target.Draw(LeftFrameTexture, destinationRectangle: new Rectangle()
                 {
