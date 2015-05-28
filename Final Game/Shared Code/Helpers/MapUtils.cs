@@ -229,7 +229,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 case PlayerWarnings.Bat:
                     return "Bats nearby.";
                 case PlayerWarnings.Wumpus:
-                    return "I smell a Wumpus!";
+                    return "I smell a PacMan!";
 
                 default:
                     return null;

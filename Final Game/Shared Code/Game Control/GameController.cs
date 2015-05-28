@@ -220,14 +220,14 @@ namespace HuntTheWumpus.SharedCode.GameControl
             {
                 if (Map.Wumpus.Location == targetRoom)
                 {
-                    Log.Info("Yay! You shot the wumpus!");
+                    Log.Info("Yay! You shot the PacMan!");
                     EndGame(GameOverCause.ShotWumpus);
                     return true;
                 }
                 else
                 {
                     // TODO: Present message (miss)
-                    Log.Info("Your arrow missed the wumpus.");
+                    Log.Info("Your arrow missed the PacMan.");
                 }
             }
             else

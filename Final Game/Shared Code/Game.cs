@@ -24,7 +24,7 @@ namespace HuntTheWumpus.SharedCode.GameCore
         {
             GraphicsManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Window.Title = "Hunt the Wumpus";
+            Window.Title = "Hunt the PacMan";
             GraphicsManager.DeviceCreated += GraphicsManager_DeviceCreated;
             Mouse.WindowHandle = Window.Handle;
 
