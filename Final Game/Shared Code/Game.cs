@@ -30,9 +30,9 @@ namespace HuntTheWumpus.SharedCode.GameCore
 
 #if !WINDOWS_PHONE_APP
             this.IsMouseVisible = true;
+#endif
 
             ArcadeFrame = new ArcadeFrame();
-#endif
         }
 
         void GraphicsManager_DeviceCreated(object sender, System.EventArgs e)

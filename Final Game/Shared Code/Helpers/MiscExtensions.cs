@@ -145,6 +145,12 @@ namespace HuntTheWumpus.SharedCode.Helpers
                 list[n] = value;
             }
         }
+
+        public static string ToShortDateString(this DateTime Value)
+        {
+            // TODO: Replace hacks with proper globalization
+            return Value.Month + "/" + Value.Day + "/" + Value.Year;
+        }
     }
 
     public static class ColorUtils

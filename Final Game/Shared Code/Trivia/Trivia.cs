@@ -45,20 +45,23 @@ namespace HuntTheWumpus.SharedCode.Trivia
             LockedHints.Add("Isaac Asimov's science fiction writing is cool.");
             LockedHints.Add("IBM != Internet Buying Metacorp.");
             LockedHints.Add("The Sun is Earth's strongest energy source.");
-
-            CsvFile File = new CsvFile();
-            File.Load("Data\\Trivia Questions.csv");
-            _questionsToAsk = File
-                .BindAs<BindableFlatQuestion>()
-                .Select(q => q.ToQuestion())
-                .ToList();
-
 				
             StandbySet.Add(new Question("What color is red paint?", new List<string> { "Red", "Blue", "Orange", "Rainbow" }, "Red"));
             StandbySet.Add(new Question("What color is blue paint?", new List<string> { "Blue", "Orange", "Red", "It depends..." }, "Blue"));
             StandbySet.Add(new Question("What color is orange paint?", new List<string> { "Red", "Orange", "Blue", "Purple" }, "Orange"));
             StandbySet.Add(new Question("What color is white paint?", new List<string> { "White", "Blue", "Green", "Red" }, "White"));
             StandbySet.Add(new Question("What color is violet paint?", new List<string> { "Violet", "Orange", "Rainbow", "Red" }, "Violet"));
+
+#if NETFX_CORE
+            ToggleTestingSet();
+#else
+            CsvFile File = new CsvFile();
+            File.Load("Data\\Trivia Questions.csv");
+            _questionsToAsk = File
+                .BindAs<BindableFlatQuestion>()
+                .Select(q => q.ToQuestion())
+                .ToList();
+#endif
         }
 
         public static TriviaSet CreateTriviaSet(int NumberOfQuestions, TriviaSet.QuestionUpdateHandler NewQuestionHandler = null)
