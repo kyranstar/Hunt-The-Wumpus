@@ -29,6 +29,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
             if (paramList == null || paramList.Length <= 0)
             {
                 MapRenderer.OverriddenCameraPosition = null;
+                MapRenderer.OverriddenCameraZoom = null;
                 return true;
             }
 
@@ -38,7 +39,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
                 MapRenderer.OverriddenCameraPosition = new Vector2(Coords[0], Coords[1]);
             }
             else
-                MapRenderer.CameraZoom = float.Parse(paramList.Trim());
+                MapRenderer.OverriddenCameraZoom = float.Parse(paramList.Trim());
 
             return true;
         }
