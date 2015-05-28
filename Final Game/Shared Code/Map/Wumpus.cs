@@ -184,7 +184,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             {
                 if (TurnsMovingFromTrivia <= 0)
                 {
-                    BasicMove();
+                    //BasicMove();
                 }
                 else
                 {
