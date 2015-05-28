@@ -48,6 +48,7 @@ namespace HuntTheWumpus.SharedCode.GameControl
                     }
                     break;
                 case Rooms:
+                    GameController.Map.PlayerPath = new BoundedQueue<int>(GameController.Map.Cave.Rooms.Length);
                     foreach (int room in GameController.Map.Cave.RoomDict.Keys)
                     {
                         GameController.Map.PlayerPath.Enqueue(room);
