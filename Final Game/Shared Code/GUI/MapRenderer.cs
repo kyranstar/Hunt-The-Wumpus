@@ -34,6 +34,9 @@ namespace HuntTheWumpus.SharedCode.GUI
             GoldTextures,
             BatTextures;
 
+        //Fonts
+        private SpriteFont Font;
+
         // Sprites and drawing helpers
         private Sprite2D Player;
         private Sprite2D Wumpus;
@@ -165,6 +168,8 @@ namespace HuntTheWumpus.SharedCode.GUI
             MapUtils.LoadTexturesIntoArray(out PitTextures, NumPitTextures, "Pit", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out GoldTextures, NumGoldTextures, "RoomGoldOverlay", Content, "Images/");
             MapUtils.LoadTexturesIntoArray(out BatTextures, NumBatTextures, "Bat", Content, "Images/");
+
+            Font = Content.Load<SpriteFont>("Arcadepix_40_Bold");
         }
 
         /// <summary>
@@ -378,6 +383,9 @@ namespace HuntTheWumpus.SharedCode.GUI
                 {
                     Target.Draw(RoomBaseTextures[LayoutMapping.Value.Image], RoomTargetArea, BaseDrawColor);
                 }
+
+                Vector2 TextSize = Font.MeasureString(LayoutMapping.Key.ToString());
+                Target.DrawString(Font, LayoutMapping.Key.ToString(), RoomTargetArea.Center.ToVector2(), ColorUtils.FromAlpha(0.2f), 0, TextSize / 2, 2, SpriteEffects.None, 0);
             }
         }
 
