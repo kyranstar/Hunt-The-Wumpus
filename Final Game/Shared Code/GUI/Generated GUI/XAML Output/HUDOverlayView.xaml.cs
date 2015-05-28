@@ -300,19 +300,19 @@ namespace EmptyKeys.UserInterface.Generated {
             row_DataFlyout_2.Height = new GridLength(1F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_2);
             RowDefinition row_DataFlyout_3 = new RowDefinition();
-            row_DataFlyout_3.Height = new GridLength(10F, GridUnitType.Star);
+            row_DataFlyout_3.Height = new GridLength(14F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_3);
             RowDefinition row_DataFlyout_4 = new RowDefinition();
-            row_DataFlyout_4.Height = new GridLength(1F, GridUnitType.Star);
+            row_DataFlyout_4.Height = new GridLength(0.6F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_4);
             RowDefinition row_DataFlyout_5 = new RowDefinition();
             row_DataFlyout_5.Height = new GridLength(3F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_5);
             RowDefinition row_DataFlyout_6 = new RowDefinition();
-            row_DataFlyout_6.Height = new GridLength(1F, GridUnitType.Star);
+            row_DataFlyout_6.Height = new GridLength(0.6F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_6);
             RowDefinition row_DataFlyout_7 = new RowDefinition();
-            row_DataFlyout_7.Height = new GridLength(10F, GridUnitType.Star);
+            row_DataFlyout_7.Height = new GridLength(6F, GridUnitType.Star);
             this.DataFlyout.RowDefinitions.Add(row_DataFlyout_7);
             RowDefinition row_DataFlyout_8 = new RowDefinition();
             row_DataFlyout_8.Height = new GridLength(2.5F, GridUnitType.Star);
@@ -390,6 +390,7 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_17.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.e_17.VerticalAlignment = VerticalAlignment.Stretch;
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.e_17.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
             this.e_17.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
             Grid.SetRow(this.e_17, 3);
             // e_18 element
@@ -399,9 +400,9 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_18.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.e_18.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             this.e_18.HorizontalContentAlignment = HorizontalAlignment.Center;
-            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 15F, FontStyle.Regular, "Arcadepix_11.25_Regular");
             this.e_18.FontFamily = new FontFamily("Arcadepix");
-            this.e_18.FontSize = 20F;
+            this.e_18.FontSize = 15F;
             Func<UIElement, UIElement> e_18_iptFunc = e_18_iptMethod;
             ControlTemplate e_18_ipt = new ControlTemplate(e_18_iptFunc);
             this.e_18.ItemsPanel = e_18_ipt;
@@ -424,7 +425,9 @@ namespace EmptyKeys.UserInterface.Generated {
             this.DataFlyout.Children.Add(this.e_21);
             this.e_21.Name = "e_21";
             this.e_21.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.e_21.VerticalAlignment = VerticalAlignment.Stretch;
             FontManager.Instance.AddFont("Segoe UI", 12F, FontStyle.Regular, "Segoe_UI_9_Regular");
+            this.e_21.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
             this.e_21.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
             Grid.SetRow(this.e_21, 7);
             // e_22 element
@@ -434,9 +437,9 @@ namespace EmptyKeys.UserInterface.Generated {
             this.e_22.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.e_22.Background = new SolidColorBrush(new ColorW(255, 255, 255, 0));
             this.e_22.HorizontalContentAlignment = HorizontalAlignment.Center;
-            FontManager.Instance.AddFont("Arcadepix", 20F, FontStyle.Regular, "Arcadepix_15_Regular");
+            FontManager.Instance.AddFont("Arcadepix", 15F, FontStyle.Regular, "Arcadepix_11.25_Regular");
             this.e_22.FontFamily = new FontFamily("Arcadepix");
-            this.e_22.FontSize = 20F;
+            this.e_22.FontSize = 15F;
             Func<UIElement, UIElement> e_22_iptFunc = e_22_iptMethod;
             ControlTemplate e_22_ipt = new ControlTemplate(e_22_iptFunc);
             this.e_22.ItemsPanel = e_22_ipt;

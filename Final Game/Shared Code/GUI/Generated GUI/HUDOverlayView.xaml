@@ -63,15 +63,15 @@
                 <!--2 Margin-->
                 <RowDefinition Height="*"/>
                 <!--3 List content-->
-                <RowDefinition Height="10*"/>
+                <RowDefinition Height="14*"/>
                 <!--4 Margin-->
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.6*"/>
                 <!--5 Heading-->
                 <RowDefinition Height="3*"/>
                 <!--6 Margin-->
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.6*"/>
                 <!--7 List content-->
-                <RowDefinition Height="10*"/>
+                <RowDefinition Height="6*"/>
                 <!--8 Buttons-->
                 <RowDefinition Height="2.5*"/>
             </Grid.RowDefinitions>
@@ -85,8 +85,8 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0, 0, 30, 0" Orientation="Horizontal" Grid.Row="1">
                 <Button Name="CloseFlyoutButton" Content="X" Height="25" Foreground="White" FontWeight="ExtraLight" Background="#444444" Width="25" Padding="0, 3, 0, 0" VerticalContentAlignment="Center" Command="{Binding FlyoutContext.ShowFlyoutCommand}" FontFamily="Arcadepix" FontSize="20"/>
             </StackPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="3">
-                <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" ItemsSource="{Binding FlyoutContext.UnlockedHints}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="3">
+                <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" ItemsSource="{Binding FlyoutContext.UnlockedHints}" HorizontalContentAlignment="Center" FontSize="15" FontFamily="Arcadepix">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel HorizontalAlignment="Center"/>
@@ -96,8 +96,8 @@
             </ScrollViewer>
 
             <TextBlock Text="Secrets" FontSize="45" Foreground="White" FontFamily="Arcadepix" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5"/>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" Grid.Row="7">
-                <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" ItemsSource="{Binding FlyoutContext.UnlockedSecrets}" HorizontalContentAlignment="Center" FontSize="20" FontFamily="Arcadepix">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   Grid.Row="7">
+                <ItemsControl HorizontalAlignment="Stretch" Background="Transparent" ItemsSource="{Binding FlyoutContext.UnlockedSecrets}" HorizontalContentAlignment="Center" FontSize="15" FontFamily="Arcadepix">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel HorizontalAlignment="Center"/>
