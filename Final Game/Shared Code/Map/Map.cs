@@ -301,5 +301,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
 
             return Results.Distinct().ToArray();
         }
+
+        public bool WumpusAlwaysVisisble { get; set; }
     }
 }

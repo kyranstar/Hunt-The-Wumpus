@@ -18,12 +18,14 @@ namespace HuntTheWumpus.SharedCode.GameControl
         private const string Hazards = "hazards";
         private const string Rooms = "rooms";
         private const string GameOver = "gameover";
+        private const string Wumpus = "wumpus";
 
         private const string Help =
 @"Graphically displays whatever is passed in as a parameter:
         - " + Hazards + @": Displays pits, bats, and the wumpus in their location.
         - " + Rooms + @": Sets all rooms as visible and removes fog of war.
-        - " + GameOver + @": Displays the gameover screen.";
+        - " + GameOver + @": Displays the gameover screen.
+        - " + Wumpus + @": Displays the wumpus.";
 
 
         GameController GameController;
@@ -54,6 +56,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
                         GameController.Map.PlayerPath.Enqueue(room);
                         GameController.Map.MoveCount++;
                     }
+                    break;
+                case Wumpus:
+                   GameController.Map.WumpusAlwaysVisisble = true;
                     break;
                 case GameOver:
                     GameController.EndGame(Scores.GameOverCause.HitWumpus);

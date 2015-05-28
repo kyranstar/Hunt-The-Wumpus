@@ -70,12 +70,18 @@ namespace HuntTheWumpus.SharedCode.GameControl
             ImageManager.Instance.LoadImages(Content);
             FontManager.Instance.LoadFonts(Content);
         }
-
+        /// <summary>
+        /// Passes update call to current scene
+        /// </summary>
+        /// <param name="GameTime"></param>
         public static void Update(GameTime GameTime)
         {
             CurrentScene.Update(GameTime);
         }
-
+        /// <summary>
+        /// Passes draw call to current scene
+        /// </summary>
+        /// <param name="GameTime"></param>
         public static void Draw(GameTime GameTime)
         {
             CurrentScene.Draw(GameTime);
@@ -91,7 +97,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
             GameScene.UnloadContent();
             HighScoreScene.UnloadContent();
         }
-
+        /// <summary>
+        /// Whether the scene is drawing its own frame or not.
+        /// </summary>
         public static bool OverrideFrame
         {
             get

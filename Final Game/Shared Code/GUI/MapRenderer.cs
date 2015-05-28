@@ -269,7 +269,8 @@ namespace HuntTheWumpus.SharedCode.GUI
                 FrontFogSystem.Draw(MapRenderTarget);
 
             Player.Draw(MapRenderTarget);
-            Wumpus.Draw(MapRenderTarget);
+            if(Map.PlayerPath.Contains(Map.Wumpus.Location) || Map.WumpusAlwaysVisisble)
+                Wumpus.Draw(MapRenderTarget);
 
             if (DebugOutline.HasValue)
                 MapRenderTarget.Draw(DebugOutlineTexture, DebugOutline.Value, Color.White);
