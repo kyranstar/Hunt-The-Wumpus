@@ -317,7 +317,7 @@ namespace HuntTheWumpus.SharedCode.GUI
                 Rectangle RoomTargetArea = new Rectangle(XPos, YPos, Map.Cave.TargetRoomWidth, Map.Cave.TargetRoomHeight);
 
                 bool InDirectPath = Map.PlayerPath.Contains(LayoutMapping.Key);
-                bool InSecondaryPath = Map.PlayerPath.Select(i => Map.Cave[i]).Any(r => r.AdjacentRooms.Contains(LayoutMapping.Key));
+                bool InSecondaryPath = Map.PlayerPath.Values.Select(i => Map.Cave[i]).Any(r => r.AdjacentRooms.Contains(LayoutMapping.Key));
 
                 Color BaseDrawColor = new Color(128, 128, 128);
                 if (!InDirectPath && InSecondaryPath)

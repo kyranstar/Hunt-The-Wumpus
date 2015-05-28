@@ -1,4 +1,5 @@
 ﻿using HuntTheWumpus.SharedCode.GameControl;
+using HuntTheWumpus.SharedCode.GUI;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
         /// </summary>
         public Point PlayerRoomLocation;
 
-        public ISet<int> PlayerPath = new HashSet<int>();
+        public BoundedQueue<int> PlayerPath = new BoundedQueue<int>(5);
 
         /// <summary>
         ///     Constructs the map and generates the cave with a MapGenerator.
@@ -81,7 +82,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
             Wumpus.SetInitialPosition();
             CollectItemsFromRoom();
             PlayerPath.Clear();
-            PlayerPath.Add(PlayerRoom);
+            PlayerPath.Enqueue(PlayerRoom);
         }
 
         /// <summary>
@@ -150,7 +151,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                 Trivia.Trivia.UnlockNewHint();
             }
 
-            PlayerPath.Add(PlayerRoom);
+            PlayerPath.Enqueue(PlayerRoom);
 
             Player.Turns = ++MoveCount;
 
@@ -195,7 +196,7 @@ namespace HuntTheWumpus.SharedCode.GameMap
                     && PlayerRoom != r.RoomID;
 
             // Place player in already visited location without hazards
-            Room FirstSafeRoomInPlayerPath = PlayerPath.Select(i => Cave[i])
+            Room FirstSafeRoomInPlayerPath = PlayerPath.Values.Select(i => Cave[i])
                 .FirstOrDefault(RoomValidator);
 
             // If there are no non-hazardous locations that we've already visited

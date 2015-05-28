@@ -43,14 +43,14 @@ namespace HuntTheWumpus.SharedCode.GameControl
                         Where(r => r.Value.HasPit || r.Value.HasBats).
                         Select(r => r.Key))
                     {
-                        GameController.Map.PlayerPath.Add(room);
+                        GameController.Map.PlayerPath.Enqueue(room);
                         GameController.Map.MoveCount++;
                     }
                     break;
                 case Rooms:
                     foreach (int room in GameController.Map.Cave.RoomDict.Keys)
                     {
-                        GameController.Map.PlayerPath.Add(room);
+                        GameController.Map.PlayerPath.Enqueue(room);
                         GameController.Map.MoveCount++;
                     }
                     break;

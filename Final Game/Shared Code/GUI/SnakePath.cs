@@ -12,7 +12,8 @@ namespace HuntTheWumpus.SharedCode.GUI
         private readonly Queue<T> _values;
         private readonly int _length;
 
-        public BoundedQueue(int length, T startPoint) : this(length)
+        public BoundedQueue(int length, T startPoint)
+            : this(length)
         {
             _values.Enqueue(startPoint);
         }
@@ -29,7 +30,7 @@ namespace HuntTheWumpus.SharedCode.GUI
         {
             _values.Enqueue(newValue);
 
-            if(_values.Count > _length)
+            if (_values.Count > _length)
                 _values.Dequeue();
         }
         /// <summary>
@@ -78,15 +79,24 @@ namespace HuntTheWumpus.SharedCode.GUI
                 return _length;
             }
         }
+        public bool Contains(T val)
+        {
+            return this._values.Contains(val);
+        }
+        public void Clear()
+        {
+            this._values.Clear();
+        }
     }
     /// <summary>
     /// A path representing a bounded queue of points
     /// </summary>
     public class SnakePath : BoundedQueue<Vector2>
     {
-        public SnakePath(int pathLength, Vector2 startPoint) : base(pathLength, startPoint)
+        public SnakePath(int pathLength, Vector2 startPoint)
+            : base(pathLength, startPoint)
         {
         }
-        
+
     }
 }
