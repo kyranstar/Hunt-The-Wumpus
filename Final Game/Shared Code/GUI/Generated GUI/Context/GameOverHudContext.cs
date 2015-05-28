@@ -153,11 +153,11 @@ namespace HuntTheWumpus.SharedCode.GUI
                     case GameOverCause.FellInPit:
                         return "You were trapped in a pit. You lose!";
                     case GameOverCause.HitWumpus:
-                        return "You ran into the Wumpus and were killed. You lose!";
+                        return "You ran into the PacMan and were killed. You lose!";
                     case GameOverCause.NoArrows:
                         return "You ran out of arrows. You lose!";
                     case GameOverCause.ShotWumpus:
-                        return "You shot the Wumpus! You win!";
+                        return "You shot the PacMan! You win!";
                     case GameOverCause.NoGold:
                         return "You ran out of gold. You lose!";
                 }
