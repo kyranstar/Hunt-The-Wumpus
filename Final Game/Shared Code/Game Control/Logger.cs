@@ -26,7 +26,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public static void Info(string Message)
         {
 #if DESKTOP
+#if DEBUG
             PrintSimpleStack();
+#endif
             WriteToConsole("INFO:", ConsoleColor.White, ConsoleColor.DarkCyan);
             WriteLineToConsole(" " + Message, ConsoleColor.Cyan, ConsoleColor.Black);
 #endif
@@ -45,7 +47,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public static void Warn(string Message)
         {
 #if DESKTOP
+#if DEBUG
             PrintSimpleStack();
+#endif
             WriteToConsole("WARN:", ConsoleColor.White, ConsoleColor.DarkYellow);
             WriteLineToConsole(" " + Message, ConsoleColor.Yellow, ConsoleColor.Black);
 #endif
@@ -64,7 +68,9 @@ namespace HuntTheWumpus.SharedCode.GameControl
         public static void Error(string Message)
         {
 #if DESKTOP
+#if DEBUG
             PrintSimpleStack();
+#endif
             WriteToConsole("ERR:", ConsoleColor.White, ConsoleColor.DarkRed);
             WriteLineToConsole(" " + Message, ConsoleColor.Red, ConsoleColor.Black);
 #endif

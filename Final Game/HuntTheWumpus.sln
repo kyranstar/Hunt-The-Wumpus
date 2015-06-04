@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntTheWumpusTests", "Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAMLGenerator", "Shared Code\GUI\Generated GUI\XAMLGenerator.csproj", "{A24C2D72-C236-4FDC-A420-3F35AE2B134F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DesktopInstaller", "Platform\Desktop\DesktopInstaller\DesktopInstaller.vdproj", "{5906155B-1646-416E-A982-DD7FCAD61A78}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Platform\ModernWindows\ModernWindows\ModernWindows.Shared\Shared.Application.Shared.projitems*{2f4499a5-82aa-4312-92c9-0a9e0f8d074a}*SharedItemsImports = 4
@@ -140,6 +142,16 @@ Global
 		{A24C2D72-C236-4FDC-A420-3F35AE2B134F}.Release|x64.Build.0 = Release|Any CPU
 		{A24C2D72-C236-4FDC-A420-3F35AE2B134F}.Release|x86.ActiveCfg = Release|Any CPU
 		{A24C2D72-C236-4FDC-A420-3F35AE2B134F}.Release|x86.Build.0 = Release|Any CPU
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Debug|Any CPU.ActiveCfg = Debug
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Debug|ARM.ActiveCfg = Debug
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Debug|x64.ActiveCfg = Debug
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Debug|x86.ActiveCfg = Debug
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Release|Any CPU.ActiveCfg = Release
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Release|ARM.ActiveCfg = Release
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Release|Mixed Platforms.ActiveCfg = Release
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Release|x64.ActiveCfg = Release
+		{5906155B-1646-416E-A982-DD7FCAD61A78}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
